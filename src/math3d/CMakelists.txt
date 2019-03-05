@@ -1,0 +1,14 @@
+project(math3d)
+
+file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.*)
+# message(${SOURCE_FILES})
+
+add_library(math3d ${SOURCE_FILES})
+set_target_properties(math3d
+PROPERTIES
+LINKER_LANGUAGE C++
+)
+
+#add_custom_target(math3d
+#	SOURCES ${SOURCE_FILES}
+#)

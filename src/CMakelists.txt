@@ -1,0 +1,15 @@
+cmake_minimum_required (VERSION 2.8)
+
+project(water)
+
+cmake_policy(SET CMP0015 NEW)
+
+# set variables
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
+# include modules
+include(common)
+
+# add subdirectories
+add_subdirectory(math3d)
+add_subdirectory(render)

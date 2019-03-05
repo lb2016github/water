@@ -1,0 +1,11 @@
+project(render)
+
+file(GLOB_RECURSE HEAD_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+
+# message("source files" ${SOURCE_FILES})
+
+# source_group("Headers" ${HEAD_FILES})
+
+add_library(render ${HEAD_FILES} ${SOURCE_FILES})
+
