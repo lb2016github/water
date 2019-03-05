@@ -13,3 +13,4 @@ include(common)
 # add subdirectories
 add_subdirectory(math3d)
 add_subdirectory(render)
+add_subdirectory(world)
