@@ -8,32 +8,36 @@
 
 namespace water {
 
-	typedef void* (*FUNC_CREATE_COMPONENT)();
+	typedef Component* (*FUNC_CREATE_COMPONENT)(GameObject*);
 
 	class Component {
 	public:
-		Component() = delete;
-		Component(GameObject* game_object) : m_game_object(game_object) {}
+		Component();
+		Component(GameObject* game_object);
+		Component(const Component& comp);	// 不会拷贝m_game_object
+		Component(const Component& comp, GameObject* game_object);
+		Component& operator = (const Component& comp);	// 不会拷贝m_game_object
+		~Component();
 
-		GameObject* get_game_object() { return m_game_object; }
+		GameObject* get_game_object();
+		void set_game_object(GameObject* game_object);
 
-	private:
+	protected:
 		GameObject * m_game_object;
-	public:
-		static std::string COMPONENT_NAME = "base_component";
 	};
+
 
 	class ComponentFactory {
 	public:
 		void register_component(std::string comp_name, FUNC_CREATE_COMPONENT create_func);
-		void* create_component(std::string comp_name);
+		Component* create_component(std::string comp_name, GameObject* game_object);
 
-		static ComponentFactory* instance() { return &m_instance; }
+		static ComponentFactory* instance();
 
 	private:
 		ComponentFactory() {}
-		ComponentFactory(const ComponentFactory& comp_factory)=delete
-		ComponentFactory& operater = (const ComponentFactory&)=delete
+		ComponentFactory(const ComponentFactory& comp_factory) = delete;
+		ComponentFactory& operater = (const ComponentFactory&) = delete;
 		~ComponentFactory() {}
 	private:
 		std::map<std::string, FUNC_CREATE_COMPONENT> m_creaters;

@@ -1,25 +1,29 @@
 #ifndef WATER_SPACE_OBJECT_H
 #define WATER_SPACE_OBJECT_H
 
-#include "math3d/math3d.hpp"
 #include "world/component.h"
 #include <map>
 
 namespace water {
+
+	typedef std::map<std::string, Component*> COMPONENT_MAP;
+
 	class GameObject {
 	public:
-		GameObject() {}
-		~GameObject() {}
+		GameObject();
+		GameObject(const GameObject& game_object);
+		GameObject& operator = (const GameObject& game_object);
+		~GameObject();
 
 		Component* get_component(std::string comp_name);
 
 	protected:
-		bool add_component(std::string comp_name);
+		Component* add_component(std::string comp_name);
 
 	public:
 		GameObject * m_parent;		// parent
 	private:
-		std::map<std::string, Component*> m_components;
+		COMPONENT_MAP m_components;
 	};
 
 }
