@@ -3,6 +3,7 @@
 
 #include "world/component.h"
 #include <map>
+#include <string>
 
 namespace water {
 

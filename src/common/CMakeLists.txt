@@ -1,4 +1,4 @@
-project(math3d)
+project(common)
 
 file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.*)
 # message(${SOURCE_FILES})
@@ -9,6 +9,6 @@ file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.*)
 #LINKER_LANGUAGE C++
 #)
 
-add_custom_target(math3d
+add_custom_target(common
 	SOURCES ${SOURCE_FILES}
 )

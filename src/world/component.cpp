@@ -17,15 +17,14 @@ water::ComponentFactory* water::ComponentFactory::instance() {
 	return &water::ComponentFactory::m_instance;
 }
 
-water::Component::Component(): m_game_object(NULL)
+water::Component::Component(): Component(NULL, NULL)
 {
 
 }
 
-water::Component::Component(const Component& comp, GameObject* game_object)
+water::Component::Component(const Component& comp, GameObject* game_object): m_game_object(game_object)
 {
-	Component(comp);
-	m_game_object = game_object;
+	
 }
 
 water::Component::~Component()

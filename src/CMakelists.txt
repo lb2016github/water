@@ -11,6 +11,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(common)
 
 # add subdirectories
+add_subdirectory(common)
 add_subdirectory(math3d)
 add_subdirectory(render)
 add_subdirectory(world)
+add_subdirectory(window)
+add_subdirectory(client)

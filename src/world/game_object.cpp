@@ -53,7 +53,7 @@ namespace water {
 		return iter->second;
 	}
 
-	bool GameObject::add_component(std::string comp_name)
+	Component* GameObject::add_component(std::string comp_name)
 	{
 		if (m_components.find(comp_name) == m_components.end()) {
 			return NULL;

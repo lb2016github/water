@@ -2,13 +2,12 @@
 #define WATER_COMPONENT_H
 
 #include "math3d/math3d.hpp"
-#include "world/game_object.h"
 #include <map>
 
 
 namespace water {
 
-	typedef Component* (*FUNC_CREATE_COMPONENT)(GameObject*);
+	class GameObject;
 
 	class Component {
 	public:
@@ -26,9 +25,13 @@ namespace water {
 		GameObject * m_game_object;
 	};
 
+	typedef Component* (*FUNC_CREATE_COMPONENT)(GameObject*);
 
 	class ComponentFactory {
 	public:
+		~ComponentFactory() {}
+		ComponentFactory(const ComponentFactory&) = delete;
+		ComponentFactory operator = (const ComponentFactory&) = delete;
 		void register_component(std::string comp_name, FUNC_CREATE_COMPONENT create_func);
 		Component* create_component(std::string comp_name, GameObject* game_object);
 
@@ -36,9 +39,6 @@ namespace water {
 
 	private:
 		ComponentFactory() {}
-		ComponentFactory(const ComponentFactory& comp_factory) = delete;
-		ComponentFactory& operater = (const ComponentFactory&) = delete;
-		~ComponentFactory() {}
 	private:
 		std::map<std::string, FUNC_CREATE_COMPONENT> m_creaters;
 		static ComponentFactory m_instance;
