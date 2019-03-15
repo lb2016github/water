@@ -12,17 +12,23 @@ namespace water {
 		void on_frame();
 		void on_destroy();
 
-		virtual bool is_full_screen();
+		virtual bool is_full_screen() const;
+		virtual bool is_window_closed() const;
+		virtual Vector2 get_window_size() const;
+		virtual void set_window_size(unsigned width, unsigned height);
+		virtual std::string get_window_title() const;
+		virtual void set_window_title(std::string title);
 
 		static WindowWin32* Instance();
 
 	private:
 		WindowWin32() {}
 
-	private:
+	protected:
 		unsigned m_width;
 		unsigned m_height;
 		std::string m_title;
+	private:
 		static WindowWin32 m_instance;
 	};
 }
