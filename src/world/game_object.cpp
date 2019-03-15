@@ -33,6 +33,7 @@ namespace water {
 				*(iter->second) = *(find_iter->second);
 			}
 		}
+		return *this;
 	}
 
 	GameObject::~GameObject()

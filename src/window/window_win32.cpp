@@ -1,5 +1,6 @@
 #include "window/window_win32.h"
-#include "glfw3/include/glfw3.h"
+#include "glad/glad.h"
+#include "glfw3/glfw3.h"
 #include "common/log.h"
 
 namespace water {
@@ -51,5 +52,7 @@ namespace water {
 	{
 		return &m_instance;
 	}
+
+	WindowWin32 WindowWin32::m_instance;
 
 }
