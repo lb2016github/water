@@ -7,7 +7,7 @@
 #include <string>
 
 namespace water {
-	Interface IWindow : IPlugin{
+	WaterInterface IWindow : IPlugin{
 		virtual bool is_full_screen() const = 0;
 		virtual Vector2 get_window_size() const = 0;
 		virtual void set_window_size(unsigned width, unsigned height) = 0;
