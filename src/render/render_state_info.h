@@ -120,6 +120,7 @@ namespace render {
 		BLEND_CONSTANT,			// color(const.r, const.g, const.b, const.a)
 		BLEND_INV_CONSTANT,		// color(1 - const.r, 1 - const.g, 1 - const.b, 1 - const.a)
 	};
+
 }
 }
 
