@@ -5,13 +5,17 @@
 namespace water {
 	namespace render {
 
-#define GL_CHECK_ERROR{\
+#define GL_CHECK_ERROR {\
 		GLenum e = glGetError();\
 		if (e != 0){\
 			log_error("GL Error 0x04x in %s at line %i in %s", \
 				e, __FUNCSIG__, __LINE__, __FILE__);\
 		}\
 		}
+
+		GLenum get_gl_cmp_func(CompareFunc func);
+		GLenum get_gl_blend_op(BlendOperation op);
+		GLenum get_gl_blend_factor(BlendFactor factor);
 
 		void RenderStateOpenGL::apply_depth_state(DepthStateInfo* info /*= nullptr*/)
 		{

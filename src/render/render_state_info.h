@@ -3,41 +3,6 @@
 
 namespace water {
 namespace render {
-
-	// Depth信息
-	struct DepthStateInfo{
-		bool enabled;
-		bool write_enabled;
-		CompareFunc func;
-	};
-
-	struct StencilStateInfo {
-		bool enabled;
-
-		CompareFunc func;	// glStencilFunc(func, ref, mask)
-		unsigned int ref;
-		unsigned int mask;
-
-		struct StencilOpInfoSeparate {
-			StencilOpInfo front;
-			StencilOpInfo back;
-		};
-		bool separate;		// 是否分开设置
-		union OpInfo
-		{
-			StencilOpInfo info;	// glStencilOp
-			StencilOpInfoSeparate info_separate; // glStencilOpSeparate
-		} op_info;
-		
-	};
-
-	// Stencil信息
-	struct StencilOpInfo {
-		StencilOperation s_fail;	// glStencilOp(
-		StencilOperation z_pass;
-		StencilOperation z_fail;
-	};
-
 	enum StencilOperation {
 		STENCILOP_KEEP, ///< Do not update the entry in the stencil buffer. This is the default value. 
 		STENCILOP_ZERO, ///< Set the stencil-buffer entry to 0. 
@@ -70,14 +35,6 @@ namespace render {
 		CLEAR_COLOR_DEPTH = CLEAR_COLOR | CLEAR_DEPTH
 	};
 
-	// Rasterize信息
-	struct RasterizeStateInfo {
-		FillMode fille_mode;
-		CullMode cull_mode;
-		bool front_ccw;
-		bool scissor_test_enabled;	// 裁剪测试是否打开
-	};
-
 	enum FillMode {
 		FILL_POINT,		// 点
 		FILL_WIREFRAME,	// 线框
@@ -90,14 +47,6 @@ namespace render {
 		CULL_BACK,
 	};
 
-	// Blend信息
-	struct BlendStateInfo {
-		bool enabled;
-		BlendOperation blend_op;
-		BlendFactor src_factor;
-		BlendFactor dst_factor;
-		
-	};
 	enum BlendOperation {
 		BLENDOP_ADD,			// src + dst
 		BLENDOP_SUBTRACT,		// src - dst
@@ -119,6 +68,59 @@ namespace render {
 		BLEND_SRC_ALPHA_SAT,	// ?
 		BLEND_CONSTANT,			// color(const.r, const.g, const.b, const.a)
 		BLEND_INV_CONSTANT,		// color(1 - const.r, 1 - const.g, 1 - const.b, 1 - const.a)
+	};
+
+	// Depth信息
+	struct DepthStateInfo{
+		bool enabled;
+		bool write_enabled;
+		CompareFunc func;
+	};
+
+	// Stencil信息
+	struct StencilOpInfo {
+		StencilOperation s_fail;	// glStencilOp(
+		StencilOperation z_pass;
+		StencilOperation z_fail;
+	};
+
+	struct StencilStateInfo {
+		bool enabled;
+
+		CompareFunc func;	// glStencilFunc(func, ref, mask)
+		unsigned int ref;
+		unsigned int mask;
+
+		struct StencilOpInfoSeparate {
+			StencilOpInfo front;
+			StencilOpInfo back;
+		};
+		bool separate;		// 是否分开设置
+		union OpInfo
+		{
+			StencilOpInfo info;	// glStencilOp
+			StencilOpInfoSeparate info_separate; // glStencilOpSeparate
+		} op_info;
+		
+	};
+
+
+	// Rasterize信息
+	struct RasterizeStateInfo {
+		FillMode fille_mode;
+		CullMode cull_mode;
+		bool front_ccw;
+		bool scissor_test_enabled;	// 裁剪测试是否打开
+	};
+
+
+	// Blend信息
+	struct BlendStateInfo {
+		bool enabled;
+		BlendOperation blend_op;
+		BlendFactor src_factor;
+		BlendFactor dst_factor;
+		
 	};
 
 }
