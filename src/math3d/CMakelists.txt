@@ -12,3 +12,4 @@ file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.*)
 add_custom_target(math3d
 	SOURCES ${SOURCE_FILES}
 )
+set_property(TARGET math3d PROPERTY FOLDER "ENGINE")
