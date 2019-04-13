@@ -68,6 +68,7 @@ namespace water {
 				glFrontFace(info->front_ccw ? GL_CCW : GL_CW);
 				GL_CHECK_ERROR
 			}
+			info->scissor_test_enabled ? glEnable(GL_SCISSOR_TEST) : glDisable(GL_SCISSOR_TEST);
 		}
 
 		void RenderStateOpenGL::apply_blend_state(BlendStateInfo* info /*= nullptr*/)
