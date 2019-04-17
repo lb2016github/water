@@ -1,6 +1,1 @@
-project(test_filesystem)
-
-file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.*)
-
-add_library(test_filesystem ${HEAD_FILES} ${SOURCE_FILES})
-set_property(TARGET test_filesystem PROPERTY FOLDER "TEST")
+add_subdirectory(test_filesystem)

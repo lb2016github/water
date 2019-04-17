@@ -19,3 +19,9 @@ add_subdirectory(window)
 add_subdirectory(client)
 add_subdirectory(filesystem)
 add_subdirectory(test)
+
+
+file(GLOB_RECURSE CMAKE_SOURCE_FILES ${CMAKE_SOURCE_DIR}/cmake/*.*)
+add_custom_target(cmake
+	SOURCES ${CMAKE_SOURCE_FILES}
+)

@@ -6,3 +6,4 @@ include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${WATER_THIRD_INCLUDE_DIRECTORY})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY FOLDER "DEFUALT")
