@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!--Define StencilOperation-->
+  <xs:simpleType name="StencilOperation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="STENCILOP_KEEP"/>
+      <xs:enumeration value="STENCILOP_ZERO"/>
+      <xs:enumeration value="STENCILOP_REPLACE"/>
+      <xs:enumeration value="STENCILOP_INCRSAT"/>
+      <xs:enumeration value="STENCILOP_DECRSAT"/>
+      <xs:enumeration value="STENCILOP_INVERT"/>
+      <xs:enumeration value="STENCILOP_INCR"/>
+      <xs:enumeration value="STENCILOP_DECR"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--Define CompareFunc-->
+  <xs:simpleType name="CompareFunc">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CMP_NEVER"/>
+      <xs:enumeration value="CMP_LESS"/>
+      <xs:enumeration value="CMP_EQUAL"/>
+      <xs:enumeration value="CMP_LESS_EQUAL"/>
+      <xs:enumeration value="CMP_GREATER"/>
+      <xs:enumeration value="CMP_NOTEQUAL"/>
+      <xs:enumeration value="CMP_GREATER_EQUAL"/>
+      <xs:enumeration value="CMP_ALWAYS"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--Define ClearMode-->
+  <xs:simpleType name="ClearMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CLEAR_NONE"/>
+      <xs:enumeration value="CLEAR_COLOR"/>
+      <xs:enumeration value="CLEAR_DEPTH"/>
+      <xs:enumeration value="CLEAR_STENCIL"/>
+      <xs:enumeration value="CLEAR_ALL"/>
+      <xs:enumeration value="CLEAR_COLOR_DEPTH"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--Define FillMode-->
+  <xs:simpleType name="FillMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FILL_POINT"/>
+      <xs:enumeration value="FILL_WIREFRAME"/>
+      <xs:enumeration value="FILL_SOLID"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--Define CullMode-->
+  <xs:simpleType name="CullMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CULL_NONE"/>
+      <xs:enumeration value="CULL_FRONT"/>
+      <xs:enumeration value="CULL_BACK"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--Define BlendOperation-->
+  <xs:simpleType name="BlendOperation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BLENDOP_ADD"/>
+      <xs:enumeration value="BLENDOP_SUBTRACT"/>
+      <xs:enumeration value="BLENDOP_REV_SUBTRACT"/>
+      <xs:enumeration value="BLENDOP_MIN"/>
+      <xs:enumeration value="BLENDOP_MAX"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--Define BlendFactor-->
+  <xs:simpleType name="BlendFactor">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BLEND_ZERO"/>
+      <xs:enumeration value="BLEND_ONE"/>
+      <xs:enumeration value="BLEND_SRC_COLOR"/>
+      <xs:enumeration value="BLEND_INVS_SRC_COLOR"/>
+      <xs:enumeration value="BLEND_SRC_ALPHA"/>
+      <xs:enumeration value="BLEND_INVS_SRC_ALPHA"/>
+      <xs:enumeration value="BLEND_DST_ALPHA"/>
+      <xs:enumeration value="BLEND_INV_DST_ALPHA"/>
+      <xs:enumeration value="BLEND_DST_COLOR"/>
+      <xs:enumeration value="BLEND_INV_DST_COLOR"/>
+      <xs:enumeration value="BLEND_SRC_ALPHA_SAT"/>
+      <xs:enumeration value="BLEND_CONSTANT"/>
+      <xs:enumeration value="BLEND_INV_CONSTANT"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!--Define DepthStateInfo-->
+  <xs:complexType name="DepthStateInfo">
+    <xs:sequence>
+      <xs:element name="enabled" type="xs:boolean"/>
+      <xs:element name="write_enabled" type="xs:boolean"/>
+      <xs:element name="func" type="CompareFunc"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!--Define StencilOpInfo-->
+  <xs:complexType name="StencilOpInfo">
+    <xs:all>
+      <xs:element name="s_fail" type="StencilOperation"/>
+      <xs:element name="z_pass" type="StencilOperation"/>
+      <xs:element name="z_fail" type="StencilOperation"/>
+    </xs:all>
+  </xs:complexType>
+  <!--Define StencilOpInfoSeparate-->
+  <xs:complexType name="StencilOpInfoSeparate">
+    <xs:all>
+      <xs:element name="front" type="StencilOpInfo"/>
+      <xs:element name="back" type="StencilOpInfo"/>
+    </xs:all>
+  </xs:complexType>
+  <!--Define StencilOpGroup-->
+  <xs:group name="StencilOpGroup">
+    <xs:choice>
+      <xs:element name="op_info_single" type="StencilOpInfo"/>
+      <xs:element name="op_info_sep" type="StencilOpInfoSeparate"/>
+    </xs:choice>
+  </xs:group>
+  <!--Define StencilStateInfo-->
+  <xs:complexType name="StencilStateInfo">
+    <xs:sequence>
+      <xs:element name="enabled" type="xs:boolean"/>
+      <xs:element name="ref" type="xs:hexBinary"/>
+      <xs:element name="mask" type="xs:hexBinary"/>
+      <xs:element name="func" type="CompareFunc"/>
+      <xs:group ref="StencilOpGroup"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!--Define RasterizeStateInfo-->
+  <xs:complexType name="RasterizeStateInfo">
+      <xs:all>
+        <xs:element name="fill_mode" type="FillMode"/>
+        <xs:element name="cull_mode" type="CullMode"/>
+        <xs:element name="front_ccw" type="xs:boolean"/>
+        <xs:element name="scissor_test_enabled" type="xs:boolean"/>
+      </xs:all>
+  </xs:complexType>
+  <!--Define BlendStateInfo-->
+  <xs:complexType name="BlendStateInfo">
+    <xs:all>
+      <xs:element name="enabled" type="xs:boolean"/>
+      <xs:element name="blend_op" type="BlendOperation"/>
+      <xs:element name="src_factor" type="BlendFactor"/>
+      <xs:element name="dst_factor" type="BlendFactor"/>
+    </xs:all>
+  </xs:complexType>
+  <!--Define RenderState-->
+  <xs:complexType name="RenderState">
+    <xs:sequence>
+      <xs:element name="DepthStateInfo" type="DepthStateInfo"/>
+      <xs:element name="StencilStateInfo" type="StencilStateInfo"/>
+      <xs:element name="RasterizeStateInfo" type="RasterizeStateInfo"/>
+      <xs:element name="BlendStateInfo" type="BlendStateInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+    <!--Define Element RenderState-->
+  <xs:element name="RenderState" type="RenderState"/>
+  <xs:element name="DepthState" type="DepthStateInfo"/>
+</xs:schema>
