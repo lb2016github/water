@@ -15,8 +15,8 @@ void main() {
 }
 
 void test_filesystem() {
+	std::cout << "======================Start Test FileSystem ========================" << std::endl;
 	water::filesystem::FileSystem fs;
-
 	char filepath[128] = "g:/test.txt";
 	for (int i = 0; i < 100000; ++i)
 	{
