@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Technique xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water technique.xsd">
+    <RenderPass index="1">
+        <RenderState>
+            <DepthStateInfo enabled="true" write_enabled="false">
+                <CompareFunc>CMP_GREATER</CompareFunc>
+            </DepthStateInfo>
+            <RasterizeStateInfo>
+                <FillMode>FILL_SOLID</FillMode>
+                <CullMode>CULL_BACK</CullMode>
+                <FrontCCW>true</FrontCCW>
+                <ScissorTest>true</ScissorTest>
+            </RasterizeStateInfo>
+        </RenderState>
+        <VertexShader>res/shaders/simple_color.vert</VertexShader>
+        <PixelShader>res/shaders/simple_color.frag</PixelShader>
+    </RenderPass>
+</Technique>

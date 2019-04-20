@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<MaterialGroup xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water material.xsd">
+    <Material>
+        <Technique>shaders/simple_color.tech</Technique>
+        <ParameterMap>
+            <Parameter name="wvp" value="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"/>
+        </ParameterMap>
+    </Material>
+</MaterialGroup>
