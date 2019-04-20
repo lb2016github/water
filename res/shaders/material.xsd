@@ -25,7 +25,7 @@ targetNamespace="/water" xmlns:water="/water">
     </xs:simpleType>
     <!--Define ParamTypes-->
     <xs:simpleType name="ParamTypes">
-        <xs:union memberTypes="water:Vector2 mat:Vector3 mat:Matrix"/>
+        <xs:union memberTypes="water:Vector2 water:Vector3 water:Matrix"/>
     </xs:simpleType>
     <!--Define Parameter-->
     <xs:complexType name="Parameter">
