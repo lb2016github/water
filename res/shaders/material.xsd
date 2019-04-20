@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-targetNamespace="/water/mat" xmlns:mat="/water/mat">
+targetNamespace="/water" xmlns:water="/water">
     <!--Define FloatList-->
     <xs:simpleType name="FloatList">
         <xs:list itemType="xs:float"/>
     </xs:simpleType>
     <!--Define Vector3-->
     <xs:simpleType name="Vector3">
-        <xs:restriction base="mat:FloatList">
+        <xs:restriction base="water:FloatList">
            <xs:length value="3"/>
         </xs:restriction>
     </xs:simpleType>
     <!--Define Vector2-->
     <xs:simpleType name="Vector2">
-        <xs:restriction base="mat:FloatList">
+        <xs:restriction base="water:FloatList">
             <xs:length value="2"/>
         </xs:restriction>
     </xs:simpleType>
     <!--Define Matrix-->
     <xs:simpleType name="Matrix">
-        <xs:restriction base="mat:FloatList">
+        <xs:restriction base="water:FloatList">
             <xs:length value="16"/>
         </xs:restriction>
     </xs:simpleType>
     <!--Define ParamTypes-->
     <xs:simpleType name="ParamTypes">
-        <xs:union memberTypes="mat:Vector2 mat:Vector3 mat:Matrix"/>
+        <xs:union memberTypes="water:Vector2 mat:Vector3 mat:Matrix"/>
     </xs:simpleType>
     <!--Define Parameter-->
     <xs:complexType name="Parameter">
         <xs:attribute name="name" type="xs:string"/>
-        <xs:attribute name="value" type="mat:ParamTypes"/>
+        <xs:attribute name="value" type="water:ParamTypes"/>
     </xs:complexType>
     <!--Define Material-->
     <xs:complexType name="Material">
@@ -39,7 +39,7 @@ targetNamespace="/water/mat" xmlns:mat="/water/mat">
             <xs:element name="ParameterMap">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Parameter" type="mat:Parameter" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element name="Parameter" type="water:Parameter" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -49,12 +49,12 @@ targetNamespace="/water/mat" xmlns:mat="/water/mat">
     <!--Define MaterialGroup-->
     <xs:complexType name="MaterialGroup">
         <xs:sequence>
-            <xs:element name="Material" type="mat:Material" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="Material" type="water:Material" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
     <!--Define Elements-->
-    <xs:element name="Vector3" type="mat:Vector3"/>
-    <xs:element name="Vector2" type="mat:Vector2"/>
-    <xs:element name="Matrix" type="mat:Matrix"/>
-    <xs:element name="MaterialGroup" type="mat:MaterialGroup"/>
+    <xs:element name="Vector3" type="water:Vector3"/>
+    <xs:element name="Vector2" type="water:Vector2"/>
+    <xs:element name="Matrix" type="water:Matrix"/>
+    <xs:element name="MaterialGroup" type="water:MaterialGroup"/>
 </xs:schema>
