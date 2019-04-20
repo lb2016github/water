@@ -81,72 +81,69 @@
       <xs:enumeration value="BLEND_INV_CONSTANT"/>
     </xs:restriction>
   </xs:simpleType>
-
+  <!--Define attribute enabled-->
+  <xs:attribute name="enabled" type="xs:boolean" default="false"/>
   <!--Define DepthStateInfo-->
   <xs:complexType name="DepthStateInfo">
-    <xs:sequence>
-      <xs:element name="enabled" type="xs:boolean"/>
-      <xs:element name="write_enabled" type="xs:boolean"/>
-      <xs:element name="func" type="CompareFunc"/>
+    <xs:sequence minOccurs="0">
+      <xs:element name="CompareFunc" type="CompareFunc"/>
     </xs:sequence>
+      <xs:attribute ref="enabled" default="true"/>
+    <xs:attribute name="write_enabled" type="xs:boolean" default="false"/>
   </xs:complexType>
   <!--Define StencilOpInfo-->
   <xs:complexType name="StencilOpInfo">
     <xs:all>
-      <xs:element name="s_fail" type="StencilOperation"/>
-      <xs:element name="z_pass" type="StencilOperation"/>
-      <xs:element name="z_fail" type="StencilOperation"/>
+      <xs:element name="SFail" type="StencilOperation"/>
+      <xs:element name="ZPass" type="StencilOperation"/>
+      <xs:element name="ZFail" type="StencilOperation"/>
     </xs:all>
   </xs:complexType>
   <!--Define StencilOpInfoSeparate-->
   <xs:complexType name="StencilOpInfoSeparate">
     <xs:all>
-      <xs:element name="front" type="StencilOpInfo"/>
-      <xs:element name="back" type="StencilOpInfo"/>
+      <xs:element name="Front" type="StencilOpInfo"/>
+      <xs:element name="Back" type="StencilOpInfo"/>
     </xs:all>
   </xs:complexType>
-  <!--Define StencilOpGroup-->
-  <xs:group name="StencilOpGroup">
-    <xs:choice>
-      <xs:element name="op_info_single" type="StencilOpInfo"/>
-      <xs:element name="op_info_sep" type="StencilOpInfoSeparate"/>
-    </xs:choice>
-  </xs:group>
   <!--Define StencilStateInfo-->
   <xs:complexType name="StencilStateInfo">
-    <xs:sequence>
-      <xs:element name="enabled" type="xs:boolean"/>
-      <xs:element name="ref" type="xs:hexBinary"/>
-      <xs:element name="mask" type="xs:hexBinary"/>
-      <xs:element name="func" type="CompareFunc"/>
-      <xs:group ref="StencilOpGroup"/>
+    <xs:sequence minOccurs="0">
+      <xs:element name="Ref" type="xs:hexBinary"/>
+      <xs:element name="Mask" type="xs:hexBinary"/>
+      <xs:element name="CompareFunc" type="CompareFunc"/>
+      <xs:choice>
+        <xs:element name="StencilOperation" type="StencilOpInfo"/>
+        <xs:element name="StencilOperationSep" type="StencilOpInfoSeparate"/>
+      </xs:choice>
     </xs:sequence>
+      <xs:attribute ref="enabled" default="false"/>
   </xs:complexType>
   <!--Define RasterizeStateInfo-->
   <xs:complexType name="RasterizeStateInfo">
       <xs:all>
-        <xs:element name="fill_mode" type="FillMode"/>
-        <xs:element name="cull_mode" type="CullMode"/>
-        <xs:element name="front_ccw" type="xs:boolean"/>
-        <xs:element name="scissor_test_enabled" type="xs:boolean"/>
+        <xs:element name="FillMode" type="FillMode"/>
+        <xs:element name="CullMode" type="CullMode"/>
+        <xs:element name="FrontCCW" type="xs:boolean" default="true" minOccurs="0"/>
+        <xs:element name="ScissorTest" type="xs:boolean"/>
       </xs:all>
   </xs:complexType>
   <!--Define BlendStateInfo-->
   <xs:complexType name="BlendStateInfo">
-    <xs:all>
-      <xs:element name="enabled" type="xs:boolean"/>
-      <xs:element name="blend_op" type="BlendOperation"/>
-      <xs:element name="src_factor" type="BlendFactor"/>
-      <xs:element name="dst_factor" type="BlendFactor"/>
-    </xs:all>
+      <xs:sequence minOccurs="0">
+        <xs:element name="BlendOperation" type="BlendOperation"/>
+        <xs:element name="SrcFactor" type="BlendFactor"/>
+        <xs:element name="DstFactor" type="BlendFactor"/>
+      </xs:sequence>
+      <xs:attribute ref="enabled"/>
   </xs:complexType>
   <!--Define RenderState-->
   <xs:complexType name="RenderState">
     <xs:sequence>
       <xs:element name="DepthStateInfo" type="DepthStateInfo"/>
-      <xs:element name="StencilStateInfo" type="StencilStateInfo"/>
       <xs:element name="RasterizeStateInfo" type="RasterizeStateInfo"/>
-      <xs:element name="BlendStateInfo" type="BlendStateInfo"/>
+      <xs:element name="StencilStateInfo" type="StencilStateInfo" minOccurs="0"/>
+      <xs:element name="BlendStateInfo" type="BlendStateInfo" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
     <!--Define Element RenderState-->
