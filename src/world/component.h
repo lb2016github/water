@@ -2,6 +2,7 @@
 #define WATER_COMPONENT_H
 
 #include "math3d/math3d.hpp"
+#include <string>
 #include <map>
 
 
