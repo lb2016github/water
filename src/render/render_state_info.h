@@ -123,6 +123,22 @@ namespace render {
 		
 	};
 
+	// RenderState
+	struct RenderState {
+		DepthStateInfo depth;
+		StencilStateInfo stencil;
+		RasterizeStateInfo raster;
+		BlendStateInfo blend;
+	};
+
+	// shader types
+	enum ShaderType {
+		VertexShader,
+		GeometryShader,
+		FragmentShader,
+	};
+
+
 }
 }
 

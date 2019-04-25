@@ -1,4 +1,4 @@
-#include "render/render_state.h"
+#include "render/render_state_mgr.h"
 #include "glad/glad.h"
 #include "common/log.h"
 
@@ -17,76 +17,77 @@ namespace water {
 		GLenum get_gl_blend_op(BlendOperation op);
 		GLenum get_gl_blend_factor(BlendFactor factor);
 
-		void RenderStateOpenGL::apply_depth_state(DepthStateInfo* info /*= nullptr*/)
+
+		void RenderStateManagerOpenGL::apply_depth_state(const DepthStateInfo& info)
 		{
-			if (!info->enabled)
+			if (!info.enabled)
 			{
 				glDisable(GL_DEPTH_TEST);
 				GL_CHECK_ERROR
 				return;
 			}
 			glEnable(GL_DEPTH_TEST);
-			glDepthMask(info->write_enabled ? true : false);
-			glDepthFunc(get_gl_cmp_func(info->func));
+			glDepthMask(info.write_enabled ? true : false);
+			glDepthFunc(get_gl_cmp_func(info.func));
 			GL_CHECK_ERROR
 		}
 
-		void RenderStateOpenGL::apply_stencil_state(StencilStateInfo* info /*= nullptr*/)
+		void RenderStateManagerOpenGL::apply_stencil_state(const StencilStateInfo& info)
 		{
-			if (!info->enabled)
+			if (!info.enabled)
 			{
 				glDisable(GL_STENCIL_TEST);
 				GL_CHECK_ERROR
 				return;
 			}
 			glEnable(GL_STENCIL_TEST);
-			glStencilFunc(get_gl_cmp_func(info->func), info->ref, info->mask);
+			glStencilFunc(get_gl_cmp_func(info.func), info.ref, info.mask);
 			GL_CHECK_ERROR
-			if (info->separate)
+			if (info.separate)
 			{
-				StencilOpInfo* front = &(info->op_info.info_separate.front);
+				const StencilOpInfo* front = &(info.op_info.info_separate.front);
 				glStencilOpSeparate(GL_FRONT, front->s_fail, front->z_fail, front->z_pass);
 				GL_CHECK_ERROR
-				front = &(info->op_info.info_separate.back);
+				front = &(info.op_info.info_separate.back);
 				glStencilOpSeparate(GL_BACK, front->s_fail, front->z_fail, front->z_pass);
 				GL_CHECK_ERROR
 			}
 			else {
-				StencilOpInfo* single_info = &(info->op_info.info);
+				const StencilOpInfo* single_info = &(info.op_info.info);
 				glStencilOpSeparate(GL_FRONT, single_info->s_fail, single_info->z_fail, single_info->z_pass);
 				GL_CHECK_ERROR
 			}
 		}
 
-		void RenderStateOpenGL::apply_rasterize_state(RasterizeStateInfo* info /*= nullptr*/)
+		void RenderStateManagerOpenGL::apply_rasterize_state(const RasterizeStateInfo& info)
 		{
-			if (info->cull_mode == CullMode::CULL_NONE)
+			if (info.cull_mode == CullMode::CULL_NONE)
 			{
 				glDisable(GL_CULL_FACE);
 				GL_CHECK_ERROR;
 			}
 			else {
 				glEnable(GL_CULL_FACE);
-				GLenum cull_mode = info->cull_mode == CullMode::CULL_FRONT ? GL_FRONT : GL_BACK;
+				GLenum cull_mode = info.cull_mode == CullMode::CULL_FRONT ? GL_FRONT : GL_BACK;
 				glCullFace(cull_mode);
-				glFrontFace(info->front_ccw ? GL_CCW : GL_CW);
+				glFrontFace(info.front_ccw ? GL_CCW : GL_CW);
 				GL_CHECK_ERROR
 			}
-			info->scissor_test_enabled ? glEnable(GL_SCISSOR_TEST) : glDisable(GL_SCISSOR_TEST);
+			info.scissor_test_enabled ? glEnable(GL_SCISSOR_TEST) : glDisable(GL_SCISSOR_TEST);
 		}
 
-		void RenderStateOpenGL::apply_blend_state(BlendStateInfo* info /*= nullptr*/)
+		void RenderStateManagerOpenGL::apply_blend_state(const BlendStateInfo& info)
 		{
-			if (!info->enabled) {
+			if (!info.enabled) {
 				glDisable(GL_BLEND);
 				GL_CHECK_ERROR;
 				return;
 			}
 			glEnable(GL_BLEND);
 			GL_CHECK_ERROR;
-			glBlendEquation(get_gl_blend_op(info->blend_op));
+			glBlendEquation(get_gl_blend_op(info.blend_op));
 			GL_CHECK_ERROR;
-			glBlendFunc(get_gl_blend_factor(info->src_factor), get_gl_blend_factor(info->dst_factor));
+			glBlendFunc(get_gl_blend_factor(info.src_factor), get_gl_blend_factor(info.dst_factor));
 			GL_CHECK_ERROR;
 		}
 
