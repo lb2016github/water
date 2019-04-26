@@ -106,11 +106,17 @@
       <xs:element name="Back" type="water:StencilOpInfo"/>
     </xs:all>
   </xs:complexType>
+  <!--Define My HexBinary-->
+  <xs:simpleType name="HexBinary">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="0x[0-9a-fA-F]+"/>
+    </xs:restriction>
+  </xs:simpleType>
   <!--Define StencilStateInfo-->
   <xs:complexType name="StencilStateInfo">
     <xs:sequence minOccurs="0">
-      <xs:element name="Ref" type="xs:string"/>
-      <xs:element name="Mask" type="xs:string"/>
+      <xs:element name="Ref" type="water:HexBinary"/>
+      <xs:element name="Mask" type="water:HexBinary"/>
       <xs:element name="CompareFunc" type="water:CompareFunc"/>
       <xs:choice>
         <xs:element name="StencilOperation" type="water:StencilOpInfo"/>
