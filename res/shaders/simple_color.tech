@@ -9,6 +9,21 @@
                 <FillMode>FILL_SOLID</FillMode>
                 <CullMode>CULL_BACK</CullMode>
             </RasterizeStateInfo>
+            <StencilStateInfo enabled="true">
+                <Ref>0x0020</Ref>
+                <Mask>0x00ff</Mask>
+                <CompareFunc>CMP_GREATER</CompareFunc>
+                <StencilOperation>
+                    <SFail>STENCILOP_DECR</SFail>
+                    <ZPass>STENCILOP_INCR</ZPass>
+                    <ZFail>STENCILOP_DECR</ZFail>
+                </StencilOperation>
+            </StencilStateInfo>
+            <BlendStateInfo enabled="true">
+                <SrcFactor>BLEND_SRC_ALPHA</SrcFactor>
+                <DstFactor>BLEND_DST_ALPHA</DstFactor>
+                <BlendOperation>BLENDOP_MAX</BlendOperation>
+            </BlendStateInfo>
         </RenderState>
         <VertexShader>res/shaders/simple_color.vert</VertexShader>
         <PixelShader>res/shaders/simple_color.frag</PixelShader>

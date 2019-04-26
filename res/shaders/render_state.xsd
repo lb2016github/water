@@ -109,8 +109,8 @@
   <!--Define StencilStateInfo-->
   <xs:complexType name="StencilStateInfo">
     <xs:sequence minOccurs="0">
-      <xs:element name="Ref" type="xs:hexBinary"/>
-      <xs:element name="Mask" type="xs:hexBinary"/>
+      <xs:element name="Ref" type="xs:string"/>
+      <xs:element name="Mask" type="xs:string"/>
       <xs:element name="CompareFunc" type="water:CompareFunc"/>
       <xs:choice>
         <xs:element name="StencilOperation" type="water:StencilOpInfo"/>
@@ -130,21 +130,21 @@
   </xs:complexType>
   <!--Define BlendStateInfo-->
   <xs:complexType name="BlendStateInfo">
-      <xs:sequence minOccurs="0">
+      <xs:all minOccurs="0">
         <xs:element name="BlendOperation" type="water:BlendOperation"/>
         <xs:element name="SrcFactor" type="water:BlendFactor"/>
         <xs:element name="DstFactor" type="water:BlendFactor"/>
-      </xs:sequence>
+      </xs:all>
       <xs:attribute name="enabled" type="xs:boolean" default="false"/>
   </xs:complexType>
   <!--Define RenderState-->
   <xs:complexType name="RenderState">
-    <xs:sequence>
+    <xs:all>
       <xs:element name="DepthStateInfo" type="water:DepthStateInfo"/>
       <xs:element name="RasterizeStateInfo" type="water:RasterizeStateInfo"/>
       <xs:element name="StencilStateInfo" type="water:StencilStateInfo" minOccurs="0"/>
       <xs:element name="BlendStateInfo" type="water:BlendStateInfo" minOccurs="0"/>
-    </xs:sequence>
+    </xs:all>
   </xs:complexType>
     <!--Define Element RenderState-->
   <xs:element name="RenderState" type="water:RenderState"/>
