@@ -124,9 +124,9 @@
       <xs:all>
         <xs:element name="FillMode" type="water:FillMode"/>
         <xs:element name="CullMode" type="water:CullMode"/>
-        <xs:element name="FrontCCW" type="xs:boolean" default="true" minOccurs="0"/>
-        <xs:element name="ScissorTest" type="xs:boolean"/>
       </xs:all>
+    <xs:attribute name="front_ccw" type="xs:boolean" default="true"/>
+    <xs:attribute name="scissor_test_enabled" type="xs:boolean" default="true"/>
   </xs:complexType>
   <!--Define BlendStateInfo-->
   <xs:complexType name="BlendStateInfo">

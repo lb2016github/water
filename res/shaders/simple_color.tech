@@ -5,11 +5,9 @@
             <DepthStateInfo enabled="true" write_enabled="false">
                 <CompareFunc>CMP_GREATER</CompareFunc>
             </DepthStateInfo>
-            <RasterizeStateInfo>
+            <RasterizeStateInfo front_ccw="true" scissor_test_enabled="true">
                 <FillMode>FILL_SOLID</FillMode>
                 <CullMode>CULL_BACK</CullMode>
-                <FrontCCW>true</FrontCCW>
-                <ScissorTest>true</ScissorTest>
             </RasterizeStateInfo>
         </RenderState>
         <VertexShader>res/shaders/simple_color.vert</VertexShader>
