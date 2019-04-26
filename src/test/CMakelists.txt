@@ -1,1 +1,2 @@
 add_subdirectory(test_filesystem)
+add_subdirectory(test_render)

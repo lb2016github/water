@@ -3,9 +3,13 @@
 
 bool water::filesystem::XMLFile::do_load()
 {
-	if (!m_doc.load_file(m_file_path.c_str()))
+	pugi::xml_parse_result result = m_doc.load_file(m_file_path.c_str());
+	if (result) {
+		log_info("Success parse file %s", m_file_path);
+		return true;
+	}else
 	{
-		log_warn("Failed to load xml file: %s", m_file_path);
+		log_error("Failed to parse xml file %s with error(%s)", m_file_path, result.description());
 		return false;
 	}
 	return true;

@@ -107,7 +107,7 @@ namespace render {
 
 	// Rasterize信息
 	struct RasterizeStateInfo {
-		FillMode fille_mode;
+		FillMode fill_mode;
 		CullMode cull_mode;
 		bool front_ccw;
 		bool scissor_test_enabled;	// 裁剪测试是否打开

@@ -1,19 +1,25 @@
 #ifndef WATER_TECHNIQUE_H
 #define WATER_TECHNIQUE_H
-#include "render/render_state.h"
-#include "filesystem\xml_file.h"
+#include "render/render_state_info.h"
+#include <map>
+#include <string>
+#include <vector>
 
 
 namespace water {
 	namespace render {
+		struct RenderPass {
+			int index;
+			std::map<ShaderType, std::string> shaders;
+			RenderState render_state;
+		};
 
 		class Technique {
 		public:
 			void load_from_xml(const char* file_path);
-		public:
-			RenderState* render_state;
-			filesystem::XMLFile m_file;
-
+		private:
+			std::string m_filepath;
+			std::vector<RenderPass> m_render_pass_queue;	// render queue
 		};
 
 	}
