@@ -100,12 +100,14 @@ namespace water
 				pugi::xml_node op_node = node.child("StencilOperation");
 				if (op_node)
 				{
+					stencil.separate = true;
 					stencil.op_info.info.s_fail = CONFIG_StencilOperation[op_node.child("SFail").child_value()];
 					stencil.op_info.info.z_fail = CONFIG_StencilOperation[op_node.child("ZFail").child_value()];
 					stencil.op_info.info.z_pass = CONFIG_StencilOperation[op_node.child("ZPass").child_value()];
 				}
 				else
 				{
+					stencil.separate = false;
 					op_node = node.child("StencilOperationSep");
 					if (!op_node)
 					{
