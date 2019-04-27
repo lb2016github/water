@@ -8,6 +8,8 @@
 namespace water {
 	namespace filesystem {
 
+		FileSystem FileSystem::instance;
+
 		bool FileSystem::is_file_exist(const char* file_path)
 		{
 			boost::filesystem::path path(file_path);
