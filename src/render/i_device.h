@@ -24,7 +24,7 @@ namespace water
 
 		WaterInterface IShaderManager
 		{
-			virtual void apply(ShaderType& shader_type, const char* file_path);
+			virtual unsigned int load(ShaderType& shader_type, const char* file_path) = 0;
 		};
 		
 		WaterInterface IDevice
