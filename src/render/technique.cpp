@@ -34,22 +34,24 @@ namespace water
 				render_pass.index = node_render_pass.attribute("index").as_int();
 				// init render state
 				load_render_state(render_pass.render_state, node_render_pass.child("RenderState"));
-				// init shaders
-				pugi::xml_node tmp_node = node_render_pass.child("VertexShader");
-				if (tmp_node)
+				// init program
+				pugi::xml_node program_node = node_render_pass.child("Program");
+				pugi::xml_attribute tmp_attr;
+				tmp_attr = program_node.find_attribute("vertex_shader");
+				if(tmp_attr)
 				{
-					render_pass.shaders[VertexShader] = tmp_node.child_value();
+					render_pass.shaders[VertexShader] = tmp_attr.value();
 				}
-				tmp_node = node_render_pass.child("GeometryShader");
-				if (tmp_node)
+				tmp_attr = program_node.find_attribute("geometry_shader");
+				if (tmp_attr)
 				{
-					render_pass.shaders[GeometryShader] = tmp_node.child_value();
+					render_pass.shaders[GeometryShader] = tmp_attr.value();
 				}
 
-				tmp_node = node_render_pass.child("PixelShader");
-				if (tmp_node)
+				tmp_attr = program_node.find_attribute("fragment_shader");
+				if (tmp_attr)
 				{
-					render_pass.shaders[FragmentShader] = tmp_node.child_value();
+					render_pass.shaders[FragmentShader] = tmp_attr.value();
 				}
 				m_render_pass_queue.push_back(render_pass);	// will copy the object?
 			}
