@@ -3,21 +3,40 @@
             targetNamespace="/water" xmlns:water="/water"
 >
     <xs:include schemaLocation="render_state.xsd"/>
+    <!-- Define Technique -->
     <xs:complexType name="Technique">
         <xs:sequence>
             <xs:element name="RenderPass" type="water:RenderPass" minOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
+    <!-- Define RenderPass -->
     <xs:complexType name="RenderPass">
         <xs:all>
             <xs:element name="RenderState" type="water:RenderState"/>
-            <xs:element name="VertexShader" type="xs:anyURI"/>
-            <xs:element name="GeometryShader" type="xs:anyURI" minOccurs="0"/>
-            <xs:element name="PixelShader" type="xs:anyURI"/>
+            <xs:element name="Program" type="water:Program"/>
         </xs:all>
         <xs:attribute name="index" type="xs:positiveInteger"/>
     </xs:complexType>
 
+    <!-- Define Attribute -->
+    <xs:complexType name="Attribute">
+        <xs:attribute name="location" type="xs:nonNegativeInteger"/>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="Uniform">
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="type" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="Program">
+        <xs:sequence>
+            <xs:element name="Attribute" type="water:Attribute" minOccurs="1"/>
+            <xs:element name="Uniform" type="water:Uniform" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name = "vertex_shader" type="xs:anyURI"/>
+        <xs:attribute name = "geometry_shader" type="xs:anyURI"/>
+        <xs:attribute name = "fragment_shader" type="xs:anyURI"/>
+    </xs:complexType>
     <!--Define Technique Element-->
     <xs:element name="Technique" type="water:Technique"/>
 </xs:schema>

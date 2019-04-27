@@ -25,7 +25,9 @@
                 <BlendOperation>BLENDOP_MAX</BlendOperation>
             </BlendStateInfo>
         </RenderState>
-        <VertexShader>res/shaders/simple_color.vert</VertexShader>
-        <PixelShader>res/shaders/simple_color.frag</PixelShader>
+        <Program vertex_shader="res/shaders/simple_color.vert" fragment_shader="res/shaders/simple_color.frag">
+            <Attribute name="position" type="vec3" location="0"/>
+            <Uniform name="wvp" type="mat4"/>
+        </Program>
     </RenderPass>
 </Technique>
