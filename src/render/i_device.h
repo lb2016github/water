@@ -2,11 +2,15 @@
 #define WATER_I_DEVICE_H
 #include "render/render_state_info.h"
 #include "common/common.h"
+#include "math3d/math3d.hpp"
 
 namespace water
 {
 	namespace render
 	{
+
+		typedef unsigned int ShaderObject;
+
 		WaterInterface IRenderStateManager
 		{
 			virtual void apply(const RenderState& render_state) 
@@ -24,7 +28,21 @@ namespace water
 
 		WaterInterface IShaderManager
 		{
-			virtual unsigned int load(ShaderType& shader_type, const char* file_path) = 0;
+			virtual ShaderObject load(ShaderType& shader_type, const char* file_path) = 0;
+		};
+
+		WaterInterface IRenderProgram
+		{
+			// atach shaders
+			virtual bool attach_shader(ShaderType& shader_type, const char* file_path) = 0;
+			virtual bool attach_shader(ShaderType& shader_type, ShaderObject& shader_obj) = 0;
+			// set uniform
+			virtual bool set_uniform(const std::string& name, math3d::Matrix& mat) = 0;
+			virtual bool set_uniform(const std::string& name, math3d::Vector3& vec3) = 0;
+			virtual bool set_uniform(const std::string& name, math3d::Vector2& vec2) = 0;
+			virtual bool set_uniform(const std::string& name, int& val) = 0;
+			// use program
+			virtual bool use_program() = 0;;
 		};
 		
 		WaterInterface IDevice
