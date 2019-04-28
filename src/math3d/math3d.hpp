@@ -6,16 +6,19 @@
 #include "glm/vec2.hpp"
 
 namespace water {
-	typedef glm::vec2 Vector2;
-	typedef glm::vec3 Vector3;
-	typedef glm::mat4 Matrix;
+	namespace math3d
+	{
+		typedef glm::vec2 Vector2;
+		typedef glm::vec3 Vector3;
+		typedef glm::mat4 Matrix;
 
-	Matrix inline inverse(const Matrix& mat) {
-		return glm::inverse(mat);
-	}
+		Matrix inline inverse(const Matrix& mat) {
+			return glm::inverse(mat);
+		}
 
-	Matrix inline transpose(const Matrix& mat) {
-		return glm::inverse(mat);
+		Matrix inline transpose(const Matrix& mat) {
+			return glm::inverse(mat);
+		}
 	}
 }
 #endif
