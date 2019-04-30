@@ -28,6 +28,16 @@ targetNamespace="/water" xmlns:water="/water">
     <xs:simpleType name="ParamTypes">
         <xs:union memberTypes="water:Vector2 water:Vector3 water:Matrix"/>
     </xs:simpleType>
+    <!--Define ParamTypeName-->
+    <xs:simpleType name="ParamTypeName">
+        <xs:restriction>
+            <xs:enumeration value="Float"/>
+            <xs:enumeration value="Int"/>
+            <xs:enumeration value="Vector2"/>
+            <xs:enumeration value="Vector3"/>
+            <xs:enumeration value="Matrix"/>
+        </xs:restriction>
+    </xs:simpleType>
     <!-- ========================= End Define Param Types ===================== -->
     <!--Define Parameter-->
     <xs:complexType name="Parameter">
@@ -38,25 +48,17 @@ targetNamespace="/water" xmlns:water="/water">
     <xs:complexType name="Material">
         <xs:sequence>
             <xs:element name="Technique" type="xs:anyURI"/>
-            <xs:element name="ParameterMap">
+            <xs:element name="ParameterMap" minOccurs="1">
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element name="Parameter" type="water:Parameter" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
+                    <xs:attribute name="index" type="xs:nonNegativeInteger"/>
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
         <xs:attribute name="index" type="xs:positiveInteger"/>
     </xs:complexType>
-    <!--Define MaterialGroup-->
-    <xs:complexType name="MaterialGroup">
-        <xs:sequence>
-            <xs:element name="Material" type="water:Material" minOccurs="1" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
     <!--Define Elements-->
-    <xs:element name="Vector3" type="water:Vector3"/>
-    <xs:element name="Vector2" type="water:Vector2"/>
-    <xs:element name="Matrix" type="water:Matrix"/>
-    <xs:element name="MaterialGroup" type="water:MaterialGroup"/>
+    <xs:element name="Material" type="water:Material"/>
 </xs:schema>

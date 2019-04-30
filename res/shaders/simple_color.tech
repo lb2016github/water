@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <Technique xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water technique.xsd">
-    <RenderPass index="1">
+    <RenderPass index="0">
         <RenderState>
             <DepthStateInfo enabled="true" write_enabled="false">
                 <CompareFunc>CMP_GREATER</CompareFunc>
@@ -26,8 +26,8 @@
             </BlendStateInfo>
         </RenderState>
         <Program vertex_shader="res/shaders/simple_color.vert" fragment_shader="res/shaders/simple_color.frag">
-            <Attribute name="position" type="vec3" location="0"/>
-            <Uniform name="wvp" type="mat4"/>
+            <Attribute name="position" type="Vector3" location="0"/>
+            <Uniform name="wvp" type="Matrix"/>
         </Program>
     </RenderPass>
 </Technique>

@@ -3,6 +3,7 @@
             targetNamespace="/water" xmlns:water="/water"
 >
     <xs:include schemaLocation="render_state.xsd"/>
+    <xs:include schemaLocation="material.xsd"/>
     <!-- Define Technique -->
     <xs:complexType name="Technique">
         <xs:sequence>
@@ -15,18 +16,18 @@
             <xs:element name="RenderState" type="water:RenderState"/>
             <xs:element name="Program" type="water:Program"/>
         </xs:all>
-        <xs:attribute name="index" type="xs:positiveInteger"/>
+        <xs:attribute name="index" type="xs:nonNegativeInteger"/>
     </xs:complexType>
 
     <!-- Define Attribute -->
     <xs:complexType name="Attribute">
         <xs:attribute name="location" type="xs:nonNegativeInteger"/>
-        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="type" type="water:ParamTypeName"/>
         <xs:attribute name="name" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="Uniform">
         <xs:attribute name="name" type="xs:string"/>
-        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="type" type="water:ParamTypeName"/>
     </xs:complexType>
     <xs:complexType name="Program">
         <xs:sequence>
