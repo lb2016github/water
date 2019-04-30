@@ -16,7 +16,7 @@ namespace water
 		void load_rasterize_info(RasterizeStateInfo& raster, pugi::xml_node& node);
 		int hex_binary_string_to_int(std::string str);
 
-		void Technique::load_from_xml(const char * file_path)
+		void Technique::load(const char * file_path)
 		{
 			filesystem::XMLFile xml_file;
 			xml_file.load(file_path);
@@ -27,7 +27,7 @@ namespace water
 			m_filepath = file_path;
 			pugi::xml_node root = xml_file.get_root_node();
 			pugi::xml_node technique = root.child("Technique");
-			for (pugi::xml_node node_render_pass = technique.child("RenderPass"); node_render_pass; node_render_pass = root.next_sibling("RenderPass"))
+			for (pugi::xml_node node_render_pass = technique.child("RenderPass"); node_render_pass; node_render_pass = node_render_pass.next_sibling("RenderPass"))
 			{
 				RenderPass render_pass;
 				// init index

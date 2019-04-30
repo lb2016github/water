@@ -11,6 +11,9 @@ namespace water
 
 		typedef unsigned int ShaderObject;
 
+		/*
+		* Mangagement render state.
+		*/
 		WaterInterface IRenderStateManager
 		{
 			virtual void apply(const RenderState& render_state) 
@@ -31,6 +34,9 @@ namespace water
 			virtual ShaderObject load(ShaderType& shader_type, const char* file_path) = 0;
 		};
 
+		/*
+		* the interface of render program
+		*/
 		WaterInterface IRenderProgram
 		{
 			// atach shaders
@@ -45,6 +51,9 @@ namespace water
 			virtual bool use_program() = 0;;
 		};
 		
+		/*
+		* interface of device
+		*/
 		WaterInterface IDevice
 		{
 			virtual IRenderStateManager* get_render_state_manager() = 0;

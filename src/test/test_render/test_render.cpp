@@ -19,7 +19,7 @@ void test_load_technique_file()
 	while (std::cin >> input)
 	{
 		Technique tech;
-		tech.load_from_xml(input.c_str());
+		tech.load(input.c_str());
 	}
 }
 
