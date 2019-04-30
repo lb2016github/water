@@ -71,11 +71,6 @@ namespace water {
 			{"BLEND_CONSTANT", BLEND_CONSTANT},
 			{"BLEND_INV_CONSTANT", BLEND_INV_CONSTANT},
 		};
-
-		std::map<std::string, bool> CONFIG_bool = {
-			{"true", true},
-			{"false", false},
-		};
 	}
 }
 
