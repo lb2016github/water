@@ -7,6 +7,7 @@ namespace water
 {
 	namespace render
 	{
+		GLuint get_shader_type(ShaderType& shader_type);
 		unsigned int ShaderManagerOpenGL::load(ShaderType & shader_type, const char * file_path)
 		{
 			ShaderMap::iterator rst = m_shader_map.find(file_path);
@@ -17,7 +18,7 @@ namespace water
 
 			char* buffer = filesystem::FileSystem::instance.read_file(file_path);
 			if (!buffer) {
-				return;
+				return -1;
 			}
 			GLuint shader = glCreateShader(get_shader_type(shader_type));
 			glShaderSource(shader, 1, &buffer, NULL); 
@@ -37,10 +38,12 @@ namespace water
 			if (!result)
 			{
 				log_warn("Compile Shader(%s) failed", file_path);
+				return -1;
 			}
 			else
 			{
 				m_shader_map[file_path] = shader;
+				return shader;
 			}
 		}
 

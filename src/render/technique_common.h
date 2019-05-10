@@ -2,6 +2,7 @@
 #define WATER_TECHNIQUE_LOADER_CONFIG
 #include "render\render_state_info.h"
 #include <map>
+#include "math3d/math3d.hpp"
 
 namespace water {
 	namespace render {
@@ -70,6 +71,37 @@ namespace water {
 			{"BLEND_SRC_ALPHA_SAT", BLEND_SRC_ALPHA_SAT},
 			{"BLEND_CONSTANT", BLEND_CONSTANT},
 			{"BLEND_INV_CONSTANT", BLEND_INV_CONSTANT},
+		};
+
+		// represent value of varial types
+		union ParamValue
+		{
+			math3d::Vector3 vec3;
+			math3d::Vector2 vec2;
+			math3d::Matrix mat;
+			float float_1;
+			int int_1;
+		};
+
+		enum ParamValueType
+		{
+			TypeVector3,
+			TypeVector2,
+			TypeMatrix,
+			TypeFloat,
+			TypeInt,
+		};
+
+		typedef std::map<std::string, ParamValue> ParamValueMap;
+		typedef std::map<std::string, ParamValueType> ParamTypeMap;
+
+		std::map<std::string, ParamValueType> CONFIG_param_type =
+		{
+			{"Vector3", TypeVector3},
+			{"Vector2", TypeVector2},
+			{"Matrix", TypeMatrix},
+			{"Float", TypeFloat},
+			{"Int", TypeInt},
 		};
 	}
 }

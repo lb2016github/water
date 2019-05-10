@@ -10,10 +10,10 @@ namespace water {
 	namespace render {
 		// 顶点数据
 		struct Vertex {
-			Vector3 position;
-			Vector3 coordinate;
-			Vector3 normal;
-			Vector3 tangent;
+			math3d::Vector3 position;
+			math3d::Vector3 coordinate;
+			math3d::Vector3 normal;
+			math3d::Vector3 tangent;
 		};
 		// 顶点缓存，存放
 		typedef std::vector<Vertex> VertexBuffer;

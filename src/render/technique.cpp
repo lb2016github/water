@@ -1,5 +1,6 @@
-#include "technique.h"
-#include "render/technique_loader_config.h"
+#include "render/technique.h"
+#include "render/technique_common.h"
+#include "render/render_task.h"
 #include "filesystem\xml_file.h"
 #include "common\log.h"
 #include <algorithm>
@@ -9,6 +10,7 @@ namespace water
 {
 	namespace render
 	{
+
 		void load_render_state(RenderState& render_state, pugi::xml_node& node);
 		void load_blend_info(BlendStateInfo& blend, pugi::xml_node& node);
 		void load_depth_info(DepthStateInfo& depth, pugi::xml_node& node);
@@ -16,46 +18,6 @@ namespace water
 		void load_rasterize_info(RasterizeStateInfo& raster, pugi::xml_node& node);
 		int hex_binary_string_to_int(std::string str);
 
-		void Technique::load(const char * file_path)
-		{
-			filesystem::XMLFile xml_file;
-			xml_file.load(file_path);
-			if (!xml_file.m_loaded) {
-				log_error("[Render]Fail to load file: %s", file_path);
-				return;
-			}
-			m_filepath = file_path;
-			pugi::xml_node root = xml_file.get_root_node();
-			pugi::xml_node technique = root.child("Technique");
-			for (pugi::xml_node node_render_pass = technique.child("RenderPass"); node_render_pass; node_render_pass = node_render_pass.next_sibling("RenderPass"))
-			{
-				RenderPass render_pass;
-				// init index
-				render_pass.index = node_render_pass.attribute("index").as_int();
-				// init render state
-				load_render_state(render_pass.render_state, node_render_pass.child("RenderState"));
-				// init program
-				pugi::xml_node program_node = node_render_pass.child("Program");
-				pugi::xml_attribute tmp_attr;
-				tmp_attr = program_node.find_attribute("vertex_shader");
-				if(tmp_attr)
-				{
-					render_pass.shaders[VertexShader] = tmp_attr.value();
-				}
-				tmp_attr = program_node.find_attribute("geometry_shader");
-				if (tmp_attr)
-				{
-					render_pass.shaders[GeometryShader] = tmp_attr.value();
-				}
-
-				tmp_attr = program_node.find_attribute("fragment_shader");
-				if (tmp_attr)
-				{
-					render_pass.shaders[FragmentShader] = tmp_attr.value();
-				}
-				m_render_pass_queue.push_back(render_pass);	// will copy the object?
-			}
-		}
 
 		///////////////////////// define loaders ////////////////////////////////
 
@@ -152,5 +114,119 @@ namespace water
 			return n;
 		}
 
-	}
+		TechniquePtr TechniqueManager::get_technique(std::string & file_path)
+		{
+			if (m_tech_map.find(file_path) != m_tech_map.end())
+			{
+				return m_tech_map[file_path];
+			}
+
+			// load technique
+			if (do_load(file_path))
+			{
+				return m_tech_map[file_path];
+			}
+
+			return nullptr;
+		}
+
+		TechniqueManager* TechniqueManager::get_instance()
+		{
+			if (!instance)
+			{
+				instance = new TechniqueManager();
+			}
+			return instance;
+		}
+
+		bool TechniqueManager::do_load(std::string & file_path)
+		{
+			TechniquePtr tech = std::make_shared<Technique>();
+			filesystem::XMLFile xml_file;
+			xml_file.load(file_path.c_str());
+			if (!xml_file.m_loaded) {
+				log_error("[Render]Fail to load file: %s", file_path);
+				return false;
+			}
+			tech->m_filepath = file_path;
+			pugi::xml_node root = xml_file.get_root_node();
+			pugi::xml_node technique = root.child("Technique");
+			for (pugi::xml_node node_render_pass = technique.child("RenderPass"); node_render_pass; node_render_pass = node_render_pass.next_sibling("RenderPass"))
+			{
+				RenderPass render_pass;
+				// init index
+				render_pass.index = node_render_pass.attribute("index").as_int();
+				// init render state
+				load_render_state(render_pass.render_state, node_render_pass.child("RenderState"));
+				// init program
+				pugi::xml_node program_node = node_render_pass.child("Program");
+				pugi::xml_attribute tmp_attr;
+				std::string vertex_shader = "", geom_shader = "", frag_shader = "";
+				tmp_attr = program_node.attribute("vertex_shader");
+				if(tmp_attr)
+				{
+					vertex_shader = tmp_attr.value();
+				}
+				tmp_attr = program_node.attribute("geometry_shader");
+				if (tmp_attr)
+				{
+					geom_shader = tmp_attr.value();
+				}
+
+				tmp_attr = program_node.attribute("fragment_shader");
+				if (tmp_attr)
+				{
+					frag_shader = tmp_attr.value();
+				}
+				render_pass.program = IProgramManager::get_instance()->load_program(vertex_shader.c_str(), geom_shader.c_str(), frag_shader.c_str());
+				tech->m_render_pass_queue.push_back(render_pass);	// will copy the object?
+				// load attribute param type
+				ParamTypeMap attribute_map;
+				for (pugi::xml_node attr_node = program_node.child("Attribute"); attr_node; attr_node = program_node.next_sibling("Attribute"))
+				{
+					std::string type = attr_node.attribute("type").as_string();
+					std::map<std::string, ParamValueType>::iterator iter = CONFIG_param_type.find(type);
+					if (iter == CONFIG_param_type.end())
+					{
+						log_error("Iegal param type %s", type);
+						continue;
+					}
+					attribute_map[attr_node.attribute("name").as_string()] = iter->second;
+				}
+				render_pass.program->set_attribute_config(attribute_map);
+				// load uniform param type
+				ParamTypeMap uniform_map;
+				for (pugi::xml_node attr_node = program_node.child("Uniform"); attr_node; attr_node = program_node.next_sibling("Uniform"))
+				{
+					std::string type = attr_node.attribute("type").as_string();
+					std::map<std::string, ParamValueType>::iterator iter = CONFIG_param_type.find(type);
+					if (iter == CONFIG_param_type.end())
+					{
+						log_error("Illegal param type %s", type);
+						continue;
+					}
+					uniform_map[attr_node.attribute("name").as_string()] = iter->second;
+				}
+				render_pass.program->set_uniform_config(uniform_map);
+			}
+			m_tech_map[file_path] = tech;
+			return true;
+		}
+
+		void Technique::render(IRenderObject* render_obj)
+		{
+			IRenderTask* pre_task = nullptr;
+			int cur_idx = 0;
+			for (std::vector<RenderPass>::iterator iter = m_render_pass_queue.begin(); iter != m_render_pass_queue.end(); ++iter, ++cur_idx)
+			{
+				IRenderTask* cur_task = IRenderTask::create_render_task(
+					render_obj->get_mesh(), iter->program, iter->render_state,
+					render_obj->get_material()->get_param_map(cur_idx), pre_task
+				);
+				RenderTaskManager::get_instance()->add_task(cur_task);
+				pre_task = cur_task;
+			}
+		}
+
+}
 }

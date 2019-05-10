@@ -2,7 +2,7 @@
 #define WATER_RENDER_STATE_MGR_OPENGL_H
 #include "render/render_state_info.h"
 #include "common/common.h"
-#include "render\i_device.h"
+#include "render/render_state.h"
 
 namespace water {
 	namespace render {

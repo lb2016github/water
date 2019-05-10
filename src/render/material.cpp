@@ -16,7 +16,7 @@ namespace water
 		}
 		void ParameterMap::set_raw_param(std::string name, std::string raw_value)
 		{
-			int str_length = raw_value.length;
+			int str_length = raw_value.length();
 			switch (str_length)
 			{
 			case 1: 
@@ -37,7 +37,7 @@ namespace water
 			pugi::xml_node material = file.get_root_node();
 			// load technique
 			std::string tech_path = material.child("Technique").child_value();
-			m_tech.load(tech_path.c_str());
+			m_tech = TechniqueManager::get_instance()->get_technique(tech_path);
 			// load param map
 			for (pugi::xml_node param_map = material.child("ParameterMap"); param_map; param_map = param_map.next_sibling("ParameterMap"))
 			{
@@ -51,6 +51,20 @@ namespace water
 				int index = param_map.attribute("index").as_int();
 				m_param_map[index] = map;
 			}
+		}
+
+		void Material::render(IRenderObject * render_obj)
+		{
+			m_tech->render(render_obj);
+		}
+
+		ParameterMap Material::get_param_map(int index)
+		{
+			if (m_param_map.find(index) != m_param_map.end())
+			{
+				return m_param_map[index];
+			}
+			return ParameterMap();
 		}
 
 	}
