@@ -1,5 +1,5 @@
-#ifndef WATER_SHADER_PROGRAM_H
-#define WWATER_SHADER_PROGRAM_H
+#ifndef WATER_RENDER_PROGRAM_H
+#define WATER_RENDER_PROGRAM_H
 #include "common/common.h"
 #include <string>
 #include "math3d/math3d.hpp"
@@ -43,4 +43,4 @@ namespace water
 	}
 }
 
-#endif // !WATER_SHADER_PROGRAM_H 
+#endif // !WATER_RENDER_PROGRAM_H 
