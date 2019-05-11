@@ -9,10 +9,6 @@ namespace water
 {
 	namespace render
 	{
-		WaterInterface IRenderStateManager;
-		WaterInterface IDevice;
-
-
 		/*
 		* Mangagement render state.
 		*/

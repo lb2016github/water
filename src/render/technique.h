@@ -1,23 +1,14 @@
 #ifndef WATER_TECHNIQUE_H
 #define WATER_TECHNIQUE_H
-#include "render/render_state_info.h"
-#include "render/render_state.h"
 #include <map>
 #include <string>
 #include <vector>
 #include <memory>
-#include "render/shader_program.h"
-#include "render/technique_common.h"
+#include "render/render.h"
 
 
 namespace water {
 	namespace render {
-		struct RenderPass;
-		class Technique;
-		class TechniqueManager;
-		WaterInterface IRenderObject;
-		typedef std::shared_ptr<Technique> TechniquePtr;
-
 		struct RenderPass {
 			int index;
 			RenderState render_state;

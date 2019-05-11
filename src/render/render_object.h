@@ -1,16 +1,14 @@
 #ifndef WATER_RENDER_OBJECT_H
 #define WATER_RENDER_OBJECT_H
 #include "common/common.h"
-#include "render/material.h"
 #include <memory>
+#include "render/render.h"
+#include "render/material.h"
 
 namespace water
 {
 	namespace render
 	{
-		WaterInterface IMesh;
-		WaterInterface IRenderObject;
-		typedef std::shared_ptr<IMesh> MeshPtr;
 
 		WaterInterface IMesh
 		{

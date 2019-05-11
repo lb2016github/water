@@ -1,6 +1,8 @@
 #include "render/technique.h"
 #include "render/technique_common.h"
+#include "render/shader_program.h"
 #include "render/render_task.h"
+#include "render/render_object.h"
 #include "filesystem\xml_file.h"
 #include "common\log.h"
 #include <algorithm>

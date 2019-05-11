@@ -1,20 +1,15 @@
 #ifndef WATER_SHADER_PROGRAM_H
 #define WWATER_SHADER_PROGRAM_H
 #include "common/common.h"
-#include "render/render_state_info.h"
 #include <string>
 #include "math3d/math3d.hpp"
 #include <memory>
+#include "render/render.h"
 
 namespace water
 {
 	namespace render
 	{
-		WaterInterface IProgramManager;
-		WaterInterface IRenderProgram;
-		typedef std::shared_ptr<IRenderProgram> ProgramPtr;
-		typedef unsigned int ShaderObject;
-
 		/*
 		management programs
 		*/

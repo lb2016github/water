@@ -1,20 +1,14 @@
 #ifndef WATER_MATERIAL_H
 #define WATER_MATERIAL_H
 #include "common/common.h"
-#include "render/technique.h"
 #include "math3d/math3d.hpp"
 #include <memory>
+#include "render/render.h"
 
 namespace water
 {
 	namespace render
 	{
-		struct ParameterMap;
-		class Material;
-		typedef Material* MaterialPtr;
-
-		WaterInterface IRenderObject;
-
 		class Material
 		{
 		public:

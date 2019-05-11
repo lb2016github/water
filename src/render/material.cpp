@@ -1,6 +1,7 @@
 #include "render/material.h"
 #include "filesystem/xml_file.h"
 #include "common/log.h"
+#include "render/technique.h"
 
 
 namespace water

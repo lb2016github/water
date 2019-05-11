@@ -1,21 +1,14 @@
 #ifndef WATER_RENDER_TASK_H
 #define WATER_RENDER_TASK_H
 #include "common/common.h"
-#include "render/render_state.h"
-#include "render/render_object.h"
 #include <memory>
 #include <vector>
-#include "render/mesh.h"
-#include "render/shader_program.h"
-#include "render/render_state_info.h"
-#include "render/material.h"
+#include "render/render.h"
 
 namespace water
 {
 	namespace render
 	{
-		WaterInterface IRenderTask;
-		typedef std::vector<IRenderTask*> RenderTaskList;
 
 		WaterInterface IRenderTask
 		{
