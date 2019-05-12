@@ -188,30 +188,13 @@
 											"height": 13,
 											"text": "+render(render_obj: IRenderObject)",
 											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLOperationView",
-											"_id": "AAAAAAFqY91qJX2W9+I=",
-											"_parent": {
-												"$ref": "AAAAAAFqYqDGq0zGtpE="
-											},
-											"model": {
-												"$ref": "AAAAAAFqY91p1X2TMXs="
-											},
-											"font": "Arial;13;2",
-											"left": 77,
-											"top": 747,
-											"width": 267.0205078125,
-											"height": 13,
-											"text": "+load()",
-											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 72,
 									"top": 727,
 									"width": 277.0205078125,
-									"height": 38
+									"height": 23
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -5451,7 +5434,8 @@
 							"_parent": {
 								"$ref": "AAAAAAFqYqDGqUy9LCI="
 							},
-							"name": "m_filepath"
+							"name": "m_filepath",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -5459,7 +5443,8 @@
 							"_parent": {
 								"$ref": "AAAAAAFqYqDGqUy9LCI="
 							},
-							"name": "m_render_task_queue"
+							"name": "m_render_task_queue",
+							"type": ""
 						}
 					],
 					"operations": [
@@ -5485,16 +5470,6 @@
 								}
 							],
 							"isAbstract": true
-						},
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAFqY91p1X2TMXs=",
-							"_parent": {
-								"$ref": "AAAAAAFqYqDGqUy9LCI="
-							},
-							"name": "load",
-							"isAbstract": true,
-							"specification": "load technique\n"
 						}
 					],
 					"isAbstract": true
