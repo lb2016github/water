@@ -180,7 +180,7 @@ namespace water
 				{
 					frag_shader = tmp_attr.value();
 				}
-				render_pass.program = IProgramManager::get_instance()->load_program(vertex_shader.c_str(), geom_shader.c_str(), frag_shader.c_str());
+				render_pass.program = get_program_manager()->load_program(vertex_shader.c_str(), geom_shader.c_str(), frag_shader.c_str());
 				tech->m_render_pass_queue.push_back(render_pass);	// will copy the object?
 				// load attribute param type
 				ParamTypeMap attribute_map;

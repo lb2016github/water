@@ -30,6 +30,8 @@ namespace water
 		WaterInterface IRenderProgram;
 		typedef std::shared_ptr<IRenderProgram> ProgramPtr;
 		typedef unsigned int ShaderObject;
+		typedef std::map<std::string, ShaderObject> ShaderMap;
+		#define UNDEFINED_SHADER -1
 
 		// Render Object and Mesh 
 		WaterInterface IMesh;

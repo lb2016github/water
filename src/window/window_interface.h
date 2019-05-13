@@ -9,7 +9,7 @@
 namespace water {
 	WaterInterface IWindow : IPlugin{
 		virtual bool is_full_screen() const = 0;
-		virtual Vector2 get_window_size() const = 0;
+		virtual math3d::Vector2 get_window_size() const = 0;
 		virtual void set_window_size(unsigned width, unsigned height) = 0;
 		virtual std::string get_window_title() const = 0;
 		virtual void set_window_title(std::string title) = 0;
