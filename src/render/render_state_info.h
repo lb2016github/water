@@ -124,7 +124,7 @@ namespace render {
 	};
 
 	// RenderState
-	struct RenderState {
+	struct RenderStateInfo {
 		DepthStateInfo depth;
 		StencilStateInfo stencil;
 		RasterizeStateInfo raster;

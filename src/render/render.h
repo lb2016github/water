@@ -37,6 +37,9 @@ namespace water
 		WaterInterface IMesh;
 		WaterInterface IRenderObject;
 		typedef std::shared_ptr<IMesh> MeshPtr;
+
+		// Render State
+		WaterInterface IRenderStateManager;
 	}
 }
 

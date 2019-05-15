@@ -11,7 +11,7 @@ namespace water {
 	namespace render {
 		struct RenderPass {
 			int index;
-			RenderState render_state;
+			RenderStateInfo render_state;
 			ProgramPtr program;
 		};
 

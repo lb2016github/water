@@ -14,7 +14,7 @@ namespace water
 		*/
 		WaterInterface IRenderStateManager
 		{
-			virtual void apply(const RenderState& render_state) 
+			virtual void apply(const RenderStateInfo& render_state) 
 			{
 				apply_depth_state(render_state.depth);
 				apply_stencil_state(render_state.stencil);

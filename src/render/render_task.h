@@ -14,7 +14,7 @@ namespace water
 		{
 			virtual void render() = 0;
 			virtual RenderTaskList get_depend_tasks() = 0;
-			static IRenderTask* create_render_task(MeshPtr mesh, ProgramPtr program, RenderState render_state, ParameterMap param_map, IRenderTask* dependent);
+			static IRenderTask* create_render_task(MeshPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, IRenderTask* dependent);
 		};
 
 

@@ -13,7 +13,7 @@ namespace water
 	namespace render
 	{
 
-		void load_render_state(RenderState& render_state, pugi::xml_node& node);
+		void load_render_state(RenderStateInfo& render_state, pugi::xml_node& node);
 		void load_blend_info(BlendStateInfo& blend, pugi::xml_node& node);
 		void load_depth_info(DepthStateInfo& depth, pugi::xml_node& node);
 		void load_stencil_info(StencilStateInfo& stencil, pugi::xml_node node);
@@ -23,7 +23,7 @@ namespace water
 
 		///////////////////////// define loaders ////////////////////////////////
 
-		void load_render_state(RenderState& render_state, pugi::xml_node& node)
+		void load_render_state(RenderStateInfo& render_state, pugi::xml_node& node)
 		{
 			load_blend_info(render_state.blend, node.child("BlendStateInfo"));
 			load_depth_info(render_state.depth, node.child("DepthStateInfo"));
