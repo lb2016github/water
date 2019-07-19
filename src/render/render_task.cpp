@@ -1,22 +1,24 @@
 #include "render_task.h"
 #include <functional>
+#include <mutex>
 
 namespace water
 {
 	namespace render
 	{
 		RenderTaskManager* RenderTaskManager::m_instance = nullptr;
+		std::mutex buffer_mtx;
+
 		void RenderTaskManager::render()
 		{
-			std::vector<IRenderTask*> finished_task;
-			for (std::vector<IRenderTask*>::iterator iter = m_tasks[cur_index].begin(); iter != m_tasks[cur_index].end(); ++iter)
-			{
-				IRenderTask* cur_task = (*iter);
-			}
+			// swap buffer
+			swap_buffer(m_front_buffer, m_back_buffer);
 		}
 		void RenderTaskManager::add_task(IRenderTask * task)
 		{
-			m_tasks[cur_index].push_back(task);
+			buffer_mtx.lock();
+			m_task_buffers[m_back_buffer].add_task(task);
+			buffer_mtx.unlock();
 		}
 		RenderTaskManager * RenderTaskManager::get_instance()
 		{
@@ -28,8 +30,6 @@ namespace water
 		}
 		void RenderTaskManager::before_render()
 		{
-			// swap
-			cur_index = (cur_index + 1) % 2;
 			// todo sort tasks
 			RenderTaskList copy;
 			std::function<void(IRenderTask* task)> sort_task;
@@ -60,6 +60,14 @@ namespace water
 		{
 			m_tasks[cur_index].clear();
 		}
+		inline void water::RenderTaskManager::swap_buffer(int & a, int & b)
+		{
+			buffer_mtx.lock();
+			int tmp = a;
+			a = b;
+			b = tmp;
+			buffer_mtx.unlock();
+		}
 		RenderTaskManager::RenderTaskManager()
 		{
 		}
@@ -73,6 +81,19 @@ namespace water
 				}
 				m_tasks[i].clear();
 			}
+		}
+		void RenderTaskBuffer::add_task(IRenderTask * task)
+		{
+			m_tasks.push_back(task);
+		}
+		void RenderTaskBuffer::clear()
+		{
+			m_ready = false;
+			m_tasks.clear();
+		}
+		void RenderTaskBuffer::set_ready(bool is_ready)
+		{
+			m_ready = is_ready;
 		}
 	}
 }
