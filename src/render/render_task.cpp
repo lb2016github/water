@@ -87,8 +87,15 @@ namespace water
 			m_ready = buffer.m_ready;
 			return *this;
 		}
-		void RenderTaskBuffer::add_task(std::shared_ptr<IRenderTask> task)
+		void RenderTaskBuffer::add_task(RenderTaskPtr task)
 		{
+			// add dependent tasks
+			RenderTaskList dependents = task->get_depend_tasks();
+			for each (RenderTaskPtr d_task in dependents)
+			{
+				add_task(d_task);
+			}
+			// add task
 			m_tasks.push_back(task);
 		}
 		void RenderTaskBuffer::clear()
@@ -110,7 +117,7 @@ namespace water
 				{
 					continue;
 				}
-				// todo sort tasks to decrease drawcall and solve the dependency problem
+				// todo sort tasks to decrease drawcall 
 				// do render jobs
 				for each (RenderTaskPtr task in m_task_buffer.m_tasks)
 				{
