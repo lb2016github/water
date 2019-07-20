@@ -22,7 +22,8 @@ namespace water
 
 		// Render Task 
 		WaterInterface IRenderTask;
-		typedef std::vector<IRenderTask*> RenderTaskList;
+		typedef std::shared_ptr<IRenderTask> RenderTaskPtr;
+		typedef std::vector<RenderTaskPtr> RenderTaskList;
 		class RenderTaskManager;
 
 		// Render Program

@@ -1,5 +1,6 @@
 #include "render_task.h"
 #include <functional>
+#include <algorithm>
 #include <mutex>
 
 namespace water
@@ -9,15 +10,28 @@ namespace water
 		RenderTaskManager* RenderTaskManager::m_instance = nullptr;
 		std::mutex buffer_mtx;
 
-		void RenderTaskManager::render()
-		{
-			// swap buffer
-			swap_buffer(m_front_buffer, m_back_buffer);
-		}
-		void RenderTaskManager::add_task(IRenderTask * task)
+		void RenderTaskManager::commit()
 		{
 			buffer_mtx.lock();
+
+			// swap buffer
+			int tmp = m_front_buffer;
+			m_front_buffer = m_back_buffer;
+			m_back_buffer = m_front_buffer;
+			// set ready state
+			m_task_buffers[m_front_buffer].set_ready(true);
+			m_task_buffers[m_back_buffer].clear();
+
+			buffer_mtx.unlock();
+		}
+		void RenderTaskManager::add_task(RenderTaskPtr task)
+		{
 			m_task_buffers[m_back_buffer].add_task(task);
+		}
+		void RenderTaskManager::get_front_buffer(RenderTaskBuffer& dst_buffer)
+		{
+			buffer_mtx.lock();
+			dst_buffer = m_task_buffers[m_front_buffer];
 			buffer_mtx.unlock();
 		}
 		RenderTaskManager * RenderTaskManager::get_instance()
@@ -28,61 +42,52 @@ namespace water
 			}
 			return m_instance;
 		}
-		void RenderTaskManager::before_render()
-		{
-			// todo sort tasks
-			RenderTaskList copy;
-			std::function<void(IRenderTask* task)> sort_task;
-			sort_task = [&copy, &sort_task](IRenderTask* task)
-			{
-				RenderTaskList tmp = task->get_depend_tasks();
-				for (RenderTaskList::iterator iter = tmp.begin(); iter != tmp.end(); ++iter)
-				{
-					sort_task(task);
-				}
-				copy.push_back(task);
-			};
-			for each (IRenderTask* task in m_tasks[cur_index])
-			{
-				sort_task(task);
-			}
-			m_tasks[cur_index].clear();
-			m_tasks[cur_index] = std::move(copy);
-		}
-		void RenderTaskManager::do_render()
-		{
-			for each(IRenderTask* task in m_tasks[cur_index])
-			{
-				task->render();
-			}
-		}
-		void RenderTaskManager::end_render()
-		{
-			m_tasks[cur_index].clear();
-		}
-		inline void water::RenderTaskManager::swap_buffer(int & a, int & b)
-		{
-			buffer_mtx.lock();
-			int tmp = a;
-			a = b;
-			b = tmp;
-			buffer_mtx.unlock();
-		}
 		RenderTaskManager::RenderTaskManager()
 		{
+			m_render = new RenderThread();
+			std::thread th(&RenderThread::render, m_render);
+			if (th.joinable()) th.detach();
 		}
 		RenderTaskManager::~RenderTaskManager()
 		{
 			for (int i = 0; i < 2; ++i)
 			{
-				for (std::vector<IRenderTask*>::iterator iter = m_tasks[i].begin(); iter != m_tasks[i].end(); ++iter)
-				{
-					delete (*iter);
-				}
-				m_tasks[i].clear();
+				m_task_buffers[i].clear();
 			}
+			delete m_render;
 		}
-		void RenderTaskBuffer::add_task(IRenderTask * task)
+		RenderTaskBuffer::RenderTaskBuffer(): m_ready(false)
+		{
+		}
+		RenderTaskBuffer::RenderTaskBuffer(RenderTaskBuffer&& buffer)
+		{
+			std::move(buffer.m_tasks.begin(), buffer.m_tasks.end(), m_tasks.begin());
+			m_ready = buffer.m_ready;
+			buffer.m_ready = false;
+		}
+		RenderTaskBuffer::RenderTaskBuffer(RenderTaskBuffer& buffer)
+		{
+			std::copy(buffer.m_tasks.begin(), buffer.m_tasks.end(), m_tasks.begin());
+			m_ready = buffer.m_ready;
+		}
+		RenderTaskBuffer& RenderTaskBuffer::operator=(RenderTaskBuffer&& buffer)
+		{
+			if (&buffer == this) return *this;
+			clear();
+			std::move(buffer.m_tasks.begin(), buffer.m_tasks.end(), m_tasks.begin());
+			m_ready = buffer.m_ready;
+			buffer.m_ready = false;
+			return *this;
+		}
+		RenderTaskBuffer& RenderTaskBuffer::operator=(const RenderTaskBuffer& buffer)
+		{
+			if (&buffer == this) return *this;
+			clear();
+			std::copy(buffer.m_tasks.begin(), buffer.m_tasks.end(), m_tasks.begin());
+			m_ready = buffer.m_ready;
+			return *this;
+		}
+		void RenderTaskBuffer::add_task(std::shared_ptr<IRenderTask> task)
 		{
 			m_tasks.push_back(task);
 		}
@@ -94,6 +99,28 @@ namespace water
 		void RenderTaskBuffer::set_ready(bool is_ready)
 		{
 			m_ready = is_ready;
+		}
+		void RenderThread::render()
+		{
+			while (true)
+			{
+				// get buffer data
+				RenderTaskManager::get_instance()->get_front_buffer(m_task_buffer);
+				if (!m_task_buffer.is_ready())
+				{
+					continue;
+				}
+				// todo sort tasks to decrease drawcall and solve the dependency problem
+				// do render jobs
+				for each (RenderTaskPtr task in m_task_buffer.m_tasks)
+				{
+					task->render();
+				}
+				// render end
+			}
+		}
+		RenderThread::RenderThread()
+		{
 		}
 	}
 }

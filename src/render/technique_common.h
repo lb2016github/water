@@ -2,6 +2,7 @@
 #define WATER_TECHNIQUE_LOADER_CONFIG
 #include "render\render_state_info.h"
 #include <map>
+#include <string>
 #include "math3d/math3d.hpp"
 
 namespace water {
