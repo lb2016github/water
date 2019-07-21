@@ -12,7 +12,7 @@ namespace water
 	{
 		// Material
 		class Material;
-		typedef Material* MaterialPtr;
+		typedef std::shared_ptr<Material> MaterialPtr;
 		struct ParameterMap;
 
 		// Techinque

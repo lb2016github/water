@@ -24,6 +24,7 @@ namespace water
 		{
 			void set_param(std::string name, int value);
 			void set_raw_param(std::string name, std::string raw_value);
+			ParamValueType get_value_type(std::string name) const;
 			ParamValueMap m_value_map;
 			ParamTypeMap m_type_map;
 		};

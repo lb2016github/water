@@ -86,6 +86,7 @@ namespace water {
 
 		enum ParamValueType
 		{
+			TypeNone,
 			TypeVector3,
 			TypeVector2,
 			TypeMatrix,

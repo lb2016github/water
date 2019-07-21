@@ -2,6 +2,7 @@
 #include "filesystem\filesystem.h"
 #include "glad/glad.h"
 #include "common/log.h"
+#include "render/material.h"
 
 namespace water
 {
@@ -178,6 +179,38 @@ namespace water
 		{
 			glUseProgram(m_program);
 			return true;
+		}
+
+		void RenderProgramOpenGL::apply_parameters(const ParameterMap& param_map)
+		{
+			for (auto param : param_map.m_value_map)
+			{
+				std::string name = param.first;
+				ParamValue pv = param.second;
+				ParamValueType pvt = param_map.get_value_type(name);
+				switch (pvt)
+				{
+				case water::render::TypeNone:
+					break;
+				case water::render::TypeVector3:
+					set_uniform(name, pv.vec3);
+					break;
+				case water::render::TypeVector2:
+					set_uniform(name, pv.vec2);
+					break;
+				case water::render::TypeMatrix:
+					set_uniform(name, pv.mat);
+					break;
+				case water::render::TypeFloat:
+					set_uniform(name, pv.float_1);
+					break;
+				case water::render::TypeInt:
+					set_uniform(name, pv.int_1);
+					break;
+				default:
+					break;
+				}
+			}
 		}
 
 	}

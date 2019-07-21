@@ -26,6 +26,16 @@ namespace water
 				break;
 			}
 		}
+		ParamValueType ParameterMap::get_value_type(std::string name) const
+		{
+			auto rst = m_type_map.find(name);
+			if (rst != m_type_map.end())
+			{
+				return rst->second;
+			}
+			log_warn("[Material]No parameter type is found with name: %s", name);
+			return TypeNone;
+		}
 		void Material::load(const char * file_path)
 		{
 			filesystem::XMLFile file;

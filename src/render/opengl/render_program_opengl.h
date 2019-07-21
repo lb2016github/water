@@ -30,6 +30,8 @@ namespace water {
 			virtual bool set_attribute_config(ParamTypeMap& attribute_map);
 			// use program
 			virtual bool use_program();
+			// apply parameters
+			virtual void apply_parameters(const ParameterMap& param_map);
 		private:
 			GLuint m_program;
 			ParamTypeMap m_uniform_map;

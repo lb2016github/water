@@ -42,6 +42,8 @@ namespace water
 			virtual bool set_attribute_config(ParamTypeMap& attribute_map) = 0;
 			// use program
 			virtual bool use_program() = 0;
+			// apply parameters
+			virtual void apply_parameters(const ParameterMap& param_map) = 0;
 		};
 
 	}

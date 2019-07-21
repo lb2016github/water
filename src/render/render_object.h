@@ -20,11 +20,11 @@ namespace water
 
 		WaterInterface IRenderObject
 		{
-			virtual Material* get_material() = 0;
+			virtual MaterialPtr get_material() = 0;
 			virtual MeshPtr get_mesh() = 0;
 			virtual void render()
 			{
-				Material* mat = get_material();
+				MaterialPtr mat = get_material();
 				mat->render(this);
 			}
 		};
