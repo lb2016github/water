@@ -2,9 +2,9 @@ project(client)
 
 file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.*)
 
-link_directories(${WATER_THIRD_LIBRARY_DIRECTORY}/glfw3 ${WATER_THIRD_LIBRARY_DIRECTORY}/boost)
+link_directories(${WATER_THIRD_LIBRARY_DIRECTORY}/glfw3 ${WATER_THIRD_LIBRARY_DIRECTORY}/boost/${WATER_LIB_VERSION})
 
-list(APPEND DEPEND_LIBS render world window filesystem)
+list(APPEND DEPEND_LIBS render world window filesystem common)
 list(APPEND THIRD_LIBS glfw3)
 
 add_executable(client ${SOURCE_FILES})

@@ -11,10 +11,10 @@ namespace water {
 		TransformComponent(const TransformComponent& trans_comp);
 		TransformComponent& operator = (const TransformComponent& trans_comp);
 
-		Matrix get_world_transformation();
+		math3d::Matrix get_world_transformation();
 
 	public:
-		Matrix transformation;
+		math3d::Matrix transformation;
 	};
 }
 

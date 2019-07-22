@@ -3,7 +3,7 @@
 #include <iostream>
 
 void main() {
-	water::filesystem::FileSystem fs;
+	water::filesystem::FileSystem fs = water::filesystem::FileSystem::instance;
 	bool tmp = fs.is_file_exist("G:\\dts\\lb\\trunk\\res\\proj_config.xml");
 	std::cout << "Exist" << tmp << std::endl;
 

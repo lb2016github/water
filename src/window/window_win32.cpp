@@ -62,9 +62,9 @@ namespace water {
 		return glfwWindowShouldClose(window);
 	}
 
-	water::Vector2 WindowWin32::get_window_size() const
+	math3d::Vector2 WindowWin32::get_window_size() const
 	{
-		return Vector2(m_width, m_height);
+		return math3d::Vector2(m_width, m_height);
 	}
 
 	void WindowWin32::set_window_size(unsigned width, unsigned height)

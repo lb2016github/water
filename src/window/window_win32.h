@@ -2,6 +2,7 @@
 #define WATER_WINDOW_WIN32_H
 
 #include "window/window_interface.h"
+#include "math3d\math3d.hpp"
 #include <memory>
 #include <string>
 
@@ -14,7 +15,7 @@ namespace water {
 
 		virtual bool is_full_screen() const;
 		virtual bool is_window_closed() const;
-		virtual Vector2 get_window_size() const;
+		virtual math3d::Vector2 get_window_size() const;
 		virtual void set_window_size(unsigned width, unsigned height);
 		virtual std::string get_window_title() const;
 		virtual void set_window_title(std::string title);

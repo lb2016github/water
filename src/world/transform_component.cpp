@@ -19,7 +19,7 @@ namespace water {
 		transformation = trans_comp.transformation;
 	}
 
-	Matrix TransformComponent::get_world_transformation()
+	math3d::Matrix TransformComponent::get_world_transformation()
 	{
 		if (!m_game_object || m_game_object->m_parent == NULL)
 		{
