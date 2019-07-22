@@ -1,6 +1,7 @@
 #include "render_task_opengl.h"
 #include "render/material.h"
 #include "render/render_program.h"
+#include "render/render_object.h"
 
 
 namespace water
@@ -19,8 +20,8 @@ namespace water
 			// use program and apply parameters
 			program_ptr->use_program();
 			program_ptr->apply_parameters(param_map);
-			// todo draw meshes
-
+			// draw meshes
+			mesh_ptr->render();
 		}
 		RenderTaskList RenderTaskOpenGL::get_depend_tasks()
 		{

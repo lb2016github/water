@@ -12,9 +12,7 @@ namespace water
 
 		WaterInterface IMesh
 		{
-			unsigned int base_vertex;
-			unsigned int base_index;
-			unsigned int num_indices;
+			virtual void render() = 0;
 		};
 
 
