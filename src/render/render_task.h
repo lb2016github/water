@@ -5,17 +5,24 @@
 #include <vector>
 #include <atomic>
 #include "render/render.h"
+#include "render/material.h"
 
 namespace water
 {
 	namespace render
 	{
-
-		WaterInterface IRenderTask
+		struct RenderTask
 		{
-			virtual void render() = 0;
-			virtual RenderTaskList get_depend_tasks() = 0;
-			static RenderTaskPtr create_render_task(MeshPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent);
+			RenderTask(MeshPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent);
+			virtual ~RenderTask();
+
+			virtual void render();
+			virtual RenderTaskList get_depend_tasks();
+
+			MeshPtr mesh_ptr;				// mesh data
+			ProgramPtr program_ptr;			// program pointer
+			RenderStateInfo render_state;	// render state
+			ParameterMap param_map;	// parameter map
 		};
 
 

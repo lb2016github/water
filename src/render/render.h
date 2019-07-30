@@ -21,13 +21,14 @@ namespace water
 		class TechniqueManager;
 
 		// Render Task 
-		WaterInterface IRenderTask;
-		typedef std::shared_ptr<IRenderTask> RenderTaskPtr;
+		WaterInterface RenderTask;
+		typedef std::shared_ptr<RenderTask> RenderTaskPtr;
 		typedef std::vector<RenderTaskPtr> RenderTaskList;
 		class RenderTaskManager;
 
 		// Render Program
 		WaterInterface IProgramManager;
+		typedef std::shared_ptr<IProgramManager> ProgramManagerPtr;
 		WaterInterface IRenderProgram;
 		typedef std::shared_ptr<IRenderProgram> ProgramPtr;
 		typedef unsigned int ShaderObject;
@@ -41,6 +42,7 @@ namespace water
 
 		// Render State
 		WaterInterface IRenderStateManager;
+		typedef std::shared_ptr<IRenderStateManager> RenderStateManagerPtr;
 	}
 }
 

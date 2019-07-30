@@ -2,6 +2,9 @@
 #include <functional>
 #include <algorithm>
 #include <mutex>
+#include "render/render_program.h"
+#include "render/material.h"
+#include "render/render_object.h"
 
 namespace water
 {
@@ -128,6 +131,25 @@ namespace water
 		}
 		RenderThread::RenderThread()
 		{
+		}
+		RenderTask::RenderTask(MeshPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent):
+			mesh_ptr(mesh), program_ptr(program), render_state(render_state), param_map(param_map)
+		{
+		}
+		RenderTask::~RenderTask()
+		{
+		}
+		void RenderTask::render()
+		{
+			// use program and apply parameters
+			program_ptr->use_program();
+			program_ptr->apply_parameters(param_map);
+			// draw meshes
+			mesh_ptr->render();
+		}
+		RenderTaskList RenderTask::get_depend_tasks()
+		{
+			return RenderTaskList();
 		}
 	}
 }

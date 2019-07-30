@@ -20,8 +20,6 @@ namespace water
 		};
 
 
-		IProgramManager* get_program_manager();
-
 		/*
 		* the interface of render program
 		*/

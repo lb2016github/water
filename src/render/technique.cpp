@@ -7,6 +7,7 @@
 #include "common\log.h"
 #include <algorithm>
 #include <sstream>
+#include "render/device.h"
 
 namespace water
 {
@@ -180,7 +181,7 @@ namespace water
 				{
 					frag_shader = tmp_attr.value();
 				}
-				render_pass.program = get_program_manager()->load_program(vertex_shader.c_str(), geom_shader.c_str(), frag_shader.c_str());
+				render_pass.program = get_device()->get_program_manager()->load_program(vertex_shader.c_str(), geom_shader.c_str(), frag_shader.c_str());
 				tech->m_render_pass_queue.push_back(render_pass);	// will copy the object?
 				// load attribute param type
 				ParamTypeMap attribute_map;
@@ -221,7 +222,7 @@ namespace water
 			int cur_idx = 0;
 			for (std::vector<RenderPass>::iterator iter = m_render_pass_queue.begin(); iter != m_render_pass_queue.end(); ++iter, ++cur_idx)
 			{
-				RenderTaskPtr cur_task = IRenderTask::create_render_task(
+				RenderTaskPtr cur_task = std::make_shared<RenderTask>(
 					render_obj->get_mesh(), iter->program, iter->render_state,
 					render_obj->get_material()->get_param_map(cur_idx), pre_task
 				);

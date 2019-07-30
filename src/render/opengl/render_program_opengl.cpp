@@ -3,17 +3,13 @@
 #include "glad/glad.h"
 #include "common/log.h"
 #include "render/material.h"
+#include "render/device.h"
 
 namespace water
 {
 	namespace render
 	{
-		static ProgramManagerOpenGL* mgr = new ProgramManagerOpenGL();
 		GLuint get_shader_type(ShaderType& shader_type);
-		IProgramManager* get_program_manager()
-		{
-			return mgr;
-		}
 		ShaderObject ProgramManagerOpenGL::load_shader(ShaderType shader_type, const char* file_path)
 		{
 			ShaderMap::iterator rst = m_shader_map.find(file_path);
@@ -88,17 +84,17 @@ namespace water
 
 		bool RenderProgramOpenGL::init(const char * vertex_shader_path, const char * geom_shader_path, const char * frag_shader_path)
 		{
-			ShaderObject obj = get_program_manager()->load_shader(VertexShader, vertex_shader_path);
+			ShaderObject obj = get_device()->get_program_manager()->load_shader(VertexShader, vertex_shader_path);
 			if (obj != UNDEFINED_SHADER)
 			{
 				glAttachShader(m_program, obj);
 			}
-			obj = get_program_manager()->load_shader(GeometryShader, geom_shader_path);
+			obj = get_device()->get_program_manager()->load_shader(GeometryShader, geom_shader_path);
 			if (obj != UNDEFINED_SHADER)
 			{
 				glAttachShader(m_program, obj);
 			}
-			obj = get_program_manager()->load_shader(FragmentShader, frag_shader_path);
+			obj = get_device()->get_program_manager()->load_shader(FragmentShader, frag_shader_path);
 			if (obj != UNDEFINED_SHADER)
 			{
 				glAttachShader(m_program, obj);

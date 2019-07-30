@@ -13,7 +13,7 @@ namespace water
 			{
 				m_instance = new T;
 			}
-			static_assert(m_instance);
+			assert(m_instance);
 			return m_instance;
 		}
 	protected:
