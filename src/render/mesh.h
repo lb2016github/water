@@ -11,17 +11,18 @@ namespace water
 {
 	namespace render
 	{
+
 		struct MeshData
 		{
 			unsigned int mesh_id;
-			int base_pos;
-			int base_normal;
-			int base_coord;
-			int base_tangent;
-			unsigned int base_index;
+			void* pos_data;
+			void* normal_data;
+			void* coord_data;
+			void* tangent_data;
+			void* index_data;
 			unsigned int num_vertex;
 			unsigned int num_index;
-			MeshData() : base_pos(-1), base_normal(-1), base_coord(-1), base_tangent(-1), base_index(-1), num_vertex(-1), num_index(-1)
+			MeshData() : pos_data(nullptr), normal_data(nullptr), coord_data(nullptr), tangent_data(nullptr), index_data(nullptr)
 			{
 				mesh_id = MeshDataManager::new_mesh_id();
 			}
@@ -33,8 +34,8 @@ namespace water
 		{
 		public:
 			void create_cube();
-			void add_data_to_buffer(std::vector<math3d::Vector3>& data, int& start_pos);
-			void add_data_to_buffer(std::vector<math3d::Vector2>& data, int& start_pos);
+			void add_data_to_buffer(std::vector<math3d::Vector3>& data, void** data_ptr);
+			void add_data_to_buffer(std::vector<math3d::Vector2>& data, void** data_ptr);
 			void add_mesh(MeshDataPtr mesh_data_ptr);
 
 			static unsigned int new_mesh_id();
