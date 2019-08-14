@@ -1,48 +1,41 @@
 #include "mesh.h"
+#include "common/common.h"
 
 namespace water
 {
 	namespace render
 	{
+		MeshData::MeshData() : pos_data(nullptr), normal_data(nullptr), coord_data(nullptr), tangent_data(nullptr), index_data(nullptr)
+		{
+			mesh_id = MeshDataManager::new_mesh_id();
+		}
 		void MeshDataManager::create_cube()
 		{
-			struct Vertex {
-				Vertex(float p_x, float p_y, float p_z, float c_x, float c_y, float c_z) : position(p_x, p_y, p_z), color(c_x, c_y, c_z) {}
-				math3d::Vector3 position;
-				math3d::Vector3 color;
-			};
-			std::vector<math3d::Vector3> positions = {
+			std::shared_ptr<MeshData> mesh_data_ptr = std::make_shared<MeshData>();
+			int vertex_num = 4;
+			mesh_data_ptr->pos_data = new math3d::Vector3[vertex_num]{
 				{-1, 0, 0},
 				{1, 0, 0},
 				{0, 0, 2},
 				{0, 2, 1},
 			};
-			std::vector<math3d::Vector2> coords = {
-				{0, 1},
-				{1, 0},
-				{0.5, 0.5},
-				{0, 0.5},
+			mesh_data_ptr->color_data = new math3d::Vector4[vertex_num]
+			{
+				{1, 0, 0, 1},
+				{1, 0, 0, 1},
+				{0.5, 0.5, 0, 1},
+				{0, 0.5, 0.5, 1},
 			};
-			std::shared_ptr<MeshData> mesh_data_ptr = std::make_shared<MeshData>();
-			add_data_to_buffer(positions, mesh_data_ptr->base_pos);
-			add_data_to_buffer(coords, mesh_data_ptr->base_coord);
-			mesh_data_ptr->num_vertex = positions.size();
+			mesh_data_ptr->num_vertex = vertex_num;
 		}
-		void MeshDataManager::add_data_to_buffer(std::vector<math3d::Vector3>& data, int & start_pos)
+		MeshData::~MeshData()
 		{
-			start_pos = m_vec3_buffer.size();
-			for (auto iter = data.begin(); iter != data.end(); ++iter)
-			{
-				m_vec3_buffer.push_back(*iter);
-			}
-		}
-		void MeshDataManager::add_data_to_buffer(std::vector<math3d::Vector2>& data, int & start_pos)
-		{
-			start_pos = m_vec2_buffer.size();
-			for (auto iter = data.begin(); iter != data.end(); ++iter)
-			{
-				m_vec2_buffer.push_back(*iter);
-			}
+			SAFE_DELETE_ARRAY(pos_data);
+			SAFE_DELETE_ARRAY(color_data);
+			SAFE_DELETE_ARRAY(normal_data);
+			SAFE_DELETE_ARRAY(coord_data);
+			SAFE_DELETE_ARRAY(tangent_data);
+			SAFE_DELETE_ARRAY(index_data);
 		}
 
 		void MeshDataManager::add_mesh(MeshDataPtr mesh_data_ptr)

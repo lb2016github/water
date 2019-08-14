@@ -8,6 +8,7 @@ namespace water
 
     class MemoryAllocatePolicy
     {
+	public:
         static void* allocate(size_t size)
         {
             void* ptr = malloc(size);
@@ -23,6 +24,7 @@ namespace water
     template<size_t alignment = 0>
     class AlignedMemoryAllocatePolicy
     {
+	public:
         static void* allocate(size_t size)
         {
             // allocate memory with additional Aligh bytes
@@ -40,8 +42,8 @@ namespace water
         }
         static void deallocate(void* ptr)
         {
-            size_t offset = *(char*)(ptr - 1);
-            void* ori_ptr = ptr - offset;
+            size_t offset = *((char*)ptr - 1);
+            void* ori_ptr = (char*)ptr - offset;
             free(ori_ptr);
         }
     };

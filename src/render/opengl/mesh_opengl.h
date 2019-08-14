@@ -11,6 +11,7 @@ namespace water
 		enum GLBuffIndex {
 			POSITION_INDEX = 0,
 			NORMAL_INDEX,
+			COLOR_INDEX,
 			COORD_INDEX,
 			TANGENT_INDEX,
 			INDEX_LENGTH,
@@ -25,6 +26,7 @@ namespace water
 			// commit data to gpu
 			void commit_data();
 		private:
+			GLuint m_vao;
 			GLuint m_buffers[INDEX_LENGTH];
 			bool is_inited;
 		};

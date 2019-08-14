@@ -43,6 +43,16 @@ namespace water
 		// Render State
 		WaterInterface IRenderStateManager;
 		typedef std::shared_ptr<IRenderStateManager> RenderStateManagerPtr;
+
+		// Define locations of attributes
+		enum ATTRIBUTE_LOCATION {
+			LOCATION_POSITION = 0,
+			LOCATION_NORMAL = 1,
+			LOCATION_COLOR = 2,
+			LOCATION_COORDINATE = 3,
+			LOCATION_TANGENT = 4,
+			LOCATION_LENGTH,
+		};
 	}
 }
 

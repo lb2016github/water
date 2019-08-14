@@ -6,8 +6,10 @@
 namespace water
 {
     typedef AlignedMemoryAllocatePolicy<16> Aligned16MemoryAllocatePolicy;
+	typedef AlignedMemoryAllocatePolicy<4> Aligned4MemoryAllocatePolicy;
 
     typedef AllocatedObject<Aligned16MemoryAllocatePolicy> Aligned16AllocatedObject;
+	typedef AllocatedObject<Aligned4MemoryAllocatePolicy> Aligned4AllocatedObject;
 }
 
 #endif
