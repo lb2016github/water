@@ -13,7 +13,7 @@ namespace water
 		public:
 			MeshOpenGL();
 			~MeshOpenGL();
-			virtual void render() = 0;
+			virtual void render(DrawMode draw_mode=TRIANGLES);
 		protected:
 			// commit data to gpu
 			void commit_data();

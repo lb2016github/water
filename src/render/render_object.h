@@ -4,6 +4,7 @@
 #include <memory>
 #include "render/render.h"
 #include "render/material.h"
+#include "render/render_const.h"
 
 namespace water
 {
@@ -12,7 +13,7 @@ namespace water
 
 		WaterInterface IMesh
 		{
-			virtual void render() = 0;
+			virtual void render(DrawMode draw_mode=TRIANGLES) = 0;
 		};
 
 

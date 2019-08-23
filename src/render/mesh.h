@@ -6,44 +6,23 @@
 #include <string>
 #include <vector>
 #include "math3d\math3d.hpp"
+#include "common/common.h"
 
 namespace water
 {
 	namespace render
 	{
-
 		struct MeshData
 		{
 			unsigned int mesh_id;
-			math3d::Vector3* pos_data;
-			math3d::Vector3* normal_data;
-			math3d::Vector4* color_data;
-			math3d::Vector2* coord_data;
-			math3d::Vector3* tangent_data;
-			unsigned int* index_data;
-			unsigned int num_vertex;
-			unsigned int num_index;
-			MeshData();
-			~MeshData();
-
+			std::vector<math3d::Vector3> position;
+			std::vector<math3d::Vector3> normal;
+			std::vector<math3d::Vector4> color;
+			std::vector<math3d::Vector2> coordinate;
+			std::vector<math3d::Vector3> tangent;
+			std::vector<unsigned int> index_data;
 		};
 		typedef std::shared_ptr<MeshData> MeshDataPtr;
-
-
-		class MeshDataManager
-		{
-		public:
-			void create_cube();
-			void add_mesh(MeshDataPtr mesh_data_ptr);
-
-			static unsigned int new_mesh_id();
-			static unsigned int cur_index;
-
-		private:
-			std::map<unsigned int, MeshDataPtr> m_data;
-
-			friend struct MeshDataCreator;
-		};
 	}
 }
 
