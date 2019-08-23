@@ -8,14 +8,6 @@ namespace water
 {
 	namespace render
 	{
-		enum GLBuffIndex {
-			POSITION_INDEX = 0,
-			NORMAL_INDEX,
-			COLOR_INDEX,
-			COORD_INDEX,
-			TANGENT_INDEX,
-			INDEX_LENGTH,
-		};
 		class MeshOpenGL : public IMesh, public MeshData
 		{
 		public:
@@ -27,7 +19,7 @@ namespace water
 			void commit_data();
 		private:
 			GLuint m_vao;
-			GLuint m_buffers[INDEX_LENGTH];
+			GLuint m_buffers[LOCATION_LENGTH];
 			bool is_inited;
 		};
 	}
