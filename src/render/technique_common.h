@@ -1,6 +1,6 @@
 #ifndef WATER_TECHNIQUE_LOADER_CONFIG
 #define WATER_TECHNIQUE_LOADER_CONFIG
-#include "render\render_state_info.h"
+#include "render\render_const.h"
 #include <map>
 #include <string>
 #include "math3d/math3d.hpp"

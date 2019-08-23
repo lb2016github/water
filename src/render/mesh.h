@@ -6,14 +6,13 @@
 #include <string>
 #include <vector>
 #include "math3d\math3d.hpp"
-#include "common/memory_allocator_config.h"
 
 namespace water
 {
 	namespace render
 	{
 
-		struct MeshData: public Aligned4AllocatedObject
+		struct MeshData
 		{
 			unsigned int mesh_id;
 			math3d::Vector3* pos_data;

@@ -138,6 +138,17 @@ namespace render {
 		FragmentShader,
 	};
 
+	// draw mode
+	enum DrawMode {
+		POINTS,
+		LINES,
+		LINE_LOOP,
+		LINE_STRIP,
+		TRIANGLES,
+		TRIANGLE_TRIP,
+		TRIANGLE_FAN,
+		QUADS,
+	};
 
 }
 }

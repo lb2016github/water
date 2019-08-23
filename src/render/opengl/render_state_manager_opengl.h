@@ -1,6 +1,6 @@
 #ifndef WATER_RENDER_STATE_MGR_OPENGL_H
 #define WATER_RENDER_STATE_MGR_OPENGL_H
-#include "render/render_state_info.h"
+#include "render/render_const.h"
 #include "common/common.h"
 #include "render/render_state.h"
 #include "render/render_state.h"

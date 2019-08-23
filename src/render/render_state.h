@@ -1,6 +1,6 @@
 #ifndef WATER_I_DEVICE_H
 #define WATER_I_DEVICE_H
-#include "render/render_state_info.h"
+#include "render/render_const.h"
 #include "common/common.h"
 #include "math3d/math3d.hpp"
 #include <string>

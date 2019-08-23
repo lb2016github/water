@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 #include "common/common.h"
-#include "render/render_state_info.h"
+#include "render/render_const.h"
 #include "render/technique_common.h"
 
 namespace water
