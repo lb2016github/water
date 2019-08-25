@@ -46,22 +46,22 @@ namespace water {
 			m_parent = NULL;
 		}
 
-		Component* GameObject::get_component(std::string comp_name)
+		Component* GameObject::get_component(ComponentTag comp)
 		{
-			COMPONENT_MAP::iterator iter = m_components.find(comp_name);
+			COMPONENT_MAP::iterator iter = m_components.find(comp);
 			if (iter == m_components.end()) {
 				return NULL;
 			}
 			return iter->second;
 		}
 
-		Component* GameObject::add_component(std::string comp_name)
+		Component* GameObject::add_component(ComponentTag comp_tag)
 		{
-			if (m_components.find(comp_name) == m_components.end()) {
+			if (m_components.find(comp_tag) == m_components.end()) {
 				return NULL;
 			}
-			Component* comp = ComponentFactory::instance()->create_component(comp_name, this);
-			m_components[comp_name] = comp;
+			Component* comp = ComponentFactory::instance()->create_component(comp_tag, this);
+			m_components[comp_tag] = comp;
 			return comp;
 		}
 	}

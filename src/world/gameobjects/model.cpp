@@ -8,6 +8,9 @@ namespace water
 	{
 		Model::Model()
 		{
+			// add components
+			add_component(COMP_MESH);
+			add_component(COMP_RENDER);
 		}
 		Model::Model(const Model& model)
 		{
