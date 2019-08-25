@@ -1,19 +1,19 @@
-#include "world/component.h"
+#include "component.h"
 
 namespace water
 {
 	namespace world
 	{
-		void ComponentFactory::register_component(std::string comp_name, FUNC_CREATE_COMPONENT create_func)
+		void ComponentFactory::register_component(ComponentTag comp, FUNC_CREATE_COMPONENT create_func)
 		{
-			assert(m_creaters.find(comp_name) == m_creaters.end());
-			m_creaters[comp_name] = create_func;
+			assert(m_creaters.find(comp) == m_creaters.end());
+			m_creaters[comp] = create_func;
 		}
 
-		Component* ComponentFactory::create_component(std::string comp_name, GameObject* game_object)
+		Component* ComponentFactory::create_component(ComponentTag comp, GameObject* game_object)
 		{
-			assert(m_creaters.find(comp_name) == m_creaters.end());
-			FUNC_CREATE_COMPONENT create_func = m_creaters[comp_name];
+			assert(m_creaters.find(comp) == m_creaters.end());
+			FUNC_CREATE_COMPONENT create_func = m_creaters[comp];
 			return create_func(game_object);
 		}
 

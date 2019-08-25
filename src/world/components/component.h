@@ -4,6 +4,7 @@
 #include "math3d/math3d.hpp"
 #include <string>
 #include <map>
+#include "component_const.h"
 
 
 namespace water {
@@ -34,15 +35,15 @@ namespace water {
 			~ComponentFactory() {}
 			ComponentFactory(const ComponentFactory&) = delete;
 			ComponentFactory operator = (const ComponentFactory&) = delete;
-			void register_component(std::string comp_name, FUNC_CREATE_COMPONENT create_func);
-			Component* create_component(std::string comp_name, GameObject* game_object);
+			void register_component(ComponentTag comp, FUNC_CREATE_COMPONENT create_func);
+			Component* create_component(ComponentTag comp, GameObject* game_object);
 
 			static ComponentFactory* instance();
 
 		private:
 			ComponentFactory() {}
 		private:
-			std::map<std::string, FUNC_CREATE_COMPONENT> m_creaters;
+			std::map<ComponentTag, FUNC_CREATE_COMPONENT> m_creaters;
 			static ComponentFactory m_instance;
 		};
 	}

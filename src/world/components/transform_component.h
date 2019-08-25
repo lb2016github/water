@@ -1,6 +1,6 @@
 #ifndef WATER_TRANSFORM_COMPONENT_H
 #define WATER_TRANSFORM_COMPONENT_H
-#include "world/component.h"
+#include "component.h"
 #include "math3d/math3d.hpp"
 
 namespace water {

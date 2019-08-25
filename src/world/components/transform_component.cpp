@@ -1,5 +1,5 @@
-#include "world/transform_component.h"
-#include "world/game_object.h"
+#include "transform_component.h"
+#include "world/gameobjects/game_object.h"
 
 namespace water {
 	namespace world

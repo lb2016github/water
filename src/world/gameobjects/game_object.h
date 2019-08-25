@@ -15,7 +15,7 @@ namespace water {
 			GameObject();
 			GameObject(const GameObject& game_object);
 			GameObject& operator = (const GameObject& game_object);
-			~GameObject();
+			virtual ~GameObject();
 
 			Component* get_component(std::string comp_name);
 
