@@ -6,26 +6,27 @@
 #include <string>
 
 namespace water {
+	namespace world
+	{
+		typedef std::map<std::string, Component*> COMPONENT_MAP;
 
-	typedef std::map<std::string, Component*> COMPONENT_MAP;
+		class GameObject {
+		public:
+			GameObject();
+			GameObject(const GameObject& game_object);
+			GameObject& operator = (const GameObject& game_object);
+			~GameObject();
 
-	class GameObject {
-	public:
-		GameObject();
-		GameObject(const GameObject& game_object);
-		GameObject& operator = (const GameObject& game_object);
-		~GameObject();
+			Component* get_component(std::string comp_name);
 
-		Component* get_component(std::string comp_name);
+		protected:
+			Component* add_component(std::string comp_name);
 
-	protected:
-		Component* add_component(std::string comp_name);
-
-	public:
-		GameObject * m_parent;		// parent
-	private:
-		COMPONENT_MAP m_components;
-	};
-
+		public:
+			GameObject * m_parent;		// parent
+		private:
+			COMPONENT_MAP m_components;
+		};
+	}
 }
 #endif

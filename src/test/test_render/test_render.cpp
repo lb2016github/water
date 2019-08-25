@@ -18,8 +18,7 @@ void test_load_technique_file()
 	std::string input;
 	while (std::cin >> input)
 	{
-		Technique tech;
-		tech.load(input.c_str());
+		TechniquePtr tech_ptr = TechniqueManager::get_instance()->get_technique(input);
 	}
 }
 

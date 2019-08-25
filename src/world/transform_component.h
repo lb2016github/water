@@ -4,18 +4,21 @@
 #include "math3d/math3d.hpp"
 
 namespace water {
-	class TransformComponent : public Component {
-	public:
-		TransformComponent();
-		TransformComponent(GameObject* game_object);
-		TransformComponent(const TransformComponent& trans_comp);
-		TransformComponent& operator = (const TransformComponent& trans_comp);
+	namespace world
+	{
+		class TransformComponent : public Component {
+		public:
+			TransformComponent();
+			TransformComponent(GameObject* game_object);
+			TransformComponent(const TransformComponent& trans_comp);
+			TransformComponent& operator = (const TransformComponent& trans_comp);
 
-		math3d::Matrix get_world_transformation();
+			math3d::Matrix get_world_transformation();
 
-	public:
-		math3d::Matrix transformation;
-	};
+		public:
+			math3d::Matrix transformation;
+		};
+	}
 }
 
 // todo register component
