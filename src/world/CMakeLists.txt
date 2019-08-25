@@ -1,7 +1,12 @@
 project(world)
 
 file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.*)
+file(GLOB_RECURSE GAMEOBJECT_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/gameobjects/*.*)
+file(GLOB_RECURSE COMPONENT_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/components/*.*)
 
-add_library(world ${SOURCE_FILES})
+source_group("gameobjects" FILES ${GAMEOBJECT_SRC_FILES})
+source_group("components" FILES ${COMPONENT_SRC_FILES})
+
+add_library(world ${SOURCE_FILES} ${GAMEOBJECT_SRC_FILES} ${COMPONENT_SRC_FILES})
 set_property(TARGET world PROPERTY FOLDER "ENGINE")
 

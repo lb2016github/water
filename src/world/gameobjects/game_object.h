@@ -1,7 +1,7 @@
 #ifndef WATER_SPACE_OBJECT_H
 #define WATER_SPACE_OBJECT_H
 
-#include "world/component.h"
+#include "world/components/component.h"
 #include <map>
 #include <string>
 

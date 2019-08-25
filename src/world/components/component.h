@@ -18,7 +18,7 @@ namespace water {
 			Component(const Component& comp);	// 不会拷贝m_game_object
 			Component(const Component& comp, GameObject* game_object);
 			Component& operator = (const Component& comp);	// 不会拷贝m_game_object
-			~Component();
+			virtual ~Component();
 
 			GameObject* get_game_object();
 			void set_game_object(GameObject* game_object);
