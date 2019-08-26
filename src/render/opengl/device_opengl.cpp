@@ -8,10 +8,6 @@ namespace water
 	{
 		typedef Singleton<DeviceOpenGL> DeviceOpenGLSingleton;
 
-		DeviceBase* get_device()
-		{
-			return DeviceOpenGLSingleton::Instance();
-		}
 		DeviceOpenGL::DeviceOpenGL()
 		{
 			m_program_manager_ptr = std::make_shared<ProgramManagerOpenGL>();

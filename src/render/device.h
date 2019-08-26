@@ -3,6 +3,7 @@
 #include "render/render.h"
 #include "mesh.h"
 #include "draw_command.h"
+#include "render/render_const.h"
 
 namespace water
 {

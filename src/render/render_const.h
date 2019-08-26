@@ -155,6 +155,8 @@ namespace render {
 		DeviceTypeOpenGL,
 	};
 
+	extern DeviceType cur_device = DeviceTypeOpenGL;
+
 }
 }
 
