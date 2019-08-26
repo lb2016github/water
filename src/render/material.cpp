@@ -64,7 +64,7 @@ namespace water
 			}
 		}
 
-		void Material::render(IRenderObject * render_obj)
+		void Material::render(IRenderable * render_obj)
 		{
 			m_tech->render(render_obj);
 		}

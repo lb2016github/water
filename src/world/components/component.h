@@ -24,6 +24,10 @@ namespace water {
 			GameObject* get_game_object();
 			void set_game_object(GameObject* game_object);
 
+			// component info
+			static ComponentTag tag;
+			static Component* create_component(GameObject*);
+
 		protected:
 			GameObject * m_game_object;
 		};
@@ -45,6 +49,11 @@ namespace water {
 		private:
 			std::map<ComponentTag, FUNC_CREATE_COMPONENT> m_creaters;
 			static ComponentFactory m_instance;
+		};
+
+		struct ComponentInfo
+		{
+			ComponentInfo(ComponentTag comp_tag, FUNC_CREATE_COMPONENT func_create);
 		};
 	}
 }

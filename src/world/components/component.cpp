@@ -65,6 +65,11 @@ namespace water
 			
 		}
 		
+		ComponentInfo::ComponentInfo(ComponentTag comp_tag, FUNC_CREATE_COMPONENT func_create)
+		{
+			ComponentFactory::instance()->register_component(comp_tag, func_create);
+		}
+
 	}
 }
 

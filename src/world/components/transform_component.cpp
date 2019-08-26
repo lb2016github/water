@@ -1,9 +1,17 @@
 #include "transform_component.h"
 #include "world/gameobjects/game_object.h"
+#include "component_const.h"
 
 namespace water {
 	namespace world
 	{
+		static ComponentTag tag = COMP_TRANSFORMATION;
+		static Component* create_component(GameObject*)
+		{
+			return new TransformComponent();
+		}
+		ComponentInfo comp_info(tag, create_component);
+
 		TransformComponent::TransformComponent(): Component(), transformation(1)
 		{
 
@@ -25,7 +33,7 @@ namespace water {
 			{
 				return transformation;
 			}
-			TransformComponent* parent_trans_comp = (TransformComponent*)m_game_object->m_parent->get_component("TransformComponent");
+			TransformComponent* parent_trans_comp = (TransformComponent*)m_game_object->m_parent->get_component(COMP_TRANSFORMATION);
 			if (!parent_trans_comp)
 			{
 				return transformation;

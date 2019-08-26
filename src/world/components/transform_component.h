@@ -13,6 +13,10 @@ namespace water {
 			TransformComponent(const TransformComponent& trans_comp);
 			TransformComponent& operator = (const TransformComponent& trans_comp);
 
+			// component info
+			static ComponentTag tag;
+			static Component* create_component(GameObject*);
+
 			math3d::Matrix get_world_transformation();
 
 		public:

@@ -3,24 +3,27 @@
 #include "render/mesh.h"
 #include "render/render_object.h"
 #include "glad/glad.h"
+#include "render/draw_command.h"
 
 namespace water
 {
 	namespace render
 	{
-		class MeshOpenGL : public IMesh, public MeshData
+
+		class MeshProxyOpenGL
 		{
 		public:
-			MeshOpenGL();
-			~MeshOpenGL();
-			virtual void render(DrawMode draw_mode=TRIANGLES);
+			MeshProxyOpenGL(MeshDataPtr mesh_ptr);
+			~MeshProxyOpenGL();
+			virtual void render(DrawCommand draw_command);
 		protected:
 			// commit data to gpu
-			void commit_data();
+			void commit_mesh();
 		private:
 			GLuint m_vao;
 			GLuint m_buffers[LOCATION_LENGTH];
-			bool is_inited;
+			MeshDataPtr m_mesh_ptr;
+			bool is_commited;
 		};
 	}
 }

@@ -18,7 +18,7 @@ namespace water {
 		class Technique {
 		public:
 			// not render object immediately, but create RenderTasks and add to RenderTaskManager
-			void render(IRenderObject* render_obj);
+			void render(IRenderable* render_obj);
 		private:
 			std::string m_filepath;
 			std::vector<RenderPass> m_render_pass_queue;	// render queue

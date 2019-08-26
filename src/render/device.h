@@ -1,6 +1,8 @@
 #ifndef WATER_DEVICE_H
 #define WATER_DEVICE_H
 #include "render/render.h"
+#include "mesh.h"
+#include "draw_command.h"
 
 namespace water
 {
@@ -12,6 +14,8 @@ namespace water
 			virtual ProgramManagerPtr get_program_manager() = 0;
 			// return render state manager
 			virtual RenderStateManagerPtr get_render_state_manager() = 0;
+			// draw
+			virtual void draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr) = 0;
 		};
 
 		DeviceBase* get_device();

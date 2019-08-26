@@ -6,6 +6,8 @@
 #include <atomic>
 #include "render/render.h"
 #include "render/material.h"
+#include "mesh.h"
+#include "draw_command.h"
 
 namespace water
 {
@@ -13,13 +15,14 @@ namespace water
 	{
 		struct RenderTask
 		{
-			RenderTask(MeshPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent);
+			RenderTask(DrawCommand draw_command, MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent);
 			virtual ~RenderTask();
 
 			virtual void render();
 			virtual RenderTaskList get_depend_tasks();
 
-			MeshPtr mesh_ptr;				// mesh data
+			DrawCommand draw_cmd;		// draw command
+			MeshDataPtr mesh_ptr;				// mesh data
 			ProgramPtr program_ptr;			// program pointer
 			RenderStateInfo render_state;	// render state
 			ParameterMap param_map;	// parameter map

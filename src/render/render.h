@@ -5,6 +5,7 @@
 #include "common/common.h"
 #include "render/render_const.h"
 #include "render/technique_common.h"
+#include "mesh.h"
 
 namespace water
 {
@@ -36,9 +37,7 @@ namespace water
 		#define UNDEFINED_SHADER -1
 
 		// Render Object and Mesh 
-		WaterInterface IMesh;
-		WaterInterface IRenderObject;
-		typedef std::shared_ptr<IMesh> MeshPtr;
+		WaterInterface IRenderable;
 
 		// Render State
 		WaterInterface IRenderStateManager;

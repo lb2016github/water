@@ -1,6 +1,6 @@
 #include "model.h"
+#include "world/components/component_const.h"
 #include "world/components/mesh_component.h"
-#include "world/components/transform_component.h"
 
 namespace water
 {
@@ -11,6 +11,7 @@ namespace water
 			// add components
 			add_component(COMP_MESH);
 			add_component(COMP_RENDER);
+			add_component(COMP_TRANSFORMATION);
 		}
 		Model::Model(const Model& model)
 		{
@@ -28,7 +29,8 @@ namespace water
 		}
 		render::MeshPtr Model::get_mesh()
 		{
-			return render::MeshPtr();
+			MeshComponent* comp = (MeshComponent*)get_component(COMP_MESH);
+			return comp->g;
 		}
 	}
 }

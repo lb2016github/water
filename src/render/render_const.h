@@ -150,6 +150,11 @@ namespace render {
 		QUADS,
 	};
 
+	// devices
+	enum DeviceType {
+		DeviceTypeOpenGL,
+	};
+
 }
 }
 

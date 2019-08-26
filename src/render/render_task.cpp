@@ -5,6 +5,7 @@
 #include "render/render_program.h"
 #include "render/material.h"
 #include "render/render_object.h"
+#include "render/device.h"
 
 namespace water
 {
@@ -132,8 +133,8 @@ namespace water
 		RenderThread::RenderThread()
 		{
 		}
-		RenderTask::RenderTask(MeshPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent):
-			mesh_ptr(mesh), program_ptr(program), render_state(render_state), param_map(param_map)
+		RenderTask::RenderTask(DrawCommand draw_command, MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent):
+			draw_cmd(draw_command), mesh_ptr(mesh), program_ptr(program), render_state(render_state), param_map(param_map)
 		{
 		}
 		RenderTask::~RenderTask()
@@ -145,7 +146,7 @@ namespace water
 			program_ptr->use_program();
 			program_ptr->apply_parameters(param_map);
 			// draw meshes
-			mesh_ptr->render();
+			get_device()->draw(draw_cmd, mesh_ptr);
 		}
 		RenderTaskList RenderTask::get_depend_tasks()
 		{

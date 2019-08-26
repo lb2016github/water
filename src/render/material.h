@@ -13,7 +13,7 @@ namespace water
 		{
 		public:
 			void load(const char* file_path);
-			void render(IRenderObject* render_obj);
+			void render(IRenderable* render_obj);
 			ParameterMap get_param_map(int index);
 		private:
 			TechniquePtr m_tech;

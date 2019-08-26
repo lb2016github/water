@@ -5,29 +5,19 @@
 #include "render/render.h"
 #include "render/material.h"
 #include "render/render_const.h"
+#include "mesh.h"
+#include "draw_command.h"
 
 namespace water
 {
 	namespace render
 	{
-
-		WaterInterface IMesh
-		{
-			virtual void render(DrawMode draw_mode=TRIANGLES) = 0;
-		};
-
-
-		WaterInterface IRenderObject
+		WaterInterface IRenderable 
 		{
 			virtual MaterialPtr get_material() = 0;
-			virtual MeshPtr get_mesh() = 0;
-			virtual void render()
-			{
-				MaterialPtr mat = get_material();
-				mat->render(this);
-			}
+			virtual MeshDataPtr get_mesh() = 0;
+			virtual DrawCommand get_draw_command() = 0;
 		};
-
 	}
 }
 
