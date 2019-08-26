@@ -25,6 +25,8 @@ namespace water
 			std::vector<unsigned int> index_data;
 		};
 		typedef std::shared_ptr<MeshData> MeshDataPtr;
+
+
 	}
 }
 

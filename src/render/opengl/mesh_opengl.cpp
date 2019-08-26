@@ -65,5 +65,17 @@ namespace water
 
 			is_commited = true;
 		}
+		MeshProxyOpenGLPtr MeshProxyManager::get_proxy(MeshDataPtr mesh_ptr)
+		{
+			MESH_ID_TYPE mesh_id = mesh_ptr->mesh_id;
+			auto iter = m_proxy_map.find(mesh_id);
+			if (iter != m_proxy_map.end())
+			{
+				return iter->second;
+			}
+			MeshProxyOpenGLPtr proxy_ptr = std::make_shared<MeshProxyOpenGL>(mesh_ptr);
+			m_proxy_map[mesh_id] = proxy_ptr;
+			return proxy_ptr;
+		}
 	}
 }

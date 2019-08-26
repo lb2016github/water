@@ -9,7 +9,6 @@ namespace water
 {
 	namespace render
 	{
-
 		class MeshProxyOpenGL
 		{
 		public:
@@ -24,6 +23,17 @@ namespace water
 			GLuint m_buffers[LOCATION_LENGTH];
 			MeshDataPtr m_mesh_ptr;
 			bool is_commited;
+		};
+
+		typedef std::shared_ptr<MeshProxyOpenGL> MeshProxyOpenGLPtr;
+
+		class MeshProxyManager
+		{
+		public:
+			MeshProxyOpenGLPtr get_proxy(MeshDataPtr mesh_ptr);
+			static MeshProxyManager* instance;
+		protected:
+			std::map<MESH_ID_TYPE, MeshProxyOpenGLPtr> m_proxy_map;
 		};
 	}
 }
