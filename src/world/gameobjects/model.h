@@ -8,7 +8,7 @@ namespace water
 {
 	namespace world
 	{
-		class Model : public GameObject, public render::IRenderObject
+		class Model : public GameObject, public render::IRenderable
 		{
 		public:
 			// Constructors and desconstructor
@@ -17,9 +17,10 @@ namespace water
 			Model& operator = (const Model& model);
 			virtual ~Model();
 
-			// methods implement IRenderObject
+			// implements IRendable
 			virtual render::MaterialPtr get_material();
-			virtual render::MeshPtr get_mesh();
+			virtual render::MeshDataPtr get_mesh();
+			virtual render::DrawCommand get_draw_command();
 		};
 	}
 }

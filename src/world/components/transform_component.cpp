@@ -5,10 +5,10 @@
 namespace water {
 	namespace world
 	{
-		static ComponentTag tag = COMP_TRANSFORMATION;
-		static Component* create_component(GameObject*)
+		ComponentTag TransformComponent::tag = COMP_TRANSFORMATION;
+		Component* TransformComponent::create_component(GameObject* gameobject)
 		{
-			return new TransformComponent();
+			return new TransformComponent(gameobject);
 		}
 		ComponentInfo comp_info(tag, create_component);
 

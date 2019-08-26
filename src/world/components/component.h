@@ -21,12 +21,14 @@ namespace water {
 			Component& operator = (const Component& comp);	// ²»»á¿½±´m_game_object
 			virtual ~Component();
 
-			GameObject* get_game_object();
-			void set_game_object(GameObject* game_object);
-
 			// component info
 			static ComponentTag tag;
 			static Component* create_component(GameObject*);
+
+		public:
+			GameObject* get_game_object();
+			void set_game_object(GameObject* game_object);
+
 
 		protected:
 			GameObject * m_game_object;

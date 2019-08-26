@@ -6,7 +6,8 @@
 namespace water {
 	namespace world
 	{
-		class TransformComponent : public Component {
+		class TransformComponent : public Component
+		{
 		public:
 			TransformComponent();
 			TransformComponent(GameObject* game_object);
@@ -17,6 +18,7 @@ namespace water {
 			static ComponentTag tag;
 			static Component* create_component(GameObject*);
 
+		public:
 			math3d::Matrix get_world_transformation();
 
 		public:

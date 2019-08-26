@@ -23,14 +23,10 @@ namespace water
 		Model::~Model()
 		{
 		}
-		render::MaterialPtr Model::get_material()
+		render::MeshDataPtr Model::get_mesh()
 		{
-			return render::MaterialPtr();
-		}
-		render::MeshPtr Model::get_mesh()
-		{
-			MeshComponent* comp = (MeshComponent*)get_component(COMP_MESH);
-			return comp->g;
+			MeshComponent* mesh_comp = (MeshComponent*)get_component(COMP_MESH);
+			return mesh_comp->get_mesh_ptr();
 		}
 	}
 }

@@ -1,4 +1,5 @@
 #include "mesh_component.h"
+#include "mesh_component.h"
 #include "component_const.h"
 
 namespace water
@@ -23,4 +24,9 @@ namespace water
 		}
 
 	}
+}
+
+water::world::MeshComponent::~MeshComponent()
+{
+	m_mesh_ptr = nullptr;
 }
