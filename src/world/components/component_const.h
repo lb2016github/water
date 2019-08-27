@@ -10,6 +10,7 @@ namespace water
 			COMP_TRANSFORMATION,	// transform_component
 			COMP_MESH,				// MeshComponent
 			COMP_RENDER,			// RenderComponent
+			COMP_MATERIAL,			// MaterialComponent
 		};
 	}
 }

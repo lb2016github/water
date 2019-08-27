@@ -4,6 +4,7 @@
 #include "component.h"
 #include "render/mesh.h"
 #include <string>
+#include "render/render_const.h"
 
 namespace water
 {
