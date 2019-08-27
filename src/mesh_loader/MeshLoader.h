@@ -8,6 +8,10 @@ namespace water
 	{
 	public:
 		virtual render::MeshDataPtr load_mesh(const std::string& filename);
+
+	protected:
+		render::MeshDataPtr do_load_mesh(const std::string& filename);
+
 	};
 }
 
