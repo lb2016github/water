@@ -23,14 +23,14 @@ namespace water
 		{
 		}
 
-		RenderComponent* RenderComponent::create_component(GameObject* gameobject)
+		Component* RenderComponent::create_component(GameObject* gameobject)
 		{
 			return new RenderComponent(gameobject);
 		}
 
 		ComponentTag RenderComponent::tag = COMP_RENDER;
 
-		ComponentInfo comp_info(tag, create_component);
+		ComponentInfo comp_info(RenderComponent::tag, RenderComponent::create_component);
 	}
 }
 

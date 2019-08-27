@@ -25,8 +25,3 @@ namespace water
 
 	}
 }
-
-water::world::MeshComponent::~MeshComponent()
-{
-	m_mesh_ptr = nullptr;
-}

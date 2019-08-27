@@ -10,7 +10,7 @@ namespace water {
 		{
 			return new TransformComponent(gameobject);
 		}
-		ComponentInfo comp_info(tag, create_component);
+		ComponentInfo comp_info(TransformComponent::tag, TransformComponent::create_component);
 
 		TransformComponent::TransformComponent(): Component(), transformation(1)
 		{

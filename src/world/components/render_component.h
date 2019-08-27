@@ -15,11 +15,11 @@ namespace water
 			RenderComponent(const RenderComponent& comp) : RenderComponent(comp, nullptr) {};
 			RenderComponent(const RenderComponent& comp, GameObject* game_object);
 			RenderComponent& operator = (const RenderComponent& comp);
-			virtual ~RenderComponent();
+			virtual ~RenderComponent() override;
 
 			// component info
 			static ComponentTag tag;
-			static RenderComponent* create_component(GameObject*);
+			static Component* create_component(GameObject*);
 		};
 
 	}
