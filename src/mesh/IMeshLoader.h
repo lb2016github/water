@@ -7,10 +7,13 @@
 
 namespace water
 {
-	WaterInterface IMeshLoader
+	namespace mesh
 	{
-		virtual render::MeshDataPtr load_mesh(const std::string& filename) = 0;
-	};
+		WaterInterface IMeshLoader
+		{
+			virtual render::MeshDataPtr load_mesh(const std::string& filename) = 0;
+		};
+	}
 }
 
 
