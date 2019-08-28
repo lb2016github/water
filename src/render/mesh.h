@@ -22,6 +22,8 @@ namespace water
 			std::vector<math3d::Vector4> color;
 			std::vector<math3d::Vector2> coordinate;
 			std::vector<math3d::Vector3> tangent;
+			std::vector<math3d::Vector4> bone_id;
+			std::vector<math3d::Vector4> bone_weight;
 			std::vector<unsigned int> index_data;
 		};
 		typedef std::shared_ptr<MeshData> MeshDataPtr;
