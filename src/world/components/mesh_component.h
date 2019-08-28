@@ -25,6 +25,7 @@ namespace water
 			static Component* create_component(GameObject*);
 
 		public:
+			void load_from_file(std::string filename);
 			void set_mesh_ptr(render::MeshDataPtr mesh_ptr) { m_mesh_ptr = mesh_ptr; };
 			render::MeshDataPtr get_mesh_ptr() { return m_mesh_ptr; }
 

@@ -44,5 +44,11 @@ namespace water
 			dc.draw_mode = render::TRIANGLE_TRIP;
 			return dc;
 		}
+		void Model::load_from_file(std::string & filename)
+		{
+			// load mesh
+			MeshComponent* mesh_comp = (MeshComponent*)get_component(COMP_MESH);
+			mesh_comp->load_from_file(filename);
+		}
 	}
 }

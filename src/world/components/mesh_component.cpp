@@ -1,6 +1,7 @@
 #include "mesh_component.h"
 #include "mesh_component.h"
 #include "component_const.h"
+#include "mesh/IMeshLoader.h"
 
 namespace water
 {
@@ -21,6 +22,11 @@ namespace water
 		Component* MeshComponent::create_component(GameObject* gameobject)
 		{
 			return new MeshComponent(gameobject);
+		}
+
+		void MeshComponent::load_from_file(std::string filename)
+		{
+			m_mesh_ptr = mesh::get_mesh_loader()->load_mesh(filename);
 		}
 
 	}

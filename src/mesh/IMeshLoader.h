@@ -13,6 +13,8 @@ namespace water
 		{
 			virtual render::MeshDataPtr load_mesh(const std::string& filename) = 0;
 		};
+
+		IMeshLoader* get_mesh_loader();
 	}
 }
 
