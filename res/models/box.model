@@ -1,0 +1,4 @@
+<Model>
+    <Mesh path="res/models/box.obj"/>
+    <Material path="res/models/box.mat"/>
+</Model>

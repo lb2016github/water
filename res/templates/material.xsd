@@ -30,7 +30,7 @@ targetNamespace="/water" xmlns:water="/water">
     </xs:simpleType>
     <!--Define ParamTypeName-->
     <xs:simpleType name="ParamTypeName">
-        <xs:restriction>
+        <xs:restriction base="xs:string">
             <xs:enumeration value="Float"/>
             <xs:enumeration value="Int"/>
             <xs:enumeration value="Vector2"/>

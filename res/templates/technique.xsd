@@ -31,7 +31,7 @@
     </xs:complexType>
     <xs:complexType name="Program">
         <xs:sequence>
-            <xs:element name="Attribute" type="water:Attribute" minOccurs="1"/>
+<!--            <xs:element name="Attribute" type="water:Attribute" minOccurs="1"/>-->
             <xs:element name="Uniform" type="water:Uniform" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name = "vertex_shader" type="xs:anyURI"/>
