@@ -218,14 +218,19 @@ namespace water
 
 		void Technique::render(IRenderable* render_obj)
 		{
+			render(render_obj->get_draw_command(), render_obj->get_material(), render_obj->get_mesh());
+		}
+
+		void Technique::render(const DrawCommand& draw_cmd, MaterialPtr mat_ptr, MeshDataPtr mesh_ptr)
+		{
 			RenderTaskPtr pre_task = nullptr;
 			int cur_idx = 0;
 			for (std::vector<RenderPass>::iterator iter = m_render_pass_queue.begin(); iter != m_render_pass_queue.end(); ++iter, ++cur_idx)
 			{
 				RenderTaskPtr cur_task = std::make_shared<RenderTask>(
-					render_obj->get_draw_command(),
-					render_obj->get_mesh(), iter->program, iter->render_state,
-					render_obj->get_material()->get_param_map(cur_idx), pre_task
+					draw_cmd,
+					mesh_ptr, iter->program, iter->render_state,
+					mat_ptr->get_param_map(cur_idx), pre_task
 				);
 				RenderTaskManager::get_instance()->add_task(cur_task);
 				pre_task = cur_task;

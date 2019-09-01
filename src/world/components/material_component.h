@@ -4,6 +4,7 @@
 #include "component.h"
 #include "world/gameobjects/game_object.h"
 #include "render/material.h"
+#include "render/draw_command.h"
 
 namespace water
 {
@@ -39,9 +40,15 @@ namespace water
 			// check has certern param
 			bool has_param(std::string name, unsigned int index = 0);
 
+			// render
+			void render(const render::DrawCommand& draw_cmd, render::MeshDataPtr mesh_ptr);
+
 			// get material
 			render::MaterialPtr get_material();
 			void load_from_file(const std::string& filepath);
+
+		protected:
+			void before_render();
 
 		private:
 			render::MaterialPtr m_material_ptr;

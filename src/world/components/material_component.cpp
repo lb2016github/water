@@ -1,5 +1,6 @@
 #include "material_component.h"
 #include "render/material.h"
+#include "common/log.h"
 
 namespace water
 {
@@ -11,19 +12,23 @@ namespace water
 			return new MaterialComponent(gameobject);
 		}
 
-		void MaterialComponent::set_param(std::string name, render::ParamValue& pvalue, unsigned int index)
-		{
-			auto ptr = m_material_ptr->get_param_map(index);
-			if (!ptr) return;
-			ptr->set_param(name, pvalue);
-		}
-
 		bool MaterialComponent::has_param(std::string name, unsigned int index)
 		{
 			auto ptr = m_material_ptr->get_param_map(index);
 			if (!ptr) return;
 			return ptr->has_param(name);
+		}
 
+		void MaterialComponent::render(const render::DrawCommand& draw_cmd, render::MeshDataPtr mesh_ptr)
+		{
+			if (!m_material_ptr)
+			{
+				log_warn("[RENDER]No material is inited\n");
+				return;
+			}
+			// do something before rendering
+			before_render();
+			m_material_ptr->render(draw_cmd, mesh_ptr);
 		}
 
 		render::MaterialPtr MaterialComponent::get_material()
@@ -34,6 +39,11 @@ namespace water
 		void MaterialComponent::load_from_file(const std::string& filepath)
 		{
 			m_material_ptr->load(filepath.c_str());
+		}
+
+		void MaterialComponent::before_render()
+		{
+			// todo set materials
 		}
 
 		ComponentTag MaterialComponent::tag = COMP_MATERIAL;
