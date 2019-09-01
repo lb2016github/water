@@ -42,6 +42,7 @@ targetNamespace="/water" xmlns:water="/water">
     <!--Define Parameter-->
     <xs:complexType name="Parameter">
         <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="type" type="water:ParamTypeName"/>
         <xs:attribute name="value" type="water:ParamTypes"/>
     </xs:complexType>
     <!--Define Material-->
