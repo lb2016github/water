@@ -20,9 +20,11 @@ namespace water {
 
 		public:
 			math3d::Matrix get_world_transformation();
-
+			math3d::Matrix get_transformation();
 		public:
-			math3d::Matrix transformation;
+			math3d::Vector3 position;
+			math3d::Vector3 rotation;
+			math3d::Vector3 scale;
 		};
 	}
 }

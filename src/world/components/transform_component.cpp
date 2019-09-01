@@ -12,33 +12,21 @@ namespace water {
 		}
 		ComponentInfo comp_info(TransformComponent::tag, TransformComponent::create_component);
 
-		TransformComponent::TransformComponent(): Component(), transformation(1)
+		TransformComponent::TransformComponent() : TransformComponent(nullptr)
 		{
 
 		}
 
-		TransformComponent::TransformComponent(GameObject* game_object): Component(game_object), transformation(1)
+		TransformComponent::TransformComponent(GameObject* game_object): Component(game_object), position(0, 0, 0), rotation(0, 0, 0), scale(1, 1, 1)
 		{
 
 		}
 
 		TransformComponent::TransformComponent(const TransformComponent& trans_comp): Component(trans_comp)
 		{
-			transformation = trans_comp.transformation;
-		}
-
-		math3d::Matrix TransformComponent::get_world_transformation()
-		{
-			if (!m_game_object || m_game_object->m_parent == NULL)
-			{
-				return transformation;
-			}
-			TransformComponent* parent_trans_comp = (TransformComponent*)m_game_object->m_parent->get_component(COMP_TRANSFORMATION);
-			if (!parent_trans_comp)
-			{
-				return transformation;
-			}
-			return parent_trans_comp->get_world_transformation() * transformation;
+			position = trans_comp.position;
+			rotation = trans_comp.rotation;
+			scale = trans_comp.scale;
 		}
 
 		TransformComponent& TransformComponent::operator=(const TransformComponent& trans_comp)
@@ -47,8 +35,29 @@ namespace water {
 				return *this;
 			}
 			Component::operator=(trans_comp);
-			transformation = trans_comp.transformation;
+			position = trans_comp.position;
+			rotation = trans_comp.rotation;
+			scale = trans_comp.scale;
 			return *this;
+		}
+
+		math3d::Matrix TransformComponent::get_world_transformation()
+		{
+			if (!m_game_object || m_game_object->m_parent == NULL)
+			{
+				return get_transformation();
+			}
+			TransformComponent* parent_trans_comp = (TransformComponent*)m_game_object->m_parent->get_component(COMP_TRANSFORMATION);
+			if (!parent_trans_comp)
+			{
+				return get_transformation();
+			}
+			return parent_trans_comp->get_world_transformation() * get_transformation();
+		}
+
+		math3d::Matrix TransformComponent::get_transformation()
+		{
+			return math3d::get_transform_matrix(position, rotation, scale);
 		}
 	}
 }
