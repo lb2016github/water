@@ -47,13 +47,6 @@ namespace water {
 		{
 			return get_translate_matrix(position) * get_rotation_matrix(rotation) * get_scale_matrix(scale);
 		}
-		/*
-		* Create Matrix with float vector
-		*/
-		Matrix inline create_matrix(std::vector<float> values)
-		{
-
-		}
 	}
 }
 #endif

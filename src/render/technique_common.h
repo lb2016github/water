@@ -111,6 +111,11 @@ namespace water {
 			{MATERIAL_VALUE_TYPE_FLOAT, TypeFloat},
 			{MATERIAL_VALUE_TYPE_INT, TypeInt},
 		};
+
+		// wvp matrix
+		constexpr auto MATERIAL_SPECIAL_NAME_WVP_MATRIX = "wvp";
+		// world matrix
+		constexpr auto MATERIAL_SPECIAL_NAME_WORLD_MATRIX = "world";
 	}
 }
 

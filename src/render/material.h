@@ -15,14 +15,16 @@ namespace water
 		public:
 			void load(const char* file_path);
 			void render(IRenderable* render_obj);
-			ParameterMap get_param_map(int index);
+			ParameterMapPtr get_param_map(int index);
 		private:
 			TechniquePtr m_tech;
-			std::map<int, ParameterMap> m_param_map;
+			std::map<int, ParameterMapPtr> m_param_map;
 		};
 
 		struct ParameterMap
 		{
+			// check has certern parameter
+			bool has_param(const std::string& name);
 			// set param
 			void set_param(const std::string& name, const ParamValue& pvalue);
 			void set_param(const std::string& name, int value);

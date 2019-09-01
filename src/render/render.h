@@ -15,6 +15,7 @@ namespace water
 		class Material;
 		typedef std::shared_ptr<Material> MaterialPtr;
 		struct ParameterMap;
+		typedef std::shared_ptr<ParameterMap> ParameterMapPtr;
 
 		// Techinque
 		class Technique;
