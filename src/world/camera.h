@@ -19,7 +19,6 @@ namespace water
 		public:
 			// get view matrix
 			math3d::Matrix get_view_matrix();
-			// get project matrix
 		};
 	}
 }

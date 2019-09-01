@@ -97,13 +97,19 @@ namespace water {
 		typedef std::map<std::string, ParamValue> ParamValueMap;
 		typedef std::map<std::string, ParamValueType> ParamTypeMap;
 
+		constexpr auto MATERIAL_VALUE_TYPE_MATRIX = "Matrix";
+		constexpr auto MATERIAL_VALUE_TYPE_VECTOR3 = "Vector3";
+		constexpr auto MATERIAL_VALUE_TYPE_VECTOR2 = "Vector2";
+		constexpr auto MATERIAL_VALUE_TYPE_FLOAT = "Float";
+		constexpr auto MATERIAL_VALUE_TYPE_INT = "Int";
+
 		std::map<std::string, ParamValueType> CONFIG_param_type =
 		{
-			{"Vector3", TypeVector3},
-			{"Vector2", TypeVector2},
-			{"Matrix", TypeMatrix},
-			{"Float", TypeFloat},
-			{"Int", TypeInt},
+			{MATERIAL_VALUE_TYPE_VECTOR3, TypeVector3},
+			{MATERIAL_VALUE_TYPE_VECTOR2, TypeVector2},
+			{MATERIAL_VALUE_TYPE_MATRIX, TypeMatrix},
+			{MATERIAL_VALUE_TYPE_FLOAT, TypeFloat},
+			{MATERIAL_VALUE_TYPE_INT, TypeInt},
 		};
 	}
 }

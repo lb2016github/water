@@ -24,6 +24,10 @@ namespace water
 			static Component* create_component(GameObject*);
 
 		public:
+			// set parameter
+			void set_param(std::string name, render::ParamValue& pvalue);
+
+			// get material
 			render::MaterialPtr get_material();
 			void load_from_file(const std::string& filepath);
 

@@ -11,6 +11,11 @@ namespace water
 			return new MaterialComponent(gameobject);
 		}
 
+		void MaterialComponent::set_param(std::string name, render::ParamValue& pvalue)
+		{
+			m_material_ptr->get_param_map(0).set_param(name, pvalue);
+		}
+
 		render::MaterialPtr MaterialComponent::get_material()
 		{
 			return m_material_ptr;
