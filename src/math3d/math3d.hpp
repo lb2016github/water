@@ -4,6 +4,9 @@
 #include "glm/vec3.hpp"
 #include "glm/mat4x4.hpp"
 #include "glm/vec2.hpp"
+#include "glm/gtx/euler_angles.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include <vector>
 
 namespace water {
 	namespace math3d
@@ -13,12 +16,43 @@ namespace water {
 		typedef glm::vec4 Vector4;
 		typedef glm::mat4 Matrix;
 
-		Matrix inline inverse(const Matrix& mat) {
+		Matrix inline inverse(const Matrix& mat)
+		{
 			return glm::inverse(mat);
 		}
 
-		Matrix inline transpose(const Matrix& mat) {
+		Matrix inline transpose(const Matrix& mat)
+		{
 			return glm::inverse(mat);
+		}
+
+		Matrix inline get_rotation_matrix(const Vector3& rotation)
+		{
+			return glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
+
+		}
+		Matrix inline get_translate_matrix(const Vector3& position)
+		{
+			Matrix tranlate_mtx;
+			glm::translate(tranlate_mtx, position);
+			return tranlate_mtx;
+		}
+		Matrix inline get_scale_matrix(const Vector3& scale)
+		{
+			Matrix scale_mtx;
+			glm::scale(scale_mtx, scale);
+			return scale_mtx;
+		}
+		Matrix inline get_transform_matrix(const Vector3& position, const Vector3& rotation, const Vector3& scale)
+		{
+			return get_translate_matrix(position) * get_rotation_matrix(rotation) * get_scale_matrix(scale);
+		}
+		/*
+		* Create Matrix with float vector
+		*/
+		Matrix inline create_matrix(std::vector<float> values)
+		{
+
 		}
 	}
 }
