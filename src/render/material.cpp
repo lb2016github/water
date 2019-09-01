@@ -43,7 +43,7 @@ namespace water
 			if (m_value_map.find(name) == m_value_map.end()) return;
 			m_value_map[name].vec2 = value;
 		}
-		void ParameterMap::set_raw_param(const std::string& name, const std::string& type, const std::string& raw_value)
+		void ParameterMap::set_raw_param(const std::string& name, const std::string& type, const std::string& raw_value, const std::string& semantic )
 		{
 			if (CONFIG_param_type.find(type) == CONFIG_param_type.end())
 			{
@@ -96,6 +96,13 @@ namespace water
 
 			m_value_map[name] = p_value;
 			m_type_map[name] = CONFIG_param_type[type];
+
+			// init semantic
+			auto sem_rst = CONFIG_Semantic.find(semantic);
+			if (sem_rst != CONFIG_Semantic.end())
+			{
+				m_semantic_map[name] = sem_rst->second;
+			}
 		}
 		ParamValueType ParameterMap::get_value_type(const std::string& name) const
 		{
@@ -106,6 +113,12 @@ namespace water
 			}
 			log_warn("[Material]No parameter type is found with name: %s", name);
 			return TypeNone;
+		}
+		SemanticType ParameterMap::get_semantic(const std::string& name) const
+		{
+			auto rst = m_semantic_map.find(name);
+			if (rst == m_semantic_map.end()) return render::SemanticNone;
+			return rst->second;
 		}
 		void Material::load(const char * file_path)
 		{
@@ -129,7 +142,8 @@ namespace water
 					std::string name = param.attribute("name").as_string();
 					std::string type = param.attribute("type").as_string();
 					std::string value = param.attribute("value").as_string();
-					map_ptr->set_raw_param(name, type, value);
+					std::string semantic_value = param.attribute("semantic").as_string();
+					map_ptr->set_raw_param(name, type, value, semantic);
 				}
 				int index = param_map.attribute("index").as_int();
 				m_param_map[index] = map_ptr;

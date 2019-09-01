@@ -112,10 +112,16 @@ namespace water {
 			{MATERIAL_VALUE_TYPE_INT, TypeInt},
 		};
 
-		// wvp matrix
-		constexpr auto MATERIAL_SPECIAL_NAME_WVP_MATRIX = "wvp";
-		// world matrix
-		constexpr auto MATERIAL_SPECIAL_NAME_WORLD_MATRIX = "world";
+		enum SemanticType
+		{
+			SemanticNone,	// no semantic
+			SemanticWVP,	// matrix of wvp
+		};
+		std::map<std::string, SemanticType> CONFIG_Semantic =
+		{
+			{"None", SemanticNone},
+			{"WVP", SemanticWVP},
+		};
 	}
 }
 

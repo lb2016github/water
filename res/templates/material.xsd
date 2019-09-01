@@ -38,12 +38,20 @@ targetNamespace="/water" xmlns:water="/water">
             <xs:enumeration value="Matrix"/>
         </xs:restriction>
     </xs:simpleType>
+    <!--Define semantics -->
+    <xs:simpleType name="Semantic">
+        <xs:restricion base="xs:string">
+            <xs:enumeration value="None"/>
+            <xs:enumeration value="WVP"/>
+        </xs:restricion>
+    </xs:simpleType>
     <!-- ========================= End Define Param Types ===================== -->
     <!--Define Parameter-->
     <xs:complexType name="Parameter">
         <xs:attribute name="name" type="xs:string"/>
         <xs:attribute name="type" type="water:ParamTypeName"/>
         <xs:attribute name="value" type="water:ParamTypes"/>
+        <xs:attribute name="semantic" type="water:Semantic"/>
     </xs:complexType>
     <!--Define Material-->
     <xs:complexType name="Material">
