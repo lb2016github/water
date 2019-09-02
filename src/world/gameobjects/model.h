@@ -24,6 +24,11 @@ namespace water
 
 			// init from file
 			virtual void load_from_file(std::string& filename);
+			// render model
+			virtual void render();
+
+		protected:
+			virtual std::set<ComponentTag> get_comp_tags();
 		};
 	}
 }

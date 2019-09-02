@@ -18,6 +18,7 @@ namespace water
 			void render(IRenderable* render_obj);
 			void render(const DrawCommand& draw_cmd, const MeshDataPtr mesh);
 			ParameterMapPtr get_param_map(int index);
+			unsigned int get_param_map_count();
 		private:
 			TechniquePtr m_tech;
 			std::map<int, ParameterMapPtr> m_param_map;

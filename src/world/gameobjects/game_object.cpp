@@ -64,5 +64,9 @@ namespace water {
 			m_components[comp_tag] = comp;
 			return comp;
 		}
+		std::set<ComponentTag> GameObject::get_comp_tags()
+		{
+			return std::set<ComponentTag>();
+		}
 	}
 }

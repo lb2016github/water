@@ -164,5 +164,10 @@ namespace water
 			return nullptr;
 		}
 
+		unsigned int Material::get_param_map_count()
+		{
+			return m_param_map.size();
+		}
+
 	}
 }

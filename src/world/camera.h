@@ -3,6 +3,7 @@
 
 #include "gameobjects/game_object.h"
 #include "math3d/math3d.hpp"
+#include <memory>
 
 namespace water
 {
@@ -20,6 +21,8 @@ namespace water
 			// get view matrix
 			math3d::Matrix get_view_matrix();
 		};
+
+		typedef std::shared_ptr<Camera> CameraPtr;
 	}
 }
 

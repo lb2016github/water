@@ -74,5 +74,18 @@ namespace water
 				}
 			}
 		}
+		void Model::render()
+		{
+			auto comp_mat = (MaterialComponent*)get_component(COMP_MATERIAL);
+			if (comp_mat)
+			{
+				comp_mat->render(get_draw_command(), get_mesh());
+			}
+		}
+		std::set<ComponentTag> Model::get_comp_tags()
+		{
+			std::set<ComponentTag> rst = {COMP_MESH, COMP_MATERIAL, COMP_TRANSFORMATION};
+			return rst;
+		}
 	}
 }

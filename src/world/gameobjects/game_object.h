@@ -5,6 +5,7 @@
 #include "world/components/component_const.h"
 #include <map>
 #include <string>
+#include <set>
 
 namespace water {
 	namespace world
@@ -22,9 +23,10 @@ namespace water {
 
 		protected:
 			Component* add_component(ComponentTag comp);
+			virtual std::set<ComponentTag> get_comp_tags() = 0;
 
 		public:
-			GameObject * m_parent;		// parent
+			GameObject * m_parent{ nullptr };		// parent
 		private:
 			COMPONENT_MAP m_components;
 		};
