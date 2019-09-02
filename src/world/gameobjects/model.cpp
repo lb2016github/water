@@ -59,14 +59,14 @@ namespace water
 			for each (auto child in root_node.children())
 			{
 				// load mesh
-				if (child.name == "Mesh")
+				if (strcmp(child.name(), "Mesh") == 0)
 				{
 					std::string filepath = child.attribute("path").as_string();
 					MeshComponent* mesh_comp = (MeshComponent*)get_component(COMP_MESH);
 					mesh_comp->load_from_file(filename);
 				}
 				// load material
-				else if (child.name == "Material")
+				else if (strcmp(child.name(), "Material") == 0)
 				{
 					std::string filepath = child.attribute("path").as_string();
 					MaterialComponent* comp = (MaterialComponent*)get_component(COMP_MATERIAL);

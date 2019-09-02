@@ -15,7 +15,7 @@ namespace water
 		bool MaterialComponent::has_param(std::string name, unsigned int index)
 		{
 			auto ptr = m_material_ptr->get_param_map(index);
-			if (!ptr) return;
+			if (!ptr) return false;
 			return ptr->has_param(name);
 		}
 
