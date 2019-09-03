@@ -6,27 +6,14 @@ namespace water {
 	namespace world
 	{
 		ComponentTag TransformComponent::tag = COMP_TRANSFORMATION;
-		Component* TransformComponent::create_component(GameObject* gameobject)
+		Component* TransformComponent::create_component(SpaceObject* space_object)
 		{
-			return new TransformComponent(gameobject);
+			return new TransformComponent(space_object);
 		}
 		ComponentInfo comp_info(TransformComponent::tag, TransformComponent::create_component);
 
-		TransformComponent::TransformComponent() : TransformComponent(nullptr)
+		TransformComponent::TransformComponent(SpaceObject * space_object): Component(space_object)
 		{
-
-		}
-
-		TransformComponent::TransformComponent(GameObject* game_object): Component(game_object), position(0, 0, 0), rotation(0, 0, 0), scale(1, 1, 1)
-		{
-
-		}
-
-		TransformComponent::TransformComponent(const TransformComponent& trans_comp): Component(trans_comp)
-		{
-			position = trans_comp.position;
-			rotation = trans_comp.rotation;
-			scale = trans_comp.scale;
 		}
 
 		TransformComponent& TransformComponent::operator=(const TransformComponent& trans_comp)
@@ -43,11 +30,12 @@ namespace water {
 
 		math3d::Matrix TransformComponent::get_world_transformation()
 		{
-			if (!m_game_object || m_game_object->m_parent == NULL)
+			SpaceObject* parent = (SpaceObject*)m_game_object;
+			if (!parent || parent->get_parent() == NULL)
 			{
 				return get_transformation();
 			}
-			TransformComponent* parent_trans_comp = (TransformComponent*)m_game_object->m_parent->get_component(COMP_TRANSFORMATION);
+			TransformComponent* parent_trans_comp = (TransformComponent*)parent->get_parent()->get_component(COMP_TRANSFORMATION);
 			if (!parent_trans_comp)
 			{
 				return get_transformation();

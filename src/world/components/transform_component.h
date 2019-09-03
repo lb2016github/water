@@ -2,6 +2,7 @@
 #define WATER_TRANSFORM_COMPONENT_H
 #include "component.h"
 #include "math3d/math3d.hpp"
+#include "world/gameobjects/space_object.h"
 
 namespace water {
 	namespace world
@@ -9,10 +10,8 @@ namespace water {
 		class TransformComponent : public Component
 		{
 		public:
-			TransformComponent();
-			TransformComponent(GameObject* game_object);
-			TransformComponent(const TransformComponent& trans_comp);
-			TransformComponent& operator = (const TransformComponent& trans_comp);
+			TransformComponent(SpaceObject* space_object);
+			virtual TransformComponent& operator = (const TransformComponent& trans_comp);
 
 			// component info
 			static ComponentTag tag;

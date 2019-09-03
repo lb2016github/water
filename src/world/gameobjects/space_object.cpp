@@ -23,6 +23,10 @@ namespace water
 		{
 			m_parent = space_object;
 		}
+		SpaceObject * SpaceObject::get_parent()
+		{
+			return m_parent;
+		}
 		std::set<ComponentTag> SpaceObject::get_comp_tags()
 		{
 			std::set<ComponentTag> rst;

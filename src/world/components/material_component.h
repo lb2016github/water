@@ -13,11 +13,8 @@ namespace water
 		class MaterialComponent : public Component
 		{
 		public:
-			MaterialComponent() : MaterialComponent(nullptr) {};
 			MaterialComponent(GameObject* game_object);
-			MaterialComponent(const MaterialComponent& comp) : MaterialComponent(comp, nullptr) {};
-			MaterialComponent(const MaterialComponent& comp, GameObject* game_object);
-			MaterialComponent& operator = (const MaterialComponent& comp);
+			virtual MaterialComponent& operator = (const MaterialComponent& comp);
 			virtual ~MaterialComponent() override;
 
 			// component info
@@ -51,7 +48,7 @@ namespace water
 			void before_render();
 
 		private:
-			render::MaterialPtr m_material_ptr;
+			render::MaterialPtr m_material_ptr = { nullptr };
 		};
 
 		template<class T>

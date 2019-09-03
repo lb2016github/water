@@ -12,7 +12,6 @@ namespace water
 		{
 		public:
 			using GameObject::GameObject;
-			using GameObject::~GameObject;
 
 			SpaceObject(SpaceObject* parent);
 			virtual ~SpaceObject();
@@ -20,6 +19,7 @@ namespace water
 			SpaceObject& operator = (const SpaceObject& game_object);
 
 			void set_parent(SpaceObject* space_object);
+			inline SpaceObject* get_parent();
 
 		protected:
 			virtual std::set<ComponentTag> get_comp_tags();

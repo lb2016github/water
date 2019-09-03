@@ -68,11 +68,6 @@ namespace water
 		{
 			m_material_ptr = std::make_shared<render::Material>();
 		}
-		MaterialComponent::MaterialComponent(const MaterialComponent & comp, GameObject * game_object):
-			MaterialComponent(game_object)
-		{
-			m_material_ptr = comp.m_material_ptr;
-		}
 		MaterialComponent & MaterialComponent::operator=(const MaterialComponent & comp)
 		{
 			if (this == &comp) return *this;

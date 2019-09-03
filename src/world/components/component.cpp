@@ -21,19 +21,9 @@ namespace water
 			return &ComponentFactory::m_instance;
 		}
 
-		Component::Component(): Component(NULL, NULL)
-		{
-
-		}
-
-		Component::Component(const Component& comp, GameObject* game_object): m_game_object(game_object)
-		{
-			
-		}
-
 		Component::~Component()
 		{
-			m_game_object = NULL;
+			m_game_object = nullptr;
 		}
 
 		GameObject* Component::get_game_object()
@@ -41,28 +31,17 @@ namespace water
 			return m_game_object;
 		}
 
-		void Component::set_game_object(GameObject* game_object)
-		{
-			m_game_object = game_object;
-		}
-
 		Component& Component::operator=(const Component& comp)
 		{
 			if (&comp == this) {
 				return *this;
 			}
-			//m_game_object = comp.m_game_object;
 			return *this;
-		}
-
-		Component::Component(const Component& comp)
-		{
-			
 		}
 
 		Component::Component(GameObject* game_object): m_game_object(game_object)
 		{
-			
+			assert(game_object != nullptr);
 		}
 		
 		ComponentInfo::ComponentInfo(ComponentTag comp_tag, FUNC_CREATE_COMPONENT func_create)

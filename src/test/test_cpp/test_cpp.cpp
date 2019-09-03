@@ -1,37 +1,36 @@
-#include "filesystem\filesystem.h"
 #include <iostream>
-#include "filesystem\xml_file.h"
 
-using namespace water::filesystem;
+using namespace std;
 
-void test_xml_file();
-void test_filesystem();
+class Base
+{
+public:
+	Base() { std::cout << "Base::Base" << std::endl; }
+	Base(const Base&) = delete;
+	~Base() { std::cout << "Base::~Base" << std::endl; }
+};
+class Base1
+{
+public:
+	Base1() { std::cout << "Base1::Base1" << std::endl; }
+	~Base1() { std::cout << "Base1::~Base1" << std::endl; }
+};
 
-char filepath[128];
-void main() {
-	test_xml_file();
-	std::cout << "Press any key to quit" << std::endl;
-	std::cin>>filepath;
+class Derived : public Base, public Base1
+{
+public:
+	Derived() {}
+	Derived(const Derived&) {}
+
+};
+
+
+
+void main()
+{
+	Derived* d = new Derived();
+	Derived b(*d);
+
+	system("pause");
+
 }
-
-void test_filesystem() {
-	std::cout << "======================Start Test FileSystem ========================" << std::endl;
-	water::filesystem::FileSystem& fs = water::filesystem::FileSystem::instance;
-	char filepath[128] = "g:/test.txt";
-	for (int i = 0; i < 100000; ++i)
-	{
-		char* buffer = fs.read_file(filepath);
-		delete buffer;
-	}
-}
-
-void test_xml_file() {
-	std::cout << "============= Start Test Xml File =================" << std::endl;
-	XMLFile file;
-	std::string input;
-	while (std::cin >> input) {
-		if (input.compare("q") == 0) break;
-		file.load(input.c_str());
-	}
-}
-

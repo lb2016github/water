@@ -14,11 +14,9 @@ namespace water {
 
 		class Component {
 		public:
-			Component();
 			Component(GameObject* game_object);
-			Component(const Component& comp);	// 不会拷贝m_game_object
-			Component(const Component& comp, GameObject* game_object);
-			Component& operator = (const Component& comp);	// 不会拷贝m_game_object
+			Component(const Component& comp) = delete;	// copy contructor is not allowed in void of to game object has two same component
+			virtual Component& operator = (const Component& comp);
 			virtual ~Component();
 
 			// component info
@@ -27,8 +25,6 @@ namespace water {
 
 		public:
 			GameObject* get_game_object();
-			void set_game_object(GameObject* game_object);
-
 
 		protected:
 			GameObject * m_game_object;

@@ -13,7 +13,6 @@ namespace water
 		{
 		public:
 			// Constructors
-			using SpaceObject::GameObject;
 			using SpaceObject::SpaceObject;
 			using SpaceObject::operator=;
 		public:
