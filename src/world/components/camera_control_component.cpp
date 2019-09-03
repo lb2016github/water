@@ -11,9 +11,9 @@ namespace water
 		{
 			camera = nullptr;
 		}
-		Component * CameraControlComponent::create_component(Camera * camera)
+		Component * CameraControlComponent::create_component(void * camera)
 		{
-			return new CameraControlComponent(camera);
+			return new CameraControlComponent((Camera*)camera);
 		}
 	}
 }

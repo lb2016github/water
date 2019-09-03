@@ -16,7 +16,7 @@ namespace water
 
 			// component info
 			static ComponentTag tag;
-			static Component* create_component(Camera* camera);
+			static Component* create_component(void* camera);
 
 		private:
 			Camera* camera = { nullptr };

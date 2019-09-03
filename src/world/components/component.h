@@ -21,7 +21,7 @@ namespace water {
 
 			// component info
 			static ComponentTag tag;
-			static Component* create_component(GameObject*);
+			static Component* create_component(void*);
 
 		public:
 			GameObject* get_game_object();
@@ -30,7 +30,8 @@ namespace water {
 			GameObject * m_game_object;
 		};
 
-		typedef Component* (*FUNC_CREATE_COMPONENT)(GameObject*);
+
+		typedef Component* (*FUNC_CREATE_COMPONENT)(void*);
 
 		class ComponentFactory {
 		public:
@@ -53,6 +54,7 @@ namespace water {
 		{
 			ComponentInfo(ComponentTag comp_tag, FUNC_CREATE_COMPONENT func_create);
 		};
+
 	}
 }
 #endif

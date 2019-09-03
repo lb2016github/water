@@ -15,7 +15,7 @@ namespace water {
 
 			// component info
 			static ComponentTag tag;
-			static Component* create_component(GameObject*);
+			static Component* create_component(void*);
 
 		public:
 			math3d::Matrix get_world_transformation();
