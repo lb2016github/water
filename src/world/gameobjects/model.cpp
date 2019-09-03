@@ -9,24 +9,6 @@ namespace water
 {
 	namespace world
 	{
-		Model::Model()
-		{
-			// add components
-			add_component(COMP_MESH);
-			add_component(COMP_RENDER);
-			add_component(COMP_TRANSFORMATION);
-			add_component(COMP_MATERIAL);
-		}
-		Model::Model(const Model& model): GameObject(model)
-		{
-		}
-		Model& Model::operator=(const Model& model)
-		{
-			if (&model == this) return *this;
-
-			GameObject::operator=(model);
-			return *this;
-		}
 		Model::~Model()
 		{
 		}
@@ -84,7 +66,9 @@ namespace water
 		}
 		std::set<ComponentTag> Model::get_comp_tags()
 		{
-			std::set<ComponentTag> rst = {COMP_MESH, COMP_MATERIAL, COMP_TRANSFORMATION};
+			auto rst = SpaceObject::get_comp_tags();
+			rst.insert(COMP_MESH);
+			rst.insert(COMP_MATERIAL);
 			return rst;
 		}
 	}

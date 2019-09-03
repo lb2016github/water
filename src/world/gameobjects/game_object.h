@@ -1,5 +1,5 @@
-#ifndef WATER_SPACE_OBJECT_H
-#define WATER_SPACE_OBJECT_H
+#ifndef WATER_GAME_OBJECT_H
+#define WATER_GAME_OBJECT_H
 
 #include "world/components/component.h"
 #include "world/components/component_const.h"
@@ -25,8 +25,6 @@ namespace water {
 			Component* add_component(ComponentTag comp);
 			virtual std::set<ComponentTag> get_comp_tags() = 0;
 
-		public:
-			GameObject * m_parent{ nullptr };		// parent
 		private:
 			COMPONENT_MAP m_components;
 		};

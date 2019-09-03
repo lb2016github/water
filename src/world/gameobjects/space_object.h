@@ -2,6 +2,7 @@
 #define WATER_SPACE_OBJECT_H
 
 #include "game_object.h"
+#include "world/components/transform_component.h"
 
 namespace water
 {
@@ -9,7 +10,21 @@ namespace water
 	{
 		class SpaceObject : public GameObject
 		{
+		public:
+			using GameObject::GameObject;
+			using GameObject::~GameObject;
 
+			SpaceObject(SpaceObject* parent);
+			virtual ~SpaceObject();
+
+			SpaceObject& operator = (const SpaceObject& game_object);
+
+			void set_parent(SpaceObject* space_object);
+
+		protected:
+			virtual std::set<ComponentTag> get_comp_tags();
+		protected:
+			SpaceObject * m_parent{ nullptr };		// parent
 		};
 	}
 }

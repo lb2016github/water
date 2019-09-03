@@ -3,12 +3,12 @@
 namespace water {
 	namespace world
 	{
-		GameObject::GameObject(): m_parent(NULL)
+		GameObject::GameObject()
 		{
 
 		}
 
-		GameObject::GameObject(const GameObject& game_object): m_parent(game_object.m_parent)
+		GameObject::GameObject(const GameObject& game_object)
 		{
 			// copy components
 			for (COMPONENT_MAP::const_iterator iter = game_object.m_components.begin(); iter != game_object.m_components.end(); ++iter)
@@ -43,7 +43,6 @@ namespace water {
 				delete iter->second;
 			}
 			m_components.clear();
-			m_parent = NULL;
 		}
 
 		Component* GameObject::get_component(ComponentTag comp)
