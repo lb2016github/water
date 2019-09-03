@@ -31,6 +31,7 @@ namespace water
 		{
 			std::set<ComponentTag> rst;
 			rst.insert(COMP_TRANSFORMATION);
+			return rst;
 		}
 	}
 }

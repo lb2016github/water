@@ -1,22 +1,18 @@
 #ifndef WATER_CAEMRA_CONTROL_COMPONENT_H
 #define WATER_CAEMRA_CONTROL_COMPONENT_H
-#include "component.h"
+#include "base_component.h"
 #include "world/gameobjects/camera.h"
 
 namespace water
 {
 	namespace world
 	{
-		class CameraControlComponent : public Component
+		class CameraControlComponent : public BaseComponent
 		{
 		public:
 			CameraControlComponent(Camera* camera);
-			using Component::operator=;
+			using BaseComponent::operator=;
 			virtual ~CameraControlComponent();
-
-			// component info
-			static ComponentTag tag;
-			static Component* create_component(void* camera);
 
 		private:
 			Camera* camera = { nullptr };

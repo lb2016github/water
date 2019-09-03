@@ -9,8 +9,8 @@ namespace water
 		enum ComponentTag {
 			COMP_TRANSFORMATION,	// transform_component
 			COMP_MESH,				// MeshComponent
-			COMP_RENDER,			// RenderComponent
 			COMP_MATERIAL,			// MaterialComponent
+			COMP_CAMERA_CONTROLLER,	// CameraControlComponent
 		};
 	}
 }

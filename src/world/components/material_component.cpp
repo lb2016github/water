@@ -7,10 +7,7 @@ namespace water
 	namespace world
 	{
 
-		Component* MaterialComponent::create_component(GameObject* gameobject)
-		{
-			return new MaterialComponent(gameobject);
-		}
+		REGISTER_COMPONENT(COMP_MATERIAL, MaterialComponent, GameObject)
 
 		bool MaterialComponent::has_param(std::string name, unsigned int index)
 		{
@@ -60,18 +57,15 @@ namespace water
 			}
 		}
 
-		ComponentTag MaterialComponent::tag = COMP_MATERIAL;
 
-		ComponentInfo comp_info(MaterialComponent::tag, MaterialComponent::create_component);
-
-		MaterialComponent::MaterialComponent(GameObject * game_object): Component(game_object)
+		MaterialComponent::MaterialComponent(GameObject * game_object): BaseComponent(game_object)
 		{
 			m_material_ptr = std::make_shared<render::Material>();
 		}
 		MaterialComponent & MaterialComponent::operator=(const MaterialComponent & comp)
 		{
 			if (this == &comp) return *this;
-			Component::operator=(comp);
+			BaseComponent::operator=(comp);
 			m_material_ptr = comp.m_material_ptr;
 			return *this;
 		}

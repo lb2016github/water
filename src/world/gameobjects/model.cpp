@@ -9,9 +9,6 @@ namespace water
 {
 	namespace world
 	{
-		Model::~Model()
-		{
-		}
 		render::MaterialPtr Model::get_material()
 		{
 			MaterialComponent* comp = (MaterialComponent*)get_component(COMP_MATERIAL);

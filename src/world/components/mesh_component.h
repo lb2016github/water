@@ -1,7 +1,7 @@
 #ifndef WATER_MESH_COMPONENT_H
 #define WATER_MESH_COMPONENT_H
 
-#include "component.h"
+#include "base_component.h"
 #include "render/mesh.h"
 #include <string>
 #include "render/render_const.h"
@@ -10,16 +10,12 @@ namespace water
 {
 	namespace world
 	{
-		class MeshComponent : public Component
+		class MeshComponent : public BaseComponent
 		{
 		public:
 			MeshComponent(GameObject* game_object);
 			virtual MeshComponent& operator = (const MeshComponent& comp);
 			virtual ~MeshComponent();
-
-			// component info
-			static ComponentTag tag;
-			static Component* create_component(GameObject*);
 
 		public:
 			void load_from_file(std::string filename);

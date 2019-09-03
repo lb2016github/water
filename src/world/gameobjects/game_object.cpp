@@ -5,7 +5,11 @@ namespace water {
 	{
 		GameObject::GameObject()
 		{
-
+			auto tags = get_comp_tags();
+			for each (auto tag in tags)
+			{
+				add_component(tag);
+			}
 		}
 
 		GameObject::GameObject(const GameObject& game_object)
@@ -13,7 +17,7 @@ namespace water {
 			// copy components
 			for (COMPONENT_MAP::const_iterator iter = game_object.m_components.begin(); iter != game_object.m_components.end(); ++iter)
 			{
-				Component* comp = add_component(iter->first);
+				BaseComponent* comp = add_component(iter->first);
 				if (comp) {
 					*comp = *(iter->second);
 				}
@@ -45,7 +49,7 @@ namespace water {
 			m_components.clear();
 		}
 
-		Component* GameObject::get_component(ComponentTag comp)
+		BaseComponent* GameObject::get_component(ComponentTag comp)
 		{
 			COMPONENT_MAP::iterator iter = m_components.find(comp);
 			if (iter == m_components.end()) {
@@ -54,12 +58,14 @@ namespace water {
 			return iter->second;
 		}
 
-		Component* GameObject::add_component(ComponentTag comp_tag)
+		BaseComponent* GameObject::add_component(ComponentTag comp_tag)
 		{
-			if (m_components.find(comp_tag) == m_components.end()) {
-				return NULL;
+			auto rst = m_components.find(comp_tag);
+			if (rst != m_components.end()) {
+				return rst->second;
 			}
-			Component* comp = ComponentFactory::instance()->create_component(comp_tag, this);
+			
+			BaseComponent* comp = create_component(comp_tag, this);
 			m_components[comp_tag] = comp;
 			return comp;
 		}

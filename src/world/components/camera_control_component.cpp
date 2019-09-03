@@ -4,16 +4,15 @@ namespace water
 {
 	namespace world
 	{
-		CameraControlComponent::CameraControlComponent(Camera * camera): Component(camera), camera(camera)
+
+		REGISTER_COMPONENT(COMP_CAMERA_CONTROLLER, CameraControlComponent, Camera)
+
+		CameraControlComponent::CameraControlComponent(Camera * camera): BaseComponent(camera), camera(camera)
 		{
 		}
 		CameraControlComponent::~CameraControlComponent()
 		{
 			camera = nullptr;
-		}
-		Component * CameraControlComponent::create_component(void * camera)
-		{
-			return new CameraControlComponent((Camera*)camera);
 		}
 	}
 }

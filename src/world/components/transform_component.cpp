@@ -5,14 +5,9 @@
 namespace water {
 	namespace world
 	{
-		ComponentTag TransformComponent::tag = COMP_TRANSFORMATION;
-		Component* TransformComponent::create_component(void* space_object)
-		{
-			return new TransformComponent((SpaceObject*)space_object);
-		}
-		ComponentInfo comp_info(TransformComponent::tag, TransformComponent::create_component);
+		REGISTER_COMPONENT(COMP_TRANSFORMATION, TransformComponent, SpaceObject);
 
-		TransformComponent::TransformComponent(SpaceObject * space_object): Component(space_object)
+		TransformComponent::TransformComponent(SpaceObject * space_object): BaseComponent(space_object)
 		{
 		}
 
@@ -21,7 +16,7 @@ namespace water {
 			if (&trans_comp == this) {
 				return *this;
 			}
-			Component::operator=(trans_comp);
+			BaseComponent::operator=(trans_comp);
 			position = trans_comp.position;
 			rotation = trans_comp.rotation;
 			scale = trans_comp.scale;

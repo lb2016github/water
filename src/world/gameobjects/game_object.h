@@ -1,7 +1,7 @@
 #ifndef WATER_GAME_OBJECT_H
 #define WATER_GAME_OBJECT_H
 
-#include "world/components/component.h"
+#include "world/components/base_component.h"
 #include "world/components/component_const.h"
 #include <map>
 #include <string>
@@ -10,7 +10,7 @@
 namespace water {
 	namespace world
 	{
-		typedef std::map<ComponentTag, Component*> COMPONENT_MAP;
+		typedef std::map<ComponentTag, BaseComponent*> COMPONENT_MAP;
 
 		class GameObject {
 		public:
@@ -19,10 +19,10 @@ namespace water {
 			GameObject& operator = (const GameObject& game_object);
 			virtual ~GameObject();
 
-			Component* get_component(ComponentTag comp);
+			BaseComponent* get_component(ComponentTag comp);
 
 		protected:
-			Component* add_component(ComponentTag comp);
+			BaseComponent* add_component(ComponentTag comp);
 			virtual std::set<ComponentTag> get_comp_tags() = 0;
 
 		private:

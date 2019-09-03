@@ -1,7 +1,7 @@
 #ifndef WATER_MATERIAL_COMPONENT_H
 #define WATER_MATERIAL_COMPONENT_H
 
-#include "component.h"
+#include "base_component.h"
 #include "world/gameobjects/game_object.h"
 #include "render/material.h"
 #include "render/draw_command.h"
@@ -10,16 +10,12 @@ namespace water
 {
 	namespace world
 	{
-		class MaterialComponent : public Component
+		class MaterialComponent : public BaseComponent
 		{
 		public:
 			MaterialComponent(GameObject* game_object);
 			virtual MaterialComponent& operator = (const MaterialComponent& comp);
 			virtual ~MaterialComponent() override;
-
-			// component info
-			static ComponentTag tag;
-			static Component* create_component(GameObject*);
 
 		public:
 			/*

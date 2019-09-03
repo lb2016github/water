@@ -7,24 +7,18 @@ namespace water
 {
 	namespace world
 	{
-		ComponentTag MeshComponent::tag = COMP_MESH;
-		MeshComponent::MeshComponent(GameObject * game_object): Component(game_object)
-		{
-		}
+		REGISTER_COMPONENT(COMP_MESH, MeshComponent, GameObject)
+
 		MeshComponent & MeshComponent::operator=(const MeshComponent & comp)
 		{
 			if (&comp == this) return *this;
-			Component::operator=(comp);
+			BaseComponent::operator=(comp);
 			m_mesh_ptr = comp.m_mesh_ptr;
 			return *this;
 		}
 		MeshComponent::~MeshComponent()
 		{
 			m_mesh_ptr = nullptr;
-		}
-		Component* MeshComponent::create_component(GameObject* gameobject)
-		{
-			return new MeshComponent(gameobject);
 		}
 
 		void MeshComponent::load_from_file(std::string filename)
