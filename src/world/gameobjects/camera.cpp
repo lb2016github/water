@@ -6,13 +6,6 @@ namespace water
 {
 	namespace world
 	{
-		Camera::Camera(): GameObject()
-		{
-			add_component(COMP_TRANSFORMATION);
-		}
-		Camera::Camera(const Camera & camera): GameObject(camera)
-		{
-		}
 		Camera & Camera::operator=(const Camera & camera)
 		{
 			if (&camera == this) return *this;

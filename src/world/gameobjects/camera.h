@@ -1,22 +1,21 @@
 #ifndef WATER_CAMERA_H
 #define WATER_CAMERA_H
 
-#include "gameobjects/game_object.h"
 #include "math3d/math3d.hpp"
 #include <memory>
+#include "space_object.h"
 
 namespace water
 {
 	namespace world
 	{
-		class Camera: public GameObject
+		class Camera: public SpaceObject
 		{
 		public:
-			Camera();
-			Camera(const Camera& camera);
-			Camera& operator = (const Camera& camera);
-			virtual ~Camera();
-
+			// Constructors
+			using SpaceObject::GameObject;
+			using SpaceObject::SpaceObject;
+			using SpaceObject::operator=;
 		public:
 			// get view matrix
 			math3d::Matrix get_view_matrix();
