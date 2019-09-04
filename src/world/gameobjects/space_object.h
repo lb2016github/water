@@ -2,6 +2,7 @@
 #define WATER_SPACE_OBJECT_H
 
 #include "game_object.h"
+#include <memory>
 
 namespace water
 {
@@ -11,20 +12,31 @@ namespace water
 		{
 		public:
 			using GameObject::GameObject;
-
-			SpaceObject(SpaceObject* parent);
+			using GameObject::operator=;
 			virtual ~SpaceObject();
 
-			SpaceObject& operator = (const SpaceObject& game_object);
-
+		public:
+			// set parent and get parent
 			void set_parent(SpaceObject* space_object);
-			inline SpaceObject* get_parent();
+			SpaceObject* get_parent();
+
+			// get children
+			std::set<SpaceObjectPtr>& get_children();
 
 		protected:
 			virtual std::set<ComponentTag> get_comp_tags();
+
+		// attributes
+		public:
+			// visibility
+			bool visible = { true };
 		protected:
 			SpaceObject * m_parent{ nullptr };		// parent
+			std::set<SpaceObjectPtr> m_children;	// childen
+			
 		};
+
+		typedef std::shared_ptr<SpaceObject> SpaceObjectPtr;
 	}
 }
 

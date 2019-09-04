@@ -14,6 +14,8 @@ namespace water
 			using BaseComponent::operator=;
 			virtual ~CameraControlComponent();
 
+			static const ComponentTag tag = COMP_CAMERA_CONTROLLER;
+
 		private:
 			Camera* camera = { nullptr };
 		};

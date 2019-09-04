@@ -7,25 +7,13 @@ namespace water
 	namespace world
 	{
 
-		REGISTER_COMPONENT(COMP_MATERIAL, MaterialComponent, GameObject)
+		REGISTER_COMPONENT(MaterialComponent, GameObject)
 
 		bool MaterialComponent::has_param(std::string name, unsigned int index)
 		{
 			auto ptr = m_material_ptr->get_param_map(index);
 			if (!ptr) return false;
 			return ptr->has_param(name);
-		}
-
-		void MaterialComponent::render(const render::DrawCommand& draw_cmd, render::MeshDataPtr mesh_ptr)
-		{
-			if (!m_material_ptr)
-			{
-				log_warn("[RENDER]No material is inited\n");
-				return;
-			}
-			// do something before rendering
-			before_render();
-			m_material_ptr->render(draw_cmd, mesh_ptr);
 		}
 
 		render::MaterialPtr MaterialComponent::get_material()
@@ -38,7 +26,7 @@ namespace water
 			m_material_ptr->load(filepath.c_str());
 		}
 
-		void MaterialComponent::before_render()
+		void MaterialComponent::update_material()
 		{
 			if (!m_material_ptr)
 			{

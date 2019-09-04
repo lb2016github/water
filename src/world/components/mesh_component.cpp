@@ -7,7 +7,7 @@ namespace water
 {
 	namespace world
 	{
-		REGISTER_COMPONENT(COMP_MESH, MeshComponent, GameObject)
+		REGISTER_COMPONENT(MeshComponent, GameObject)
 
 		MeshComponent & MeshComponent::operator=(const MeshComponent & comp)
 		{

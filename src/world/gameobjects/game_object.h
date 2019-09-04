@@ -7,6 +7,8 @@
 #include <string>
 #include <set>
 
+#define GET_COMPONENT(obj_ptr, cls) (cls*)obj_ptr->get_component(cls::tag);
+
 namespace water {
 	namespace world
 	{

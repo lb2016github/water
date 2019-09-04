@@ -7,12 +7,12 @@
 #include "component_const.h"
 #include <functional>
 
-#define REGISTER_COMPONENT(comp_tag, cls, obj_type)\
+#define REGISTER_COMPONENT(cls, obj_type)\
 water::world::BaseComponent* create_##comp_tag(void* obj)\
 {\
 	return new cls((obj_type*)obj);\
 }\
-water::world::ComponentInfo comp(comp_tag, create_##comp_tag);
+water::world::ComponentInfo comp(cls::tag, create_##comp_tag);
 
 
 namespace water {
@@ -26,6 +26,8 @@ namespace water {
 			BaseComponent(const BaseComponent& comp) = delete;	// copy contructor is not allowed in void of to game object has two same component
 			virtual BaseComponent& operator = (const BaseComponent& comp);
 			virtual ~BaseComponent();
+
+			static const ComponentTag tag;
 
 		protected:
 			GameObject * m_game_object;

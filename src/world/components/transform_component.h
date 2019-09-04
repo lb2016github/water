@@ -13,6 +13,8 @@ namespace water {
 			TransformComponent(SpaceObject* space_object);
 			virtual TransformComponent& operator = (const TransformComponent& trans_comp);
 
+			static const ComponentTag tag = COMP_TRANSFORMATION;
+
 		public:
 			math3d::Matrix get_world_transformation();
 			math3d::Matrix get_transformation();

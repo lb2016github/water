@@ -13,9 +13,12 @@ namespace water
 		class MeshComponent : public BaseComponent
 		{
 		public:
-			MeshComponent(GameObject* game_object);
+			using BaseComponent::BaseComponent;
 			virtual MeshComponent& operator = (const MeshComponent& comp);
 			virtual ~MeshComponent();
+
+			static const ComponentTag tag = COMP_MESH;
+
 
 		public:
 			void load_from_file(std::string filename);

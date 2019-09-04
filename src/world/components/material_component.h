@@ -16,6 +16,8 @@ namespace water
 			MaterialComponent(GameObject* game_object);
 			virtual MaterialComponent& operator = (const MaterialComponent& comp);
 			virtual ~MaterialComponent() override;
+			
+			static const ComponentTag tag = COMP_MATERIAL;
 
 		public:
 			/*
@@ -33,15 +35,12 @@ namespace water
 			// check has certern param
 			bool has_param(std::string name, unsigned int index = 0);
 
-			// render
-			void render(const render::DrawCommand& draw_cmd, render::MeshDataPtr mesh_ptr);
-
 			// get material
 			render::MaterialPtr get_material();
 			void load_from_file(const std::string& filepath);
 
-		protected:
-			void before_render();
+			// update material
+			void update_material();
 
 		private:
 			render::MaterialPtr m_material_ptr = { nullptr };

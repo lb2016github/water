@@ -5,7 +5,7 @@ namespace water
 	namespace world
 	{
 
-		REGISTER_COMPONENT(COMP_CAMERA_CONTROLLER, CameraControlComponent, Camera)
+		REGISTER_COMPONENT(CameraControlComponent, Camera)
 
 		CameraControlComponent::CameraControlComponent(Camera * camera): BaseComponent(camera), camera(camera)
 		{

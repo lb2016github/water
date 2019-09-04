@@ -11,6 +11,7 @@ namespace water
 			COMP_MESH,				// MeshComponent
 			COMP_MATERIAL,			// MaterialComponent
 			COMP_CAMERA_CONTROLLER,	// CameraControlComponent
+			COMP_RENDER,			// RenderComponent
 		};
 	}
 }

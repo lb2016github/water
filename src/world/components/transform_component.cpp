@@ -5,7 +5,7 @@
 namespace water {
 	namespace world
 	{
-		REGISTER_COMPONENT(COMP_TRANSFORMATION, TransformComponent, SpaceObject);
+		REGISTER_COMPONENT(TransformComponent, SpaceObject);
 
 		TransformComponent::TransformComponent(SpaceObject * space_object): BaseComponent(space_object)
 		{

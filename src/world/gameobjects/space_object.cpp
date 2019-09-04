@@ -5,19 +5,10 @@ namespace water
 {
 	namespace world
 	{
-		SpaceObject::SpaceObject(SpaceObject * parent): m_parent(parent)
-		{
-		}
 		SpaceObject::~SpaceObject()
 		{
 			m_parent = nullptr;
-		}
-		SpaceObject & SpaceObject::operator=(const SpaceObject & game_object)
-		{
-			if (this == &game_object) return *this;
-			GameObject::operator=(game_object);
-			m_parent = game_object.m_parent;
-			return *this;
+			m_children.clear();
 		}
 		void SpaceObject::set_parent(SpaceObject * space_object)
 		{
@@ -26,6 +17,10 @@ namespace water
 		SpaceObject * SpaceObject::get_parent()
 		{
 			return m_parent;
+		}
+		std::set<SpaceObjectPtr>& SpaceObject::get_children()
+		{
+			return m_children;
 		}
 		std::set<ComponentTag> SpaceObject::get_comp_tags()
 		{
