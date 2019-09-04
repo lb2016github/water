@@ -3,9 +3,11 @@
 
 #include "world/components/base_component.h"
 #include "world/components/component_const.h"
+#include "common/common.h"
 #include <map>
 #include <string>
 #include <set>
+#include <memory>
 
 #define GET_COMPONENT(obj_ptr, cls) (cls*)obj_ptr->get_component(cls::tag);
 
@@ -30,6 +32,9 @@ namespace water {
 		private:
 			COMPONENT_MAP m_components;
 		};
+
+		DECL_SHARED_PTR(GameObject);
+		DECL_WEEK_PTR(GameObject);
 	}
 }
 #endif

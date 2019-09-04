@@ -20,8 +20,8 @@ namespace water
 		Singleton();
 		~Singleton();
 	private:
-		Singleton(Singleton const&);
-		Singleton& operator=(Singleton const&);
+		Singleton(Singleton const&) = delete;
+		Singleton& operator=(Singleton const&) = delete;
 		static T* m_instance;
 	};
 

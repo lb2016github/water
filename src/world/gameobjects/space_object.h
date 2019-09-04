@@ -2,14 +2,14 @@
 #define WATER_SPACE_OBJECT_H
 
 #include "game_object.h"
-#include <memory>
 
 namespace water
 {
 	namespace world
 	{
 		class SpaceObject;
-		typedef std::shared_ptr<SpaceObject> SpaceObjectPtr;
+		DECL_SHARED_PTR(SpaceObject);
+		DECL_WEEK_PTR(SpaceObject);
 
 		class SpaceObject : public GameObject
 		{
@@ -39,6 +39,7 @@ namespace water
 			std::set<SpaceObjectPtr> m_children;	// childen
 			
 		};
+
 
 	}
 }
