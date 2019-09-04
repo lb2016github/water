@@ -15,12 +15,14 @@ namespace water
 		}
 		void Scene::render(const render::DrawCommand & draw_cmd)
 		{
-			for each (SpaceObjectPtr obj_ptr in m_children)
-			{
-				auto render_comp = GET_COMPONENT(obj_ptr, RenderComponent);
-				if (!render_comp) continue;
-				render_comp->render(draw_cmd);
-			}
+			auto render_comp = GET_COMPONENT(this, RenderComponent);
+			render_comp->render(draw_cmd);
+		}
+		std::set<ComponentTag> Scene::get_comp_tags()
+		{
+			auto rst = SpaceObject::get_comp_tags();
+			rst.insert(RenderComponent::tag);
+			return rst;
 		}
 	}
 }

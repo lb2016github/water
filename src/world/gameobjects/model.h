@@ -8,22 +8,16 @@ namespace water
 {
 	namespace world
 	{
-		class Model : public SpaceObject, public render::IRenderable
+		class Model : public SpaceObject
 		{
 		public:
 			// Constructors
 			using SpaceObject::SpaceObject;
 			using SpaceObject::operator=;
 
-			// implements IRendable
-			virtual render::MaterialPtr get_material();
-			virtual render::MeshDataPtr get_mesh();
-			virtual render::DrawCommand get_draw_command();
-
+		public:
 			// init from file
 			virtual void load_from_file(std::string& filename);
-			// render model
-			virtual void render();
 
 		protected:
 			virtual std::set<ComponentTag> get_comp_tags();

@@ -7,10 +7,23 @@ namespace water
 	namespace world
 	{
 
-		REGISTER_COMPONENT(RenderComponent, GameObject);
+		REGISTER_COMPONENT(RenderComponent, SpaceObject);
+
+		RenderComponent::RenderComponent(SpaceObject * space_object): BaseComponent(space_object), m_space_object(space_object)
+		{
+		}
 
 		void RenderComponent::render(const render::DrawCommand & draw_cmd)
 		{
+			for each (auto obj in m_space_object->get_children())
+			{
+				auto render_comp = GET_COMPONENT(obj, RenderComponent);
+				if (render_comp)
+				{
+					render_comp->render(draw_cmd);
+				}
+			}
+
 			auto mesh_comp = GET_COMPONENT(m_game_object, MeshComponent);
 			if (!mesh_comp) return;
 			auto mesh_ptr = mesh_comp->get_mesh_ptr();
@@ -21,11 +34,6 @@ namespace water
 			auto mat_ptr = mat_comp->get_material();
 			if (!mat_ptr) return;
 			mat_ptr->render(draw_cmd, mesh_ptr);
-
-			// todo render children
-		}
-		void RenderComponent::do_render(const render::DrawCommand & draw_cmd, GameObject * game_object)
-		{
 		}
 	}
 }

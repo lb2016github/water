@@ -3,6 +3,7 @@
 
 #include "base_component.h"
 #include "render/draw_command.h"
+#include "world/gameobjects/space_object.h"
 
 namespace water
 {
@@ -11,7 +12,8 @@ namespace water
 		class RenderComponent: public BaseComponent
 		{
 		public:
-			using BaseComponent::BaseComponent;
+			RenderComponent(SpaceObject* space_object);
+
 			using BaseComponent::operator=;
 
 			static const ComponentTag tag = COMP_RENDER;
@@ -23,6 +25,8 @@ namespace water
 			void do_render(const render::DrawCommand& draw_cmd, GameObject* game_object);
 
 
+		protected:
+			SpaceObject * m_space_object;
 		};
 	}
 }

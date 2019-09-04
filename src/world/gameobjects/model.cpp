@@ -9,22 +9,6 @@ namespace water
 {
 	namespace world
 	{
-		render::MaterialPtr Model::get_material()
-		{
-			MaterialComponent* comp = (MaterialComponent*)get_component(COMP_MATERIAL);
-			return comp->get_material();
-		}
-		render::MeshDataPtr Model::get_mesh()
-		{
-			MeshComponent* mesh_comp = (MeshComponent*)get_component(COMP_MESH);
-			return mesh_comp->get_mesh_ptr();
-		}
-		render::DrawCommand Model::get_draw_command()
-		{
-			render::DrawCommand dc;
-			dc.draw_mode = render::TRIANGLES;
-			return dc;
-		}
 		void Model::load_from_file(std::string & filename)
 		{
 			filesystem::XMLFile xml_file;
@@ -51,14 +35,6 @@ namespace water
 					MaterialComponent* comp = (MaterialComponent*)get_component(COMP_MATERIAL);
 					comp->load_from_file(filepath);
 				}
-			}
-		}
-		void Model::render()
-		{
-			auto comp_mat = (MaterialComponent*)get_component(COMP_MATERIAL);
-			if (comp_mat)
-			{
-				comp_mat->render(get_draw_command(), get_mesh());
 			}
 		}
 		std::set<ComponentTag> Model::get_comp_tags()

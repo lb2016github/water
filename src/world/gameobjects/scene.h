@@ -16,11 +16,11 @@ namespace water
 			CameraPtr get_active_camera();
 			void set_active_camera(CameraPtr cam_ptr);
 			void render(const render::DrawCommand& draw_cmd);
-		private:
+		protected:
+			virtual std::set<ComponentTag> get_comp_tags();
+		protected:
 			// current camera
 			CameraPtr m_cur_camera;
-			// children, todo save children to a new struct to speed up
-			std::set<SpaceObjectPtr> m_children;
 		};
 	}
 }

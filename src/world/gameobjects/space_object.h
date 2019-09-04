@@ -8,6 +8,9 @@ namespace water
 {
 	namespace world
 	{
+		class SpaceObject;
+		typedef std::shared_ptr<SpaceObject> SpaceObjectPtr;
+
 		class SpaceObject : public GameObject
 		{
 		public:
@@ -26,17 +29,17 @@ namespace water
 		protected:
 			virtual std::set<ComponentTag> get_comp_tags();
 
-		// attributes
+		//====================== Start attributes =============================//
 		public:
 			// visibility
 			bool visible = { true };
+
 		protected:
 			SpaceObject * m_parent{ nullptr };		// parent
 			std::set<SpaceObjectPtr> m_children;	// childen
 			
 		};
 
-		typedef std::shared_ptr<SpaceObject> SpaceObjectPtr;
 	}
 }
 
