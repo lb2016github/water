@@ -25,12 +25,12 @@ namespace water {
 
 		math3d::Matrix TransformComponent::get_world_transformation()
 		{
-			SpaceObject* parent = (SpaceObject*)m_game_object;
-			if (!parent || parent->get_parent() == NULL)
+			SpaceObject* obj_ptr = (SpaceObject*)m_game_object;
+			if (!obj_ptr || obj_ptr->get_parent() == NULL)
 			{
 				return get_transformation();
 			}
-			TransformComponent* parent_trans_comp = (TransformComponent*)parent->get_parent()->get_component(COMP_TRANSFORMATION);
+			TransformComponent* parent_trans_comp = (TransformComponent*)obj_ptr->get_parent()->get_component(COMP_TRANSFORMATION);
 			if (!parent_trans_comp)
 			{
 				return get_transformation();

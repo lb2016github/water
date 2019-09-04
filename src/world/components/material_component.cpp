@@ -43,7 +43,7 @@ namespace water
 			if (!m_material_ptr)
 			{
 				auto num = m_material_ptr->get_param_map_count();
-				for (int i = 0; i < num; ++i)
+				for (unsigned int i = 0; i < num; ++i)
 				{
 					auto param_map = m_material_ptr->get_param_map(i);
 					if (!param_map) continue;

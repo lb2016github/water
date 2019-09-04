@@ -2,7 +2,6 @@
 #define WATER_SPACE_OBJECT_H
 
 #include "game_object.h"
-#include "world/components/transform_component.h"
 
 namespace water
 {
