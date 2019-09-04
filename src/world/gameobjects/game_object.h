@@ -16,7 +16,7 @@ namespace water {
 	{
 		typedef std::map<ComponentTag, BaseComponent*> COMPONENT_MAP;
 
-		class GameObject {
+		class GameObject: public std::enable_shared_from_this<GameObject> {
 		public:
 			GameObject();
 			GameObject(const GameObject& game_object);

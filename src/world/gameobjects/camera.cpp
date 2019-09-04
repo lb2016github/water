@@ -8,7 +8,7 @@ namespace water
 	{
 		math3d::Matrix Camera::get_view_matrix()
 		{
-			TransformComponent* comp = (TransformComponent*)get_component(COMP_TRANSFORMATION);
+			auto comp = GET_COMPONENT(this, TransformComponent);
 			math3d::Matrix mtx = comp->get_world_transformation();
 			mtx = math3d::inverse(mtx);
 			return mtx;

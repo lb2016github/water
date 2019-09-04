@@ -20,8 +20,8 @@ namespace water
 
 		public:
 			// set parent and get parent
-			void set_parent(SpaceObject* space_object);
-			SpaceObject* get_parent();
+			void set_parent(SpaceObjectPtr space_object);
+			SpaceObjectPtr get_parent();
 
 			// get children
 			std::set<SpaceObjectPtr>& get_children();
@@ -35,7 +35,7 @@ namespace water
 			bool visible = { true };
 
 		protected:
-			SpaceObject * m_parent{ nullptr };		// parent
+			SpaceObjectWeekPtr m_parent;		// parent
 			std::set<SpaceObjectPtr> m_children;	// childen
 			
 		};

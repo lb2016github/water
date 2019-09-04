@@ -20,7 +20,8 @@ namespace water
 			math3d::Matrix get_view_matrix();
 		};
 
-		typedef std::shared_ptr<Camera> CameraPtr;
+		DECL_SHARED_PTR(Camera);
+		DECL_WEEK_PTR(Camera);
 	}
 }
 

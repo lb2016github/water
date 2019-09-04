@@ -22,6 +22,9 @@ namespace water
 		protected:
 			virtual std::set<ComponentTag> get_comp_tags();
 		};
+
+		DECL_SHARED_PTR(Model);
+		DECL_WEEK_PTR(Model);
 	}
 }
 

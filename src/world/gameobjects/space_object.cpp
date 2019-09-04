@@ -7,16 +7,15 @@ namespace water
 	{
 		SpaceObject::~SpaceObject()
 		{
-			m_parent = nullptr;
 			m_children.clear();
 		}
-		void SpaceObject::set_parent(SpaceObject * space_object)
+		void SpaceObject::set_parent(SpaceObjectPtr space_object)
 		{
 			m_parent = space_object;
 		}
-		SpaceObject * SpaceObject::get_parent()
+		SpaceObjectPtr SpaceObject::get_parent()
 		{
-			return m_parent;
+			return m_parent.lock();
 		}
 		std::set<SpaceObjectPtr>& SpaceObject::get_children()
 		{
