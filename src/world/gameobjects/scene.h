@@ -3,6 +3,7 @@
 #include "camera.h"
 #include <set>
 #include "render/draw_command.h"
+#include "common/common.h"
 
 namespace water
 {
@@ -22,6 +23,9 @@ namespace water
 			// current camera
 			CameraPtr m_cur_camera;
 		};
+
+		DECL_SHARED_PTR(Scene);
+		DECL_WEEK_PTR(Scene);
 	}
 }
 

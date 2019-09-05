@@ -1,6 +1,7 @@
 #include "material_component.h"
 #include "render/material.h"
 #include "common/log.h"
+#include "transform_component.h"
 
 namespace water
 {
@@ -37,11 +38,27 @@ namespace water
 					if (!param_map) continue;
 					for (auto iter = param_map->m_semantic_map.begin(); iter != param_map->m_semantic_map.end(); ++i)
 					{
-						auto name = iter->first;
-						auto sem = iter->second;
-						// todo
+						// update semantic
+						update_semantic_param(param_map, iter->first, iter->second);
 					}
 				}
+			}
+		}
+
+		void MaterialComponent::update_semantic_param(render::ParameterMapPtr param_map, std::string name, render::SemanticType semantic)
+		{
+			switch (semantic)
+			{
+			case water::render::SemanticNone:
+				break;
+			case water::render::SemanticWVP:
+				auto trans_comp = GET_COMPONENT(m_game_object, TransformComponent);
+				if (trans_comp == nullptr) break;
+				auto world_trans = trans_comp->get_world_transformation();
+				// todo
+				break;
+			default:
+				break;
 			}
 		}
 

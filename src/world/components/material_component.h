@@ -42,6 +42,10 @@ namespace water
 			// update material
 			void update_material();
 
+		protected:
+			// update value of semantic param
+			void update_semantic_param(render::ParameterMapPtr param_map, std::string name, render::SemanticType semantic);
+
 		private:
 			render::MaterialPtr m_material_ptr = { nullptr };
 		};
