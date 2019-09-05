@@ -2,6 +2,7 @@
 #include "render/material.h"
 #include "common/log.h"
 #include "transform_component.h"
+#include "scene_object_component.h"
 
 namespace water
 {
@@ -47,18 +48,20 @@ namespace water
 
 		void MaterialComponent::update_semantic_param(render::ParameterMapPtr param_map, std::string name, render::SemanticType semantic)
 		{
-			switch (semantic)
+			if (semantic == water::render::SemanticWVP)
 			{
-			case water::render::SemanticNone:
-				break;
-			case water::render::SemanticWVP:
 				auto trans_comp = GET_COMPONENT(m_game_object, TransformComponent);
-				if (trans_comp == nullptr) break;
+				if (trans_comp == nullptr) return;
 				auto world_trans = trans_comp->get_world_transformation();
-				// todo
-				break;
-			default:
-				break;
+				auto scene_comp = GET_COMPONENT(m_game_object, SceneObjectComponent);
+				if (scene_comp == nullptr) return;
+				auto scene_ptr = scene_comp->get_scene();
+				if (scene_ptr == nullptr) return;
+				auto cam_ptr = scene_ptr->get_active_camera();
+				if (cam_ptr == nullptr) return;
+				auto vp = cam_ptr->get_projection_matrix() * cam_ptr->get_view_matrix();
+				auto wvp = vp * world_trans;
+				param_map->set_param(name, wvp);
 			}
 		}
 

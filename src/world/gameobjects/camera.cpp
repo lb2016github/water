@@ -13,5 +13,10 @@ namespace water
 			mtx = math3d::inverse(mtx);
 			return mtx;
 		}
+		math3d::Matrix Camera::get_projection_matrix()
+		{
+			// TODO
+			return math3d::Matrix();
+		}
 	}
 }

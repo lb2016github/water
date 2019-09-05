@@ -12,6 +12,7 @@ namespace water
 			COMP_MATERIAL,			// MaterialComponent
 			COMP_CAMERA_CONTROLLER,	// CameraControlComponent
 			COMP_RENDER,			// RenderComponent
+			COMP_SCENE_OBJECT,		// SceneObjectComponent
 		};
 	}
 }

@@ -25,6 +25,7 @@ namespace water
 		{
 			std::set<ComponentTag> rst;
 			rst.insert(COMP_TRANSFORMATION);
+			rst.insert(COMP_SCENE_OBJECT);
 			return rst;
 		}
 	}

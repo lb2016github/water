@@ -18,6 +18,8 @@ namespace water
 		public:
 			// get view matrix
 			math3d::Matrix get_view_matrix();
+			// get projection matrix
+			math3d::Matrix get_projection_matrix();
 		};
 
 		DECL_SHARED_PTR(Camera);
