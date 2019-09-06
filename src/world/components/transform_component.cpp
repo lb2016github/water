@@ -1,6 +1,7 @@
 #include "transform_component.h"
 #include "world/gameobjects/game_object.h"
 #include "component_const.h"
+#include "boost/algorithm/string.hpp"
 
 namespace water {
 	namespace world
@@ -41,6 +42,37 @@ namespace water {
 		math3d::Matrix TransformComponent::get_transformation()
 		{
 			return math3d::get_transform_matrix(position, rotation, scale);
+		}
+		void TransformComponent::set_position(math3d::Vector3 pos)
+		{
+			position = pos;
+		}
+		void TransformComponent::set_position(std::string pos_str)
+		{
+			position = string_to_vector(pos_str);
+		}
+		void TransformComponent::set_scale(math3d::Vector3 p_scale)
+		{
+			scale = p_scale;
+		}
+		void TransformComponent::set_scale(std::string scale_str)
+		{
+			scale = string_to_vector(scale_str);
+		}
+		void TransformComponent::set_rotation(math3d::Vector3 p_rotation)
+		{
+			rotation = p_rotation;
+		}
+		void TransformComponent::set_rotation(std::string rot_str)
+		{
+			rotation = string_to_vector(rot_str);
+		}
+		inline math3d::Vector3 TransformComponent::string_to_vector(std::string str)
+		{
+			std::vector<std::string> sub_values;
+			boost::split(sub_values, str, " ");
+			assert(sub_values.size() == 3);
+			return math3d::Vector3(atof(sub_values[0].c_str()), atof(sub_values[1].c_str()), atof(sub_values[2].c_str()));
 		}
 	}
 }

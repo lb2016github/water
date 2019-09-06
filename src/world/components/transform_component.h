@@ -18,6 +18,15 @@ namespace water {
 		public:
 			math3d::Matrix get_world_transformation();
 			math3d::Matrix get_transformation();
+
+			// position rotation scale
+			void set_position(math3d::Vector3 pos);
+			void set_position(std::string pos_str);
+			void set_scale(math3d::Vector3 scale);
+			void set_scale(std::string scale_str);
+			void set_rotation(math3d::Vector3 rotation);
+			void set_rotation(std::string rot_str);
+			inline math3d::Vector3 string_to_vector(std::string str);
 		public:
 			math3d::Vector3 position = { 0, 0, 0 };
 			math3d::Vector3 rotation = { 0, 0, 0 };

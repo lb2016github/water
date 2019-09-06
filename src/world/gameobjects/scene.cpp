@@ -1,5 +1,10 @@
 #include "scene.h"
 #include "world/components/render_component.h"
+#include "filesystem/xml_file.h"
+#include "common/log.h"
+#include "model.h"
+#include "world/components/transform_component.h"
+#include "world/components/scene_object_component.h"
 
 namespace water
 {
@@ -17,6 +22,38 @@ namespace water
 		{
 			auto render_comp = GET_COMPONENT(this, RenderComponent);
 			render_comp->render(draw_cmd);
+		}
+		void Scene::load_from_file(std::string filepath)
+		{
+			filesystem::XMLFile xml_file;
+			xml_file.load(filepath.c_str());
+			if (xml_file.m_loaded != true)
+			{
+				log_error("[MODEL]Fail to load file %s\n", filepath.c_str());
+				return;
+			}
+			auto root_node = xml_file.get_root_node();
+			for each (auto child in root_node.children())
+			{
+				// load mesh
+				if (strcmp(child.name(), "Model") == 0)
+				{
+					std::string model_path = child.attribute("path").as_string();
+					auto model = Model();
+					model.load_from_file(model_path);
+					// set pos rot scale
+					auto scale = child.attribute("scale").as_string();
+					if (scale) GET_COMPONENT(&model, TransformComponent)->set_scale(scale);
+					auto rotation = child.attribute("scale").as_string();
+					if (rotation) GET_COMPONENT(&model, TransformComponent)->set_rotation(rotation);
+					auto position = child.attribute("position").as_string();
+					if (position) GET_COMPONENT(&model, TransformComponent)->set_position(position);
+					// add to scene
+					model.add_component(SceneObjectComponent::tag);
+					GET_COMPONENT(&model, SceneObjectComponent)->on_add_to_scene(std::dynamic_pointer_cast<Scene>(shared_from_this()));
+				}
+			}
+
 		}
 		std::set<ComponentTag> Scene::get_comp_tags()
 		{

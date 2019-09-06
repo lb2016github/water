@@ -9,7 +9,7 @@
 #include <set>
 #include <memory>
 
-#define GET_COMPONENT(obj_ptr, cls) (cls*)obj_ptr->get_component(cls::tag);
+#define GET_COMPONENT(obj_ptr, cls) ((cls*)(obj_ptr)->get_component(cls::tag))
 
 namespace water {
 	namespace world
@@ -24,9 +24,9 @@ namespace water {
 			virtual ~GameObject();
 
 			BaseComponent* get_component(ComponentTag comp);
+			BaseComponent* add_component(ComponentTag comp);
 
 		protected:
-			BaseComponent* add_component(ComponentTag comp);
 			virtual std::set<ComponentTag> get_comp_tags() = 0;
 
 		private:

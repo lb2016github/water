@@ -9,7 +9,7 @@ namespace water
 {
 	namespace world
 	{
-		class Scene: public SpaceObject
+		class Scene: public SpaceObject 
 		{
 		public:
 			using SpaceObject::SpaceObject;
@@ -17,6 +17,9 @@ namespace water
 			CameraPtr get_active_camera();
 			void set_active_camera(CameraPtr cam_ptr);
 			void render(const render::DrawCommand& draw_cmd);
+
+			//load scene from file
+			void load_from_file(std::string filepath);
 		protected:
 			virtual std::set<ComponentTag> get_comp_tags();
 		protected:

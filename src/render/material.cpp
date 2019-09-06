@@ -143,7 +143,7 @@ namespace water
 					std::string type = param.attribute("type").as_string();
 					std::string value = param.attribute("value").as_string();
 					std::string semantic_value = param.attribute("semantic").as_string();
-					map_ptr->set_raw_param(name, type, value, semantic);
+					map_ptr->set_raw_param(name, type, value, semantic_value);
 				}
 				int index = param_map.attribute("index").as_int();
 				m_param_map[index] = map_ptr;

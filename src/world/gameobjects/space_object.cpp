@@ -1,4 +1,5 @@
 #include "space_object.h"
+#include "world/components/transform_component.h"
 
 
 namespace water
