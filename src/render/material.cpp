@@ -52,7 +52,7 @@ namespace water
 			}
 			std::vector<std::string> sub_values;
 			ParamValue p_value;
-			boost::split(sub_values, raw_value, " ");
+			boost::split(sub_values, raw_value, boost::is_space());
 
 			if (type == MATERIAL_VALUE_TYPE_MATRIX)
 			{

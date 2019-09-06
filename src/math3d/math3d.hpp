@@ -6,6 +6,7 @@
 #include "glm/vec2.hpp"
 #include "glm/gtx/euler_angles.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "glm/ext/matrix_clip_space.hpp"
 #include <vector>
 
 namespace water {
@@ -46,6 +47,10 @@ namespace water {
 		Matrix inline get_transform_matrix(const Vector3& position, const Vector3& rotation, const Vector3& scale)
 		{
 			return get_translate_matrix(position) * get_rotation_matrix(rotation) * get_scale_matrix(scale);
+		}
+		Matrix inline get_perpective_matrix(float near, float far, float fov_y, float aspect)
+		{
+			return glm::perspective(fov_y, aspect, near, far);
 		}
 	}
 }

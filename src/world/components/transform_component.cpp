@@ -70,7 +70,7 @@ namespace water {
 		inline math3d::Vector3 TransformComponent::string_to_vector(std::string str)
 		{
 			std::vector<std::string> sub_values;
-			boost::split(sub_values, str, " ");
+			boost::split(sub_values, str, boost::is_space());
 			assert(sub_values.size() == 3);
 			return math3d::Vector3(atof(sub_values[0].c_str()), atof(sub_values[1].c_str()), atof(sub_values[2].c_str()));
 		}

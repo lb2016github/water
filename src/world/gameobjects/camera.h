@@ -20,6 +20,12 @@ namespace water
 			math3d::Matrix get_view_matrix();
 			// get projection matrix
 			math3d::Matrix get_projection_matrix();
+
+		public:
+			float fovy = { 50 };
+			float aspect = { 1 };
+			float z_near = { 1 };
+			float z_far = { 1000 };
 		};
 
 		DECL_SHARED_PTR(Camera);

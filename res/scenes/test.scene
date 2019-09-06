@@ -1,3 +1,4 @@
 <Scene>
     <Model path="res/models/box.model" position="0 0 0" scale="1 1 1" rotation="0 0 0"/>
+    <Camera fovy=50 znear=1 zfar=1000 position="0 0 0" rotation="0 0 0"/>
 </Scene>

@@ -35,7 +35,7 @@ namespace water
 			auto root_node = xml_file.get_root_node();
 			for each (auto child in root_node.children())
 			{
-				// load mesh
+				// load model
 				if (strcmp(child.name(), "Model") == 0)
 				{
 					std::string model_path = child.attribute("path").as_string();
@@ -52,9 +52,42 @@ namespace water
 					model.add_component(SceneObjectComponent::tag);
 					GET_COMPONENT(&model, SceneObjectComponent)->on_add_to_scene(std::dynamic_pointer_cast<Scene>(shared_from_this()));
 				}
+				// load camera
+				if (strcmp(child.name(), "Camera") == 0)
+				{
+					auto camera = Camera();
+					for (auto iter = child.attributes_begin(); iter != child.attributes_end(); ++iter)
+					{
+						if (strcmp(iter->name(), "fovy") == 0)
+						{
+							camera.fovy = iter->as_float();
+						}
+						else if (strcmp(iter->name(), "znear") == 0)
+						{
+							camera.z_near = iter->as_float();
+						}
+						else if (strcmp(iter->name(), "zfar") == 0)
+						{
+							camera.z_far = iter->as_float();
+						}
+						else if (strcmp(iter->name(), "position") == 0)
+						{
+							GET_COMPONENT(&camera, TransformComponent)->set_position(iter->as_string());
+						}
+						else if (strcmp(iter->name(), "rotation") == 0)
+						{
+							GET_COMPONENT(&camera, TransformComponent)->set_rotation(iter->as_string());
+						}
+						else
+						{
+							log_error("[Scene]Load camera attribute failed with name %s", iter->name());
+						}
+					}
+				}
 			}
 
 		}
+
 		std::set<ComponentTag> Scene::get_comp_tags()
 		{
 			auto rst = SpaceObject::get_comp_tags();

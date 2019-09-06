@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include "render/render.h"
+#include "render/draw_command.h"
 
 
 namespace water {
