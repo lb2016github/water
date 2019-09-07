@@ -87,15 +87,29 @@ namespace water {
 		glfwSetWindowTitle(window, m_title.c_str());
 	}
 
-	water::WindowWin32* WindowWin32::Instance()
+	void WindowWin32::add_callback(IWindowCallback* cb)
 	{
-		return &m_instance;
+		m_callbacks.insert(cb);
+	}
+
+	void WindowWin32::remove_callback(IWindowCallback* cb)
+	{
+		m_callbacks.erase(cb);
+	}
+
+	WindowWin32* WindowWin32::Instance()
+	{
+		if (m_instance == nullptr)
+		{
+			m_instance = new WindowWin32();
+		}
+		return m_instance;
 	}
 
 	WindowWin32::WindowWin32()
 	{
 	}
 
-	WindowWin32 WindowWin32::m_instance;
+	WindowWin32* m_instance = nullptr;
 
 }

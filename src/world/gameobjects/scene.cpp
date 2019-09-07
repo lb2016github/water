@@ -56,6 +56,7 @@ namespace water
 				if (strcmp(child.name(), "Camera") == 0)
 				{
 					auto camera = Camera();
+					camera.update_fovy();
 					for (auto iter = child.attributes_begin(); iter != child.attributes_end(); ++iter)
 					{
 						if (strcmp(iter->name(), "fovy") == 0)

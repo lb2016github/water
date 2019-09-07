@@ -4,6 +4,7 @@
 #include "math3d/math3d.hpp"
 #include <memory>
 #include "space_object.h"
+#include "window/window_win32.h"
 
 namespace water
 {
@@ -20,6 +21,8 @@ namespace water
 			math3d::Matrix get_view_matrix();
 			// get projection matrix
 			math3d::Matrix get_projection_matrix();
+			// update fovy
+			void update_fovy();
 
 		public:
 			float fovy = { 50 };

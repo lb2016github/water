@@ -17,5 +17,11 @@ namespace water
 		{
 			return math3d::get_perpective_matrix(z_near, z_far, fovy, aspect);
 		}
+		void Camera::update_fovy()
+		{
+			auto window_ptr = WindowWin32::Instance();
+			auto size = window_ptr->get_window_size();
+			fovy = size.y / size.x;
+		}
 	}
 }
