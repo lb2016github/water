@@ -6,6 +6,7 @@
 namespace water {
 
 	static GLFWwindow* window;
+	WindowWin32* m_instance = nullptr;
 
 	static void error_callback(int error, const char* desc) {
 		char error_desc[128];
@@ -110,6 +111,5 @@ namespace water {
 	{
 	}
 
-	WindowWin32* m_instance = nullptr;
 
 }

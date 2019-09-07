@@ -1,14 +1,22 @@
 #include "window/window_win32.h"
 #include "filesystem/filesystem.h"
 #include <iostream>
+#include "world/gameobjects/scene.h"
+
+using namespace water;
 
 void main() {
-	water::IWindow* window = water::WindowWin32::Instance();
+	IWindow* window = water::WindowWin32::Instance();
 	window->set_window_size(1344, 750);
 	window->on_init();
 	window->set_window_title("Water");
+
+	auto scn = world::Scene();
+	scn.load_from_file("scenes/test.scene");
+
 	while (!window->is_window_closed()) {
 		window->on_frame();
+		scn.tick(0);
 	}
 	window->on_destroy();
 }

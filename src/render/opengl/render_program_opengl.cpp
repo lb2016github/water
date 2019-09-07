@@ -18,7 +18,7 @@ namespace water
 				return rst->second;
 			}
 
-			char* buffer = filesystem::FileSystem::instance.read_file(file_path);
+			char* buffer = filesystem::FileSystem::get_instance()->read_file(file_path);
 			if (!buffer) {
 				return -1;
 			}

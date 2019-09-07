@@ -5,6 +5,7 @@
 #include "model.h"
 #include "world/components/transform_component.h"
 #include "world/components/scene_object_component.h"
+#include "filesystem/filesystem.h"
 
 namespace water
 {
@@ -25,8 +26,10 @@ namespace water
 		}
 		void Scene::load_from_file(std::string filepath)
 		{
+			auto fs = filesystem::FileSystem::get_instance();
+			auto abs_path = fs->get_absolute_path(filepath);
 			filesystem::XMLFile xml_file;
-			xml_file.load(filepath.c_str());
+			xml_file.load(abs_path.c_str());
 			if (xml_file.m_loaded != true)
 			{
 				log_error("[MODEL]Fail to load file %s\n", filepath.c_str());
@@ -38,7 +41,7 @@ namespace water
 				// load model
 				if (strcmp(child.name(), "Model") == 0)
 				{
-					std::string model_path = child.attribute("path").as_string();
+					std::string model_path = fs->get_absolute_path(child.attribute("path").as_string());
 					auto model = Model();
 					model.load_from_file(model_path);
 					// set pos rot scale
@@ -87,6 +90,11 @@ namespace water
 				}
 			}
 
+		}
+
+		void Scene::tick(unsigned int delta_time)
+		{
+			render(draw_cmd);
 		}
 
 		std::set<ComponentTag> Scene::get_comp_tags()

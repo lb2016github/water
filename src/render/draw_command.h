@@ -8,7 +8,7 @@ namespace water
 	{
 		struct DrawCommand
 		{
-			DrawMode draw_mode;
+			DrawMode draw_mode = {TRIANGLES};
 		};
 
 	}

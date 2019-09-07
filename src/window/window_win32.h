@@ -1,4 +1,5 @@
 #ifndef WATER_WINDOW_WIN32_H
+#define WATER_WINDOW_WIN32_H
 
 #include "window/window_interface.h"
 #include "math3d\math3d.hpp"

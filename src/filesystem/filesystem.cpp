@@ -8,7 +8,7 @@
 namespace water {
 	namespace filesystem {
 
-		FileSystem FileSystem::instance;
+		FileSystem* instance = nullptr;
 
 		bool FileSystem::is_file_exist(const char* file_path)
 		{
@@ -35,6 +35,30 @@ namespace water {
 		int FileSystem::get_file_size(const char * file_path)
 		{
 			return boost::filesystem::file_size(file_path);
+		}
+		std::string FileSystem::get_absolute_path(const std::string related_path)
+		{
+			boost::filesystem::path related(related_path);
+			auto path = boost::filesystem::absolute(related, m_res_path);
+			return path.string();
+		}
+		void FileSystem::set_res_root(const std::string& res_path)
+		{
+			boost::filesystem::path path(res_path);
+			if (!boost::filesystem::exists(path))
+			{
+				log_error("Res path is not exist: %s", res_path.c_str());
+				return;
+			}
+			m_res_path = path;
+		}
+		FileSystem* FileSystem::get_instance()
+		{
+			if (instance == nullptr)
+			{
+				instance = new FileSystem();
+			}
+			return instance;
 		}
 	}
 

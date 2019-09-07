@@ -20,11 +20,15 @@ namespace water
 
 			//load scene from file
 			void load_from_file(std::string filepath);
+
+			// tick
+			void tick(unsigned int delta_time);
 		protected:
 			virtual std::set<ComponentTag> get_comp_tags();
 		protected:
 			// current camera
 			CameraPtr m_cur_camera;
+			render::DrawCommand draw_cmd = { render::TRIANGLES };
 		};
 
 		DECL_SHARED_PTR(Scene);
