@@ -23,7 +23,7 @@ namespace water {
 		static WindowWin32* Instance();
 
 	private:
-		WindowWin32() {}
+		WindowWin32();
 
 	protected:
 		unsigned m_width;

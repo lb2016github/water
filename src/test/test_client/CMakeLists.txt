@@ -1,0 +1,13 @@
+project(test_client)
+
+file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.*)
+
+link_directories(${WATER_THIRD_LIBRARY_DIRECTORY}/glfw3/${WATER_LIB_VERSION} ${WATER_THIRD_LIBRARY_DIRECTORY}/boost/${WATER_LIB_VERSION})
+
+list(APPEND DEPEND_LIBS render world window filesystem common)
+list(APPEND THIRD_LIBS glfw3)
+
+add_executable(test_client ${SOURCE_FILES})
+add_dependencies(test_client ${DEPEND_LIBS})
+target_link_libraries(test_client ${DEPEND_LIBS} ${THIRD_LIBS})
+set_property(TARGET test_client PROPERTY FOLDER "TEST")

@@ -92,6 +92,10 @@ namespace water {
 		return &m_instance;
 	}
 
+	WindowWin32::WindowWin32()
+	{
+	}
+
 	WindowWin32 WindowWin32::m_instance;
 
 }

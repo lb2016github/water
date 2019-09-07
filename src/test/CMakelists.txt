@@ -1,3 +1,4 @@
 add_subdirectory(test_filesystem)
 add_subdirectory(test_render)
 add_subdirectory(test_cpp)
+add_subdirectory(test_client)

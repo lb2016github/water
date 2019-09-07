@@ -17,6 +17,9 @@ namespace water
 			void set_cur_scene(ScenePtr scene);
 			void remove_scene(ScenePtr scene);
 
+			// windown
+
+
 			static World* get_instance();
 
 		protected:
