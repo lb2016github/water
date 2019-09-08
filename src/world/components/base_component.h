@@ -8,11 +8,11 @@
 #include <functional>
 
 #define REGISTER_COMPONENT(cls, obj_type)\
-water::world::BaseComponent* create_##comp_tag(void* obj)\
+water::world::BaseComponent* create_##cls(void* obj)\
 {\
 	return new cls((obj_type*)obj);\
 }\
-water::world::ComponentInfo comp(cls::tag, create_##comp_tag);
+water::world::ComponentInfo comp_info_##cls(cls::tag, create_##cls);
 
 
 namespace water {

@@ -4,6 +4,7 @@
 #include "mesh.h"
 #include "draw_command.h"
 #include "render/render_const.h"
+#include "technique_common.h"
 
 namespace water
 {
@@ -19,7 +20,13 @@ namespace water
 			virtual void draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr) = 0;
 		};
 
+		// devices
+		enum DeviceType {
+			DeviceTypeOpenGL,
+		};
+
 		DeviceBase* get_device();
+		void set_device(DeviceType dy);
 
 	}
 }

@@ -7,6 +7,7 @@ namespace water
 	{
 
 		static DeviceBase* device = nullptr;
+		DeviceType cur_device = DeviceTypeOpenGL;
 
 		DeviceBase* get_device()
 		{
@@ -19,6 +20,10 @@ namespace water
 				device = new DeviceOpenGL();
 			}
 			return device;
+		}
+		void set_device(DeviceType dy)
+		{
+			cur_device = dy;
 		}
 	}
 }

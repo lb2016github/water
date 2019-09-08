@@ -6,12 +6,13 @@
 #include "render/render.h"
 #include "draw_command.h"
 
+
 namespace water
 {
 	namespace render
 	{
 
-		class Material
+		class Material: public std::enable_shared_from_this<Material>
 		{
 		public:
 			void load(const char* file_path);

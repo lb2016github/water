@@ -150,13 +150,6 @@ namespace render {
 		QUADS,
 	};
 
-	// devices
-	enum DeviceType {
-		DeviceTypeOpenGL,
-	};
-
-	extern DeviceType cur_device = DeviceTypeOpenGL;
-
 }
 }
 

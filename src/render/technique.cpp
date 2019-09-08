@@ -13,6 +13,7 @@ namespace water
 {
 	namespace render
 	{
+		TechniqueManager* TechniqueManager::instance = nullptr;
 
 		void load_render_state(RenderStateInfo& render_state, pugi::xml_node& node);
 		void load_blend_info(BlendStateInfo& blend, pugi::xml_node& node);

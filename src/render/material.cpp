@@ -3,7 +3,7 @@
 #include "common/log.h"
 #include "render/technique.h"
 #include "boost/algorithm/string.hpp"
-
+#include "technique_common.h"
 
 namespace water
 {
@@ -153,6 +153,11 @@ namespace water
 		void Material::render(IRenderable * render_obj)
 		{
 			m_tech->render(render_obj);
+		}
+
+		void Material::render(const DrawCommand& draw_cmd, const MeshDataPtr mesh)
+		{
+			m_tech->render(draw_cmd, shared_from_this(), mesh);
 		}
 
 		ParameterMapPtr Material::get_param_map(int index)
