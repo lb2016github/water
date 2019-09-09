@@ -2,6 +2,9 @@
 #define WATER_SPACE_OBJECT_H
 
 #include "game_object.h"
+#include "component_object.hpp"
+#include "world/components/transform_component.h"
+#include "world/components/scene_object_component.h"
 
 namespace water
 {
@@ -11,11 +14,11 @@ namespace water
 		DECL_SHARED_PTR(SpaceObject);
 		DECL_WEEK_PTR(SpaceObject);
 
-		class SpaceObject : public GameObject
+		class SpaceObject : 
+			public ComponentObject<SceneObjectComponent, TransformComponent>, 
+			public std::enable_shared_from_this<SpaceObject>
 		{
 		public:
-			using GameObject::GameObject;
-			using GameObject::operator=;
 			virtual ~SpaceObject();
 
 		public:
@@ -39,7 +42,6 @@ namespace water
 			std::set<SpaceObjectPtr> m_children;	// childen
 			
 		};
-
 
 	}
 }

@@ -1,4 +1,6 @@
 #include "scene_object_component.h"
+#include "world/gameobjects/space_object.h"
+#include "world/gameobjects/scene.h"
 
 
 namespace water

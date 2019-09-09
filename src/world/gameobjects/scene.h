@@ -12,7 +12,6 @@ namespace water
 		class Scene: public SpaceObject 
 		{
 		public:
-			using SpaceObject::SpaceObject;
 
 			CameraPtr get_active_camera();
 			void set_active_camera(CameraPtr cam_ptr);

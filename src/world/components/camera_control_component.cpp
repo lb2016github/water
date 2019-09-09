@@ -1,4 +1,5 @@
 #include "camera_control_component.h"
+#include "world/gameobjects/camera.h"
 
 namespace water
 {

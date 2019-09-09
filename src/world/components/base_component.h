@@ -18,7 +18,10 @@ water::world::ComponentInfo comp_info_##cls(cls::tag, create_##cls);
 namespace water {
 	namespace world
 	{
-		class GameObject;
+		template<typename ...Comps>
+		struct ComponentObject;
+
+		typedef ComponentObject<> GameObject;
 
 		class BaseComponent {
 		public:

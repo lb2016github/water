@@ -2,13 +2,15 @@
 #define WATER_SCENE_OBJECT_COMPONENT_H
 
 #include "base_component.h"
-#include "world/gameobjects/space_object.h"
-#include "world/gameobjects/scene.h"
+#include <memory>
 
 namespace water
 {
 	namespace world
 	{
+		class SpaceObject;
+		class Scene;
+
 		class SceneObjectComponent : public BaseComponent
 		{
 		public:
@@ -18,12 +20,12 @@ namespace water
 			static const ComponentTag tag = COMP_TRANSFORMATION;
 
 		public:
-			ScenePtr get_scene();
-			void on_add_to_scene(ScenePtr scene);
+			std::shared_ptr<Scene> get_scene();
+			void on_add_to_scene(std::shared_ptr<Scene> scene);
 			void on_remove_from_scene();
 
 		private:
-			SceneWeekPtr m_scene;
+			std::weak_ptr<Scene> m_scene;
 		};
 
 	}

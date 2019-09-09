@@ -2,6 +2,7 @@
 #include "world/gameobjects/game_object.h"
 #include "component_const.h"
 #include "boost/algorithm/string.hpp"
+#include "world/gameobjects/space_object.h"
 
 namespace water {
 	namespace world

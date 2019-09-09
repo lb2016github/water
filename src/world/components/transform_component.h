@@ -2,11 +2,12 @@
 #define WATER_TRANSFORM_COMPONENT_H
 #include "base_component.h"
 #include "math3d/math3d.hpp"
-#include "world/gameobjects/space_object.h"
 
 namespace water {
 	namespace world
 	{
+		class SpaceObject;
+
 		class TransformComponent : public BaseComponent
 		{
 		public:

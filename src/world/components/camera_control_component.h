@@ -1,12 +1,13 @@
 #ifndef WATER_CAEMRA_CONTROL_COMPONENT_H
 #define WATER_CAEMRA_CONTROL_COMPONENT_H
 #include "base_component.h"
-#include "world/gameobjects/camera.h"
 
 namespace water
 {
 	namespace world
 	{
+		class Camera;
+
 		class CameraControlComponent : public BaseComponent
 		{
 		public:

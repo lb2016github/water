@@ -3,6 +3,8 @@
 #include "common/log.h"
 #include "transform_component.h"
 #include "scene_object_component.h"
+#include "world/gameobjects/game_object.h"
+#include "world/gameobjects/scene.h"
 
 namespace water
 {
