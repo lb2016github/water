@@ -11,6 +11,9 @@ void main() {
 	window->on_init();
 	window->set_window_title("Water");
 
+	auto fs = filesystem::FileSystem::get_instance();
+	fs->set_res_root("E:/Projects/C++/water/res");
+
 	auto scn = world::Scene();
 	scn.load_from_file("scenes/test.scene");
 

@@ -28,7 +28,7 @@ namespace water
 		protected:
 			// current camera
 			CameraPtr m_cur_camera;
-			render::DrawCommand draw_cmd = { render::TRIANGLES };
+			render::DrawCommand draw_cmd;
 		};
 
 		DECL_SHARED_PTR(Scene);

@@ -10,25 +10,23 @@ using namespace std;
 class Base
 {
 public:
-	Base() { std::cout << "Base::Base" << std::endl; }
+	Base() { this->print(); }
 	Base(Base*) {}
+	void init() { print(); }
+
+	virtual void print(){std::cout << "Base::print" << std::endl;}
 };
 
 class Derived : public Base
 {
 public:
-	Derived(Derived*) {};
+	virtual void print(){std::cout << "Derived::print" << std::endl;}
 };
-
-typedef std::function<Base* (void*)> FUNC_CREATE_COMPOENT;
-std::map<std::string, FUNC_CREATE_COMPOENT> comp_map;
-
-
-Base b;
 
 
 void main()
 {
+	Derived b;
+	b.init();
 	system("pause");
-
 }
