@@ -5,21 +5,26 @@
 #include "component_object.hpp"
 #include "world/components/transform_component.h"
 #include "world/components/scene_object_component.h"
+#include <memory>
 
 namespace water
 {
 	namespace world
 	{
-		class SpaceObject;
-		DECL_SHARED_PTR(SpaceObject);
-		DECL_WEEK_PTR(SpaceObject);
+		template<typename ...Comps>
+		class SpaceObjectTpl;
 
-		class SpaceObject : 
-			public ComponentObject<SceneObjectComponent, TransformComponent>, 
+		typedef SpaceObjectTpl<> SpaceObject;
+		typedef std::shared_ptr<SpaceObject> SpaceObjectPtr;
+		typedef std::weak_ptr<SpaceObject> SpaceObjectWeekPtr;
+
+		template<typename ...Comps>
+		class SpaceObjectTpl: 
+			public ComponentObject<SceneObjectComponent, TransformComponent, Comps...>, 
 			public std::enable_shared_from_this<SpaceObject>
 		{
 		public:
-			virtual ~SpaceObject();
+			virtual ~SpaceObjectTpl();
 
 		public:
 			// set parent and get parent

@@ -41,10 +41,7 @@ namespace water
 		}
 		std::set<ComponentTag> Model::get_comp_tags()
 		{
-			auto rst = SpaceObject::get_comp_tags();
-			rst.insert(COMP_MESH);
-			rst.insert(COMP_MATERIAL);
-			return rst;
+			return std::set<ComponentTag>();
 		}
 	}
 }

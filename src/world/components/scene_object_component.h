@@ -8,7 +8,10 @@ namespace water
 {
 	namespace world
 	{
-		class SpaceObject;
+		template<typename ...Comps>
+		class SpaceObjectTpl;
+		typedef SpaceObjectTpl<> SpaceObject;
+
 		class Scene;
 
 		class SceneObjectComponent : public BaseComponent

@@ -3,18 +3,15 @@
 
 #include "render/render_object.h"
 #include "space_object.h"
+#include "world/components/mesh_component.h"
+#include "world/components/material_component.h"
 
 namespace water
 {
 	namespace world
 	{
-		class Model : public SpaceObject
+		class Model : public SpaceObjectTpl<MeshComponent, MaterialComponent>
 		{
-		public:
-			// Constructors
-			using SpaceObject::SpaceObject;
-			using SpaceObject::operator=;
-
 		public:
 			// init from file
 			virtual void load_from_file(std::string& filepath);
