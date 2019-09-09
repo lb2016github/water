@@ -1,7 +1,7 @@
 #include "window/window_win32.h"
 #include "filesystem/filesystem.h"
 #include <iostream>
-#include "world/gameobjects/scene.h"
+#include "world/ComponentObjects/scene.h"
 
 using namespace water;
 
