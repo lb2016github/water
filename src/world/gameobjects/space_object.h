@@ -11,31 +11,20 @@ namespace water
 {
 	namespace world
 	{
-		template<typename ...Comps>
-		class SpaceObjectTpl;
-
-		typedef SpaceObjectTpl<> SpaceObject;
-		typedef std::shared_ptr<SpaceObject> SpaceObjectPtr;
-		typedef std::weak_ptr<SpaceObject> SpaceObjectWeekPtr;
-
-		template<typename Comp, typename ...Comps>
-		class SpaceObjectTpl<Comp, Comps...> : public SpaceObjectTpl<Comps...> {};
-
-		template<>
-		class SpaceObjectTpl<>: 
+		class SpaceObject: 
 			public ComponentObject<SceneObjectComponent, TransformComponent>, 
-			public std::enable_shared_from_this<SpaceObjectTpl<>>
+			public std::enable_shared_from_this<SpaceObject>
 		{
 		public:
-			virtual ~SpaceObjectTpl();
+			virtual ~SpaceObject();
 
 		public:
 			// set parent and get parent
-			void set_parent(SpaceObjectPtr space_object);
-			SpaceObjectPtr get_parent();
+			void set_parent(std::shared_ptr<SpaceObject> space_object);
+			std::shared_ptr<SpaceObject> get_parent();
 
 			// get children
-			std::set<SpaceObjectPtr>& get_children();
+			std::set<std::shared_ptr<SpaceObject>>& get_children();
 
 		protected:
 			virtual std::set<ComponentTag> get_comp_tags();
@@ -46,10 +35,13 @@ namespace water
 			bool visible = { true };
 
 		protected:
-			SpaceObjectWeekPtr m_parent;		// parent
-			std::set<SpaceObjectPtr> m_children;	// childen
+			std::weak_ptr<SpaceObject> m_parent;		// parent
+			std::set<std::shared_ptr<SpaceObject>> m_children;	// childen
 			
 		};
+
+		DECL_SHARED_PTR(SpaceObject)
+		DECL_WEEK_PTR(SpaceObject)
 
 	}
 }

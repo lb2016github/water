@@ -6,9 +6,7 @@
 namespace water {
 	namespace world
 	{
-		template<typename ...Comps>
-		class SpaceObjectTpl;
-		typedef SpaceObjectTpl<> SpaceObject;
+		class SpaceObject;
 
 		class TransformComponent : public BaseComponent
 		{

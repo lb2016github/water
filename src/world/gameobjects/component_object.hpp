@@ -18,7 +18,6 @@ namespace water
 			{
 				add_component(Comp::tag);
 			}
-
 		};
 
 		template<>
@@ -81,6 +80,15 @@ namespace water
 			}
 		protected:
 			COMPONENT_MAP m_components;
+		};
+
+		template<typename Comp>
+		struct ComponentObject<Comp>: virtual public ComponentObject<>
+		{
+			ComponentObject<Comp>() : ComponentObject<>()
+			{
+				add_component(Comp::tag);
+			}
 		};
 	}
 }

@@ -5,12 +5,13 @@
 #include "render/draw_command.h"
 #include "common/common.h"
 #include "world/components/render_component.h"
+#include "space_object.h"
 
 namespace water
 {
 	namespace world
 	{
-		class Scene: public SpaceObjectTpl<RenderComponent>
+		class Scene: public SpaceObject, public ComponentObject<RenderComponent>
 		{
 		public:
 

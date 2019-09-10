@@ -6,7 +6,7 @@ struct AB : public ComponentObject<A, B>
 
 };
 
-struct DerivedAB : public ComponentObject<A>, public ComponentObject<B>
+struct DerivedAB : virtual public ComponentObject<A>, virtual public ComponentObject<B>
 {
 
 };

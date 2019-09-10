@@ -36,6 +36,7 @@ namespace water
 				return;
 			}
 			auto root_node = xml_file.get_root_node();
+			root_node = root_node.first_child();
 			for each (auto child in root_node.children())
 			{
 				// load model

@@ -27,7 +27,7 @@ namespace water {
 
 		math3d::Matrix TransformComponent::get_world_transformation()
 		{
-			SpaceObject* obj_ptr = (SpaceObject*)m_game_object;
+			SpaceObject* obj_ptr = dynamic_cast<SpaceObject*>(m_game_object);
 			if (!obj_ptr || obj_ptr->get_parent() == NULL)
 			{
 				return get_transformation();
