@@ -49,5 +49,6 @@ struct Test<>
 
 void main()
 {
+	DerivedAB ab;
 	system("pause");
 }

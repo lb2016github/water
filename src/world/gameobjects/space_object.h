@@ -18,10 +18,13 @@ namespace water
 		typedef std::shared_ptr<SpaceObject> SpaceObjectPtr;
 		typedef std::weak_ptr<SpaceObject> SpaceObjectWeekPtr;
 
-		template<typename ...Comps>
-		class SpaceObjectTpl: 
-			public ComponentObject<SceneObjectComponent, TransformComponent, Comps...>, 
-			public std::enable_shared_from_this<SpaceObject>
+		template<typename Comp, typename ...Comps>
+		class SpaceObjectTpl<Comp, Comps...> : public SpaceObjectTpl<Comps...> {};
+
+		template<>
+		class SpaceObjectTpl<>: 
+			public ComponentObject<SceneObjectComponent, TransformComponent>, 
+			public std::enable_shared_from_this<SpaceObjectTpl<>>
 		{
 		public:
 			virtual ~SpaceObjectTpl();

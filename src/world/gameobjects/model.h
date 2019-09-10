@@ -5,12 +5,13 @@
 #include "space_object.h"
 #include "world/components/mesh_component.h"
 #include "world/components/material_component.h"
+#include "world/components/render_component.h"
 
 namespace water
 {
 	namespace world
 	{
-		class Model : public SpaceObjectTpl<MeshComponent, MaterialComponent>
+		class Model : public SpaceObjectTpl<MeshComponent, MaterialComponent, RenderComponent>
 		{
 		public:
 			// init from file

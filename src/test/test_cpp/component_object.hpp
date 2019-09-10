@@ -87,7 +87,6 @@
 					return rst->second;
 				}
 				return nullptr;
-				
 			}
 		protected:
 			COMPONENT_MAP m_components;

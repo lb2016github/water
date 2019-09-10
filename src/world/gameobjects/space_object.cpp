@@ -6,23 +6,23 @@ namespace water
 {
 	namespace world
 	{
-		SpaceObject::~SpaceObject()
+		SpaceObjectTpl<>::~SpaceObjectTpl()
 		{
 			m_children.clear();
 		}
-		void SpaceObject::set_parent(SpaceObjectPtr space_object)
+		void SpaceObjectTpl<>::set_parent(SpaceObjectPtr space_object)
 		{
 			m_parent = space_object;
 		}
-		SpaceObjectPtr SpaceObject::get_parent()
+		SpaceObjectPtr SpaceObjectTpl<>::get_parent()
 		{
 			return m_parent.lock();
 		}
-		std::set<SpaceObjectPtr>& SpaceObject::get_children()
+		std::set<SpaceObjectPtr>& SpaceObjectTpl<>::get_children()
 		{
 			return m_children;
 		}
-		std::set<ComponentTag> SpaceObject::get_comp_tags()
+		std::set<ComponentTag> SpaceObjectTpl<>::get_comp_tags()
 		{
 			std::set<ComponentTag> rst;
 			rst.insert(COMP_TRANSFORMATION);
