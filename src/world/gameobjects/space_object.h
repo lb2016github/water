@@ -11,6 +11,11 @@ namespace water
 {
 	namespace world
 	{
+
+		class SpaceObject;
+		DECL_SHARED_PTR(SpaceObject)
+		DECL_WEEK_PTR(SpaceObject)
+
 		class SpaceObject: 
 			public ComponentObject<SceneObjectComponent, TransformComponent>, 
 			public std::enable_shared_from_this<SpaceObject>
@@ -20,11 +25,11 @@ namespace water
 
 		public:
 			// set parent and get parent
-			void set_parent(std::shared_ptr<SpaceObject> space_object);
-			std::shared_ptr<SpaceObject> get_parent();
+			void set_parent(SpaceObjectPtr space_object);
+			SpaceObjectPtr get_parent();
 
 			// get children
-			std::set<std::shared_ptr<SpaceObject>>& get_children();
+			std::set<SpaceObjectPtr>& get_children();
 
 		protected:
 			virtual std::set<ComponentTag> get_comp_tags();
@@ -35,13 +40,11 @@ namespace water
 			bool visible = { true };
 
 		protected:
-			std::weak_ptr<SpaceObject> m_parent;		// parent
-			std::set<std::shared_ptr<SpaceObject>> m_children;	// childen
+			SpaceObjectWeekPtr m_parent;		// parent
+			std::set<SpaceObjectPtr> m_children;	// childen
 			
 		};
 
-		DECL_SHARED_PTR(SpaceObject)
-		DECL_WEEK_PTR(SpaceObject)
 
 	}
 }
