@@ -14,12 +14,12 @@ void main() {
 	auto fs = filesystem::FileSystem::get_instance();
 	fs->set_res_root("E:/Projects/C++/water/res");
 
-	auto scn = world::Scene();
-	scn.load_from_file("scenes/test.scene");
+	auto scn = std::make_shared<world::Scene>();
+	scn->load_from_file("scenes/test.scene");
 
 	while (!window->is_window_closed()) {
 		window->on_frame();
-		scn.tick(0);
+		scn->tick(0);
 	}
 	window->on_destroy();
 }
