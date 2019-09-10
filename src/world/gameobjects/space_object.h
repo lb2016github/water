@@ -30,6 +30,7 @@ namespace water
 
 			// get children
 			std::set<SpaceObjectPtr>& get_children();
+			void add_child(SpaceObjectPtr space_object);
 
 		protected:
 			virtual std::set<ComponentTag> get_comp_tags();

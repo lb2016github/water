@@ -43,45 +43,49 @@ namespace water
 				if (strcmp(child.name(), "Model") == 0)
 				{
 					std::string model_path = fs->get_absolute_path(child.attribute("path").as_string());
-					auto model = Model();
-					model.load_from_file(model_path);
+					auto model = std::make_shared<Model>();
+					model->load_from_file(model_path);
 					// set pos rot scale
 					auto scale = child.attribute("scale").as_string();
-					if (scale) GET_COMPONENT(&model, TransformComponent)->set_scale(scale);
+					if (scale) GET_COMPONENT(model, TransformComponent)->set_scale(scale);
 					auto rotation = child.attribute("scale").as_string();
-					if (rotation) GET_COMPONENT(&model, TransformComponent)->set_rotation(rotation);
+					if (rotation) GET_COMPONENT(model, TransformComponent)->set_rotation(rotation);
 					auto position = child.attribute("position").as_string();
-					if (position) GET_COMPONENT(&model, TransformComponent)->set_position(position);
+					if (position) GET_COMPONENT(model, TransformComponent)->set_position(position);
+					// add child
+					auto shared_ptr = model->shared_from_this();
+					add_child(shared_ptr);
 					// add to scene
-					model.add_component(SceneObjectComponent::tag);
-					GET_COMPONENT(&model, SceneObjectComponent)->on_add_to_scene(std::dynamic_pointer_cast<Scene>(shared_from_this()));
+					model->add_component(SceneObjectComponent::tag);
+					GET_COMPONENT(model, SceneObjectComponent)->on_add_to_scene(std::dynamic_pointer_cast<Scene>(shared_from_this()));
 				}
 				// load camera
 				if (strcmp(child.name(), "Camera") == 0)
 				{
-					auto camera = Camera();
-					camera.update_fovy();
+					auto camera = std::make_shared<Camera>();
+					add_child(camera);
+					camera->update_fovy();
 					for (auto iter = child.attributes_begin(); iter != child.attributes_end(); ++iter)
 					{
 						if (strcmp(iter->name(), "fovy") == 0)
 						{
-							camera.fovy = iter->as_float();
+							camera->fovy = iter->as_float();
 						}
 						else if (strcmp(iter->name(), "znear") == 0)
 						{
-							camera.z_near = iter->as_float();
+							camera->z_near = iter->as_float();
 						}
 						else if (strcmp(iter->name(), "zfar") == 0)
 						{
-							camera.z_far = iter->as_float();
+							camera->z_far = iter->as_float();
 						}
 						else if (strcmp(iter->name(), "position") == 0)
 						{
-							GET_COMPONENT(&camera, TransformComponent)->set_position(iter->as_string());
+							GET_COMPONENT(camera, TransformComponent)->set_position(iter->as_string());
 						}
 						else if (strcmp(iter->name(), "rotation") == 0)
 						{
-							GET_COMPONENT(&camera, TransformComponent)->set_rotation(iter->as_string());
+							GET_COMPONENT(camera, TransformComponent)->set_rotation(iter->as_string());
 						}
 						else
 						{
