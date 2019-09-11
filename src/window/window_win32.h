@@ -29,8 +29,8 @@ namespace water {
 		WindowWin32();
 
 	protected:
-		unsigned m_width = { 1344 };
-		unsigned m_height = { 750 };
+		int m_width = { 1344 };
+		int m_height = { 750 };
 		std::string m_title = { "Window" };
 		std::set<IWindowCallback*> m_callbacks;
 	};

@@ -1,7 +1,7 @@
 #include "window/window_win32.h"
 #include "filesystem/filesystem.h"
 #include <iostream>
-#include "world/gameobjects/scene.h"
+#include "world/gameobjects/world.h"
 
 using namespace water;
 
@@ -14,12 +14,13 @@ void main() {
 	auto fs = filesystem::FileSystem::get_instance();
 	fs->set_res_root("E:/Projects/C++/water/res");
 
-	auto scn = std::make_shared<world::Scene>();
-	scn->load_from_file("scenes/test.scene");
+	auto world = world::World::get_instance();
+	auto scn = world->load_scene("scenes/test.scene");
+	world->set_cur_scene(scn);
+	window->add_callback(world);
 
 	while (!window->is_window_closed()) {
 		window->on_frame();
-		scn->tick(0);
 	}
 	window->on_destroy();
 }

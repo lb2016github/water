@@ -18,6 +18,7 @@ namespace water {
 		protected:
 			virtual bool do_load() = 0;
 		public:
+			// file_path is related path
 			std::string m_file_path;
 			bool m_loaded;
 		};

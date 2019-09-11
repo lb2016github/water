@@ -23,7 +23,7 @@ namespace water
 		{
 			return m_scene.lock();
 		}
-		void SceneObjectComponent::on_add_to_scene(ScenePtr scene)
+		void SceneObjectComponent::on_add_to_scene(std::shared_ptr<Scene> scene)
 		{
 			m_scene = scene;
 		}

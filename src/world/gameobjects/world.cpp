@@ -1,9 +1,11 @@
 #include "world.h"
+#include "scene.h"
 
 namespace water
 {
 	namespace world
 	{
+		World* world_ptr = nullptr;
 		ScenePtr World::get_cur_scene()
 		{
 			return m_cur_scene;
@@ -17,7 +19,6 @@ namespace water
 			{
 				m_scene_set.insert(scene);
 			}
-
 		}
 		void World::remove_scene(ScenePtr scene)
 		{
@@ -32,21 +33,30 @@ namespace water
 			}
 			return;
 		}
+		ScenePtr World::load_scene(const std::string& scene_path)
+		{
+			auto scn_ptr = std::make_shared<Scene>();
+			scn_ptr->load_from_file(scene_path);
+			m_scene_set.insert(scn_ptr);
+			return scn_ptr;
+		}
+		void World::on_frame()
+		{
+			if (m_cur_scene)
+			{
+				m_cur_scene->on_frame();
+			}
+		}
 		World * World::get_instance()
 		{
-			if (World::instance == nullptr)
+			if (world_ptr == nullptr)
 			{
-				instance = new World();
+				world_ptr = new World();
 			}
-			return instance;
+			return world_ptr;
 		}
-		World::World(): GameObject()
+		World::World()
 		{
-		}
-		std::set<ComponentTag> World::get_comp_tags()
-		{
-			// todo
-			return std::set<ComponentTag>();
 		}
 	}
 }

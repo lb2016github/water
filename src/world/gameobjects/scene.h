@@ -23,9 +23,8 @@ namespace water
 			void load_from_file(std::string filepath);
 
 			// tick
-			void tick(unsigned int delta_time);
-		protected:
-			virtual std::set<ComponentTag> get_comp_tags();
+			void on_frame();
+
 		protected:
 			// current camera
 			CameraPtr m_cur_camera;

@@ -26,10 +26,8 @@ namespace water
 		}
 		void Scene::load_from_file(std::string filepath)
 		{
-			auto fs = filesystem::FileSystem::get_instance();
-			auto abs_path = fs->get_absolute_path(filepath);
 			filesystem::XMLFile xml_file;
-			xml_file.load(abs_path.c_str());
+			xml_file.load(filepath);
 			if (xml_file.m_loaded != true)
 			{
 				log_error("[MODEL]Fail to load file %s\n", filepath.c_str());
@@ -42,7 +40,7 @@ namespace water
 				// load model
 				if (strcmp(child.name(), "Model") == 0)
 				{
-					std::string model_path = fs->get_absolute_path(child.attribute("path").as_string());
+					std::string model_path = child.attribute("path").as_string();
 					auto model = std::make_shared<Model>();
 					model->load_from_file(model_path);
 					// set pos rot scale
@@ -87,6 +85,13 @@ namespace water
 						{
 							GET_COMPONENT(camera, TransformComponent)->set_rotation(iter->as_string());
 						}
+						else if (strcmp(iter->name(), "active") == 0)
+						{
+							if (iter->as_bool())
+							{
+								set_active_camera(camera);
+							}
+						}
 						else
 						{
 							log_error("[Scene]Load camera attribute failed with name %s", iter->name());
@@ -97,16 +102,9 @@ namespace water
 
 		}
 
-		void Scene::tick(unsigned int delta_time)
+		void Scene::on_frame()
 		{
 			render(draw_cmd);
-		}
-
-		std::set<ComponentTag> Scene::get_comp_tags()
-		{
-			auto rst = SpaceObject::get_comp_tags();
-			rst.insert(RenderComponent::tag);
-			return rst;
 		}
 	}
 }

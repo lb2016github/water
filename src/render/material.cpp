@@ -4,6 +4,7 @@
 #include "render/technique.h"
 #include "boost/algorithm/string.hpp"
 #include "technique_common.h"
+#include "filesystem/filesystem.h"
 
 namespace water
 {
@@ -129,7 +130,7 @@ namespace water
 				log_error("[Render]Fail to load file: %s", file_path);
 				return;
 			}
-			pugi::xml_node material = file.get_root_node();
+			auto material = file.get_root_node().first_child();
 			// load technique
 			std::string tech_path = material.child("Technique").child_value();
 			m_tech = TechniqueManager::get_instance()->get_technique(tech_path);

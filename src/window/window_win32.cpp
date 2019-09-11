@@ -42,7 +42,11 @@ namespace water {
 
 	void WindowWin32::on_frame()
 	{
-		//glClear(GL_COLOR_BUFFER_BIT);
+		glfwGetFramebufferSize(window, &m_width, &m_height);
+		for each(auto cb in m_callbacks)
+		{
+			cb->on_frame();
+		}
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

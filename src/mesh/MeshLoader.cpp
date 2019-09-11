@@ -42,12 +42,12 @@ namespace water
 						tmp = mesh->mNormals[i];
 						data_ptr->normal.push_back(math3d::Vector3(tmp.x, tmp.y, tmp.z));
 					}
-					if (mesh->mColors != nullptr)
+					if (mesh->mColors[0] != nullptr)
 					{
 						aiColor4D clr = mesh->mColors[0][i]; // todo currently assume only one color
 						data_ptr->color.push_back(math3d::Vector4(clr.r, clr.g, clr.b, clr.a));
 					}
-					if (mesh->mTextureCoords != nullptr)
+					if (mesh->mTextureCoords[0] != nullptr)
 					{
 						tmp = mesh->mTextureCoords[0][i];	// todo currently assume only one texture coordinate is supporetd
 						data_ptr->coordinate.push_back(math3d::Vector2(tmp.x, tmp.y));

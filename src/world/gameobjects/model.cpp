@@ -12,15 +12,15 @@ namespace water
 	{
 		void Model::load_from_file(std::string & filepath)
 		{
-			auto fs = filesystem::FileSystem::get_instance();
 			filesystem::XMLFile xml_file;
-			xml_file.load(fs->get_absolute_path(filepath));
+			xml_file.load(filepath);
 			if (xml_file.m_loaded != true)
 			{
 				log_error("[MODEL]Fail to load file %s\n", filepath.c_str());
 				return;
 			}
 			auto root_node = xml_file.get_root_node();
+			root_node = root_node.first_child();
 			for each (auto child in root_node.children())
 			{
 				// load mesh
@@ -28,14 +28,14 @@ namespace water
 				{
 					std::string filepath = child.attribute("path").as_string();
 					MeshComponent* mesh_comp = (MeshComponent*)get_component(COMP_MESH);
-					mesh_comp->load_from_file(fs->get_absolute_path(filepath));
+					mesh_comp->load_from_file(filepath);
 				}
 				// load material
 				else if (strcmp(child.name(), "Material") == 0)
 				{
 					std::string filepath = child.attribute("path").as_string();
 					MaterialComponent* comp = (MaterialComponent*)get_component(COMP_MATERIAL);
-					comp->load_from_file(fs->get_absolute_path(filepath));
+					comp->load_from_file(filepath);
 				}
 			}
 		}

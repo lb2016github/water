@@ -10,7 +10,7 @@
 namespace water {
 	WaterInterface IWindowCallback
 	{
-
+		virtual void on_frame() = 0;
 	};
 
 

@@ -4,19 +4,23 @@
 #include "game_object.h"
 #include "scene.h"
 #include <set>
+#include "window/window_interface.h"
+#include <string>
 
 namespace water
 {
 	namespace world
 	{
-		class World: public GameObject
-		{
+		class World: public IWindowCallback		{
 		public:
 			// scene methods
 			ScenePtr get_cur_scene();
 			void set_cur_scene(ScenePtr scene);
 			void remove_scene(ScenePtr scene);
+			ScenePtr load_scene(const std::string& scene_path);
 
+			// on frame
+			virtual void on_frame();
 
 			static World* get_instance();
 
@@ -24,10 +28,6 @@ namespace water
 			World();
 			World(const World& world) = delete;
 			World& operator = (const GameObject& game_object) = delete;
-			
-			static World* instance;
-
-			std::set<ComponentTag> get_comp_tags();
 
 		protected:
 			ScenePtr m_cur_scene;
