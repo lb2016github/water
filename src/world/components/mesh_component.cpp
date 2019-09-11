@@ -2,6 +2,7 @@
 #include "mesh_component.h"
 #include "component_const.h"
 #include "mesh/IMeshLoader.h"
+#include "world/gameobjects/component_object.hpp"
 
 namespace water
 {

@@ -24,30 +24,30 @@ namespace water
 		struct ComponentObject<>
 		{
 			ComponentObject() {}
-			ComponentObject(const ComponentObject& comp_obj)
+			// copy constructor is deleted. as components cannot be initialized in construtor.
+			ComponentObject(const ComponentObject& comp_obj) = delete;
+
+			ComponentObject& operator = (const ComponentObject& comp_obj)
 			{
+				if (this == &comp_obj) {
+					return *this;
+				}
+
 				// copy components
 				for (COMPONENT_MAP::const_iterator iter = comp_obj.m_components.begin(); iter != comp_obj.m_components.end(); ++iter)
 				{
-					BaseComponent* comp = add_component(iter->first);
-					if (comp) {
-						*comp = *(iter->second);
-					}
-				}
-			}
-
-			ComponentObject& operator = (const ComponentObject& game_object)
-			{
-				if (this == &game_object) {
-					return *this;
-				}
-				// copy components
-				for (COMPONENT_MAP::iterator iter = m_components.begin(); iter != m_components.end(); ++iter)
-				{
-					COMPONENT_MAP::const_iterator find_iter = game_object.m_components.find(iter->first);
-					if (find_iter != game_object.m_components.end())
+					auto rst = m_components.find(iter->first);
+					// not component
+					if(rst == m_components.end() || rst->second == nullptr)
 					{
-						*(iter->second) = *(find_iter->second);
+						auto comp_ptr = create_component(iter->first, this);
+						*comp_ptr = *(iter->second);
+						m_components[iter->first] = comp_ptr;
+					}
+					// found
+					else
+					{
+						*(iter->second) = *(iter->second);
 					}
 				}
 				return *this;
@@ -59,24 +59,32 @@ namespace water
 				}
 				m_components.clear();
 			}
-			BaseComponent* get_component(ComponentTag comp)
+			BaseComponent* get_component(ComponentTag comp_tag)
 			{
-				COMPONENT_MAP::iterator iter = m_components.find(comp);
+				COMPONENT_MAP::iterator iter = m_components.find(comp_tag);
 				if (iter == m_components.end()) {
-					return NULL;
+					return nullptr;
 				}
-				return iter->second;
+				// component has created
+				if (iter->second)
+				{
+					return iter->second;
+				}
+				else
+				{
+					// component is not created
+					BaseComponent* comp = create_component(comp_tag, this);
+					m_components[comp_tag] = comp;
+					return comp;
+				}
 			}
-			BaseComponent* add_component(ComponentTag comp_tag)
+			void add_component(ComponentTag comp_tag)
 			{
 				auto rst = m_components.find(comp_tag);
-				if (rst != m_components.end()) {
-					return rst->second;
+				if (rst == m_components.end()) {
+					m_components[comp_tag] = nullptr;
 				}
 				
-				BaseComponent* comp = create_component(comp_tag, this);
-				m_components[comp_tag] = comp;
-				return comp;
 			}
 		protected:
 			COMPONENT_MAP m_components;

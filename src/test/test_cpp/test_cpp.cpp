@@ -49,6 +49,9 @@ struct Test<>
 
 void main()
 {
-	DerivedAB ab;
+	auto a = new DerivedAB();
+	std::cout << "a" << a << std::endl;
+	std::cout << dynamic_cast<DerivedAB*>((ComponentObject<>*)a) << std::endl;
+
 	system("pause");
 }

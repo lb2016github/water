@@ -8,9 +8,9 @@
 #include <functional>
 
 #define REGISTER_COMPONENT(cls, obj_type)\
-water::world::BaseComponent* create_##cls(void* obj)\
+water::world::BaseComponent* create_##cls(GameObject* obj)\
 {\
-	return new cls((obj_type*)obj);\
+	return new cls(dynamic_cast<obj_type*>(obj));\
 }\
 water::world::ComponentInfo comp_info_##cls(cls::tag, create_##cls);
 
@@ -36,7 +36,7 @@ namespace water {
 			GameObject * m_game_object;
 		};
 
-		typedef std::function<BaseComponent* (void*)> FUNC_CREATE_COMPONENT;
+		typedef std::function<BaseComponent* (GameObject*)> FUNC_CREATE_COMPONENT;
 		struct ComponentInfo
 		{
 			ComponentInfo(ComponentTag comp_tag, FUNC_CREATE_COMPONENT func_create);
