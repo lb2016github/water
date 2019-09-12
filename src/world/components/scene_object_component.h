@@ -14,10 +14,10 @@ namespace water
 		class SceneObjectComponent : public BaseComponent
 		{
 		public:
-			SceneObjectComponent(SpaceObject* space_object);
+			SceneObjectComponent(GameObject* space_object);
 			virtual SceneObjectComponent& operator = (const SceneObjectComponent& scene_comp);
 
-			static const ComponentTag tag = COMP_TRANSFORMATION;
+			static const ComponentTag tag = COMP_SCENE_OBJECT;
 
 		public:
 			std::shared_ptr<Scene> get_scene();

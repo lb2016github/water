@@ -15,7 +15,7 @@ namespace water
 		}
 		math3d::Matrix Camera::get_projection_matrix()
 		{
-			return math3d::get_perpective_matrix(z_near, z_far, fovy, aspect);
+			return math3d::get_perpective_matrix(z_near, z_far, fovy / 180.0 * 3.1415926, aspect);
 		}
 		void Camera::update_fovy()
 		{

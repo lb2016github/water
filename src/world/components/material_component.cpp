@@ -32,14 +32,14 @@ namespace water
 
 		void MaterialComponent::update_material()
 		{
-			if (!m_material_ptr)
+			if (m_material_ptr)
 			{
 				auto num = m_material_ptr->get_param_map_count();
 				for (unsigned int i = 0; i < num; ++i)
 				{
 					auto param_map = m_material_ptr->get_param_map(i);
 					if (!param_map) continue;
-					for (auto iter = param_map->m_semantic_map.begin(); iter != param_map->m_semantic_map.end(); ++i)
+					for (auto iter = param_map->m_semantic_map.begin(); iter != param_map->m_semantic_map.end(); ++iter)
 					{
 						// update semantic
 						update_semantic_param(param_map, iter->first, iter->second);
@@ -61,6 +61,8 @@ namespace water
 				if (scene_ptr == nullptr) return;
 				auto cam_ptr = scene_ptr->get_active_camera();
 				if (cam_ptr == nullptr) return;
+				auto view = cam_ptr->get_view_matrix();
+				auto proj = cam_ptr->get_projection_matrix();
 				auto vp = cam_ptr->get_projection_matrix() * cam_ptr->get_view_matrix();
 				auto wvp = vp * world_trans;
 				param_map->set_param(name, wvp);

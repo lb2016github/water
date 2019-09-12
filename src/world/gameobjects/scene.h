@@ -14,7 +14,6 @@ namespace water
 		class Scene: public SpaceObject, public ComponentObject<RenderComponent>
 		{
 		public:
-
 			CameraPtr get_active_camera();
 			void set_active_camera(CameraPtr cam_ptr);
 			void render(const render::DrawCommand& draw_cmd);

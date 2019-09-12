@@ -25,6 +25,7 @@ namespace water {
 
 		class BaseComponent {
 		public:
+			BaseComponent() = delete;
 			BaseComponent(GameObject* game_object);
 			BaseComponent(const BaseComponent& comp) = delete;	// copy contructor is not allowed in void of to game object has two same component
 			virtual BaseComponent& operator = (const BaseComponent& comp);

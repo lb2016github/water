@@ -7,9 +7,9 @@ namespace water
 {
 	namespace world
 	{
-		REGISTER_COMPONENT(SceneObjectComponent, SpaceObject);
+		REGISTER_COMPONENT(SceneObjectComponent, GameObject);
 
-		SceneObjectComponent::SceneObjectComponent(SpaceObject* space_object): BaseComponent(space_object)
+		SceneObjectComponent::SceneObjectComponent(GameObject* space_object): BaseComponent(space_object)
 		{
 		}
 		SceneObjectComponent& SceneObjectComponent::operator=(const SceneObjectComponent& scene_comp)
