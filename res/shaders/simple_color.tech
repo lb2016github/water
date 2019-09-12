@@ -7,7 +7,7 @@
             </DepthStateInfo>
             <RasterizeStateInfo front_ccw="true" scissor_test_enabled="true">
                 <FillMode>FILL_SOLID</FillMode>
-                <CullMode>CULL_BACK</CullMode>
+                <CullMode>CULL_NONE</CullMode>
             </RasterizeStateInfo>
             <StencilStateInfo enabled="false">
                 <Ref>0x0020</Ref>
