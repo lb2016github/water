@@ -1,9 +1,12 @@
 #include "render/opengl/mesh_opengl.h"
+#include "common/log.h"
 
 namespace water
 {
 	namespace render
 	{
+		MeshProxyManager* instance = nullptr;
+
 		MeshProxyOpenGL::MeshProxyOpenGL(MeshDataPtr mesh_ptr): m_mesh_ptr(mesh_ptr), is_commited(false)
 		{
 			glGenBuffers(LOCATION_LENGTH, m_buffers);
@@ -17,7 +20,16 @@ namespace water
 			commit_mesh();
 			// bind vao
 			glBindVertexArray(m_vao);
-			// todo draw
+			GLuint mode;
+			switch (draw_command.draw_mode)
+			{
+			case TRIANGLES:
+				mode = GL_TRIANGLES;
+				break;
+			default:
+				break;
+			}
+			glDrawElements(mode, m_mesh_ptr->index_data.size(), GL_UNSIGNED_INT, &(m_mesh_ptr->index_data[0]));
 		}
 		void MeshProxyOpenGL::commit_mesh()
 		{
@@ -76,6 +88,14 @@ namespace water
 			MeshProxyOpenGLPtr proxy_ptr = std::make_shared<MeshProxyOpenGL>(mesh_ptr);
 			m_proxy_map[mesh_id] = proxy_ptr;
 			return proxy_ptr;
+		}
+		MeshProxyManager * MeshProxyManager::get_instance()
+		{
+			if (instance == nullptr)
+			{
+				instance = new MeshProxyManager();
+			}
+			return instance;
 		}
 	}
 }

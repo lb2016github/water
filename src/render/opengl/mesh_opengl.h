@@ -31,7 +31,7 @@ namespace water
 		{
 		public:
 			MeshProxyOpenGLPtr get_proxy(MeshDataPtr mesh_ptr);
-			static MeshProxyManager* instance;
+			static MeshProxyManager* get_instance();
 		protected:
 			std::map<MESH_ID_TYPE, MeshProxyOpenGLPtr> m_proxy_map;
 		};

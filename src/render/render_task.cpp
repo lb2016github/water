@@ -6,6 +6,7 @@
 #include "render/material.h"
 #include "render/render_object.h"
 #include "render/device.h"
+#include "render_state.h"
 
 namespace water
 {
@@ -21,7 +22,7 @@ namespace water
 			// swap buffer
 			int tmp = m_front_buffer;
 			m_front_buffer = m_back_buffer;
-			m_back_buffer = m_front_buffer;
+			m_back_buffer = tmp;
 			// set ready state
 			m_task_buffers[m_front_buffer].set_ready(true);
 			m_task_buffers[m_back_buffer].clear();
@@ -37,6 +38,11 @@ namespace water
 			buffer_mtx.lock();
 			dst_buffer = m_task_buffers[m_front_buffer];
 			buffer_mtx.unlock();
+		}
+		void RenderTaskManager::tick()
+		{
+			commit();
+			m_render->do_render();
 		}
 		RenderTaskManager * RenderTaskManager::get_instance()
 		{
@@ -87,6 +93,7 @@ namespace water
 		{
 			if (&buffer == this) return *this;
 			clear();
+			m_tasks.resize(buffer.m_tasks.size());
 			std::copy(buffer.m_tasks.begin(), buffer.m_tasks.end(), m_tasks.begin());
 			m_ready = buffer.m_ready;
 			return *this;
@@ -130,6 +137,21 @@ namespace water
 				// render end
 			}
 		}
+		void RenderThread::do_render()
+		{
+				// get buffer data
+				RenderTaskManager::get_instance()->get_front_buffer(m_task_buffer);
+				if (!m_task_buffer.is_ready())
+				{
+					return;
+				}
+				// todo sort tasks to decrease drawcall 
+				// do render jobs
+				for each (RenderTaskPtr task in m_task_buffer.m_tasks)
+				{
+					task->render();
+				}
+		}
 		RenderThread::RenderThread()
 		{
 		}
@@ -145,8 +167,11 @@ namespace water
 			// use program and apply parameters
 			program_ptr->use_program();
 			program_ptr->apply_parameters(param_map);
+			// update render state
+			auto device = get_device();
+			device->get_render_state_manager()->apply(render_state);
 			// draw meshes
-			get_device()->draw(draw_cmd, mesh_ptr);
+			device->draw(draw_cmd, mesh_ptr);
 		}
 		RenderTaskList RenderTask::get_depend_tasks()
 		{

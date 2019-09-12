@@ -8,7 +8,7 @@ namespace water {
 #define GL_CHECK_ERROR {\
 		GLenum e = glGetError();\
 		if (e != 0){\
-			log_error("GL Error 0x04x in %s at line %i in %s", \
+			log_error("GL Error %i in %s at line %i in %s", \
 				e, __FUNCSIG__, __LINE__, __FILE__);\
 		}\
 		}

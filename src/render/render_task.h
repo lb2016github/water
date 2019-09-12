@@ -64,6 +64,7 @@ namespace water
 			RenderThread();
 			// do render
 			void render();
+			void do_render();
 		private:
 			RenderTaskBuffer m_task_buffer; // the task buffer for rendering
 		};
@@ -81,6 +82,7 @@ namespace water
 			void commit();
 			void add_task(RenderTaskPtr task);
 			void get_front_buffer(RenderTaskBuffer& dst_buffer);
+			void tick();
 			static RenderTaskManager* get_instance();
 		private:
 			RenderTaskManager();

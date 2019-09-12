@@ -22,7 +22,7 @@ namespace water
 
 		render::MeshDataPtr MeshLoader::load_mesh(const std::string & filename)
 		{
-			render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>();
+			render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>(filename);
 			Assimp::Importer importer;
 			const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_GenSmoothNormals| aiProcess_CalcTangentSpace);
 

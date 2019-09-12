@@ -18,7 +18,7 @@ namespace water
 			// return render state manager
 			virtual RenderStateManagerPtr get_render_state_manager();
 			// draw
-			virtual void draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr) {};
+			virtual void draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr);
 		protected:
 			ProgramManagerPtr m_program_manager_ptr;
 			RenderStateManagerPtr m_render_state_manager_ptr;

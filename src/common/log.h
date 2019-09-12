@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdarg.h>
 
-#define MAX_LOG_LEN 128
+#define MAX_LOG_LEN 256
 
 namespace water {
 	void log_info(const char* format, ...);

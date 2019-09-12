@@ -7,8 +7,9 @@
 #include <vector>
 #include "math3d\math3d.hpp"
 #include "common/common.h"
+#include <string>
 
-#define MESH_ID_TYPE unsigned int
+#define MESH_ID_TYPE unsigned long
 
 namespace water
 {
@@ -16,6 +17,17 @@ namespace water
 	{
 		struct MeshData
 		{
+			MeshData(const std::string& filepath)
+			{
+				MESH_ID_TYPE hash = 5333;
+				auto char_str = filepath.c_str();
+				int c;
+				while (c = *char_str++)
+				{
+					hash = ((hash << 5) + hash) + c;
+				}
+				mesh_id = hash;
+			}
 			MESH_ID_TYPE mesh_id;
 			std::vector<math3d::Vector3> position;
 			std::vector<math3d::Vector3> normal;

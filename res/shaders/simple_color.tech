@@ -9,7 +9,7 @@
                 <FillMode>FILL_SOLID</FillMode>
                 <CullMode>CULL_BACK</CullMode>
             </RasterizeStateInfo>
-            <StencilStateInfo enabled="true">
+            <StencilStateInfo enabled="false">
                 <Ref>0x0020</Ref>
                 <Mask>0x00ff</Mask>
                 <CompareFunc>CMP_GREATER</CompareFunc>
@@ -19,7 +19,7 @@
                     <ZFail>STENCILOP_DECR</ZFail>
                 </StencilOperation>
             </StencilStateInfo>
-            <BlendStateInfo enabled="true">
+            <BlendStateInfo enabled="false">
                 <SrcFactor>BLEND_SRC_ALPHA</SrcFactor>
                 <DstFactor>BLEND_DST_ALPHA</DstFactor>
                 <BlendOperation>BLENDOP_MAX</BlendOperation>

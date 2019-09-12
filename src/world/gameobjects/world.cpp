@@ -1,5 +1,6 @@
 #include "world.h"
 #include "scene.h"
+#include "render/render_task.h"
 
 namespace water
 {
@@ -46,6 +47,8 @@ namespace water
 			{
 				m_cur_scene->on_frame();
 			}
+			render::RenderTaskManager::get_instance()->tick();
+
 		}
 		World * World::get_instance()
 		{

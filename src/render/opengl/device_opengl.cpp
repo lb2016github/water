@@ -2,6 +2,7 @@
 #include "render/opengl/render_program_opengl.h"
 #include "render/opengl/render_state_manager_opengl.h"
 #include "glad/glad.h"
+#include "mesh_opengl.h"
 
 namespace water
 {
@@ -24,6 +25,11 @@ namespace water
 		RenderStateManagerPtr DeviceOpenGL::get_render_state_manager()
 		{
 			return m_render_state_manager_ptr;
+		}
+		void DeviceOpenGL::draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr)
+		{
+			auto mesh_proxy = MeshProxyManager::get_instance()->get_proxy(mesh_ptr);
+			mesh_proxy->render(draw_cmd);
 		}
 	}
 }
