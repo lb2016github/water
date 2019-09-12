@@ -49,8 +49,8 @@ namespace water
 		RenderTaskManager::RenderTaskManager()
 		{
 			m_render = new RenderThread();
-			std::thread th(&RenderThread::render, m_render);
-			if (th.joinable()) th.detach();
+			//std::thread th(&RenderThread::render, m_render);
+			//if (th.joinable()) th.detach();
 		}
 		RenderTaskManager::~RenderTaskManager()
 		{
@@ -69,7 +69,7 @@ namespace water
 			m_ready = buffer.m_ready;
 			buffer.m_ready = false;
 		}
-		RenderTaskBuffer::RenderTaskBuffer(RenderTaskBuffer& buffer)
+		RenderTaskBuffer::RenderTaskBuffer(const RenderTaskBuffer& buffer)
 		{
 			std::copy(buffer.m_tasks.begin(), buffer.m_tasks.end(), m_tasks.begin());
 			m_ready = buffer.m_ready;

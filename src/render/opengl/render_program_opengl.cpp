@@ -4,24 +4,32 @@
 #include "common/log.h"
 #include "render/material.h"
 #include "render/device.h"
+#include <sstream>
 
 namespace water
 {
 	namespace render
 	{
 		GLuint get_shader_type(ShaderType& shader_type);
-		ShaderObject ProgramManagerOpenGL::load_shader(ShaderType shader_type, const char* file_path)
+		ShaderObject ProgramManagerOpenGL::load_shader(ShaderType shader_type, const std::string& file_path)
 		{
 			ShaderMap::iterator rst = m_shader_map.find(file_path);
 			if (rst != m_shader_map.end())
 			{
 				return rst->second;
 			}
-
-			char* buffer = filesystem::FileSystem::get_instance()->read_file(file_path);
-			if (!buffer) {
-				return -1;
+			
+			auto abs_path = filesystem::FileSystem::get_instance()->get_absolute_path(file_path.c_str());
+			std::ifstream fs(abs_path, std::ios::in);
+			std::string shader_code;
+			if (fs.is_open())
+			{
+				std::stringstream ss;
+				ss << fs.rdbuf();
+				shader_code = ss.str();
+				fs.close();
 			}
+			const char* buffer = shader_code.c_str();
 			GLuint shader = glCreateShader(get_shader_type(shader_type));
 			glShaderSource(shader, 1, &buffer, NULL); 
 			glCompileShader(shader);
@@ -39,7 +47,7 @@ namespace water
 			}
 			if (!result)
 			{
-				log_warn("Compile Shader(%s) failed", file_path);
+				log_warn("Compile Shader(%s) failed", file_path.c_str());
 				return -1;
 			}
 			else
@@ -49,7 +57,7 @@ namespace water
 			}
 		}
 		
-		ProgramPtr ProgramManagerOpenGL::load_program(const char* vertex_shader_path, const char* geom_shader_path, const char* frag_shader_path)
+		ProgramPtr ProgramManagerOpenGL::load_program(const std::string& vertex_shader_path, const std::string& geom_shader_path, const std::string& frag_shader_path)
 		{
 			ProgramPtr ptr = std::make_shared<RenderProgramOpenGL>();
 			ptr->init(vertex_shader_path, geom_shader_path, frag_shader_path);
@@ -82,22 +90,31 @@ namespace water
 			glDeleteProgram(m_program);
 		}
 
-		bool RenderProgramOpenGL::init(const char * vertex_shader_path, const char * geom_shader_path, const char * frag_shader_path)
+		bool RenderProgramOpenGL::init(const std::string& vertex_shader_path, const std::string& geom_shader_path, const std::string& frag_shader_path)
 		{
-			ShaderObject obj = get_device()->get_program_manager()->load_shader(VertexShader, vertex_shader_path);
-			if (obj != UNDEFINED_SHADER)
+			if (vertex_shader_path != "")
 			{
-				glAttachShader(m_program, obj);
+				ShaderObject obj = get_device()->get_program_manager()->load_shader(VertexShader, vertex_shader_path);
+				if (obj != UNDEFINED_SHADER)
+				{
+					glAttachShader(m_program, obj);
+				}
 			}
-			obj = get_device()->get_program_manager()->load_shader(GeometryShader, geom_shader_path);
-			if (obj != UNDEFINED_SHADER)
+			if (geom_shader_path != "")
 			{
-				glAttachShader(m_program, obj);
+				auto obj = get_device()->get_program_manager()->load_shader(GeometryShader, geom_shader_path);
+				if (obj != UNDEFINED_SHADER)
+				{
+					glAttachShader(m_program, obj);
+				}
 			}
-			obj = get_device()->get_program_manager()->load_shader(FragmentShader, frag_shader_path);
-			if (obj != UNDEFINED_SHADER)
+			if (frag_shader_path != "")
 			{
-				glAttachShader(m_program, obj);
+				auto obj = get_device()->get_program_manager()->load_shader(FragmentShader, frag_shader_path);
+				if (obj != UNDEFINED_SHADER)
+				{
+					glAttachShader(m_program, obj);
+				}
 			}
 			glLinkProgram(m_program);
 			// todo check is link success

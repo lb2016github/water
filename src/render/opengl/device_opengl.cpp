@@ -1,6 +1,7 @@
 #include "render/opengl/device_opengl.h"
 #include "render/opengl/render_program_opengl.h"
 #include "render/opengl/render_state_manager_opengl.h"
+#include "glad/glad.h"
 
 namespace water
 {

@@ -35,7 +35,7 @@ namespace water
 			// move constructor
 			RenderTaskBuffer(RenderTaskBuffer&& buffer);
 			// copy constructor
-			RenderTaskBuffer(RenderTaskBuffer& buffer);
+			RenderTaskBuffer(const RenderTaskBuffer& buffer);
 			// move assignment
 			RenderTaskBuffer& operator= (RenderTaskBuffer&& buffer);
 			// copy assignment 
@@ -87,8 +87,8 @@ namespace water
 			~RenderTaskManager();
 
 		private:
-			RenderThread* m_render;	// render thread
-			int m_front_buffer, m_back_buffer;
+			RenderThread* m_render = { nullptr };	// render thread
+			int m_front_buffer = { 0 }, m_back_buffer = { 1 };
 			RenderTaskBuffer m_task_buffers[2];	// buffers of render task
 			static RenderTaskManager* m_instance;
 		};

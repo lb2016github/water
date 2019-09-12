@@ -167,22 +167,22 @@ namespace water
 				pugi::xml_attribute tmp_attr;
 				std::string vertex_shader = "", geom_shader = "", frag_shader = "";
 				tmp_attr = program_node.attribute("vertex_shader");
-				if(tmp_attr)
+				if(!tmp_attr.empty())
 				{
-					vertex_shader = tmp_attr.value();
+					vertex_shader = tmp_attr.as_string();
 				}
 				tmp_attr = program_node.attribute("geometry_shader");
-				if (tmp_attr)
+				if (!tmp_attr.empty())
 				{
-					geom_shader = tmp_attr.value();
+					geom_shader = tmp_attr.as_string();
 				}
 
 				tmp_attr = program_node.attribute("fragment_shader");
-				if (tmp_attr)
+				if (!tmp_attr.empty())
 				{
-					frag_shader = tmp_attr.value();
+					frag_shader = tmp_attr.as_string();
 				}
-				render_pass.program = get_device()->get_program_manager()->load_program(vertex_shader.c_str(), geom_shader.c_str(), frag_shader.c_str());
+				render_pass.program = get_device()->get_program_manager()->load_program(vertex_shader, geom_shader, frag_shader);
 				tech->m_render_pass_queue.push_back(render_pass);	// will copy the object?
 				// load attribute param type
 				ParamTypeMap attribute_map;

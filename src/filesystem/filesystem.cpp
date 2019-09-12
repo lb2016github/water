@@ -18,7 +18,8 @@ namespace water {
 
 		char * FileSystem::read_file(const char * file_path)
 		{
-			std::ifstream fs(file_path);
+			auto abs_path = get_absolute_path(file_path);
+			std::ifstream fs(abs_path.c_str(), std::ifstream::binary);
 			if (!fs.is_open())
 			{
 				log_warn("Fail to read file %s", file_path);
@@ -26,6 +27,7 @@ namespace water {
 			}
 			fs.seekg(0, std::ios::end);
 			int file_size = fs.tellg();
+			fs.seekg(0, std::ios::beg);
 			char* buffer = (char*)malloc(file_size);
 			fs.read(buffer, file_size);
 			fs.close();

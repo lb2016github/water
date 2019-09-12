@@ -15,8 +15,8 @@ namespace water
 		*/
 		WaterInterface IProgramManager
 		{
-			virtual ShaderObject load_shader(ShaderType shader_type, const char* file_path) = 0;
-			virtual ProgramPtr load_program(const char* vertex_shader_path, const char* geom_shader_path = "", const char* frag_shader_pash = "") = 0;
+			virtual ShaderObject load_shader(ShaderType shader_type, const std::string& file_path) = 0;
+			virtual ProgramPtr load_program(const std::string& vertex_shader_path, const std::string& geom_shader_path = "", const std::string& frag_shader_pash = "") = 0;
 		};
 
 
@@ -26,7 +26,7 @@ namespace water
 		WaterInterface IRenderProgram
 		{
 			// init program
-			virtual bool init(const char* vertex_shader_path, const char* geom_shader_path, const char* frag_shader_path) = 0;
+			virtual bool init(const std::string& vertex_shader_path, const std::string& geom_shader_path, const std::string& frag_shader_path) = 0;
 			virtual bool init(ShaderObject vertex_shader, ShaderObject geom_shader, ShaderObject frag_shader) = 0;
 			virtual bool init(ShaderObject vertex_shader, ShaderObject frag_shader) = 0;
 			// set uniform

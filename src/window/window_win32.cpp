@@ -37,6 +37,13 @@ namespace water {
 		}
 
 		glfwMakeContextCurrent(window);
+
+		// int glad
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+		{
+			log_error("[GLAD]Failed to initialize glad");
+			return;
+		}
 		
 	}
 
