@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <Scene xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <Model path="models/box.model" position="0 0 100" scale="0.3 0.3 0.3" rotation="0 0 0"/>
+    <Model path="models/box.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>
     <Camera active="true" fovy="50" znear="1" zfar="1000" position="0 0 0" rotation="0 0 0"/>
 </Scene>

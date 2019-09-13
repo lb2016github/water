@@ -46,7 +46,7 @@ namespace water
 					// set pos rot scale
 					auto scale = child.attribute("scale").as_string();
 					if (scale) GET_COMPONENT(model, TransformComponent)->set_scale(scale);
-					auto rotation = child.attribute("scale").as_string();
+					auto rotation = child.attribute("rotation").as_string();
 					if (rotation) GET_COMPONENT(model, TransformComponent)->set_rotation(rotation);
 					auto position = child.attribute("position").as_string();
 					if (position) GET_COMPONENT(model, TransformComponent)->set_position(position);

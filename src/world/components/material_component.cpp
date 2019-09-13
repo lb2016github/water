@@ -63,8 +63,7 @@ namespace water
 				if (cam_ptr == nullptr) return;
 				auto view = cam_ptr->get_view_matrix();
 				auto proj = cam_ptr->get_projection_matrix();
-				auto vp = cam_ptr->get_projection_matrix() * cam_ptr->get_view_matrix();
-				auto wvp = vp * world_trans;
+				auto wvp = proj * view * world_trans;
 				param_map->set_param(name, wvp);
 			}
 		}

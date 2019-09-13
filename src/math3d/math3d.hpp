@@ -1,6 +1,7 @@
 #ifndef WATER_MATH3D_H
 #define WATER_MATH3D_H
 
+#define GLM_CONFIG_XYZW_ONLY
 #include "glm/vec3.hpp"
 #include "glm/mat4x4.hpp"
 #include "glm/vec2.hpp"
@@ -34,27 +35,19 @@ namespace water {
 		}
 		Matrix inline get_translate_matrix(const Vector3& position)
 		{
-			Matrix tranlate_mtx = glm::identity<Matrix>();
-			glm::translate(tranlate_mtx, position);
-			return tranlate_mtx;
+			return glm::translate(glm::identity<Matrix>(), position);
 		}
 		Matrix inline get_scale_matrix(const Vector3& scale)
 		{
-			Matrix scale_mtx = glm::identity<Matrix>();
-			glm::scale(scale_mtx, scale);
-			return scale_mtx;
+			return glm::scale(glm::identity<Matrix>(), scale);
 		}
 		Matrix inline get_transform_matrix(const Vector3& position, const Vector3& rotation, const Vector3& scale)
 		{
-			Matrix mtx = glm::identity<Matrix>();
-			glm::scale(mtx, scale);
-			mtx *= glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
-			glm::translate(mtx, position);
-			return mtx;
+			return get_translate_matrix(position) * get_rotation_matrix(rotation) * get_scale_matrix(scale);
 		}
 		Matrix inline get_perpective_matrix(float near, float far, float fov_y, float aspect)
 		{
-			return glm::perspective(fov_y, aspect, near, far);
+			return glm::perspective(glm::radians(fov_y), aspect, near, far);
 		}
 	}
 }
