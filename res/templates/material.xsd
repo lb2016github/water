@@ -40,10 +40,10 @@ targetNamespace="/water" xmlns:water="/water">
     </xs:simpleType>
     <!--Define semantics -->
     <xs:simpleType name="Semantic">
-        <xs:restricion base="xs:string">
+        <xs:restriction base="xs:string">
             <xs:enumeration value="None"/>
             <xs:enumeration value="WVP"/>
-        </xs:restricion>
+        </xs:restriction>
     </xs:simpleType>
     <!-- ========================= End Define Param Types ===================== -->
     <!--Define Parameter-->
@@ -57,7 +57,7 @@ targetNamespace="/water" xmlns:water="/water">
     <xs:complexType name="Material">
         <xs:sequence>
             <xs:element name="Technique" type="xs:anyURI"/>
-            <xs:element name="ParameterMap" minOccurs="1">
+            <xs:element name="ParameterMap" minOccurs="1" maxOccurs="unbounded">
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element name="Parameter" type="water:Parameter" minOccurs="0" maxOccurs="unbounded"/>

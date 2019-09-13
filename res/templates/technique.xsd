@@ -7,7 +7,7 @@
     <!-- Define Technique -->
     <xs:complexType name="Technique">
         <xs:sequence>
-            <xs:element name="RenderPass" type="water:RenderPass" minOccurs="1"/>
+            <xs:element name="RenderPass" type="water:RenderPass" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
     <!-- Define RenderPass -->
@@ -31,8 +31,7 @@
     </xs:complexType>
     <xs:complexType name="Program">
         <xs:sequence>
-<!--            <xs:element name="Attribute" type="water:Attribute" minOccurs="1"/>-->
-            <xs:element name="Uniform" type="water:Uniform" minOccurs="0"/>
+            <xs:element name="Uniform" type="water:Uniform" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name = "vertex_shader" type="xs:anyURI"/>
         <xs:attribute name = "geometry_shader" type="xs:anyURI"/>
