@@ -7,6 +7,6 @@
     <ParameterMap index="1">
         <Parameter name="wvp" type="Matrix" value="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" semantic="WVP"/>
         <Parameter name="outline_color" type="Vector3" value="0 0 125"/>
-        <Parameter name="scale" type="Float" value="1.1"/>
+        <Parameter name="scale" type="Float" value="1.03"/>
     </ParameterMap>
 </Material>
