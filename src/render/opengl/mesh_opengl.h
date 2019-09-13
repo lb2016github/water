@@ -22,7 +22,7 @@ namespace water
 			GLuint m_vao;
 			GLuint m_buffers[LOCATION_LENGTH];
 			MeshDataPtr m_mesh_ptr;
-			bool is_commited;
+			bool is_commited = { false };
 		};
 
 		typedef std::shared_ptr<MeshProxyOpenGL> MeshProxyOpenGLPtr;

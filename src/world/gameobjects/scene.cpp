@@ -104,6 +104,10 @@ namespace water
 
 		void Scene::on_frame()
 		{
+			if (m_cur_camera)
+			{
+				m_cur_camera->update();
+			}
 			render(draw_cmd);
 		}
 	}

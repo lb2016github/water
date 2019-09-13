@@ -31,5 +31,9 @@ namespace water
 			auto mesh_proxy = MeshProxyManager::get_instance()->get_proxy(mesh_ptr);
 			mesh_proxy->render(draw_cmd);
 		}
+		void DeviceOpenGL::clear()
+		{
+			glClear(GL_COLOR_BUFFER_BIT);
+		}
 	}
 }

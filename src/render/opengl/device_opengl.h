@@ -19,6 +19,8 @@ namespace water
 			virtual RenderStateManagerPtr get_render_state_manager();
 			// draw
 			virtual void draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr);
+			// clear screen
+			virtual void clear();
 		protected:
 			ProgramManagerPtr m_program_manager_ptr;
 			RenderStateManagerPtr m_render_state_manager_ptr;

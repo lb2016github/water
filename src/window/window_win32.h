@@ -22,6 +22,8 @@ namespace water {
 		virtual void set_window_title(std::string title);
 		virtual void add_callback(IWindowCallback* cb);
 		virtual void remove_callback(IWindowCallback* cb);
+		void on_key_callback(int key, int scancode, int action, int mods);
+		virtual int get_key_state(int key);
 
 		static WindowWin32* Instance();
 

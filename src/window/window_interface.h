@@ -11,6 +11,7 @@ namespace water {
 	WaterInterface IWindowCallback
 	{
 		virtual void on_frame() = 0;
+		virtual void on_key_callback(int key, int action) = 0;
 	};
 
 
@@ -24,6 +25,7 @@ namespace water {
 		virtual bool is_window_closed() const = 0;
 		virtual void add_callback(IWindowCallback* cb) = 0;
 		virtual void remove_callback(IWindowCallback* cb) = 0;
+		virtual int get_key_state(int key) = 0;
 	};
 
 }

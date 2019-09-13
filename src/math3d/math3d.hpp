@@ -1,7 +1,6 @@
 #ifndef WATER_MATH3D_H
 #define WATER_MATH3D_H
 
-#define GLM_CONFIG_XYZW_ONLY
 #include "glm/vec3.hpp"
 #include "glm/mat4x4.hpp"
 #include "glm/vec2.hpp"

@@ -11,7 +11,7 @@ namespace water {
 		class TransformComponent : public BaseComponent
 		{
 		public:
-			TransformComponent(GameObject* space_object);
+			TransformComponent(SpaceObject* space_object);
 			virtual TransformComponent& operator = (const TransformComponent& trans_comp);
 
 			static const ComponentTag tag = COMP_TRANSFORMATION;

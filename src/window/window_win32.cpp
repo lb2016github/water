@@ -2,6 +2,7 @@
 #include "glad/glad.h"
 #include "glfw3/glfw3.h"
 #include "common/log.h"
+#include <functional>
 
 namespace water {
 
@@ -12,6 +13,15 @@ namespace water {
 		char error_desc[128];
 		sprintf(error_desc, "[GLFW Error]: %s", desc);
 		log_error(error_desc);
+	}
+
+	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	{
+		if (!m_instance)
+		{
+			return;
+		}
+		m_instance->on_key_callback(key, scancode, action, mods);
 	}
 
 	void WindowWin32::on_init()
@@ -37,6 +47,9 @@ namespace water {
 		}
 
 		glfwMakeContextCurrent(window);
+		// set key callback
+		glfwSetKeyCallback(window, key_callback);
+
 
 		// int glad
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -107,6 +120,19 @@ namespace water {
 	void WindowWin32::remove_callback(IWindowCallback* cb)
 	{
 		m_callbacks.erase(cb);
+	}
+
+	void WindowWin32::on_key_callback(int key, int scancode, int action, int mods)
+	{
+		for each(auto cb in m_callbacks)
+		{
+			cb->on_key_callback(key, action);
+		}
+	}
+
+	int WindowWin32::get_key_state(int key)
+	{
+		return glfwGetKey(window, key);
 	}
 
 	WindowWin32* WindowWin32::Instance()

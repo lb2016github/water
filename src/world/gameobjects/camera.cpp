@@ -17,6 +17,12 @@ namespace water
 		{
 			return math3d::get_perpective_matrix(z_near, z_far, fovy, aspect);
 		}
+		void Camera::update()
+		{
+			update_fovy();
+			auto cam_trl_comp = GET_COMPONENT(this, CameraControlComponent);
+			cam_trl_comp->update_camera();
+		}
 		void Camera::update_fovy()
 		{
 			auto window_ptr = WindowWin32::Instance();

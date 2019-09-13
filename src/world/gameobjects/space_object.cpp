@@ -26,12 +26,5 @@ namespace water
 			space_object->set_parent(shared_from_this());
 			m_children.insert(space_object);
 		}
-		std::set<ComponentTag> SpaceObject::get_comp_tags()
-		{
-			std::set<ComponentTag> rst;
-			rst.insert(COMP_TRANSFORMATION);
-			rst.insert(COMP_SCENE_OBJECT);
-			return rst;
-		}
 	}
 }

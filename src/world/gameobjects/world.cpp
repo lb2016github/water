@@ -7,6 +7,9 @@ namespace water
 	namespace world
 	{
 		World* world_ptr = nullptr;
+		void World::on_key_callback(int key, int action)
+		{
+		}
 		ScenePtr World::get_cur_scene()
 		{
 			return m_cur_scene;
@@ -40,6 +43,14 @@ namespace water
 			scn_ptr->load_from_file(scene_path);
 			m_scene_set.insert(scn_ptr);
 			return scn_ptr;
+		}
+		void World::set_window(IWindow* win)
+		{
+			m_window = win;
+		}
+		IWindow* World::get_window()
+		{
+			return m_window;
 		}
 		void World::on_frame()
 		{

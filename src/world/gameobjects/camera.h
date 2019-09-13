@@ -5,12 +5,13 @@
 #include <memory>
 #include "space_object.h"
 #include "window/window_win32.h"
+#include "world/components/camera_control_component.h"
 
 namespace water
 {
 	namespace world
 	{
-		class Camera: public SpaceObject
+		class Camera: public SpaceObject, ComponentObject<CameraControlComponent>
 		{
 		public:
 			// Constructors
@@ -21,6 +22,7 @@ namespace water
 			math3d::Matrix get_view_matrix();
 			// get projection matrix
 			math3d::Matrix get_projection_matrix();
+			void update();
 			// update fovy
 			void update_fovy();
 

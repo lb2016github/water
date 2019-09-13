@@ -21,12 +21,14 @@ namespace water
 			// bind vao
 			glBindVertexArray(m_vao);
 			GLuint mode;
+			// todo
 			switch (draw_command.draw_mode)
 			{
 			case TRIANGLES:
 				mode = GL_TRIANGLES;
 				break;
 			default:
+				mode = GL_TRIANGLES;
 				break;
 			}
 			glDrawElements(mode, m_mesh_ptr->index_data.size(), GL_UNSIGNED_INT, &(m_mesh_ptr->index_data[0]));

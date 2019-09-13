@@ -139,18 +139,19 @@ namespace water
 		}
 		void RenderThread::do_render()
 		{
-				// get buffer data
-				RenderTaskManager::get_instance()->get_front_buffer(m_task_buffer);
-				if (!m_task_buffer.is_ready())
-				{
-					return;
-				}
-				// todo sort tasks to decrease drawcall 
-				// do render jobs
-				for each (RenderTaskPtr task in m_task_buffer.m_tasks)
-				{
-					task->render();
-				}
+			get_device()->clear();
+			// get buffer data
+			RenderTaskManager::get_instance()->get_front_buffer(m_task_buffer);
+			if (!m_task_buffer.is_ready())
+			{
+				return;
+			}
+			// todo sort tasks to decrease drawcall 
+			// do render jobs
+			for each (RenderTaskPtr task in m_task_buffer.m_tasks)
+			{
+				task->render();
+			}
 		}
 		RenderThread::RenderThread()
 		{

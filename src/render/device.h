@@ -18,6 +18,8 @@ namespace water
 			virtual RenderStateManagerPtr get_render_state_manager() = 0;
 			// draw
 			virtual void draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr) = 0;
+			// clear screen
+			virtual void clear() = 0;
 		};
 
 		// devices

@@ -15,6 +15,7 @@ void main() {
 	fs->set_res_root("E:/Projects/C++/water/res");
 
 	auto world = world::World::get_instance();
+	world->set_window(window);
 	auto scn = world->load_scene("scenes/test.scene");
 	world->set_cur_scene(scn);
 	window->add_callback(world);
