@@ -8,8 +8,8 @@
       <xs:enumeration value="STENCILOP_KEEP"/>
       <xs:enumeration value="STENCILOP_ZERO"/>
       <xs:enumeration value="STENCILOP_REPLACE"/>
-      <xs:enumeration value="STENCILOP_INCRSAT"/>
-      <xs:enumeration value="STENCILOP_DECRSAT"/>
+      <xs:enumeration value="STENCILOP_INCRWRAP"/>
+      <xs:enumeration value="STENCILOP_DECRWRAP"/>
       <xs:enumeration value="STENCILOP_INVERT"/>
       <xs:enumeration value="STENCILOP_INCR"/>
       <xs:enumeration value="STENCILOP_DECR"/>

@@ -7,11 +7,11 @@ namespace render {
 		STENCILOP_KEEP, ///< Do not update the entry in the stencil buffer. This is the default value. 
 		STENCILOP_ZERO, ///< Set the stencil-buffer entry to 0. 
 		STENCILOP_REPLACE, ///< Replace the stencil-buffer entry with a reference value.
-		STENCILOP_INCRSAT, ///< Increment the stencil-buffer entry, clamping to the maximum value.
-		STENCILOP_DECRSAT, ///< Decrement the stencil-buffer entry, clamping to zero.
+		STENCILOP_INCR, ///< Increment the stencil-buffer entry, clamping to the maximum value.
+		STENCILOP_DECR, ///< Decrement the stencil-buffer entry, clamping to zero.
 		STENCILOP_INVERT, ///< Invert the bits in the stencil-buffer entry.
-		STENCILOP_INCR,///< Increment the stencil-buffer entry, wrapping to zero if the new value exceeds the maximum value.
-		STENCILOP_DECR, ///< Decrement the stencil-buffer entry, wrapping to the maximum value if the new value is less than zero. 
+		STENCILOP_INCRWRAP,///< Increment the stencil-buffer entry, wrapping to zero if the new value exceeds the maximum value.
+		STENCILOP_DECRWRAP, ///< Decrement the stencil-buffer entry, wrapping to the maximum value if the new value is less than zero. 
 	};
 
 	// ±È½Ïº¯Êý

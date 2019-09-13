@@ -16,6 +16,7 @@ namespace water {
 		GLenum get_gl_cmp_func(CompareFunc func);
 		GLenum get_gl_blend_op(BlendOperation op);
 		GLenum get_gl_blend_factor(BlendFactor factor);
+		GLenum inline get_gl_stencil_op(StencilOperation op);
 
 
 		void RenderStateManagerOpenGL::apply_depth_state(const DepthStateInfo& info)
@@ -37,11 +38,13 @@ namespace water {
 			if (!info.enabled)
 			{
 				glDisable(GL_STENCIL_TEST);
+				glStencilMask(0x00);
 				GL_CHECK_ERROR
 				return;
 			}
 			glEnable(GL_STENCIL_TEST);
 			glStencilFunc(get_gl_cmp_func(info.func), info.ref, info.mask);
+			glStencilMask(0xFF);
 			GL_CHECK_ERROR
 			if (info.separate)
 			{
@@ -54,7 +57,11 @@ namespace water {
 			}
 			else {
 				const StencilOpInfo* single_info = &(info.op_info.info);
-				glStencilOpSeparate(GL_FRONT, single_info->s_fail, single_info->z_fail, single_info->z_pass);
+				glStencilOp(
+					get_gl_stencil_op(single_info->s_fail),
+					get_gl_stencil_op(single_info->z_fail),
+					get_gl_stencil_op(single_info->z_pass)
+					);
 				GL_CHECK_ERROR
 			}
 		}
@@ -92,7 +99,7 @@ namespace water {
 		}
 
 		////////////////////////////// LOCAL FUNCTION //////////////////////
-		GLenum get_gl_cmp_func(CompareFunc func) {
+		GLenum inline get_gl_cmp_func(CompareFunc func) {
 			switch (func)
 			{
 			case water::render::CMP_NEVER:
@@ -125,7 +132,7 @@ namespace water {
 			}
 		}
 
-		GLenum get_gl_blend_op(BlendOperation op) {
+		GLenum inline get_gl_blend_op(BlendOperation op) {
 			switch (op)
 			{
 			case water::render::BLENDOP_ADD:
@@ -148,7 +155,7 @@ namespace water {
 			}
 		}
 
-		GLenum get_gl_blend_factor(BlendFactor factor) {
+		GLenum inline get_gl_blend_factor(BlendFactor factor) {
 			switch (factor)
 			{
 			case water::render::BLEND_ZERO:
@@ -192,6 +199,40 @@ namespace water {
 				break;
 			default:
 				log_error("Unkown blend factor %d", factor);
+				break;
+			}
+		}
+		GLenum inline get_gl_stencil_op(StencilOperation op)
+		{
+			switch (op)
+			{
+			case water::render::STENCILOP_KEEP:
+				return GL_KEEP;
+				break;
+			case water::render::STENCILOP_ZERO:
+				return GL_ZERO;
+				break;
+			case water::render::STENCILOP_REPLACE:
+				return GL_REPLACE;
+				break;
+			case water::render::STENCILOP_INCRWRAP:
+				return GL_INCR_WRAP;
+				break;
+			case water::render::STENCILOP_DECRWRAP:
+				return GL_DECR_WRAP;
+				break;
+			case water::render::STENCILOP_INVERT:
+				return GL_INVERT;
+				break;
+			case water::render::STENCILOP_INCR:
+				return GL_INCR;
+				break;
+			case water::render::STENCILOP_DECR:
+				return GL_DECR;
+				break;
+			default:
+				log_error("UNKOWN stencil op: %i", op);
+				return GL_KEEP;
 				break;
 			}
 		}

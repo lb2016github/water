@@ -2,21 +2,21 @@
 <Technique xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../templates/technique.xsd">
     <RenderPass index="0">
         <RenderState>
-            <DepthStateInfo enabled="true" write_enabled="false">
-                <CompareFunc>CMP_GREATER</CompareFunc>
+            <DepthStateInfo enabled="true" write_enabled="true">
+                <CompareFunc>CMP_LESS</CompareFunc>
             </DepthStateInfo>
             <RasterizeStateInfo front_ccw="true" scissor_test_enabled="true">
                 <FillMode>FILL_SOLID</FillMode>
-                <CullMode>CULL_NONE</CullMode>
+                <CullMode>CULL_BACK</CullMode>
             </RasterizeStateInfo>
-            <StencilStateInfo enabled="false">
-                <Ref>0x0020</Ref>
-                <Mask>0x00ff</Mask>
-                <CompareFunc>CMP_GREATER</CompareFunc>
+            <StencilStateInfo enabled="true">
+                <Ref>0x01</Ref>
+                <Mask>0xff</Mask>
+                <CompareFunc>CMP_ALWAYS</CompareFunc>
                 <StencilOperation>
-                    <SFail>STENCILOP_DECR</SFail>
-                    <ZPass>STENCILOP_INCR</ZPass>
-                    <ZFail>STENCILOP_DECR</ZFail>
+                    <SFail>STENCILOP_KEEP</SFail>
+                    <ZPass>STENCILOP_REPLACE</ZPass>
+                    <ZFail>STENCILOP_KEEP</ZFail>
                 </StencilOperation>
             </StencilStateInfo>
             <BlendStateInfo enabled="false">
