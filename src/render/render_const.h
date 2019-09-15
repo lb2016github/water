@@ -150,6 +150,11 @@ namespace render {
 		QUADS,
 	};
 
+	// texture types
+	enum TextureType {
+		TEXTURE_2D,
+	};
+
 }
 }
 

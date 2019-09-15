@@ -5,6 +5,7 @@
 #include <memory>
 #include "render/render.h"
 #include "draw_command.h"
+#include "texture.h"
 
 
 namespace water
@@ -25,6 +26,8 @@ namespace water
 			std::map<int, ParameterMapPtr> m_param_map;
 		};
 
+		typedef std::map<std::string, TextureDataPtr> TextureMap;
+
 		struct ParameterMap
 		{
 			// check has certern parameter
@@ -36,6 +39,8 @@ namespace water
 			void set_param(const std::string& name, const math3d::Matrix& value);
 			void set_param(const std::string& name, const math3d::Vector3& value);
 			void set_param(const std::string& name, const math3d::Vector2& value);
+			// set texture
+			void set_texture(const std::string& name, TextureDataPtr tex_ptr);
 			// set param value with str_value and type, which is called when param value is read from material file
 			void set_raw_param(const std::string& name, const std::string& type, const std::string& raw_value, const std::string& semantic);
 			// get value type of param
@@ -47,6 +52,8 @@ namespace water
 			ParamValueMap m_value_map;
 			// map of {name: type}
 			ParamTypeMap m_type_map;
+			// map of textures
+			TextureMap m_tex_map;
 			// map of {name: semantic}
 			std::map<std::string, SemanticType> m_semantic_map;
 		};

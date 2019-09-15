@@ -38,6 +38,7 @@ namespace water {
 			TypeMatrix,
 			TypeFloat,
 			TypeInt,
+			TypeSampler2D,
 		};
 
 		typedef std::map<std::string, ParamValue> ParamValueMap;
@@ -48,6 +49,7 @@ namespace water {
 		constexpr auto MATERIAL_VALUE_TYPE_VECTOR2 = "Vector2";
 		constexpr auto MATERIAL_VALUE_TYPE_FLOAT = "Float";
 		constexpr auto MATERIAL_VALUE_TYPE_INT = "Int";
+		constexpr auto MATERIAL_VALUE_TYPE_SAMPLE2D = "Sampler2D";
 
 		extern std::map<std::string, ParamValueType> CONFIG_param_type;
 

@@ -5,6 +5,7 @@
 #include "render/material.h"
 #include "render/device.h"
 #include <sstream>
+#include "texture_opengl.h"
 
 namespace water
 {
@@ -117,7 +118,18 @@ namespace water
 				}
 			}
 			glLinkProgram(m_program);
-			// todo check is link success
+			// check program link success
+			GLint result = GL_FALSE;
+			GLint log_length = 0;
+			glGetProgramiv(m_program, GL_LINK_STATUS, &result);
+			glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &log_length);
+			if (log_length > 0)
+			{
+				char* msg = new char[log_length];
+				glGetProgramInfoLog(m_program, log_length, NULL, msg);
+				log_info(msg);
+				delete[] msg;
+			}
 			return true;
 		}
 
@@ -224,7 +236,19 @@ namespace water
 					break;
 				}
 			}
+			// set textuers
+			auto device = get_device();
+			auto tex_map = param_map.m_tex_map;
+			GLenum tex_unit= GL_TEXTURE0;
+			for (auto iter = tex_map.begin(); iter != tex_map.end(); ++iter, ++tex_unit)
+			{
+				auto name = iter->first;
+				auto tex_ptr = iter->second;
+				auto tex_ogl = TextureManager::get_instance()->get_texture(tex_ptr);
+				GLuint loc = glGetUniformLocation(m_program, name.c_str());
+				tex_ogl->bind(tex_unit);
+				glUniform1i(loc, tex_unit - GL_TEXTURE0);
+			}
 		}
-
 	}
 }

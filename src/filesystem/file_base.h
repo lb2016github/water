@@ -2,10 +2,12 @@
 #define WATER_FILE_BASE_H
 #include "common\common.h"
 #include <string>
+#include <memory>
 
 namespace water {
 	namespace filesystem {
-		WaterInterface FileBase {
+		WaterInterface FileBase: public std::enable_shared_from_this<FileBase>
+		{
 		public:
 			FileBase(const std::string& file_path) : m_file_path(file_path), m_loaded(false) { load(); }
 			FileBase(): m_loaded(false) {}

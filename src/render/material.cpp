@@ -44,6 +44,10 @@ namespace water
 			if (m_value_map.find(name) == m_value_map.end()) return;
 			m_value_map[name].vec2 = value;
 		}
+		void ParameterMap::set_texture(const std::string& name, TextureDataPtr tex_ptr)
+		{
+			m_tex_map[name] = tex_ptr;
+		}
 		void ParameterMap::set_raw_param(const std::string& name, const std::string& type, const std::string& raw_value, const std::string& semantic )
 		{
 			if (CONFIG_param_type.find(type) == CONFIG_param_type.end())
@@ -88,6 +92,16 @@ namespace water
 				p_value.vec3.x = atof(sub_values[0].c_str());
 				p_value.vec3.y = atof(sub_values[1].c_str());
 				p_value.vec3.z = atof(sub_values[2].c_str());
+			}
+			else if (type == MATERIAL_VALUE_TYPE_SAMPLE2D)
+			{
+				auto tex_ptr = std::make_shared<TextureData>();
+				auto img_ptr = std::make_shared<filesystem::Image>();
+				img_ptr->load(raw_value);
+				tex_ptr->tex_type = TEXTURE_2D;
+				tex_ptr->images.push_back(img_ptr);
+				set_texture(name, tex_ptr);
+				return;
 			}
 			else
 			{

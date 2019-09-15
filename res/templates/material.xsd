@@ -24,9 +24,16 @@ targetNamespace="/water" xmlns:water="/water">
             <xs:length value="16"/>
         </xs:restriction>
     </xs:simpleType>
+    <!--Define Sampler2D-->
+    <xs:simpleType name="Sampler2D">
+        <xs:restriction base="xs:string">
+            <xs:pattern value=".+\.((png)|(jpg))"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <!--Define ParamTypes-->
     <xs:simpleType name="ParamTypes">
-        <xs:union memberTypes="xs:float xs:int water:Vector2 water:Vector3 water:Matrix"/>
+        <xs:union memberTypes="xs:float xs:int water:Vector2 water:Vector3 water:Matrix water:Sampler2D"/>
     </xs:simpleType>
     <!--Define ParamTypeName-->
     <xs:simpleType name="ParamTypeName">
@@ -36,6 +43,7 @@ targetNamespace="/water" xmlns:water="/water">
             <xs:enumeration value="Vector2"/>
             <xs:enumeration value="Vector3"/>
             <xs:enumeration value="Matrix"/>
+            <xs:enumeration value="Sampler2D"/>
         </xs:restriction>
     </xs:simpleType>
     <!--Define semantics -->
