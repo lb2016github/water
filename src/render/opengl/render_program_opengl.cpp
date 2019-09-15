@@ -249,6 +249,9 @@ namespace water
 				tex_ogl->bind(tex_unit);
 				glUniform1i(loc, tex_unit - GL_TEXTURE0);
 			}
+
+			// todo set lights
+			
 		}
 	}
 }

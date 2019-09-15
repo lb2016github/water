@@ -1,4 +1,4 @@
 <Model>
     <Mesh path="models/box.obj"/>
-    <Material path="models/box_diffuse.mat"/>
+    <Material path="models/simple_light.mat"/>
 </Model>

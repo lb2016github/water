@@ -6,6 +6,7 @@
 #include "render/render.h"
 #include "draw_command.h"
 #include "texture.h"
+#include "light.h"
 
 
 namespace water
@@ -25,6 +26,7 @@ namespace water
 			TechniquePtr m_tech;
 			std::map<int, ParameterMapPtr> m_param_map;
 		};
+
 
 		typedef std::map<std::string, TextureDataPtr> TextureMap;
 
@@ -54,8 +56,11 @@ namespace water
 			ParamTypeMap m_type_map;
 			// map of textures
 			TextureMap m_tex_map;
+			// config of light
+			LightConfig m_light_cfg;
 			// map of {name: semantic}
 			std::map<std::string, SemanticType> m_semantic_map;
+
 		};
 	}
 }

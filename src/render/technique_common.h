@@ -39,6 +39,7 @@ namespace water {
 			TypeFloat,
 			TypeInt,
 			TypeSampler2D,
+			TypeLight,
 		};
 
 		typedef std::map<std::string, ParamValue> ParamValueMap;
@@ -50,6 +51,9 @@ namespace water {
 		constexpr auto MATERIAL_VALUE_TYPE_FLOAT = "Float";
 		constexpr auto MATERIAL_VALUE_TYPE_INT = "Int";
 		constexpr auto MATERIAL_VALUE_TYPE_SAMPLE2D = "Sampler2D";
+		constexpr auto MATERIAL_VALUE_TYPE_LIGHT = "Light";
+
+
 
 		extern std::map<std::string, ParamValueType> CONFIG_param_type;
 
@@ -57,6 +61,9 @@ namespace water {
 		{
 			SemanticNone,	// no semantic
 			SemanticWVP,	// matrix of wvp
+			SemanticWorld,	// matrix of world
+			SemanticCameraPosition, // position of camera
+			SemanticLight,	// light
 		};
 		extern std::map<std::string, SemanticType> CONFIG_Semantic;
 	}

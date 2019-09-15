@@ -44,6 +44,7 @@ targetNamespace="/water" xmlns:water="/water">
             <xs:enumeration value="Vector3"/>
             <xs:enumeration value="Matrix"/>
             <xs:enumeration value="Sampler2D"/>
+            <xs:enumeration value="Light"/>
         </xs:restriction>
     </xs:simpleType>
     <!--Define semantics -->
@@ -51,6 +52,9 @@ targetNamespace="/water" xmlns:water="/water">
         <xs:restriction base="xs:string">
             <xs:enumeration value="None"/>
             <xs:enumeration value="WVP"/>
+            <xs:enumeration value="WORLD"/>
+            <xs:enumeration value="CAMERA_POSITION"/>
+            <xs:enumeration value="LIGHT"/>
         </xs:restriction>
     </xs:simpleType>
     <!-- ========================= End Define Param Types ===================== -->

@@ -80,12 +80,16 @@ namespace water {
 			{MATERIAL_VALUE_TYPE_FLOAT, TypeFloat},
 			{MATERIAL_VALUE_TYPE_INT, TypeInt},
 			{MATERIAL_VALUE_TYPE_SAMPLE2D, TypeSampler2D},
+			{MATERIAL_VALUE_TYPE_LIGHT, TypeLight},
 		};
 
 		std::map<std::string, SemanticType> CONFIG_Semantic =
 		{
 			{"None", SemanticNone},
 			{"WVP", SemanticWVP},
+			{"WORLD", SemanticWorld},
+			{"CAMERA_POSITION", SemanticCameraPosition},
+			{"LIGHT", SemanticLight},
 		};
 	}
 }

@@ -50,6 +50,13 @@ namespace water
 		}
 		void ParameterMap::set_raw_param(const std::string& name, const std::string& type, const std::string& raw_value, const std::string& semantic )
 		{
+			// init semantic
+			auto sem_rst = CONFIG_Semantic.find(semantic);
+			if (sem_rst != CONFIG_Semantic.end())
+			{
+				m_semantic_map[name] = sem_rst->second;
+			}
+			// init parameters
 			if (CONFIG_param_type.find(type) == CONFIG_param_type.end())
 			{
 				log_error("Type %s is unkown\n", type);
@@ -103,6 +110,10 @@ namespace water
 				set_texture(name, tex_ptr);
 				return;
 			}
+			else if (type == MATERIAL_VALUE_TYPE_LIGHT)
+			{
+
+			}
 			else
 			{
 				log_error("Unkown material type %s\n", type);
@@ -112,12 +123,6 @@ namespace water
 			m_value_map[name] = p_value;
 			m_type_map[name] = CONFIG_param_type[type];
 
-			// init semantic
-			auto sem_rst = CONFIG_Semantic.find(semantic);
-			if (sem_rst != CONFIG_Semantic.end())
-			{
-				m_semantic_map[name] = sem_rst->second;
-			}
 		}
 		ParamValueType ParameterMap::get_value_type(const std::string& name) const
 		{
