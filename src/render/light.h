@@ -5,6 +5,7 @@
 #include "technique_common.h"
 #include <vector>
 #include <string>
+#include "pugixml/pugixml.hpp"
 
 #define COLOR_WHITE math3d::Vector3(1.0f, 1.0f, 1.0f)
 #define COLOR_RED math3d::Vector3(1.0f, 0.0f, 0.0f)
@@ -23,7 +24,8 @@ namespace water
 
 		struct BaseLight
 		{
-			virtual LightParamMap get_light_param_map(std::string base_name);
+			virtual void init_from_xml(pugi::xml_node node);
+			virtual LightParamMap get_light_param_map(std::string base_name) const;
 			math3d::Vector3 color = { 0, 0, 0 };
 			float ambiance_intensity = { 0 };
 			float diffuse_intensity = { 0 };
@@ -31,13 +33,15 @@ namespace water
 
 		struct DirectionLight : BaseLight
 		{
-			virtual LightParamMap get_light_param_map(std::string base_name);
+			virtual void init_from_xml(pugi::xml_node node);
+			virtual LightParamMap get_light_param_map(std::string base_name) const;
 			math3d::Vector3 direction = { 0, 0, 0 };
 		};
 
 		struct PointLight : BaseLight
 		{
-			virtual LightParamMap get_light_param_map(std::string base_name);
+			virtual void init_from_xml(pugi::xml_node node);
+			virtual LightParamMap get_light_param_map(std::string base_name) const;
 			struct Atten
 			{
 				float constant = { 1 };
@@ -50,14 +54,16 @@ namespace water
 
 		struct SpotLight : PointLight
 		{
-			virtual LightParamMap get_light_param_map(std::string base_name);
+			virtual void init_from_xml(pugi::xml_node node);
+			virtual LightParamMap get_light_param_map(std::string base_name) const;
 			math3d::Vector3 direction = { 0, 0, 0 };
 			float cutoff = { 20 };	// 
 		};
 
 		struct LightConfig
 		{
-			LightParamMap get_light_param_map(std::string base_name);
+			virtual void init_from_xml(pugi::xml_node node);
+			LightParamMap get_light_param_map(std::string base_name) const;
 			DirectionLight dir_light;
 			std::vector<PointLight> point_lights;
 			std::vector<SpotLight> spot_lights;

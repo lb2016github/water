@@ -1,5 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<Scene xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <Model path="models/box.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../templates/scene.xsd">
+    <LightConfig>
+        <DirectionLight direction="1 -1 -1">
+            <BaseLight color="255 255 255" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
+        </DirectionLight>
+        <PointLight position="0 5 0">
+            <BaseLight color="255 255 255" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
+            <Atten constant="0" exp="1" linear="0.1"/>
+        </PointLight>
+        <SpotLight position="0 0 0" direction="0 0 -1" cutoff="20">
+            <BaseLight color="255 255 255" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
+            <Atten constant="0" exp="1" linear="0.1"/>
+        </SpotLight>
+    </LightConfig>
     <Camera active="true" fovy="50" znear="1" zfar="1000" position="0 0 0" rotation="0 0 0"/>
+    <Model path="models/box.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>
 </Scene>

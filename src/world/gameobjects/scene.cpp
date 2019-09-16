@@ -19,6 +19,10 @@ namespace water
 		{
 			m_cur_camera = cam_ptr;
 		}
+		render::LightConfig Scene::get_light_config()
+		{
+			return m_light_cfg;
+		}
 		void Scene::render(const render::DrawCommand & draw_cmd)
 		{
 			auto render_comp = GET_COMPONENT(this, RenderComponent);
@@ -97,6 +101,11 @@ namespace water
 							log_error("[Scene]Load camera attribute failed with name %s", iter->name());
 						}
 					}
+				}
+				// load light
+				if (strcmp(child.name(), "LightConfig") == 0)
+				{
+					m_light_cfg.init_from_xml(child);
 				}
 			}
 

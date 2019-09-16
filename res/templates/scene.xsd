@@ -1,85 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-targetNamespace="/water" xmlns:water="/water">
-    <!-- ========================= Define Param Types ===================== -->
-    <!--Define FloatList-->
-    <xs:simpleType name="FloatList">
-        <xs:list itemType="xs:float"/>
-    </xs:simpleType>
-    <!--Define Vector3-->
-    <xs:simpleType name="Vector3">
-        <xs:restriction base="water:FloatList">
-            <xs:length value="3"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <!--Define Vector2-->
-    <xs:simpleType name="Vector2">
-        <xs:restriction base="water:FloatList">
-            <xs:length value="2"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <!--Define Matrix-->
-    <xs:simpleType name="Matrix">
-        <xs:restriction base="water:FloatList">
-            <xs:length value="16"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <!--Define Sampler2D-->
-    <xs:simpleType name="Sampler2D">
-        <xs:restriction base="xs:string">
-            <xs:pattern value=".+\.((png)|(jpg))"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <!--Define ParamTypes-->
-    <xs:simpleType name="ParamTypes">
-        <xs:union memberTypes="xs:float xs:int water:Vector2 water:Vector3 water:Matrix water:Sampler2D"/>
-    </xs:simpleType>
-    <!--Define ParamTypeName-->
-    <xs:simpleType name="ParamTypeName">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="Float"/>
-            <xs:enumeration value="Int"/>
-            <xs:enumeration value="Vector2"/>
-            <xs:enumeration value="Vector3"/>
-            <xs:enumeration value="Matrix"/>
-            <xs:enumeration value="Sampler2D"/>
-            <xs:enumeration value="Light"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <!--Define semantics -->
-    <xs:simpleType name="Semantic">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="None"/>
-            <xs:enumeration value="WVP"/>
-            <xs:enumeration value="WORLD"/>
-            <xs:enumeration value="CAMERA_POSITION"/>
-            <xs:enumeration value="LIGHT"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <!-- ========================= End Define Param Types ===================== -->
-    <!--Define Parameter-->
-    <xs:complexType name="Parameter">
-        <xs:attribute name="name" type="xs:string"/>
-        <xs:attribute name="type" type="water:ParamTypeName"/>
-        <xs:attribute name="value" type="water:ParamTypes"/>
-        <xs:attribute name="semantic" type="water:Semantic"/>
+           targetNamespace="/water" xmlns:water="/water" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:include schemaLocation="material.xsd"/>
+    <xs:complexType name="BaseLight">
+        <xs:attribute name="color" type="water:Vector3"/>
+        <xs:attribute name="ambiance_intensity" type="xs:float"/>
+        <xs:attribute name="diffuse_intensity" type="xs:float"/>
     </xs:complexType>
-    <!--Define Material-->
-    <xs:complexType name="Material">
+    <xs:complexType name="DirectionLight">
         <xs:sequence>
-            <xs:element name="Technique" type="xs:anyURI"/>
-            <xs:element name="ParameterMap" minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="BaseLight" type="water:BaseLight"/>
+        </xs:sequence>
+        <xs:attribute name="direction" type="water:Vector3"/>
+    </xs:complexType>
+    <xs:complexType name="PointLight">
+        <xs:sequence>
+            <xs:element name="BaseLight" type="water:BaseLight"/>
+            <xs:element name="Atten">
                 <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="Parameter" type="water:Parameter" minOccurs="0" maxOccurs="unbounded"/>
-                    </xs:sequence>
-                    <xs:attribute name="index" type="xs:nonNegativeInteger"/>
+                    <xs:attribute name="constant" type="xs:float"/>
+                    <xs:attribute name="linear" type="xs:float"/>
+                    <xs:attribute name="exp" type="xs:float"/>
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="index" type="xs:positiveInteger"/>
+        <xs:attribute name="position" type="water:Vector3"/>
     </xs:complexType>
-    <!--Define Elements-->
-    <xs:element name="Material" type="water:Material"/>
+    <xs:complexType name="SpotLight">
+        <xs:sequence>
+            <xs:element name="BaseLight" type="water:BaseLight"/>
+            <xs:element name="Atten">
+                <xs:complexType>
+                    <xs:attribute name="constant" type="xs:float"/>
+                    <xs:attribute name="linear" type="xs:float"/>
+                    <xs:attribute name="exp" type="xs:float"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="position" type="water:Vector3"/>
+        <xs:attribute name="direction" type="water:Vector3"/>
+        <xs:attribute name="cutoff" type="xs:float"/>
+    </xs:complexType>
+    <xs:complexType name="Camera">
+        <xs:attribute name="active" type="xs:boolean"/>
+        <xs:attribute name="position" type="water:Vector3"/>
+        <xs:attribute name="rotation" type="water:Vector3"/>
+        <xs:attribute name="fovy" type="xs:float"/>
+        <xs:attribute name="znear" type="xs:float"/>
+        <xs:attribute name="zfar" type="xs:float"/>
+    </xs:complexType>
+    <xs:complexType name="Model">
+        <xs:attribute name="path" type="xs:string"/>
+        <xs:attribute name="position" type="water:Vector3"/>
+        <xs:attribute name="rotation" type="water:Vector3"/>
+        <xs:attribute name="scale" type="water:Vector3"/>
+    </xs:complexType>
+    <xs:element name="Scene">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="LightConfig">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="DirectionLight" type="water:DirectionLight"/>
+                            <xs:element name="PointLight" type="water:PointLight" minOccurs="0" maxOccurs="unbounded"/>
+                            <xs:element name="SpotLight" type="water:SpotLight" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Camera" type="water:Camera" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="Model" type="water:Model" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
 </xs:schema>

@@ -6,6 +6,7 @@
 #include "common/common.h"
 #include "world/components/render_component.h"
 #include "space_object.h"
+#include "render/light.h"
 
 namespace water
 {
@@ -14,8 +15,12 @@ namespace water
 		class Scene: public SpaceObject, public ComponentObject<RenderComponent>
 		{
 		public:
+			// cameras
 			CameraPtr get_active_camera();
 			void set_active_camera(CameraPtr cam_ptr);
+			// get light config
+			render::LightConfig get_light_config();
+			// render
 			void render(const render::DrawCommand& draw_cmd);
 
 			//load scene from file
@@ -25,6 +30,8 @@ namespace water
 			void on_frame();
 
 		protected:
+			// light
+			render::LightConfig m_light_cfg;
 			// current camera
 			CameraPtr m_cur_camera;
 			render::DrawCommand draw_cmd;

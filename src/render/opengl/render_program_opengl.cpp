@@ -6,12 +6,21 @@
 #include "render/device.h"
 #include <sstream>
 #include "texture_opengl.h"
+#include "render/light.h"
 
 namespace water
 {
 	namespace render
 	{
 		GLuint get_shader_type(ShaderType& shader_type);
+		void inline check_location(const std::string& name, GLuint loc)
+		{
+			if (loc == 0xFFFFFFFF)
+			{
+				log_error("[LOCATION]illegal location of name %s", name.c_str());
+			}
+
+		}
 		ShaderObject ProgramManagerOpenGL::load_shader(ShaderType shader_type, const std::string& file_path)
 		{
 			ShaderMap::iterator rst = m_shader_map.find(file_path);
@@ -155,6 +164,7 @@ namespace water
 		bool RenderProgramOpenGL::set_uniform(const std::string & name, math3d::Matrix & mat)
 		{
 			GLuint location = glGetUniformLocation(m_program, name.c_str());
+			check_location(name, location);
 			glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
 			return true;
 		}
@@ -162,6 +172,7 @@ namespace water
 		bool RenderProgramOpenGL::set_uniform(const std::string & name, math3d::Vector3 & vec3)
 		{
 			GLuint location = glGetUniformLocation(m_program, name.c_str());
+			check_location(name, location);
 			glUniform3fv(location, 1, &vec3[0]);
 			return true;
 		}
@@ -169,6 +180,7 @@ namespace water
 		bool RenderProgramOpenGL::set_uniform(const std::string & name, math3d::Vector2 & vec2)
 		{
 			GLuint location = glGetUniformLocation(m_program, name.c_str());
+			check_location(name, location);
 			glUniform2fv(location, 1, &vec2[0]);
 			return true;
 
@@ -177,6 +189,7 @@ namespace water
 		bool RenderProgramOpenGL::set_uniform(const std::string & name, int val)
 		{
 			GLuint location = glGetUniformLocation(m_program, name.c_str());
+			check_location(name, location);
 			glUniform1i(location, val);
 			return true;
 		}
@@ -184,6 +197,7 @@ namespace water
 		bool RenderProgramOpenGL::set_uniform(const std::string & name, float val)
 		{
 			GLuint location = glGetUniformLocation(m_program, name.c_str());
+			check_location(name, location);
 			glUniform1f(location, val);
 			return true;
 		}
@@ -251,6 +265,35 @@ namespace water
 			}
 
 			// todo set lights
+			LightParamMap light_param = param_map.m_light_cfg.get_light_param_map("light_cfg");
+			for (auto iter = light_param.value_map.begin(); iter != light_param.value_map.end(); ++iter)
+			{
+				auto name = iter->first;
+				auto pv = iter->second;
+				auto pvt = light_param.type_map[name];
+				switch (pvt)
+				{
+				case water::render::TypeNone:
+					break;
+				case water::render::TypeVector3:
+					set_uniform(name, pv.vec3);
+					break;
+				case water::render::TypeVector2:
+					set_uniform(name, pv.vec2);
+					break;
+				case water::render::TypeMatrix:
+					set_uniform(name, pv.mat);
+					break;
+				case water::render::TypeFloat:
+					set_uniform(name, pv.float_1);
+					break;
+				case water::render::TypeInt:
+					set_uniform(name, pv.int_1);
+					break;
+				default:
+					break;
+				}
+			}
 			
 		}
 	}
