@@ -6,6 +6,6 @@
         <Parameter name="world" type="Matrix" semantic="WORLD"/>
         <Parameter name="diffuse" type="Sampler2D" value="models/box.png"/>
         <Parameter name="eye_pos" type="Vector3" semantic="CAMERA_POSITION"/>
-        <Parameter name="dir_light" type="Light" semantic="LIGHT"/>
+        <Parameter name="light_cfg" type="Light" semantic="LIGHT"/>
     </ParameterMap>
 </Material>

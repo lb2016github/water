@@ -200,16 +200,16 @@ namespace water
 				render_pass.program->set_attribute_config(attribute_map);
 				// load uniform param type
 				ParamTypeMap uniform_map;
-				for (pugi::xml_node attr_node = program_node.child("Uniform"); attr_node; attr_node = program_node.next_sibling("Uniform"))
+				for each (auto child in program_node.children())
 				{
-					std::string type = attr_node.attribute("type").as_string();
+					std::string type = child.attribute("type").as_string();
 					std::map<std::string, ParamValueType>::iterator iter = CONFIG_param_type.find(type);
 					if (iter == CONFIG_param_type.end())
 					{
 						log_error("Illegal param type %s", type);
 						continue;
 					}
-					uniform_map[attr_node.attribute("name").as_string()] = iter->second;
+					uniform_map[child.attribute("name").as_string()] = iter->second;
 				}
 				render_pass.program->set_uniform_config(uniform_map);
 			}

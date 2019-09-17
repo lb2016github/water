@@ -13,13 +13,14 @@ namespace water
 	namespace render
 	{
 		GLuint get_shader_type(ShaderType& shader_type);
-		void inline check_location(const std::string& name, GLuint loc)
+		bool inline check_location(const std::string& name, GLuint loc)
 		{
 			if (loc == 0xFFFFFFFF)
 			{
 				log_error("[LOCATION]illegal location of name %s", name.c_str());
+				return false;
 			}
-
+			return true;
 		}
 		ShaderObject ProgramManagerOpenGL::load_shader(ShaderType shader_type, const std::string& file_path)
 		{
@@ -163,24 +164,27 @@ namespace water
 
 		bool RenderProgramOpenGL::set_uniform(const std::string & name, math3d::Matrix & mat)
 		{
-			GLuint location = glGetUniformLocation(m_program, name.c_str());
-			check_location(name, location);
+			auto rst = m_location_map.find(name);
+			if (rst == m_location_map.end()) return false;
+			auto location = rst->second;
 			glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
 			return true;
 		}
 
 		bool RenderProgramOpenGL::set_uniform(const std::string & name, math3d::Vector3 & vec3)
 		{
-			GLuint location = glGetUniformLocation(m_program, name.c_str());
-			check_location(name, location);
+			auto rst = m_location_map.find(name);
+			if (rst == m_location_map.end()) return false;
+			auto location = rst->second;
 			glUniform3fv(location, 1, &vec3[0]);
 			return true;
 		}
 
 		bool RenderProgramOpenGL::set_uniform(const std::string & name, math3d::Vector2 & vec2)
 		{
-			GLuint location = glGetUniformLocation(m_program, name.c_str());
-			check_location(name, location);
+			auto rst = m_location_map.find(name);
+			if (rst == m_location_map.end()) return false;
+			auto location = rst->second;
 			glUniform2fv(location, 1, &vec2[0]);
 			return true;
 
@@ -188,24 +192,25 @@ namespace water
 
 		bool RenderProgramOpenGL::set_uniform(const std::string & name, int val)
 		{
-			GLuint location = glGetUniformLocation(m_program, name.c_str());
-			check_location(name, location);
+			auto rst = m_location_map.find(name);
+			if (rst == m_location_map.end()) return false;
+			auto location = rst->second;
 			glUniform1i(location, val);
 			return true;
 		}
 
 		bool RenderProgramOpenGL::set_uniform(const std::string & name, float val)
 		{
-			GLuint location = glGetUniformLocation(m_program, name.c_str());
-			check_location(name, location);
+			auto rst = m_location_map.find(name);
+			if (rst == m_location_map.end()) return false;
+			auto location = rst->second;
 			glUniform1f(location, val);
 			return true;
 		}
 
 		bool RenderProgramOpenGL::set_uniform_config(ParamTypeMap & uniform_map)
 		{
-			m_uniform_map = uniform_map;
-			return true;
+			return do_set_uniform_config(uniform_map);
 		}
 
 		bool RenderProgramOpenGL::set_attribute_config(ParamTypeMap & attribute_map)
@@ -246,6 +251,9 @@ namespace water
 				case water::render::TypeInt:
 					set_uniform(name, pv.int_1);
 					break;
+				case water::render::TypeLight:
+					set_light(param_map.m_light_cfg.get_light_param_map(name));
+					break;
 				default:
 					break;
 				}
@@ -264,8 +272,35 @@ namespace water
 				glUniform1i(loc, tex_unit - GL_TEXTURE0);
 			}
 
-			// todo set lights
-			LightParamMap light_param = param_map.m_light_cfg.get_light_param_map("light_cfg");
+			
+		}
+		bool RenderProgramOpenGL::do_set_uniform_config(ParamTypeMap & uniform_map, bool clear)
+		{
+			if (clear)
+			{
+				m_uniform_map = uniform_map;
+			}
+			// init location map
+			m_location_map.clear();
+			for (auto iter = uniform_map.begin(); iter != uniform_map.end(); ++iter)
+			{
+				auto name = iter->first;
+				if (iter->second != TypeLight) {
+					GLuint location = glGetUniformLocation(m_program, name.c_str());
+					if (!check_location(name, location)) continue;
+					m_location_map[name] = location;
+				}
+				else
+				{
+					LightConfig cfg;
+					auto map = cfg.get_light_param_map(name);
+					do_set_uniform_config(map.type_map, false);
+				}
+			}
+			return true;
+		}
+		bool RenderProgramOpenGL::set_light(LightParamMap & light_param)
+		{
 			for (auto iter = light_param.value_map.begin(); iter != light_param.value_map.end(); ++iter)
 			{
 				auto name = iter->first;
@@ -294,7 +329,7 @@ namespace water
 					break;
 				}
 			}
-			
+			return true;
 		}
 	}
 }

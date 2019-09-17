@@ -79,7 +79,6 @@ vec3 calc_dir_color_factor(vec3 light_dir, vec3 normal, BaseLight base_light)
             specular_color = base_light.color * spe_factor;
 		}
 	}
-	return vec3(base_light.ambiance_intensity, base_light.diffuse_intensity, 255);
     return ambiant_color + diffuse_color + specular_color;
 }
 
@@ -90,5 +89,4 @@ void main(){
 	vec3 dir_color_factor = calc_dir_color_factor(dir_light.direction, vs_out.normal, dir_light.base_light);
 	vec3 dir_color = dir_color_factor * color.xyz;
 	frag_color = vec4(dir_color, 1);
-	frag_color = vec4(dir_color_factor.xyz, 1);
 }

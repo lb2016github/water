@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 #include "glad/glad.h"
+#include "render/light.h"
 
 namespace water {
 	namespace render {
@@ -33,9 +34,14 @@ namespace water {
 			// apply parameters
 			virtual void apply_parameters(const ParameterMap& param_map);
 		private:
+			bool do_set_uniform_config(ParamTypeMap& uniform_map, bool clear=true);
+			bool set_light(LightParamMap& light_param);
+
+		private:
 			GLuint m_program;
 			ParamTypeMap m_uniform_map;
 			ParamTypeMap m_attribute_map;
+			std::map<std::string, GLuint> m_location_map;
 		};
 
 		class ProgramManagerOpenGL: public IProgramManager
