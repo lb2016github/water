@@ -27,7 +27,7 @@ targetNamespace="/water" xmlns:water="/water">
     <!--Define Sampler2D-->
     <xs:simpleType name="Sampler2D">
         <xs:restriction base="xs:string">
-            <xs:pattern value=".+\.((png)|(jpg))"/>
+            <xs:pattern value=".+\.((png)|(jpg)|(jpeg))"/>
         </xs:restriction>
     </xs:simpleType>
 
