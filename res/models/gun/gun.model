@@ -1,0 +1,4 @@
+<Model>
+    <Mesh path="models/gun/Gun.obj"/>
+    <Material path="models/gun/gun.mat"/>
+</Model>
