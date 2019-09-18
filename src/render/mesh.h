@@ -19,7 +19,7 @@ namespace water
 		{
 			MeshData(const std::string& filepath, int mesh_idx)
 			{
-				MESH_ID_TYPE hash = 5333 + mesh_id;
+				MESH_ID_TYPE hash = 5333 + mesh_idx;
 				auto char_str = filepath.c_str();
 				int c;
 				while (c = *char_str++)
