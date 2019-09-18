@@ -17,7 +17,7 @@ namespace water
 		DECL_WEEK_PTR(SpaceObject)
 
 		class SpaceObject: 
-			public ComponentObject<SceneObjectComponent, TransformComponent>, 
+			public ComponentObject<TransformComponent>, 
 			public std::enable_shared_from_this<SpaceObject>
 		{
 		public:

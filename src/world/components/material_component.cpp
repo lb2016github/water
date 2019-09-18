@@ -5,6 +5,7 @@
 #include "scene_object_component.h"
 #include "world/gameobjects/game_object.h"
 #include "world/gameobjects/scene.h"
+#include "world/gameobjects/world.h"
 
 namespace water
 {
@@ -45,9 +46,7 @@ namespace water
 
 		void MaterialComponent::update_semantic_param(render::ParameterMapPtr param_map, std::string name, render::SemanticType semantic)
 		{
-			auto scene_comp = GET_COMPONENT(m_game_object, SceneObjectComponent);
-			if (scene_comp == nullptr) return;
-			auto scene_ptr = scene_comp->get_scene();
+			auto scene_ptr = World::get_instance()->get_cur_scene();
 			if (scene_ptr == nullptr) return;
 			if (semantic == water::render::SemanticWVP)
 			{

@@ -57,9 +57,9 @@ namespace water
 					// add child
 					auto shared_ptr = model->shared_from_this();
 					add_child(shared_ptr);
-					// add to scene
-					model->add_component(SceneObjectComponent::tag);
-					GET_COMPONENT(model, SceneObjectComponent)->on_add_to_scene(std::dynamic_pointer_cast<Scene>(shared_from_this()));
+					//// add to scene
+					//model->add_component(SceneObjectComponent::tag);
+					//GET_COMPONENT(model, SceneObjectComponent)->on_add_to_scene(std::dynamic_pointer_cast<Scene>(shared_from_this()));
 				}
 				// load camera
 				if (strcmp(child.name(), "Camera") == 0)
