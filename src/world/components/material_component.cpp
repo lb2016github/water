@@ -25,11 +25,6 @@ namespace water
 			return m_material_ptr;
 		}
 
-		void MaterialComponent::load_from_file(const std::string& filepath)
-		{
-			m_material_ptr->load(filepath.c_str());
-		}
-
 		void MaterialComponent::update_material()
 		{
 			if (m_material_ptr)
@@ -96,6 +91,10 @@ namespace water
 		MaterialComponent::~MaterialComponent()
 		{
 			m_material_ptr = nullptr;
+		}
+		void MaterialComponent::set_material(render::MaterialPtr material)
+		{
+			m_material_ptr = material;
 		}
 	}
 }

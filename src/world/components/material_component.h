@@ -20,6 +20,8 @@ namespace water
 			static const ComponentTag tag = COMP_MATERIAL;
 
 		public:
+			void set_material(render::MaterialPtr material);
+			render::MaterialPtr get_material();
 			/*
 			* @brief: set parameter to material
 			*
@@ -35,12 +37,9 @@ namespace water
 			// check has certern param
 			bool has_param(std::string name, unsigned int index = 0);
 
-			// get material
-			render::MaterialPtr get_material();
-			void load_from_file(const std::string& filepath);
-
 			// update material
 			void update_material();
+
 
 		protected:
 			// update value of semantic param

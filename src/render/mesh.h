@@ -17,9 +17,9 @@ namespace water
 	{
 		struct MeshData
 		{
-			MeshData(const std::string& filepath)
+			MeshData(const std::string& filepath, int mesh_idx)
 			{
-				MESH_ID_TYPE hash = 5333;
+				MESH_ID_TYPE hash = 5333 + mesh_id;
 				auto char_str = filepath.c_str();
 				int c;
 				while (c = *char_str++)

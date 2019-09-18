@@ -7,21 +7,22 @@
 #include "draw_command.h"
 #include "texture.h"
 #include "light.h"
+#include <map>
 
 
 namespace water
 {
 	namespace render
 	{
-
 		class Material: public std::enable_shared_from_this<Material>
 		{
 		public:
-			void load(const char* file_path);
 			void render(IRenderable* render_obj);
 			void render(const DrawCommand& draw_cmd, const MeshDataPtr mesh);
 			ParameterMapPtr get_param_map(int index);
 			unsigned int get_param_map_count();
+
+			static std::map<int, MaterialPtr> load_from_file(const std::string& filepath);
 		private:
 			TechniquePtr m_tech;
 			std::map<int, ParameterMapPtr> m_param_map;

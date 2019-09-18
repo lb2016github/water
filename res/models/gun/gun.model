@@ -1,4 +1,15 @@
-<Model>
-    <Mesh path="models/gun/Gun.obj"/>
-    <Material path="models/gun/gun.mat"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<Model xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../../templates/model.xsd">
+    <SubModel index="0">
+        <Mesh path="models/gun/gun.obj" mesh_idx="0"/>
+        <Material path="models/gun/gun.mat" mat_idx="0"/>
+    </SubModel>
+    <SubModel index="1">
+        <Mesh path="models/gun/gun.obj" mesh_idx="1"/>
+        <Material path="models/gun/gun.mat" mat_idx="1"/>
+    </SubModel>
+    <SubModel index="2">
+        <Mesh path="models/gun/gun.obj" mesh_idx="2"/>
+        <Material path="models/gun/gun.mat" mat_idx="2"/>
+    </SubModel>
 </Model>

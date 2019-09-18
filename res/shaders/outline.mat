@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<Material xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../templates/material.xsd">
-    <Technique>shaders/simple_color.tech</Technique>
-    <ParameterMap index="0">
-        <Parameter name="wvp" type="Matrix" value="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"/>
-        <Parameter name="outline_color" type="Vector3" value="0 0 125"/>
-    </ParameterMap>
-</Material>

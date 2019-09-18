@@ -9,7 +9,9 @@ namespace water
 		class MeshLoader : public IMeshLoader
 		{
 		public:
-			virtual render::MeshDataPtr load_mesh(const std::string& filename);
+			virtual std::vector<render::MeshDataPtr> load_all_mesh(const std::string& filename);
+			virtual render::MeshDataPtr load_sub_mesh(const std::string& filename, int mesh_idx);
+			virtual render::MeshDataPtr load_combined_mesh(const std::string& filename);
 		};
 	}
 }

@@ -11,7 +11,9 @@ namespace water
 	{
 		WaterInterface IMeshLoader
 		{
-			virtual render::MeshDataPtr load_mesh(const std::string& filename) = 0;
+			virtual std::vector<render::MeshDataPtr> load_all_mesh(const std::string& filename) = 0;
+			virtual render::MeshDataPtr load_sub_mesh(const std::string& filename, int mesh_idx) = 0;
+			virtual render::MeshDataPtr load_combined_mesh(const std::string& filename) = 0;
 		};
 
 		IMeshLoader* get_mesh_loader();

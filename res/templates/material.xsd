@@ -78,8 +78,14 @@ targetNamespace="/water" xmlns:water="/water">
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="index" type="xs:positiveInteger"/>
+        <xs:attribute name="index" type="xs:nonNegativeInteger"/>
     </xs:complexType>
     <!--Define Elements-->
-    <xs:element name="Material" type="water:Material"/>
+    <xs:element name="MaterialGroup">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Material" type="water:Material" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 </xs:schema>

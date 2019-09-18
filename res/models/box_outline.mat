@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<Material xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../templates/material.xsd">
-    <Technique>shaders/outline.tech</Technique>
-    <ParameterMap index="0">
-        <Parameter name="wvp" type="Matrix" value="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" semantic="WVP"/>
-    </ParameterMap>
-    <ParameterMap index="1">
-        <Parameter name="wvp" type="Matrix" value="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" semantic="WVP"/>
-        <Parameter name="outline_color" type="Vector3" value="0 0 125"/>
-        <Parameter name="scale" type="Float" value="1.03"/>
-    </ParameterMap>
-</Material>
+<MaterialGroup xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../templates/material.xsd">
+    <Material index="0">
+        <Technique>shaders/outline.tech</Technique>
+        <ParameterMap index="0">
+            <Parameter name="wvp" type="Matrix" value="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" semantic="WVP"/>
+        </ParameterMap>
+        <ParameterMap index="1">
+            <Parameter name="wvp" type="Matrix" value="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" semantic="WVP"/>
+            <Parameter name="outline_color" type="Vector3" value="0 0 125"/>
+            <Parameter name="scale" type="Float" value="1.03"/>
+        </ParameterMap>
+    </Material>
+</MaterialGroup>

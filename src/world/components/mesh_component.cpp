@@ -23,9 +23,19 @@ namespace water
 			m_mesh_ptr = nullptr;
 		}
 
-		void MeshComponent::load_from_file(std::string filename)
+		std::vector<render::MeshDataPtr> MeshComponent::load_from_file(std::string filename, bool combined_mesh)
 		{
-			m_mesh_ptr = mesh::get_mesh_loader()->load_mesh(filesystem::FileSystem::get_instance()->get_absolute_path(filename));
+			std::vector<render::MeshDataPtr> meshes;
+			if (combined_mesh)
+			{
+				auto mesh = mesh::get_mesh_loader()->load_combined_mesh(filename);
+				meshes.push_back(mesh);
+				return meshes;
+			}
+			else
+			{
+				return mesh::get_mesh_loader()->load_all_mesh(filename);
+			}
 		}
 
 		void MeshComponent::set_mesh_ptr(render::MeshDataPtr mesh_ptr)

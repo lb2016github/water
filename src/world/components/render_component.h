@@ -22,10 +22,6 @@ namespace water
 			void render(const render::DrawCommand& draw_cmd);
 
 		protected:
-			void do_render(const render::DrawCommand& draw_cmd, GameObject* game_object);
-
-
-		protected:
 			SpaceObject * m_space_object;
 		};
 	}

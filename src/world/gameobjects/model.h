@@ -17,9 +17,6 @@ namespace water
 		public:
 			// init from file
 			virtual void load_from_file(std::string& filepath);
-
-		protected:
-			virtual std::set<ComponentTag> get_comp_tags();
 		};
 
 		DECL_SHARED_PTR(Model);

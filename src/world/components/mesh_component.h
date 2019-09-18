@@ -21,13 +21,13 @@ namespace water
 
 
 		public:
-			void load_from_file(std::string filename);
+			std::vector<render::MeshDataPtr> load_from_file(std::string filename, bool combined_mesh);
 			void set_mesh_ptr(render::MeshDataPtr mesh_ptr);
 			render::MeshDataPtr get_mesh_ptr();
 
 		protected:
 			// pointer to mesh data
-			render::MeshDataPtr m_mesh_ptr = { nullptr };
+			render::MeshDataPtr m_mesh_ptr;
 		};
 	}
 }

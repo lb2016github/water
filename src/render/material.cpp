@@ -139,35 +139,6 @@ namespace water
 			if (rst == m_semantic_map.end()) return render::SemanticNone;
 			return rst->second;
 		}
-		void Material::load(const char * file_path)
-		{
-			filesystem::XMLFile file;
-			file.load(file_path);
-			if (!file.m_loaded)
-			{
-				log_error("[Render]Fail to load file: %s", file_path);
-				return;
-			}
-			auto material = file.get_root_node().first_child();
-			// load technique
-			std::string tech_path = material.child("Technique").child_value();
-			m_tech = TechniqueManager::get_instance()->get_technique(tech_path);
-			// load param map
-			for (pugi::xml_node param_map = material.child("ParameterMap"); param_map; param_map = param_map.next_sibling("ParameterMap"))
-			{
-				ParameterMapPtr map_ptr = std::make_shared<ParameterMap>();
-				for (pugi::xml_node param = param_map.child("Parameter"); param; param = param.next_sibling("Parameter"))
-				{
-					std::string name = param.attribute("name").as_string();
-					std::string type = param.attribute("type").as_string();
-					std::string value = param.attribute("value").as_string();
-					std::string semantic_value = param.attribute("semantic").as_string();
-					map_ptr->set_raw_param(name, type, value, semantic_value);
-				}
-				int index = param_map.attribute("index").as_int();
-				m_param_map[index] = map_ptr;
-			}
-		}
 
 		void Material::render(IRenderable * render_obj)
 		{
@@ -193,5 +164,49 @@ namespace water
 			return m_param_map.size();
 		}
 
+		std::map<int, MaterialPtr> Material::load_from_file(const std::string & filepath)
+		{
+			std::map<int, MaterialPtr> rtn;
+			filesystem::XMLFile file;
+			file.load(filepath);
+			if (!file.m_loaded)
+			{
+				log_error("[Render]Fail to load file: %s", filepath.c_str());
+				return rtn;
+			}
+			auto mat_group = file.get_root_node().first_child();
+			for each (auto mat_node in mat_group.children())
+			{
+				auto mat_ptr = std::make_shared<Material>();
+				int index = mat_node.attribute("index").as_int();
+				rtn[index] = mat_ptr;
+				for each (auto child in mat_node.children())
+				{
+					if (strcmp(child.name(), "Technique") == 0)
+					{
+						// load technique
+						std::string tech_path = mat_node.child("Technique").child_value();
+						mat_ptr->m_tech = TechniqueManager::get_instance()->get_technique(tech_path);
+					}
+					else if (strcmp(child.name(), "ParameterMap") == 0)
+					{
+						// load parameters
+						ParameterMapPtr map_ptr = std::make_shared<ParameterMap>();
+						int index = child.attribute("index").as_int();
+						mat_ptr->m_param_map[index] = map_ptr;
+						for each(auto param in child.children())
+						{
+							std::string name = param.attribute("name").as_string();
+							std::string type = param.attribute("type").as_string();
+							std::string value = param.attribute("value").as_string();
+							std::string semantic_value = param.attribute("semantic").as_string();
+							map_ptr->set_raw_param(name, type, value, semantic_value);
+						}
+					}
+
+				}
+			}
+		return rtn;
+		}
 	}
 }
