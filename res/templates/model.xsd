@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="/water" xmlns:water="/water">
+    <!-- ========================= Define Param Types ===================== -->
+    <!--Define FloatList-->
+    <xs:simpleType name="FloatList">
+        <xs:list itemType="xs:float"/>
+    </xs:simpleType>
+    <!--Define Vector3-->
+    <xs:simpleType name="Vector3">
+        <xs:restriction base="water:FloatList">
+            <xs:length value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--Define Vector2-->
+    <xs:simpleType name="Vector2">
+        <xs:restriction base="water:FloatList">
+            <xs:length value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--Define Matrix-->
+    <xs:simpleType name="Matrix">
+        <xs:restriction base="water:FloatList">
+            <xs:length value="16"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--Define Sampler2D-->
+    <xs:simpleType name="Sampler2D">
+        <xs:restriction base="xs:string">
+            <xs:pattern value=".+\.((png)|(jpg)|(jpeg))"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!--Define ParamTypes-->
+    <xs:simpleType name="ParamTypes">
+        <xs:union memberTypes="xs:float xs:int water:Vector2 water:Vector3 water:Matrix water:Sampler2D"/>
+    </xs:simpleType>
+    <!--Define ParamTypeName-->
+    <xs:simpleType name="ParamTypeName">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Float"/>
+            <xs:enumeration value="Int"/>
+            <xs:enumeration value="Vector2"/>
+            <xs:enumeration value="Vector3"/>
+            <xs:enumeration value="Matrix"/>
+            <xs:enumeration value="Sampler2D"/>
+            <xs:enumeration value="Light"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--Define semantics -->
+    <xs:simpleType name="Semantic">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="None"/>
+            <xs:enumeration value="WVP"/>
+            <xs:enumeration value="WORLD"/>
+            <xs:enumeration value="CAMERA_POSITION"/>
+            <xs:enumeration value="LIGHT"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- ========================= End Define Param Types ===================== -->
+    <!--Define Parameter-->
+    <xs:complexType name="Parameter">
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="type" type="water:ParamTypeName"/>
+        <xs:attribute name="value" type="water:ParamTypes"/>
+        <xs:attribute name="semantic" type="water:Semantic"/>
+    </xs:complexType>
+    <!--Define Material-->
+    <xs:complexType name="Material">
+        <xs:sequence>
+            <xs:element name="Technique" type="xs:anyURI"/>
+            <xs:element name="ParameterMap" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Parameter" type="water:Parameter" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                    <xs:attribute name="index" type="xs:nonNegativeInteger"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="index" type="xs:nonNegativeInteger"/>
+    </xs:complexType>
+    <!--Define Elements-->
+    <xs:element name="MaterialGroup">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Material" type="water:Material" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
