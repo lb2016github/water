@@ -62,6 +62,13 @@ namespace water
 			}
 			else if (semantic == water::render::SemanticWorld)
 			{
+				auto trans_comp = GET_COMPONENT(m_game_object, TransformComponent);
+				if (trans_comp == nullptr) return;
+				auto world_trans = trans_comp->get_world_transformation();
+				param_map->set_param(name, world_trans);
+			}
+			else if (semantic == water::render::SemanticCameraPosition)
+			{
 				auto cam_ptr = scene_ptr->get_active_camera();
 				if (cam_ptr == nullptr) return;
 				auto cam_trans = GET_COMPONENT(cam_ptr, TransformComponent);
@@ -69,7 +76,7 @@ namespace water
 				param_map->set_param(name, cam_pos);
 
 			}
-			else if (semantic == water::render::SemanticCameraPosition)
+			else if (semantic == water::render::SemanticLight)
 			{
 				param_map->m_light_cfg = scene_ptr->get_light_config();
 			}
