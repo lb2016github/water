@@ -210,7 +210,10 @@ namespace water
 
 		bool RenderProgramOpenGL::set_uniform_config(ParamTypeMap & uniform_map)
 		{
-			return do_set_uniform_config(uniform_map);
+			m_uniform_map = uniform_map;
+			m_location_map.clear();
+			m_invalid_map.clear();
+			return update_location(uniform_map);
 		}
 
 		bool RenderProgramOpenGL::set_attribute_config(ParamTypeMap & attribute_map)
@@ -274,33 +277,38 @@ namespace water
 
 			
 		}
-		bool RenderProgramOpenGL::do_set_uniform_config(ParamTypeMap & uniform_map, bool clear)
+		bool RenderProgramOpenGL::update_location(ParamTypeMap & uniform_map)
 		{
-			if (clear)
-			{
-				m_uniform_map = uniform_map;
-			}
-			// init location map
-			m_location_map.clear();
 			for (auto iter = uniform_map.begin(); iter != uniform_map.end(); ++iter)
 			{
 				auto name = iter->first;
+				if (m_location_map.find(name) != m_location_map.end() || m_invalid_map.find(name) != m_invalid_map.end())
+				{
+					continue;
+				}
 				if (iter->second != TypeLight) {
 					GLuint location = glGetUniformLocation(m_program, name.c_str());
-					if (!check_location(name, location)) continue;
-					m_location_map[name] = location;
+					if (check_location(name, location))
+					{
+						m_location_map[name] = location;
+					}
+					else
+					{
+						m_invalid_map.insert(name);
+					}
 				}
 				else
 				{
 					LightConfig cfg;
 					auto map = cfg.get_light_param_map(name);
-					do_set_uniform_config(map.type_map, false);
+					update_location(map.type_map);
 				}
 			}
 			return true;
 		}
 		bool RenderProgramOpenGL::set_light(LightParamMap & light_param)
 		{
+			update_location(light_param.type_map);
 			for (auto iter = light_param.value_map.begin(); iter != light_param.value_map.end(); ++iter)
 			{
 				auto name = iter->first;
