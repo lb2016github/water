@@ -52,14 +52,55 @@ struct PBRMaterial
     float roughness;
 };
 
-uniform vec3 view;
+struct VSOut
+{
+    vec3 albedo;
+    vec3 normal;
+    vec3 world_position;
+};
 
+in VSOut vs_out;
+out vec4 frag_color;
+
+uniform LightConfig light;
+uniform vec3 cam_position;
+uniform float metalness;
+uniform float roughness;
+
+float calc_ndf_ggx_tr(vec3 n, vec3 h, float r);
+float calc_geometry_schlick_ggx(vec3 n, vec3 v, float k);
+float calc_geometry_smith(vec3 n, vec3 view, vec3 light, float k);
+vec3 calc_fresnel_schlick(vec3 h, vec3 v, vec3 f0);
+vec3 calc_brdf_cook_torrance(PBRMaterial mat, vec3 view_dir, vec3 light_dir);
+
+void main()
+{
+    PBRMaterial mat;
+    mat.normal = normalize(vs_out.normal);
+    mat.albedo = vs_out.albedo;
+    mat.metalness = metalness;
+    mat.roughness = roughness;
+    vec3 view_dir = normalize(cam_position - vs_out.world_position);
+    vec3 out_light = vec3(0, 0, 0);
+    for(int i = 0; i < light.point_light_num; ++i)
+    {
+        vec3 light_dir = normalize(light.point_lights[i].position - vs_out.world_position);
+        float distance = length(vs_out.world_position - light.point_lights[i].position);
+        Atten atten = light.point_lights[i].atten;
+        vec3 radiance = light.point_lights[i].base_light.color / (atten.constant + atten.linear * distance + atten.exp * distance * distance);
+//        vec3 radiance = vec3(0.5, 0.5, 0.5) / (atten.constant + atten.linear * distance + atten.exp * distance * distance);
+        vec3 brdf = calc_brdf_cook_torrance(mat, view_dir, light_dir);
+//        out_light += brdf * dot(mat.normal, light_dir) * radiance;
+        out_light += mat.albedo;
+    }
+    frag_color = vec4(out_light, 1);
+}
 
 // r^2 / (pi((n*h)^2(r^2-1) + 1)^2)
 float calc_ndf_ggx_tr(vec3 n, vec3 h, float r)
 {
-    float r2 = r * r;
-    float nh = n.dot(h);
+    float r2 = r * r;   // it is said that r = r^2 make the result better
+    float nh = max(dot(n, h), 0);
     float tmp = nh * nh * (r2 - 1) + 1;
     return r2 / (PI * tmp * tmp);
 }
@@ -67,30 +108,31 @@ float calc_ndf_ggx_tr(vec3 n, vec3 h, float r)
 // n * v / (n*v)(1 - k) + k)
 float calc_geometry_schlick_ggx(vec3 n, vec3 v, float k)
 {
-    float nv = n.dot(v);
+//    float nv = dot(n, v);
+    float nv = max(dot(n, v), 0);
     float tmp = nv * (1 - k) + k;
     return nv / tmp;
 }
 
-float calc_geometry_smith(vec3 n, vec3 view, vec3 light, float k)
+float calc_geometry_smith(vec3 n, vec3 view_dir, vec3 light_dir, float k)
 {
-    float view_geom = calc_geometry_schlick_ggx(n, view, k);
-    float light_geom = calc_geometry_schlick_ggx(n, light, k);
-    return view_geom * light_geom;
+    float view_dir_geom = calc_geometry_schlick_ggx(n, view_dir, k);
+    float light_dir_geom = calc_geometry_schlick_ggx(n, light_dir, k);
+    return view_dir_geom * light_dir_geom;
 }
 
 // fresnel 
-float calc_fresnel_schlick(vec3 h, vec3 v, vec3 f0)
+vec3 calc_fresnel_schlick(vec3 h, vec3 v, vec3 f0)
 {
-    return f0 + (1 - f0)* pow(1 - dot(h, v), 5);
+    return f0 + (vec3(1) - f0) * pow(1 - dot(h, v), 5);
 }
 
 // calculate brdf of cook-torrance
 vec3 calc_brdf_cook_torrance(PBRMaterial mat, vec3 view_dir, vec3 light_dir)
 {
-    vec3 h = (view_dir + light_dir) / length(view_dir + light_dir);
+    vec3 h = normalize(view_dir + light_dir);
     // calculating dfg
-    float d = calc_ndf_ggx_tr(mat.normal, h, mat.roughness);    // f
+    float d = calc_ndf_ggx_tr(mat.normal, h, mat.roughness);    // ndf
 
     float _alpha = mat.roughness;
     float _k = pow(_alpha + 1, 2) / 8;
@@ -98,16 +140,18 @@ vec3 calc_brdf_cook_torrance(PBRMaterial mat, vec3 view_dir, vec3 light_dir)
 
     vec3 f0 = vec3(0.04);
     f0 = mix(f0, mat.albedo, mat.metalness);
-    float f = calc_fresnel_schlick(h, view_dir, f0);    // f
+    vec3 f = calc_fresnel_schlick(h, view_dir, f0);    // f
 
-    float dfg = d * f * geom;
+    vec3 dfg = d * f * geom;
 
     // kd and ks
-    float kd = 1 - f;
-    float ks = f;
+    vec3 ks = f;
+    vec3 kd = 1 - ks;
+    kd *= 1 - mat.metalness;    // 金属会吸收所有的折射光，所以没有漫反射系数为0
+
 
     vec3 f_diffuse = kd * mat.albedo / PI;
-    vec3 f_specular = ks * d * f * geom / (4 * dot(view_dir, mat.normal) * dot(light_dir, mat.normal));
+    vec3 f_specular = d * f * geom / (4 * max(dot(view_dir, mat.normal), 0) * max(dot(light_dir, mat.normal), 0) + 0.0001);
 
     return f_diffuse + f_specular;
 }
