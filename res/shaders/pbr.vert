@@ -14,7 +14,6 @@ layout(location=LOCATION_TANGENT) in vec3 tangent;
 
 struct VSOut
 {
-    vec3 albedo;
     vec3 w_normal;
     vec3 world_position;
     vec3 w_tangent;
@@ -25,10 +24,8 @@ out VSOut vs_out;
 
 uniform mat4 world_matrix;
 uniform mat4 wvp;
-uniform vec3 albedo;
 
 void main() {
-    vs_out.albedo = vec3(albedo);
     vs_out.w_normal = (world_matrix * vec4(normal, 0)).xyz;
     vs_out.w_tangent = (world_matrix * vec4(tangent, 0)).xyz;
     vs_out.world_position = (world_matrix * vec4(position, 1)).xyz;

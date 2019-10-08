@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<MaterialGroup xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../../templates/material.xsd">
+    <Material index="0">
+        <Technique>shaders/pbr.tech</Technique>
+        <ParameterMap index="0">
+            <Parameter name="albedo" type="Sampler2D" value="models/gun/textures/blinn1SG_albedo.jpeg"/>
+            <Parameter name="metallic" type="Sampler2D" value="models/gun/textures/blinn1SG_metallic.jpeg"/>
+            <Parameter name="normal" type="Sampler2D" value="models/gun/textures/blinn1SG_normal.jpeg"/>
+            <Parameter name="roughness" type="Sampler2D" value="models/gun/textures/blinn1SG_roughness.jpeg"/>
+            <Parameter name="wvp" type="Matrix" semantic="WVP"/>
+            <Parameter name="world_matrix" type="Matrix" semantic="WORLD"/>
+            <Parameter name="cam_position" type="Vector3" semantic="CAMERA_POSITION"/>
+            <Parameter name="light" type="Light" semantic="LIGHT"/>
+        </ParameterMap>
+    </Material>
+    <Material index="1">
+        <Technique>shaders/pbr.tech</Technique>
+        <ParameterMap index="0">
+            <Parameter name="albedo" type="Sampler2D" value="models/gun/textures/blinn2SG_albedo.jpeg"/>
+            <Parameter name="metallic" type="Sampler2D" value="models/gun/textures/blinn2SG_metallic.jpeg"/>
+            <Parameter name="normal" type="Sampler2D" value="models/gun/textures/blinn2SG_normal.jpeg"/>
+            <Parameter name="roughness" type="Sampler2D" value="models/gun/textures/blinn2SG_roughness.jpeg"/>
+            <Parameter name="wvp" type="Matrix" semantic="WVP"/>
+            <Parameter name="world_matrix" type="Matrix" semantic="WORLD"/>
+            <Parameter name="cam_position" type="Vector3" semantic="CAMERA_POSITION"/>
+            <Parameter name="light" type="Light" semantic="LIGHT"/>
+        </ParameterMap>
+    </Material>
+    <Material index="2">
+        <Technique>shaders/pbr.tech</Technique>
+        <ParameterMap index="0">
+            <Parameter name="albedo" type="Sampler2D" value="models/gun/textures/blinn3SG_albedo.jpeg"/>
+            <Parameter name="metallic" type="Sampler2D" value="models/gun/textures/blinn3SG_metallic.jpeg"/>
+            <Parameter name="normal" type="Sampler2D" value="models/gun/textures/blinn3SG_normal.jpeg"/>
+            <Parameter name="roughness" type="Sampler2D" value="models/gun/textures/blinn3SG_roughness.jpeg"/>
+            <Parameter name="wvp" type="Matrix" semantic="WVP"/>
+            <Parameter name="world_matrix" type="Matrix" semantic="WORLD"/>
+            <Parameter name="cam_position" type="Vector3" semantic="CAMERA_POSITION"/>
+            <Parameter name="light" type="Light" semantic="LIGHT"/>
+        </ParameterMap>
+    </Material>
+</MaterialGroup>

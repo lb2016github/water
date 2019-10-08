@@ -21,6 +21,7 @@
 <!--    <Model path="models/box.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>-->
 <!--    <Model path="models/crown.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>-->
 <!--    <Model path="models/gun/gun.model" position="0 0 -3" scale="2 2 2" rotation="0 0 0"/>-->
-    <Model path="models/pbr_ball/pbr_ball.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>
+    <Model path="models/gun/gun_pbr.model" position="0 0 -3" scale="1.5 1.5 1.5" rotation="0 0 0"/>
+<!--    <Model path="models/pbr_ball/gun_pbr.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
 <!--    <Model path="models/ball.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
 </Scene>

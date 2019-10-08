@@ -54,7 +54,6 @@ struct PBRMaterial
 
 struct VSOut
 {
-    vec3 albedo;
     vec3 w_normal;
     vec3 world_position;
     vec3 w_tangent;
@@ -66,9 +65,10 @@ out vec4 frag_color;
 
 uniform LightConfig light;
 uniform vec3 cam_position;
-uniform float metalness;
-uniform float roughness;
-uniform sampler2D s_normal;
+uniform sampler2D albedo;
+uniform sampler2D metallic;
+uniform sampler2D normal;
+uniform sampler2D roughness;
 
 float calc_ndf_ggx_tr(vec3 n, vec3 h, float r);
 float calc_geometry_schlick_ggx(vec3 n, vec3 v, float k);
@@ -78,8 +78,13 @@ vec3 calc_brdf_cook_torrance(PBRMaterial mat, vec3 view_dir, vec3 light_dir);
 
 void main()
 {
+    vec3 tex_normal = texture2D(normal, vs_out.coord).xyz;
+    vec3 tex_albedo = texture2D(albedo, vs_out.coord).xyz;
+    vec3 tex_metallic = texture2D(metallic, vs_out.coord).xyz;
+    vec3 tex_roughness = texture2D(roughness, vs_out.coord).xyz;
+
     // get normal
-    vec3 tex_normal = texture2D(s_normal, vs_out.coord).xyz;
+    tex_normal = tex_normal * 2 - 1;
     vec3 w_normal = normalize(vs_out.w_normal);
     vec3 w_tangent = normalize(vs_out.w_tangent);
     w_tangent = normalize(w_tangent - dot(w_tangent, w_normal) * w_normal);
@@ -88,9 +93,9 @@ void main()
 
     PBRMaterial mat;
     mat.normal = normalize(tbn * tex_normal);
-    mat.albedo = vs_out.albedo;
-    mat.metalness = metalness;
-    mat.roughness = roughness;
+    mat.albedo = tex_albedo;
+    mat.metalness = tex_metallic.x;
+    mat.roughness = tex_roughness.x;
     vec3 view_dir = normalize(cam_position - vs_out.world_position);
     vec3 out_light = vec3(0, 0, 0);
     for(int i = 0; i < light.point_light_num; ++i)
@@ -101,9 +106,8 @@ void main()
         vec3 radiance = light.point_lights[i].base_light.color / (atten.constant + atten.linear * distance + atten.exp * distance * distance);
         vec3 brdf = calc_brdf_cook_torrance(mat, view_dir, light_dir);
         out_light += brdf * dot(mat.normal, light_dir) * radiance;
-//        out_light += radiance;
     }
-    frag_color = vec4(tex_normal, 1);
+    frag_color = vec4(out_light, 1);
 }
 
 // r^2 / (pi((n*h)^2(r^2-1) + 1)^2)

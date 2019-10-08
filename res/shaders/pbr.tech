@@ -28,12 +28,12 @@
         <Program vertex_shader="shaders/pbr.vert" fragment_shader="shaders/pbr.frag">
             <Uniform name="wvp" type="Matrix"/>
             <Uniform name="world_matrix" type="Matrix"/>
-            <Uniform name="albedo" type="Vector3"/>
             <Uniform name="cam_position" type="Vector3"/>
             <Uniform name="light" type="Light"/>
-            <Uniform name="metalness" type="Float"/>
-            <Uniform name="roughness" type="Float"/>
-            <Uniform name="s_normal" type="Sampler2D"/>
+            <Uniform name="albedo" type="Sampler2D"/>
+            <Uniform name="normal" type="Sampler2D"/>
+            <Uniform name="metallic" type="Sampler2D"/>
+            <Uniform name="roughness" type="Sampler2D"/>
         </Program>
     </RenderPass>
 </Technique>
