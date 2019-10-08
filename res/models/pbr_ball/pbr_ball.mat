@@ -10,6 +10,7 @@
             <Parameter name="light" type="Light" semantic="LIGHT"/>
             <Parameter name="metalness" type="Float" value="1.0"/>
             <Parameter name="roughness" type="Float" value="0.5"/>
+            <Parameter name="s_normal" type="Sampler2D" value="models/pbr_ball/normal.jpg"/>
         </ParameterMap>
     </Material>
 </MaterialGroup>

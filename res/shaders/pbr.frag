@@ -55,8 +55,10 @@ struct PBRMaterial
 struct VSOut
 {
     vec3 albedo;
-    vec3 normal;
+    vec3 w_normal;
     vec3 world_position;
+    vec3 w_tangent;
+    vec2 coord;
 };
 
 in VSOut vs_out;
@@ -66,6 +68,7 @@ uniform LightConfig light;
 uniform vec3 cam_position;
 uniform float metalness;
 uniform float roughness;
+uniform sampler2D s_normal;
 
 float calc_ndf_ggx_tr(vec3 n, vec3 h, float r);
 float calc_geometry_schlick_ggx(vec3 n, vec3 v, float k);
@@ -75,8 +78,16 @@ vec3 calc_brdf_cook_torrance(PBRMaterial mat, vec3 view_dir, vec3 light_dir);
 
 void main()
 {
+    // get normal
+    vec3 tex_normal = texture2D(s_normal, vs_out.coord).xyz;
+    vec3 w_normal = normalize(vs_out.w_normal);
+    vec3 w_tangent = normalize(vs_out.w_tangent);
+    w_tangent = normalize(w_tangent - dot(w_tangent, w_normal) * w_normal);
+    vec3 bi_tangent = normalize(cross(w_tangent, w_normal));
+    mat3 tbn = mat3(w_tangent, bi_tangent, w_normal);
+
     PBRMaterial mat;
-    mat.normal = normalize(vs_out.normal);
+    mat.normal = normalize(tbn * tex_normal);
     mat.albedo = vs_out.albedo;
     mat.metalness = metalness;
     mat.roughness = roughness;
@@ -88,12 +99,11 @@ void main()
         float distance = length(vs_out.world_position - light.point_lights[i].position);
         Atten atten = light.point_lights[i].atten;
         vec3 radiance = light.point_lights[i].base_light.color / (atten.constant + atten.linear * distance + atten.exp * distance * distance);
-//        vec3 radiance = vec3(0.5, 0.5, 0.5) / (atten.constant + atten.linear * distance + atten.exp * distance * distance);
         vec3 brdf = calc_brdf_cook_torrance(mat, view_dir, light_dir);
-//        out_light += brdf * dot(mat.normal, light_dir) * radiance;
-        out_light += mat.albedo;
+        out_light += brdf * dot(mat.normal, light_dir) * radiance;
+//        out_light += radiance;
     }
-    frag_color = vec4(out_light, 1);
+    frag_color = vec4(tex_normal, 1);
 }
 
 // r^2 / (pi((n*h)^2(r^2-1) + 1)^2)

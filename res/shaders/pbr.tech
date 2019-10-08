@@ -33,6 +33,7 @@
             <Uniform name="light" type="Light"/>
             <Uniform name="metalness" type="Float"/>
             <Uniform name="roughness" type="Float"/>
+            <Uniform name="s_normal" type="Sampler2D"/>
         </Program>
     </RenderPass>
 </Technique>
