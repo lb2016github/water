@@ -69,6 +69,7 @@ uniform sampler2D albedo;
 uniform sampler2D metallic;
 uniform sampler2D normal;
 uniform sampler2D roughness;
+uniform sampler2D ao;
 
 float calc_ndf_ggx_tr(vec3 n, vec3 h, float r);
 float calc_geometry_schlick_ggx(vec3 n, vec3 v, float k);
@@ -82,6 +83,7 @@ void main()
     vec3 tex_albedo = texture2D(albedo, vs_out.coord).xyz;
     vec3 tex_metallic = texture2D(metallic, vs_out.coord).xyz;
     vec3 tex_roughness = texture2D(roughness, vs_out.coord).xyz;
+    vec3 tex_ao = texture2D(ao, vs_out.coord).xyz;
 
     // get normal
     tex_normal = tex_normal * 2 - 1;
@@ -114,7 +116,8 @@ void main()
         vec3 brdf = calc_brdf_cook_torrance(mat, view_dir, light_dir);
         out_light += brdf * dot(mat.normal, light_dir) * radiance;
     }
-    frag_color = vec4(out_light, 1);
+    vec3 ambient = vec3(0.03) * tex_albedo * tex_ao;
+    frag_color = vec4(out_light + ambient, 1);
 }
 
 // r^2 / (pi((n*h)^2(r^2-1) + 1)^2)

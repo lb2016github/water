@@ -7,6 +7,7 @@
             <Parameter name="metallic" type="Sampler2D" value="models/gun/textures/blinn1SG_metallic.jpeg"/>
             <Parameter name="normal" type="Sampler2D" value="models/gun/textures/blinn1SG_normal.jpeg"/>
             <Parameter name="roughness" type="Sampler2D" value="models/gun/textures/blinn1SG_roughness.jpeg"/>
+            <Parameter name="ao" type="Sampler2D" value="models/gun/textures/blinn1SG_AO.jpeg"/>
             <Parameter name="wvp" type="Matrix" semantic="WVP"/>
             <Parameter name="world_matrix" type="Matrix" semantic="WORLD"/>
             <Parameter name="cam_position" type="Vector3" semantic="CAMERA_POSITION"/>
@@ -20,6 +21,7 @@
             <Parameter name="metallic" type="Sampler2D" value="models/gun/textures/blinn2SG_metallic.jpeg"/>
             <Parameter name="normal" type="Sampler2D" value="models/gun/textures/blinn2SG_normal.jpeg"/>
             <Parameter name="roughness" type="Sampler2D" value="models/gun/textures/blinn2SG_roughness.jpeg"/>
+            <Parameter name="ao" type="Sampler2D" value="models/gun/textures/blinn2SG_AO.jpeg"/>
             <Parameter name="wvp" type="Matrix" semantic="WVP"/>
             <Parameter name="world_matrix" type="Matrix" semantic="WORLD"/>
             <Parameter name="cam_position" type="Vector3" semantic="CAMERA_POSITION"/>
@@ -33,6 +35,7 @@
             <Parameter name="metallic" type="Sampler2D" value="models/gun/textures/blinn3SG_metallic.jpeg"/>
             <Parameter name="normal" type="Sampler2D" value="models/gun/textures/blinn3SG_normal.jpeg"/>
             <Parameter name="roughness" type="Sampler2D" value="models/gun/textures/blinn3SG_roughness.jpeg"/>
+            <Parameter name="ao" type="Sampler2D" value="models/gun/textures/blinn3SG_AO.jpeg"/>
             <Parameter name="wvp" type="Matrix" semantic="WVP"/>
             <Parameter name="world_matrix" type="Matrix" semantic="WORLD"/>
             <Parameter name="cam_position" type="Vector3" semantic="CAMERA_POSITION"/>
