@@ -5,12 +5,12 @@
             <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
         </DirectionLight>
         <PointLight position="0 5 0">
-            <BaseLight color="0.5 0.5 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
-            <Atten constant="0" exp="1" linear="0.1"/>
+            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
+            <Atten constant="0" exp="0.01" linear="0.1"/>
         </PointLight>
         <PointLight position="5 5 0">
-            <BaseLight color="0 0.5 0" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
-            <Atten constant="0" exp="1" linear="0.1"/>
+            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
+            <Atten constant="0" exp="0.01" linear="0.1"/>
         </PointLight>
         <SpotLight position="0 0 0" direction="0 0 -1" cutoff="20">
             <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
