@@ -107,6 +107,13 @@ void main()
         vec3 brdf = calc_brdf_cook_torrance(mat, view_dir, light_dir);
         out_light += brdf * dot(mat.normal, light_dir) * radiance;
     }
+    // for direction light
+    {
+        vec3 light_dir = normalize(light.dir_light.direction);
+        vec3 radiance = light.dir_light.base_light.color;
+        vec3 brdf = calc_brdf_cook_torrance(mat, view_dir, light_dir);
+        out_light += brdf * dot(mat.normal, light_dir) * radiance;
+    }
     frag_color = vec4(out_light, 1);
 }
 
