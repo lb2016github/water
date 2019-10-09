@@ -4,6 +4,7 @@
 #include "render/render_object.h"
 #include "glad/glad.h"
 #include "render/draw_command.h"
+GL_DEPTH_ATTACHMENT
 
 namespace water
 {

@@ -155,6 +155,19 @@ namespace render {
 		TEXTURE_2D,
 	};
 
+	// render target attachments
+	enum Attachment
+	{
+		ATTACHMENT_DEPTH,
+		ATTACHMENT_STENCIL,
+		ATTACHMENT_DEPTH_STENCIL,
+		ATTACHMENT_COLOR_0,
+		ATTACHMENT_COLOR_1,
+		ATTACHMENT_COLOR_2,
+		ATTACHMENT_COLOR_3,
+		ATTACHMENT_COLOR_4,
+	};
+
 }
 }
 
