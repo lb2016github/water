@@ -5,6 +5,7 @@
 #include "draw_command.h"
 #include "render/render_const.h"
 #include "technique_common.h"
+#include "render/render_target.h"
 
 namespace water
 {
@@ -16,6 +17,8 @@ namespace water
 			virtual ProgramManagerPtr get_program_manager() = 0;
 			// return render state manager
 			virtual RenderStateManagerPtr get_render_state_manager() = 0;
+			// creat render target
+			virtual IRenderTargetPtr create_render_target(unsigned int width, unsigned int height) = 0;
 			// draw
 			virtual void draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr) = 0;
 			// clear screen

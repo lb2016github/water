@@ -17,7 +17,7 @@ namespace water
 			RenderTargetOpengl(unsigned int width, unsigned int height);
 			~RenderTargetOpengl();
 			virtual bool bind_for_writing();
-			virtual void init_attachments(std::vector<Attachment> tex_attachments, std::vector<Attachment> render_buffer_attachments);
+			void init_attachments(std::vector<Attachment> tex_attachments, std::vector<Attachment> render_buffer_attachments);
 		private:
 			GLuint m_fbo;;
 			std::map<Attachment, GLuint> m_textures;
