@@ -8,18 +8,18 @@ namespace water
 {
 	namespace render
 	{
-		struct TextureOpenGL: Texture
+
+		struct TextureOpenGL: public Texture
 		{
-			TextureOpenGL(TextureDataPtr tex_ptr);
+			TextureOpenGL(TextureType type, GLuint tex_obj = 0);
 			~TextureOpenGL();
 			virtual void bind(TextureUnit tex_unit);
 
 			// init texture objects
 			void init_texture_2d();
 
-			TextureDataPtr m_tex_ptr = { nullptr };
-			GLenum m_texture_obj;
-			GLenum m_texture_target;
+			GLuint m_texture_obj = { 0 };
+			GLenum m_texture_target = { 0 };
 
 		};
 

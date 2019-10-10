@@ -23,7 +23,13 @@ namespace water
 
 		struct Texture
 		{
+			Texture(TextureType tex_type);
+			~Texture();
 			virtual void bind(TextureUnit tex_unit) = 0;
+			void set_tex_data(TextureDataPtr ptr);
+
+			TextureType m_type;
+			TextureDataPtr m_data_ptr = { nullptr };
 		};
 
 		DECL_SHARED_PTR(Texture);

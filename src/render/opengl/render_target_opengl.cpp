@@ -23,10 +23,6 @@ namespace water
 		RenderTargetOpengl::~RenderTargetOpengl()
 		{
 			glDeleteFramebuffers(1, &m_fbo);
-			for (auto iter = m_textures.begin(); iter != m_textures.end(); ++iter)
-			{
-				glDeleteTextures(1, &(iter->second));
-			}
 			m_textures.clear();
 		}
 		bool RenderTargetOpengl::bind_for_writing()
@@ -68,7 +64,7 @@ namespace water
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 				glFramebufferTexture(GL_FRAMEBUFFER, gl_attach, tex, 0);
 
-				m_textures[attachment] = tex;
+				m_textures[attachment] = std::make_shared<TextureOpenGL>(TEXTURE_2D, tex);
 			}
 			auto size = draw_buffers.size();
 			if (size > 0)

@@ -6,6 +6,7 @@
 #include "render/render_const.h"
 #include "common/common.h"
 #include "render/render_target.h"
+#include "render/opengl/texture_opengl.h"
 
 namespace water
 {
@@ -22,7 +23,7 @@ namespace water
 			virtual void reset();
 		private:
 			GLuint m_fbo;;
-			std::map<Attachment, GLuint> m_textures;
+			std::map<Attachment, TexturePtr> m_textures;
 			unsigned int m_width, m_height;
 		};
 

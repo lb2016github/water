@@ -4,6 +4,7 @@
 #include "math3d/math3d.hpp"
 #include "render/render_target.h"
 #include "render/texture.h"
+#include "render/material.h"
 
 namespace water {
 	namespace world

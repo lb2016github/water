@@ -170,7 +170,7 @@ namespace render {
 
 	enum TextureUnit
 	{
-		TEXTURE_UNIT_0,
+		TEXTURE_UNIT_0 = 0,
 		TEXTURE_UNIT_1,
 		TEXTURE_UNIT_2,
 		TEXTURE_UNIT_3,
