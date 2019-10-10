@@ -9,23 +9,28 @@ namespace water
 	{
 		static TextureManager* instance = nullptr;
 
-		TextureOpenGL::TextureOpenGL(TextureDataPtr tex_ptr): m_tex_ptr(tex_ptr)
+		TextureOpenGL::TextureOpenGL(TextureType tex_type, GLuint tex_obj): Texture(tex_type)
 		{
-			glGenTextures(1, &m_texture_obj);
-			tex_ptr->load();
-			switch (tex_ptr->tex_type)
+			if (tex_obj >= 0)
 			{
-			case TEXTURE_2D:
-				init_texture_2d();
+				m_texture_obj = tex_obj;
+			}
+			else
+			{
+				glGenTextures(1, &m_texture_obj);
+			}
+			switch (m_type)
+			{
+			case water::render::TEXTURE_2D:
+				m_texture_target = GL_TEXTURE_2D;
+				if (tex_obj < 0) init_texture_2d();
 				break;
 			default:
-				log_error("[TextureOpenGL]Unkown texture type: %i", tex_ptr->tex_type);
 				break;
 			}
 		}
 		TextureOpenGL::~TextureOpenGL()
 		{
-			m_tex_ptr = nullptr;
 			if (m_texture_obj > 0)
 			{
 				glDeleteTextures(1, &m_texture_obj);
@@ -33,17 +38,18 @@ namespace water
 			}
 
 		}
-		void TextureOpenGL::bind(GLenum tex_unit)
+		void TextureOpenGL::bind(TextureUnit tex_unit)
 		{
-			glActiveTexture(tex_unit);
+			GLenum gl_unit = GL_TEXTURE0 + tex_unit - TEXTURE_UNIT_0;
+			glActiveTexture(gl_unit);
 			glBindTexture(m_texture_target, m_texture_obj);
 		}
 		void TextureOpenGL::init_texture_2d()
 		{
 			m_texture_target = GL_TEXTURE_2D;
 			glBindTexture(GL_TEXTURE_2D, m_texture_obj);
-			assert(m_tex_ptr->images.size() > 0);
-			auto img = m_tex_ptr->images[0];
+			assert(m_data_ptr->images.size() > 0);
+			auto img = m_data_ptr->images[0];
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img->m_width, img->m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->get_data());
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -62,7 +68,9 @@ namespace water
 			auto rst = tex_map.find(tex_ptr);
 			if (rst == tex_map.end())
 			{
-				tex_map[tex_ptr] = new TextureOpenGL(tex_ptr);
+				auto ptr = new TextureOpenGL(tex_ptr->tex_type);
+				ptr->set_tex_data(tex_ptr);
+				tex_map[tex_ptr] = ptr;
 			}
 			return tex_map[tex_ptr];
 		}

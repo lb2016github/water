@@ -28,29 +28,34 @@ namespace water
 
 		void MaterialComponent::update_material()
 		{
-			if (m_material_ptr)
+			update_material(m_game_object, m_material_ptr);
+		}
+
+		void MaterialComponent::update_material(GameObject* game_object, render::MaterialPtr mat_ptr)
+		{
+			if (mat_ptr)
 			{
-				auto num = m_material_ptr->get_param_map_count();
+				auto num = mat_ptr->get_param_map_count();
 				for (unsigned int i = 0; i < num; ++i)
 				{
-					auto param_map = m_material_ptr->get_param_map(i);
+					auto param_map = mat_ptr->get_param_map(i);
 					if (!param_map) continue;
 					for (auto iter = param_map->m_semantic_map.begin(); iter != param_map->m_semantic_map.end(); ++iter)
 					{
 						// update semantic
-						update_semantic_param(param_map, iter->first, iter->second);
+						update_semantic_param(game_object, param_map, iter->first, iter->second);
 					}
 				}
 			}
 		}
 
-		void MaterialComponent::update_semantic_param(render::ParameterMapPtr param_map, std::string name, render::SemanticType semantic)
+		void MaterialComponent::update_semantic_param(GameObject* game_object, render::ParameterMapPtr param_map, std::string name, render::SemanticType semantic)
 		{
 			auto scene_ptr = World::get_instance()->get_cur_scene();
 			if (scene_ptr == nullptr) return;
 			if (semantic == water::render::SemanticWVP)
 			{
-				auto trans_comp = GET_COMPONENT(m_game_object, TransformComponent);
+				auto trans_comp = GET_COMPONENT(game_object, TransformComponent);
 				if (trans_comp == nullptr) return;
 				auto world_trans = trans_comp->get_world_transformation();
 				auto cam_ptr = scene_ptr->get_active_camera();
@@ -62,7 +67,7 @@ namespace water
 			}
 			else if (semantic == water::render::SemanticWorld)
 			{
-				auto trans_comp = GET_COMPONENT(m_game_object, TransformComponent);
+				auto trans_comp = GET_COMPONENT(game_object, TransformComponent);
 				if (trans_comp == nullptr) return;
 				auto world_trans = trans_comp->get_world_transformation();
 				param_map->set_param(name, world_trans);

@@ -23,8 +23,8 @@ namespace water
 		class TechniqueManager;
 
 		// Render Task 
-		WaterInterface RenderTask;
-		typedef std::shared_ptr<RenderTask> RenderTaskPtr;
+		WaterInterface IRenderTask;
+		typedef std::shared_ptr<IRenderTask> RenderTaskPtr;
 		typedef std::vector<RenderTaskPtr> RenderTaskList;
 		class RenderTaskManager;
 

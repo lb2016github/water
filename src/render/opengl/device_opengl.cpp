@@ -3,6 +3,7 @@
 #include "render/opengl/render_state_manager_opengl.h"
 #include "glad/glad.h"
 #include "mesh_opengl.h"
+#include "render/opengl/render_target_opengl.h"
 
 namespace water
 {
@@ -34,6 +35,11 @@ namespace water
 		void DeviceOpenGL::clear()
 		{
 			glClear(GL_COLOR_BUFFER_BIT| GL_STENCIL_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
+		}
+		IRenderTargetPtr DeviceOpenGL::create_render_target(unsigned int width, unsigned int height)
+		{
+			auto ptr = std::make_shared<RenderTargetOpengl>(width, height);
+			return ptr;
 		}
 	}
 }

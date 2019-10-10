@@ -21,6 +21,8 @@ namespace water
 			virtual void draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr);
 			// clear screen
 			virtual void clear();
+			// creat render target
+			virtual IRenderTargetPtr create_render_target(unsigned int width, unsigned int height);
 		protected:
 			ProgramManagerPtr m_program_manager_ptr;
 			RenderStateManagerPtr m_render_state_manager_ptr;
