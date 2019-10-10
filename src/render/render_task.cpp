@@ -178,5 +178,26 @@ namespace water
 		{
 			return RenderTaskList();
 		}
+		RenderTargetTask::RenderTargetTask(Command cmd, IRenderTargetPtr ptr): m_cmd(cmd), m_rtpr(ptr)
+		{
+		}
+		void RenderTargetTask::render()
+		{
+			switch (m_cmd)
+			{
+			case CMD_BIND_FOR_WIRTE:
+				m_rtpr->bind_for_writing();
+				break;
+			case CMD_RESET:
+				m_rtpr->reset();
+				break;
+			default:
+				break;
+			}
+		}
+		RenderTaskList RenderTargetTask::get_depend_tasks()
+		{
+			return RenderTaskList();
+		}
 	}
 }

@@ -4,6 +4,7 @@
 #include "base_component.h"
 #include "render/draw_command.h"
 #include "world/gameobjects/space_object.h"
+#include "render/render.h"
 
 namespace water
 {
@@ -20,6 +21,7 @@ namespace water
 
 		public:
 			void render(const render::DrawCommand& draw_cmd);
+			void render(const render::DrawCommand& draw_cmd, render::MaterialPtr mat_ptr);
 
 		protected:
 			SpaceObject * m_space_object;

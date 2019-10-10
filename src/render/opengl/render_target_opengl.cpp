@@ -32,16 +32,22 @@ namespace water
 		bool RenderTargetOpengl::bind_for_writing()
 		{
 			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_fbo);
+			for (auto iter = m_textures.begin(); iter != m_textures.end(); ++iter)
+			{
+				auto rst = attachemnt_map.find(iter->first);
+			}
 			return true;
 		}
 		void RenderTargetOpengl::init_attachments(std::vector<Attachment> tex_attachments, std::vector<Attachment> render_buffer_attachments)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+			std::vector<GLenum> draw_buffers;
 			for each(auto attachment in tex_attachments)
 			{
 				auto rst = attachemnt_map.find(attachment);
 				if (rst == attachemnt_map.end()) continue;
 				auto gl_attach = rst->second;
+				draw_buffers.push_back(gl_attach);
 
 				GLuint tex;
 				glGenTextures(1, &tex);
@@ -63,6 +69,15 @@ namespace water
 				glFramebufferTexture(GL_FRAMEBUFFER, gl_attach, tex, 0);
 
 				m_textures[attachment] = tex;
+			}
+			auto size = draw_buffers.size();
+			if (size > 0)
+			{
+				glDrawBuffers(size, draw_buffers.data());
+			}
+			else
+			{
+				glDrawBuffer(GL_NONE);
 			}
 
 			for each(auto attachment in render_buffer_attachments)
@@ -88,6 +103,19 @@ namespace water
 				glFramebufferRenderbuffer(GL_FRAMEBUFFER, gl_attach, GL_RENDERBUFFER, render_buffer);
 			}
 
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		}
+		TexturePtr RenderTargetOpengl::get_texture(Attachment attachement)
+		{
+			auto rst = m_textures.find(attachement);
+			if (rst == m_textures.end())
+			{
+				return nullptr;
+			}
+			return rst->second;
+		}
+		void RenderTargetOpengl::reset()
+		{
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
 	}

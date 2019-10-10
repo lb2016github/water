@@ -13,6 +13,7 @@ namespace water
 			COMP_CAMERA_CONTROLLER,	// CameraControlComponent
 			COMP_RENDER,			// RenderComponent
 			COMP_SCENE_OBJECT,		// SceneObjectComponent
+			COMP_SHADOWMAP,			// ShadowMapComponent
 		};
 	}
 }

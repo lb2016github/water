@@ -33,9 +33,10 @@ namespace water
 			}
 
 		}
-		void TextureOpenGL::bind(GLenum tex_unit)
+		void TextureOpenGL::bind(TextureUnit tex_unit)
 		{
-			glActiveTexture(tex_unit);
+			GLenum gl_unit = GL_TEXTURE0 + tex_unit - TEXTURE_UNIT_0;
+			glActiveTexture(gl_unit);
 			glBindTexture(m_texture_target, m_texture_obj);
 		}
 		void TextureOpenGL::init_texture_2d()

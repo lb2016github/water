@@ -8,12 +8,19 @@
 #include "render/material.h"
 #include "mesh.h"
 #include "draw_command.h"
+#include "render_target.h"
 
 namespace water
 {
 	namespace render
 	{
-		struct RenderTask
+		WaterInterface IRenderTask: public std::enable_shared_from_this<IRenderTask>
+		{
+			virtual void render() = 0;
+			virtual RenderTaskList get_depend_tasks() = 0;
+		};
+
+		struct RenderTask: public IRenderTask
 		{
 			RenderTask(DrawCommand draw_command, MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent);
 			virtual ~RenderTask();
@@ -26,6 +33,21 @@ namespace water
 			ProgramPtr program_ptr;			// program pointer
 			RenderStateInfo render_state;	// render state
 			ParameterMap param_map;	// parameter map
+		};
+
+		struct RenderTargetTask : public IRenderTask
+		{
+			enum Command
+			{
+				CMD_BIND_FOR_WIRTE,
+				CMD_RESET,
+			};
+			RenderTargetTask(Command cmd, IRenderTargetPtr ptr);
+			virtual void render();
+			virtual RenderTaskList get_depend_tasks();
+
+			IRenderTargetPtr m_rtpr;
+			Command m_cmd;
 		};
 
 

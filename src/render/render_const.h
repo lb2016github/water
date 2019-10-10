@@ -168,6 +168,16 @@ namespace render {
 		ATTACHMENT_COLOR_4,
 	};
 
+	enum TextureUnit
+	{
+		TEXTURE_UNIT_0,
+		TEXTURE_UNIT_1,
+		TEXTURE_UNIT_2,
+		TEXTURE_UNIT_3,
+		TEXTURE_UNIT_4,
+		TEXTURE_UNIT_5,
+	};
+
 }
 }
 

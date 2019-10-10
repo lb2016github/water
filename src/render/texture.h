@@ -5,6 +5,7 @@
 #include "filesystem/image.h"
 #include <vector>
 #include <memory>
+#include "common/common.h"
 
 
 namespace water
@@ -19,6 +20,13 @@ namespace water
 		};
 
 		DECL_SHARED_PTR(TextureData);
+
+		struct Texture
+		{
+			virtual void bind(TextureUnit tex_unit) = 0;
+		};
+
+		DECL_SHARED_PTR(Texture);
 	}
 }
 
