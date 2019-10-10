@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<MaterialGroup xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../templates/material.xsd">
+    <Material index="0">
+        <Technique>shaders/shadow_map.tech</Technique>
+        <ParameterMap index="0">
+            <Parameter name="light_wvp" type="Matrix" semantic="LIGHT_WVP"/>
+        </ParameterMap>
+    </Material>
+</MaterialGroup>
