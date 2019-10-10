@@ -48,6 +48,14 @@ namespace water {
 		{
 			return glm::perspective(glm::radians(fov_y), aspect, near, far);
 		}
+		Matrix inline ortho(float left, float right, float up, float down)
+		{
+			return glm::ortho<float>(left, right, up, down);
+		}
+		Matrix inline look_at(const Vector3& eye, const Vector3& center, const Vector3& up)
+		{
+			return glm::lookAt(eye, center, up);
+		}
 	}
 }
 #endif

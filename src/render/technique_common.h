@@ -64,6 +64,8 @@ namespace water {
 			SemanticWorld,	// matrix of world
 			SemanticCameraPosition, // position of camera
 			SemanticLight,	// light
+			SemanticShadowMapVP,	// vp of shadow map
+			SemanticShadowMapTexture,	// texture of shadow map
 		};
 		extern std::map<std::string, SemanticType> CONFIG_Semantic;
 	}

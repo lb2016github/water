@@ -25,6 +25,7 @@
             <Atten constant="0" exp="1" linear="0.1"/>
         </SpotLight>
     </LightConfig>
+    <ShadowMap enable="true" material="scenes/shadow_map.mat"/>
     <Camera active="true" fovy="50" znear="1" zfar="1000" position="0 0 0" rotation="0 0 0"/>
 <!--    <Model path="models/box.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>-->
 <!--    <Model path="models/crown.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>-->

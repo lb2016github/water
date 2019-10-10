@@ -44,7 +44,7 @@ namespace water
 			if (m_value_map.find(name) == m_value_map.end()) return;
 			m_value_map[name].vec2 = value;
 		}
-		void ParameterMap::set_texture(const std::string& name, TextureDataPtr tex_ptr)
+		void ParameterMap::set_texture(const std::string& name, TexturePtr tex_ptr)
 		{
 			m_tex_map[name] = tex_ptr;
 		}
@@ -110,7 +110,8 @@ namespace water
 					img_ptr->load(raw_value);
 					tex_ptr->tex_type = TEXTURE_2D;
 					tex_ptr->images.push_back(img_ptr);
-					set_texture(name, tex_ptr);
+					auto texture_ptr = TextureManager::get_instance()->get_texture(tex_ptr);
+					set_texture(name, texture_ptr);
 					return;
 				}
 				else

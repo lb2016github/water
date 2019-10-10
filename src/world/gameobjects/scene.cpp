@@ -6,6 +6,7 @@
 #include "world/components/transform_component.h"
 #include "world/components/scene_object_component.h"
 #include "filesystem/filesystem.h"
+#include "world/components/shadowmap_component.h"
 
 namespace water
 {
@@ -25,6 +26,12 @@ namespace water
 		}
 		void Scene::render(const render::DrawCommand & draw_cmd)
 		{
+			if (enable_shadowmap)
+			{
+				auto shadow_map_comp = GET_COMPONENT(this, ShadowMapComponent);
+				shadow_map_comp->render();
+			}
+
 			auto render_comp = GET_COMPONENT(this, RenderComponent);
 			render_comp->render(draw_cmd);
 		}
@@ -106,6 +113,16 @@ namespace water
 				if (strcmp(child.name(), "LightConfig") == 0)
 				{
 					m_light_cfg.init_from_xml(child);
+				}
+				// load shadow map
+				if (strcmp(child.name(), "ShadowMap") == 0)
+				{
+					enable_shadowmap = child.attribute("enable").as_bool();
+					if (enable_shadowmap)
+					{
+						auto shadow_map_comp = dynamic_cast<ShadowMapComponent*>(get_component(ShadowMapComponent::tag, true));
+						shadow_map_comp->init(child.attribute("material").as_string());
+					}
 				}
 			}
 

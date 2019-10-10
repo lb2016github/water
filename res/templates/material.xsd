@@ -55,6 +55,7 @@ targetNamespace="/water" xmlns:water="/water">
             <xs:enumeration value="WORLD"/>
             <xs:enumeration value="CAMERA_POSITION"/>
             <xs:enumeration value="LIGHT"/>
+            <xs:enumeration value="SHADOW_MAP_VP"/>
         </xs:restriction>
     </xs:simpleType>
     <!-- ========================= End Define Param Types ===================== -->

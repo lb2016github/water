@@ -39,6 +39,8 @@ namespace water {
 			}
 			render::RenderTaskPtr task = std::make_shared<render::RenderTargetTask>(render::RenderTargetTask::CMD_BIND_FOR_WIRTE, m_render_target_ptr);
 			render::RenderTaskManager::get_instance()->add_task(task);
+			// update shadow vp
+			update_shadow_vp();
 			// start draw task
 			render::DrawCommand draw_cmd;
 			MaterialComponent::update_material(m_game_object, m_material);
@@ -55,8 +57,22 @@ namespace water {
 		}
 		void ShadowMapComponent::init(const std::string & mat_path)
 		{
-			m_material = std::make_shared<render::Material>();
-			m_material->load_from_file(mat_path);
+			auto mat_map = render::Material::load_from_file(mat_path);
+			m_material = mat_map[0];
+		}
+		math3d::Matrix ShadowMapComponent::get_shadow_vp()
+		{
+			return m_shadow_vp;
+		}
+		void ShadowMapComponent::update_shadow_vp()
+		{
+			auto scene = dynamic_cast<Scene*>(m_game_object);
+			assert(scene);
+			auto light_cfg = scene->get_light_config();
+			auto light = light_cfg.dir_light;
+			auto light_view = math3d::look_at({ 0, 10, 0 }, { 0, 0, 0 }, { 0, 1, 0 });
+			auto light_proj = math3d::ortho(-10, 10, 10, -10);
+			m_shadow_vp = light_proj * light_view;
 		}
 	}
 }

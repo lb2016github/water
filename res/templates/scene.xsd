@@ -67,6 +67,12 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="ShadowMap">
+                    <xs:complexType>
+                        <xs:attribute name="enable" type="xs:boolean"/>
+                        <xs:attribute name="material" type="xs:string"/>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element name="Camera" type="water:Camera" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="Model" type="water:Model" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>

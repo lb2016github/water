@@ -6,6 +6,7 @@
 #include "world/gameobjects/game_object.h"
 #include "world/gameobjects/scene.h"
 #include "world/gameobjects/world.h"
+#include "shadowmap_component.h"
 
 namespace water
 {
@@ -84,6 +85,17 @@ namespace water
 			else if (semantic == water::render::SemanticLight)
 			{
 				param_map->m_light_cfg = scene_ptr->get_light_config();
+			}
+			else if (semantic == water::render::SemanticShadowMapVP)
+			{
+				auto shadow_map_comp = GET_COMPONENT(scene_ptr, ShadowMapComponent);
+				param_map->set_param(name, shadow_map_comp->get_shadow_vp());
+			}
+			else if (semantic == water::render::SemanticShadowMapTexture)
+			{
+				auto shadow_map_comp = GET_COMPONENT(scene_ptr, ShadowMapComponent);
+				param_map->set_texture(name, shadow_map_comp->get_shadow_map());
+
 			}
 		}
 

@@ -3,7 +3,8 @@
     <Material index="0">
         <Technique>shaders/shadow_map.tech</Technique>
         <ParameterMap index="0">
-            <Parameter name="light_wvp" type="Matrix" semantic="LIGHT_WVP"/>
+            <Parameter name="light_vp" type="Matrix" semantic="SHADOW_MAP_VP"/>
+            <Parameter name="world" type="Matrix" semantic="WORLD"/>
         </ParameterMap>
     </Material>
 </MaterialGroup>

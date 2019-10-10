@@ -29,7 +29,7 @@ namespace water
 		};
 
 
-		typedef std::map<std::string, TextureDataPtr> TextureMap;
+		typedef std::map<std::string, TexturePtr> TextureMap;
 
 		struct ParameterMap
 		{
@@ -43,7 +43,7 @@ namespace water
 			void set_param(const std::string& name, const math3d::Vector3& value);
 			void set_param(const std::string& name, const math3d::Vector2& value);
 			// set texture
-			void set_texture(const std::string& name, TextureDataPtr tex_ptr);
+			void set_texture(const std::string& name, TexturePtr tex_ptr);
 			// set param value with str_value and type, which is called when param value is read from material file
 			void set_raw_param(const std::string& name, const std::string& type, const std::string& raw_value, const std::string& semantic);
 			// get value type of param

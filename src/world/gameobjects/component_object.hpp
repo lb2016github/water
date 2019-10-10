@@ -59,30 +59,36 @@ namespace water
 				}
 				m_components.clear();
 			}
-			BaseComponent* get_component(ComponentTag comp_tag)
+			BaseComponent* get_component(ComponentTag comp_tag, bool force = false)
 			{
-				COMPONENT_MAP::iterator iter = m_components.find(comp_tag);
-				if (iter == m_components.end()) {
-					return nullptr;
-				}
-				// component has created
-				if (iter->second)
-				{
-					return iter->second;
-				}
-				else
-				{
+				auto create_comp = [comp_tag, this]() {
 					// component is not created
 					BaseComponent* comp = create_component(comp_tag, this);
 					m_components[comp_tag] = comp;
 					return comp;
+				};
+				COMPONENT_MAP::iterator iter = m_components.find(comp_tag);
+				if (iter == m_components.end())
+				{
+					if(!force) return nullptr;
+					return create_comp();
+				}
+				else if (iter->second)
+				{
+					return iter->second;
+				}
+				else   // component is add but not created
+				{
+					return create_comp();
 				}
 			}
+
+			// add but not created
 			void add_component(ComponentTag comp_tag)
 			{
 				auto rst = m_components.find(comp_tag);
 				if (rst == m_components.end()) {
-					m_components[comp_tag] = nullptr;
+					m_components[comp_tag] = nullptr;	
 				}
 				
 			}

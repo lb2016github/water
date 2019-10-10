@@ -35,6 +35,8 @@ namespace water
 			// current camera
 			CameraPtr m_cur_camera;
 			render::DrawCommand draw_cmd;
+			// enable shadowmap
+			bool enable_shadowmap = { true };
 		};
 
 		DECL_SHARED_PTR(Scene);

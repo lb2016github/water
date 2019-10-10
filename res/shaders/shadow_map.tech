@@ -26,7 +26,8 @@
             </BlendStateInfo>
         </RenderState>
         <Program vertex_shader="shaders/shadow_map.vert" fragment_shader="shaders/shadow_map.frag">
-            <Uniform name="wvp" type="Matrix"/>
+            <Uniform name="light_vp" type="Matrix"/>
+            <Uniform name="world" type="Matrix"/>
         </Program>
     </RenderPass>
 </Technique>

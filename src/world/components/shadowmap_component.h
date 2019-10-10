@@ -22,10 +22,14 @@ namespace water {
 			void render();
 			render::TexturePtr get_shadow_map();
 			void init(const std::string& mat_path);
+			math3d::Matrix get_shadow_vp();
+		private:
+			void update_shadow_vp();
 
 		private:
 			render::IRenderTargetPtr m_render_target_ptr;
 			render::MaterialPtr m_material;
+			math3d::Matrix m_shadow_vp;
 		};
 	}
 }

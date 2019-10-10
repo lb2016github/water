@@ -264,13 +264,13 @@ namespace water
 			auto device = get_device();
 			auto tex_map = param_map.m_tex_map;
 			TextureUnit tex_units[] = { TEXTURE_UNIT_0, TEXTURE_UNIT_1, TEXTURE_UNIT_2, TEXTURE_UNIT_3, TEXTURE_UNIT_4, TEXTURE_UNIT_5};
-			assert(tex_map.size() <= sizeof(tex_units) / sizeof(Texture));
+			assert(tex_map.size() <= sizeof(tex_units) / sizeof(TextureUnit));
 			GLuint index = 0;
 			for (auto iter = tex_map.begin(); iter != tex_map.end(); ++iter, ++index)
 			{
 				auto name = iter->first;
 				auto tex_ptr = iter->second;
-				auto texture = TextureManager::get_instance()->get_texture(tex_ptr);
+				auto texture = TextureManager::get_instance()->get_texture(tex_ptr->m_data_ptr);
 				GLuint loc = glGetUniformLocation(m_program, name.c_str());
 				texture->bind(tex_units[index]);
 				glUniform1i(loc, index);
