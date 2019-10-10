@@ -7,7 +7,6 @@ namespace water
 {
 	namespace render
 	{
-		static TextureManager* instance = nullptr;
 
 		TextureOpenGL::TextureOpenGL(TextureType tex_type, GLuint tex_obj): Texture(tex_type)
 		{
@@ -54,25 +53,6 @@ namespace water
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glBindTexture(GL_TEXTURE_2D, 0);
-		}
-		TextureManager* TextureManager::get_instance()
-		{
-			if (instance == nullptr)
-			{
-				instance = new TextureManager();
-			}
-			return instance;
-		}
-		TextureOpenGL* TextureManager::get_texture(TextureDataPtr tex_ptr)
-		{
-			auto rst = tex_map.find(tex_ptr);
-			if (rst == tex_map.end())
-			{
-				auto ptr = new TextureOpenGL(tex_ptr->tex_type);
-				ptr->set_tex_data(tex_ptr);
-				tex_map[tex_ptr] = ptr;
-			}
-			return tex_map[tex_ptr];
 		}
 	}
 }

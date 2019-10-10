@@ -6,6 +6,7 @@
 #include "render/render_const.h"
 #include "technique_common.h"
 #include "render/render_target.h"
+#include "render/texture.h"
 
 namespace water
 {
@@ -23,6 +24,8 @@ namespace water
 			virtual void draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr) = 0;
 			// clear screen
 			virtual void clear() = 0;
+			// create texture
+			virtual TexturePtr create_texture(TextureType tex_type) = 0;
 		};
 
 		// devices

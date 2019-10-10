@@ -41,5 +41,9 @@ namespace water
 			auto ptr = std::make_shared<RenderTargetOpengl>(width, height);
 			return ptr;
 		}
+		TexturePtr DeviceOpenGL::create_texture(TextureType tex_type)
+		{
+			return std::make_shared<TextureOpenGL>(tex_type);
+		}
 	}
 }

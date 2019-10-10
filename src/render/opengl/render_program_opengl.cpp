@@ -187,7 +187,6 @@ namespace water
 			auto location = rst->second;
 			glUniform2fv(location, 1, &vec2[0]);
 			return true;
-
 		}
 
 		bool RenderProgramOpenGL::set_uniform(const std::string & name, int val)
@@ -264,18 +263,18 @@ namespace water
 			// set textuers
 			auto device = get_device();
 			auto tex_map = param_map.m_tex_map;
-			GLenum tex_unit= GL_TEXTURE0;
-			for (auto iter = tex_map.begin(); iter != tex_map.end(); ++iter, ++tex_unit)
+			TextureUnit tex_units[] = { TEXTURE_UNIT_0, TEXTURE_UNIT_1, TEXTURE_UNIT_2, TEXTURE_UNIT_3, TEXTURE_UNIT_4, TEXTURE_UNIT_5};
+			assert(tex_map.size() <= sizeof(tex_units) / sizeof(Texture));
+			GLuint index = 0;
+			for (auto iter = tex_map.begin(); iter != tex_map.end(); ++iter, ++index)
 			{
 				auto name = iter->first;
 				auto tex_ptr = iter->second;
-				auto tex_ogl = TextureManager::get_instance()->get_texture(tex_ptr);
+				auto texture = TextureManager::get_instance()->get_texture(tex_ptr);
 				GLuint loc = glGetUniformLocation(m_program, name.c_str());
-				tex_ogl->bind(tex_unit);
-				glUniform1i(loc, tex_unit - GL_TEXTURE0);
+				texture->bind(tex_units[index]);
+				glUniform1i(loc, index);
 			}
-
-			
 		}
 		bool RenderProgramOpenGL::update_location(ParamTypeMap & uniform_map)
 		{

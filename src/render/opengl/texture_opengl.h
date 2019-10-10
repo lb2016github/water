@@ -23,19 +23,6 @@ namespace water
 
 		};
 
-
-		class TextureManager
-		{
-		public:
-			static TextureManager* get_instance();
-			TextureOpenGL* get_texture(TextureDataPtr tex_ptr);
-
-		private:
-			std::map<TextureDataPtr, TextureOpenGL*> tex_map;
-
-
-		};
-
 	}
 }
 

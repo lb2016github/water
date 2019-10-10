@@ -5,6 +5,7 @@
 #include "filesystem/image.h"
 #include <vector>
 #include <memory>
+#include <map>
 #include "common/common.h"
 
 
@@ -33,6 +34,16 @@ namespace water
 		};
 
 		DECL_SHARED_PTR(Texture);
+
+		class TextureManager
+		{
+		public:
+			static TextureManager* get_instance();
+			TexturePtr get_texture(TextureDataPtr tex_ptr);
+
+		private:
+			std::map<TextureDataPtr, TexturePtr> tex_map;
+		};
 	}
 }
 

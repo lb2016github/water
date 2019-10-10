@@ -23,6 +23,8 @@ namespace water
 			virtual void clear();
 			// creat render target
 			virtual IRenderTargetPtr create_render_target(unsigned int width, unsigned int height);
+			// create texture
+			virtual TexturePtr create_texture(TextureType tex_type);
 		protected:
 			ProgramManagerPtr m_program_manager_ptr;
 			RenderStateManagerPtr m_render_state_manager_ptr;
