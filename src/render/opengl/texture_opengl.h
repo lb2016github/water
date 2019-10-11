@@ -14,6 +14,7 @@ namespace water
 			TextureOpenGL(TextureType type, GLuint tex_obj = 0);
 			~TextureOpenGL();
 			virtual void bind(TextureUnit tex_unit);
+			virtual void set_tex_data(TextureDataPtr ptr);
 
 			// init texture objects
 			void init_texture_2d();

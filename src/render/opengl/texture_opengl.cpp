@@ -10,22 +10,13 @@ namespace water
 
 		TextureOpenGL::TextureOpenGL(TextureType tex_type, GLuint tex_obj): Texture(tex_type)
 		{
-			if (tex_obj >= 0)
+			if (tex_obj > 0)
 			{
 				m_texture_obj = tex_obj;
 			}
 			else
 			{
 				glGenTextures(1, &m_texture_obj);
-			}
-			switch (m_type)
-			{
-			case water::render::TEXTURE_2D:
-				m_texture_target = GL_TEXTURE_2D;
-				if (tex_obj < 0) init_texture_2d();
-				break;
-			default:
-				break;
 			}
 		}
 		TextureOpenGL::~TextureOpenGL()
@@ -42,6 +33,19 @@ namespace water
 			GLenum gl_unit = GL_TEXTURE0 + tex_unit - TEXTURE_UNIT_0;
 			glActiveTexture(gl_unit);
 			glBindTexture(m_texture_target, m_texture_obj);
+		}
+		void TextureOpenGL::set_tex_data(TextureDataPtr ptr)
+		{
+			Texture::set_tex_data(ptr);
+			switch (m_type)
+			{
+			case water::render::TEXTURE_2D:
+				m_texture_target = GL_TEXTURE_2D;
+				init_texture_2d();
+				break;
+			default:
+				break;
+			}
 		}
 		void TextureOpenGL::init_texture_2d()
 		{

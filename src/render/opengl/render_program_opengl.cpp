@@ -270,9 +270,8 @@ namespace water
 			{
 				auto name = iter->first;
 				auto tex_ptr = iter->second;
-				auto texture = TextureManager::get_instance()->get_texture(tex_ptr->m_data_ptr);
 				GLuint loc = glGetUniformLocation(m_program, name.c_str());
-				texture->bind(tex_units[index]);
+				tex_ptr->bind(tex_units[index]);
 				glUniform1i(loc, index);
 			}
 		}

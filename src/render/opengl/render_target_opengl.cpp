@@ -1,4 +1,5 @@
 #include "render_target_opengl.h"
+#include "common/log.h"
 
 namespace water
 {
@@ -28,6 +29,7 @@ namespace water
 		bool RenderTargetOpengl::bind_for_writing()
 		{
 			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_fbo);
+			glClear(GL_DEPTH_BITS);
 			for (auto iter = m_textures.begin(); iter != m_textures.end(); ++iter)
 			{
 				auto rst = attachemnt_map.find(iter->first);
@@ -97,6 +99,14 @@ namespace water
 					break;
 				}
 				glFramebufferRenderbuffer(GL_FRAMEBUFFER, gl_attach, GL_RENDERBUFFER, render_buffer);
+			}
+			if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
+			{
+				log_info("Init framebuffer %d success", m_fbo);
+			}
+			else 
+			{
+				log_error("Init framebuffer %d failed", m_fbo);
 			}
 
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
