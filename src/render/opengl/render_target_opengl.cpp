@@ -1,5 +1,6 @@
 #include "render_target_opengl.h"
 #include "common/log.h"
+#include "opengl_common.h"
 
 namespace water
 {
@@ -28,16 +29,20 @@ namespace water
 		}
 		bool RenderTargetOpengl::bind_for_writing()
 		{
+			GL_CHECK_ERROR
 			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_fbo);
-			glClear(GL_DEPTH_BITS);
+			GL_CHECK_ERROR
+			glClear(GL_DEPTH_BUFFER_BIT);
 			for (auto iter = m_textures.begin(); iter != m_textures.end(); ++iter)
 			{
 				auto rst = attachemnt_map.find(iter->first);
 			}
+			GL_CHECK_ERROR
 			return true;
 		}
 		void RenderTargetOpengl::init_attachments(std::vector<Attachment> tex_attachments, std::vector<Attachment> render_buffer_attachments)
 		{
+			GL_CHECK_ERROR
 			glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 			std::vector<GLenum> draw_buffers;
 			for each(auto attachment in tex_attachments)
@@ -45,29 +50,33 @@ namespace water
 				auto rst = attachemnt_map.find(attachment);
 				if (rst == attachemnt_map.end()) continue;
 				auto gl_attach = rst->second;
-				draw_buffers.push_back(gl_attach);
 
 				GLuint tex;
 				glGenTextures(1, &tex);
 				glBindTexture(GL_TEXTURE_2D, tex);
 				GLuint format = GL_RGBA;
+				GLuint type = GL_UNSIGNED_BYTE;
 				switch (gl_attach)
 				{
 				case GL_DEPTH_ATTACHMENT:
 					format = GL_DEPTH_COMPONENT;
+					type = GL_FLOAT;
 					break;
 				default:
+					draw_buffers.push_back(gl_attach);
 					break;
 				}
-				glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, nullptr);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINE);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINE);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, type, nullptr);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 				glFramebufferTexture(GL_FRAMEBUFFER, gl_attach, tex, 0);
+				GL_CHECK_ERROR
 
 				m_textures[attachment] = std::make_shared<TextureOpenGL>(TEXTURE_2D, tex);
 			}
+			GL_CHECK_ERROR
 			auto size = draw_buffers.size();
 			if (size > 0)
 			{
@@ -78,6 +87,7 @@ namespace water
 				glDrawBuffer(GL_NONE);
 			}
 
+			GL_CHECK_ERROR
 			for each(auto attachment in render_buffer_attachments)
 			{
 				auto rst = attachemnt_map.find(attachment);
@@ -108,8 +118,9 @@ namespace water
 			{
 				log_error("Init framebuffer %d failed", m_fbo);
 			}
-
+			GL_CHECK_ERROR
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			GL_CHECK_ERROR
 		}
 		TexturePtr RenderTargetOpengl::get_texture(Attachment attachement)
 		{
@@ -123,6 +134,7 @@ namespace water
 		void RenderTargetOpengl::reset()
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			GL_CHECK_ERROR
 		}
 	}
 }

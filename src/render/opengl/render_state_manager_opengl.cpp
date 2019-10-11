@@ -1,17 +1,10 @@
 #include "render/opengl/render_state_manager_opengl.h"
 #include "glad/glad.h"
 #include "common/log.h"
+#include "opengl_common.h"
 
 namespace water {
 	namespace render {
-
-#define GL_CHECK_ERROR {\
-		GLenum e = glGetError();\
-		if (e != 0){\
-			log_error("GL Error %i in %s at line %i in %s", \
-				e, __FUNCSIG__, __LINE__, __FILE__);\
-		}\
-		}
 
 		GLenum get_gl_cmp_func(CompareFunc func);
 		GLenum get_gl_blend_op(BlendOperation op);
@@ -28,7 +21,9 @@ namespace water {
 				return;
 			}
 			glEnable(GL_DEPTH_TEST);
+			GL_CHECK_ERROR
 			glDepthMask(info.write_enabled ? true : false);
+			GL_CHECK_ERROR
 			glDepthFunc(get_gl_cmp_func(info.func));
 			GL_CHECK_ERROR
 		}

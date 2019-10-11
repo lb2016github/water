@@ -18,6 +18,14 @@ namespace water
 			{
 				glGenTextures(1, &m_texture_obj);
 			}
+			switch (m_type)
+			{
+			case water::render::TEXTURE_2D:
+				m_texture_target = GL_TEXTURE_2D;
+				break;
+			default:
+				break;
+			}
 		}
 		TextureOpenGL::~TextureOpenGL()
 		{
@@ -40,7 +48,6 @@ namespace water
 			switch (m_type)
 			{
 			case water::render::TEXTURE_2D:
-				m_texture_target = GL_TEXTURE_2D;
 				init_texture_2d();
 				break;
 			default:

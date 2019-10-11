@@ -91,6 +91,7 @@ namespace water {
 			{"CAMERA_POSITION", SemanticCameraPosition},
 			{"LIGHT", SemanticLight},
 		{"SHADOW_MAP_VP", SemanticShadowMapVP},
+		{"SHADOW_MAP_TEXTURE", SemanticShadowMapTexture},
 		};
 	}
 }

@@ -7,6 +7,7 @@
 #include <sstream>
 #include "texture_opengl.h"
 #include "render/light.h"
+#include "opengl_common.h"
 
 namespace water
 {
@@ -224,6 +225,7 @@ namespace water
 		bool RenderProgramOpenGL::use_program()
 		{
 			glUseProgram(m_program);
+			GL_CHECK_ERROR
 			return true;
 		}
 
@@ -274,6 +276,7 @@ namespace water
 				tex_ptr->bind(tex_units[index]);
 				glUniform1i(loc, index);
 			}
+			GL_CHECK_ERROR
 		}
 		bool RenderProgramOpenGL::update_location(ParamTypeMap & uniform_map)
 		{
