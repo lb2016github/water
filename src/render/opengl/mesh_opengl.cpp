@@ -34,7 +34,14 @@ namespace water
 				mode = GL_TRIANGLES;
 				break;
 			}
-			glDrawElements(mode, m_mesh_ptr->index_data.size(), GL_UNSIGNED_INT, &(m_mesh_ptr->index_data[0]));
+			if (m_mesh_ptr->index_data.size() > 0)
+			{
+				glDrawElements(mode, m_mesh_ptr->index_data.size(), GL_UNSIGNED_INT, &(m_mesh_ptr->index_data[0]));
+			}
+			else
+			{
+				glDrawArrays(mode, 0, m_mesh_ptr->position.size());
+			}
 		}
 		void MeshProxyOpenGL::commit_mesh()
 		{

@@ -15,11 +15,17 @@ namespace water
 			BillboardList();
 			virtual ~BillboardList();
 			void render();
+			void set_material(const std::string& mat_path);
+			void set_size(const std::string& str);
+			void set_positions(std::vector<math3d::Vector3> positions);
 		private:
 			std::vector<math3d::Vector3> m_positions;
 			render::MaterialPtr m_material;
 			render::MeshDataPtr m_mesh;
+			math3d::Vector2 m_size;
 		};
+
+		DECL_SHARED_PTR(BillboardList);
 
 	}
 }

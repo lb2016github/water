@@ -10,7 +10,7 @@ link_directories(
 	${WATER_THIRD_LIBRARY_DIRECTORY}/zlib/${WATER_LIB_VERSION}
 	)
 
-list(APPEND DEPEND_LIBS render world window filesystem common mesh)
+list(APPEND DEPEND_LIBS render world window filesystem common mesh math3d)
 list(APPEND THIRD_LIBS glfw3 assimp-${WATER_LIB_VERSION}-mtd zlibd irrXMLd)
 
 add_executable(test_client ${SOURCE_FILES})

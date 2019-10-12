@@ -7,6 +7,8 @@
 #include "world/components/scene_object_component.h"
 #include "filesystem/filesystem.h"
 #include "world/components/shadowmap_component.h"
+#include "billboardlist.h"
+#include "math3d/math3d_common.h"
 
 namespace water
 {
@@ -30,6 +32,11 @@ namespace water
 			{
 				auto shadow_map_comp = GET_COMPONENT(this, ShadowMapComponent);
 				shadow_map_comp->render();
+			}
+
+			for each (auto bbl in m_billboards)
+			{
+				bbl->render();
 			}
 
 			auto render_comp = GET_COMPONENT(this, RenderComponent);
@@ -69,7 +76,7 @@ namespace water
 					//GET_COMPONENT(model, SceneObjectComponent)->on_add_to_scene(std::dynamic_pointer_cast<Scene>(shared_from_this()));
 				}
 				// load camera
-				if (strcmp(child.name(), "Camera") == 0)
+				else if (strcmp(child.name(), "Camera") == 0)
 				{
 					auto camera = std::make_shared<Camera>();
 					add_child(camera);
@@ -110,12 +117,12 @@ namespace water
 					}
 				}
 				// load light
-				if (strcmp(child.name(), "LightConfig") == 0)
+				else if (strcmp(child.name(), "LightConfig") == 0)
 				{
 					m_light_cfg.init_from_xml(child);
 				}
 				// load shadow map
-				if (strcmp(child.name(), "ShadowMap") == 0)
+				else if (strcmp(child.name(), "ShadowMap") == 0)
 				{
 					enable_shadowmap = child.attribute("enable").as_bool();
 					if (enable_shadowmap)
@@ -124,6 +131,21 @@ namespace water
 						shadow_map_comp->init(child.attribute("material").as_string());
 					}
 				}
+				// load billboard list
+				else if (strcmp(child.name(), "BillboardList") == 0)
+				{
+					BillboardListPtr ptr = std::make_shared<BillboardList>();
+					ptr->set_material(child.attribute("material").as_string());
+					ptr->set_size(child.attribute("size").as_string());
+					std::vector<math3d::Vector3> positions;
+					for each(auto sub_child in child.children())
+					{
+						positions.push_back(math3d::string_to_vector(sub_child.text().as_string()));
+					}
+					ptr->set_positions(positions);
+					m_billboards.push_back(ptr);
+				}
+
 			}
 
 		}

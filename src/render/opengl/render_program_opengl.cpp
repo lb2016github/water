@@ -85,7 +85,7 @@ namespace water
 			case FragmentShader:
 				return GL_FRAGMENT_SHADER;
 			case GeometryShader:
-				return GL_FRAGMENT_SHADER;
+				return GL_GEOMETRY_SHADER;
 			default:
 				break;
 			}

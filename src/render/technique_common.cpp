@@ -87,11 +87,12 @@ namespace water {
 		{
 			{"None", SemanticNone},
 			{"WVP", SemanticWVP},
+			{"VP", SemanticVP},
 			{"WORLD", SemanticWorld},
 			{"CAMERA_POSITION", SemanticCameraPosition},
 			{"LIGHT", SemanticLight},
-		{"SHADOW_MAP_VP", SemanticShadowMapVP},
-		{"SHADOW_MAP_TEXTURE", SemanticShadowMapTexture},
+			{"SHADOW_MAP_VP", SemanticShadowMapVP},
+			{"SHADOW_MAP_TEXTURE", SemanticShadowMapTexture},
 		};
 	}
 }

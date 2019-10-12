@@ -7,6 +7,8 @@
 #include "world/components/render_component.h"
 #include "space_object.h"
 #include "render/light.h"
+#include "billboardlist.h"
+#include <vector>
 
 namespace water
 {
@@ -36,6 +38,8 @@ namespace water
 			CameraPtr m_cur_camera;
 			// enable shadowmap
 			bool enable_shadowmap = { true };
+			// billboardlist
+			std::vector<BillboardListPtr> m_billboards;
 		};
 
 		DECL_SHARED_PTR(Scene);

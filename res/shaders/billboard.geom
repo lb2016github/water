@@ -10,9 +10,9 @@ uniform mat4 vp;        // view * proj matrix
 
 void main() {
     vec3 dir2cam = normalize(cam_pos - gl_in[0].gl_Position.xyz);
-    vec3 up = vec3(0, 1, 0);
-    vec4 right = vec4(normalize(cross(up, dir2cam)), 0);
-    vec4 up = vec4(normalize(cross(dir2cam, right)), 0);
+    vec3 tmp_up = vec3(0, 1, 0);
+    vec4 right = vec4(normalize(cross(tmp_up, dir2cam)), 0);
+    vec4 up = vec4(normalize(cross(dir2cam, right.xyz)), 0);
 
     vec2 half_size = size / 2.0f;
 
