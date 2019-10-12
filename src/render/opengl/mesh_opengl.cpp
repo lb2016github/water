@@ -27,6 +27,9 @@ namespace water
 			case TRIANGLES:
 				mode = GL_TRIANGLES;
 				break;
+			case POINTS:
+				mode = GL_POINTS;
+				break;
 			default:
 				mode = GL_TRIANGLES;
 				break;

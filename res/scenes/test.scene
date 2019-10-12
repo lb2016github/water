@@ -34,4 +34,8 @@
 <!--    <Model path="models/gun/gun_pbr.model" position="0 0 -3" scale="1.5 1.5 1.5" rotation="0 0 0"/>-->
 <!--    <Model path="models/pbr_ball/gun_pbr.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
 <!--    <Model path="models/ball.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
+    <BillboardList material="models/billboard/billboard.mat" size="40 50">
+        <Position>0 0 5</Position>
+        <Position>0 4 3</Position>
+    </BillboardList>
 </Scene>

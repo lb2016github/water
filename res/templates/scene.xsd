@@ -55,6 +55,13 @@
         <xs:attribute name="rotation" type="water:Vector3"/>
         <xs:attribute name="scale" type="water:Vector3"/>
     </xs:complexType>
+    <xs:complexType name="BillboardList">
+        <xs:sequence>
+            <xs:element name="Position" type="water:Vector3" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="material" type="xs:string"/>
+        <xs:attribute name="size" type="water:Vector2"/>
+    </xs:complexType>
     <xs:element name="Scene">
         <xs:complexType>
             <xs:sequence>
@@ -75,6 +82,7 @@
                 </xs:element>
                 <xs:element name="Camera" type="water:Camera" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="Model" type="water:Model" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="BillboardList" type="water:BillboardList" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
