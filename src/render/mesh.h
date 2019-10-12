@@ -8,6 +8,8 @@
 #include "math3d\math3d.hpp"
 #include "common/common.h"
 #include <string>
+#include "render_const.h"
+
 
 #define MESH_ID_TYPE unsigned long
 
@@ -37,6 +39,7 @@ namespace water
 			std::vector<math3d::Vector4> bone_id;
 			std::vector<math3d::Vector4> bone_weight;
 			std::vector<unsigned int> index_data;
+			MeshMode mode;
 		};
 		typedef std::shared_ptr<MeshData> MeshDataPtr;
 

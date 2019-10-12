@@ -156,8 +156,8 @@ namespace water
 		RenderThread::RenderThread()
 		{
 		}
-		RenderTask::RenderTask(DrawCommand draw_command, MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent):
-			draw_cmd(draw_command), mesh_ptr(mesh), program_ptr(program), render_state(render_state), param_map(param_map)
+		RenderTask::RenderTask(MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent):
+			mesh_ptr(mesh), program_ptr(program), render_state(render_state), param_map(param_map)
 		{
 		}
 		RenderTask::~RenderTask()
@@ -172,7 +172,7 @@ namespace water
 			auto device = get_device();
 			device->get_render_state_manager()->apply(render_state);
 			// draw meshes
-			device->draw(draw_cmd, mesh_ptr);
+			device->draw(mesh_ptr);
 		}
 		RenderTaskList RenderTask::get_depend_tasks()
 		{

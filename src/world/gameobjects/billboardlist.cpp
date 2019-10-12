@@ -15,8 +15,7 @@ namespace water
 			{
 				mesh->position.push_back(pos);
 			}
-			render::DrawCommand draw_cmd;
-			m_material->render(draw_cmd, mesh);
+			m_material->render(mesh);
 		}
 	}
 }

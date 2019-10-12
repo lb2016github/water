@@ -14,7 +14,7 @@ namespace water
 		MeshProxyOpenGL::~MeshProxyOpenGL()
 		{
 		}
-		void MeshProxyOpenGL::render(DrawCommand draw_command)
+		void MeshProxyOpenGL::render()
 		{
 			// commit buffer data
 			commit_mesh();
@@ -22,7 +22,7 @@ namespace water
 			glBindVertexArray(m_vao);
 			GLuint mode;
 			// todo
-			switch (draw_command.draw_mode)
+			switch (m_mesh_ptr->mode)
 			{
 			case TRIANGLES:
 				mode = GL_TRIANGLES;

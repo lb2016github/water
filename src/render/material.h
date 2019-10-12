@@ -18,7 +18,7 @@ namespace water
 		{
 		public:
 			void render(IRenderable* render_obj);
-			void render(const DrawCommand& draw_cmd, const MeshDataPtr mesh);
+			void render(const MeshDataPtr mesh);
 			ParameterMapPtr get_param_map(int index);
 			unsigned int get_param_map_count();
 

@@ -21,7 +21,7 @@ namespace water
 			// get light config
 			render::LightConfig get_light_config();
 			// render
-			void render(const render::DrawCommand& draw_cmd);
+			void render();
 
 			//load scene from file
 			void load_from_file(std::string filepath);
@@ -34,7 +34,6 @@ namespace water
 			render::LightConfig m_light_cfg;
 			// current camera
 			CameraPtr m_cur_camera;
-			render::DrawCommand draw_cmd;
 			// enable shadowmap
 			bool enable_shadowmap = { true };
 		};

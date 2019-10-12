@@ -15,7 +15,6 @@ namespace water
 		private:
 			std::vector<math3d::Vector3> m_positions;
 			render::MaterialPtr m_material;
-
 		};
 
 	}

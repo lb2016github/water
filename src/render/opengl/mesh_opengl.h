@@ -15,7 +15,7 @@ namespace water
 		public:
 			MeshProxyOpenGL(MeshDataPtr mesh_ptr);
 			~MeshProxyOpenGL();
-			virtual void render(DrawCommand draw_command);
+			virtual void render();
 		protected:
 			// commit data to gpu
 			void commit_mesh();

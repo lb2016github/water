@@ -42,9 +42,8 @@ namespace water {
 			// update shadow vp
 			update_shadow_vp();
 			// start draw task
-			render::DrawCommand draw_cmd;
 			auto render_comp = GET_COMPONENT(m_game_object, RenderComponent);
-			render_comp->render(draw_cmd, m_material);
+			render_comp->render(m_material);
 			// end draw task
 			task = std::make_shared<render::RenderTargetTask>(render::RenderTargetTask::CMD_RESET, m_render_target_ptr);
 			render::RenderTaskManager::get_instance()->add_task(task);

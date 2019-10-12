@@ -20,8 +20,8 @@ namespace water
 			static const ComponentTag tag = COMP_RENDER;
 
 		public:
-			void render(const render::DrawCommand& draw_cmd);
-			void render(const render::DrawCommand& draw_cmd, render::MaterialPtr mat_ptr);
+			void render();
+			void render(render::MaterialPtr mat_ptr);
 
 		protected:
 			SpaceObject * m_space_object;

@@ -24,7 +24,7 @@ namespace water
 		{
 			return m_light_cfg;
 		}
-		void Scene::render(const render::DrawCommand & draw_cmd)
+		void Scene::render()
 		{
 			if (enable_shadowmap)
 			{
@@ -33,7 +33,7 @@ namespace water
 			}
 
 			auto render_comp = GET_COMPONENT(this, RenderComponent);
-			render_comp->render(draw_cmd);
+			render_comp->render();
 		}
 		void Scene::load_from_file(std::string filepath)
 		{
@@ -134,7 +134,7 @@ namespace water
 			{
 				m_cur_camera->update();
 			}
-			render(draw_cmd);
+			render();
 		}
 	}
 }
