@@ -114,6 +114,23 @@ namespace water
 					set_texture(name, texture_ptr);
 					return;
 				}
+				else if (type == MATERIAL_VALUE_TYPE_CubeMap)
+				{
+					std::vector<std::string> sub_values;
+					boost::split(sub_values, raw_value, boost::is_space());
+					assert(sub_values.size() == 6);
+					auto tex_ptr = std::make_shared<TextureData>();
+					tex_ptr->tex_type = TEXTURE_CUBE;
+					for each (auto path in sub_values)
+					{
+						auto img_ptr = std::make_shared<filesystem::Image>();
+						img_ptr->load(path);
+						tex_ptr->images.push_back(img_ptr);
+					}
+					auto texture_ptr = TextureManager::get_instance()->get_texture(tex_ptr);
+					set_texture(name, texture_ptr);
+					return;
+				}
 				else
 				{
 					log_error("Unkown material type %s\n", type);

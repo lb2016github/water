@@ -81,6 +81,7 @@ namespace water {
 			{MATERIAL_VALUE_TYPE_INT, TypeInt},
 			{MATERIAL_VALUE_TYPE_SAMPLE2D, TypeSampler2D},
 			{MATERIAL_VALUE_TYPE_LIGHT, TypeLight},
+		{MATERIAL_VALUE_TYPE_CubeMap, TypeCubeMap},
 		};
 
 		std::map<std::string, SemanticType> CONFIG_Semantic =

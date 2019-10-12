@@ -153,6 +153,7 @@ namespace render {
 	// texture types
 	enum TextureType {
 		TEXTURE_2D,
+		TEXTURE_CUBE,
 	};
 
 	// render target attachments

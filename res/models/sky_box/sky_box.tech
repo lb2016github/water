@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Technique xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../templates/technique.xsd">
+    <RenderPass index="0">
+        <RenderState>
+            <DepthStateInfo enabled="true" write_enabled="true">
+                <CompareFunc>CMP_LESS</CompareFunc>
+            </DepthStateInfo>
+            <RasterizeStateInfo front_ccw="true" scissor_test_enabled="true">
+                <FillMode>FILL_SOLID</FillMode>
+                <CullMode>CULL_NONE</CullMode>
+            </RasterizeStateInfo>
+            <StencilStateInfo enabled="false">
+                <Ref>0x01</Ref>
+                <Mask>0xff</Mask>
+                <CompareFunc>CMP_ALWAYS</CompareFunc>
+                <StencilOperation>
+                    <SFail>STENCILOP_KEEP</SFail>
+                    <ZPass>STENCILOP_REPLACE</ZPass>
+                    <ZFail>STENCILOP_KEEP</ZFail>
+                </StencilOperation>
+            </StencilStateInfo>
+            <BlendStateInfo enabled="false">
+                <SrcFactor>BLEND_SRC_ALPHA</SrcFactor>
+                <DstFactor>BLEND_DST_ALPHA</DstFactor>
+                <BlendOperation>BLENDOP_MAX</BlendOperation>
+            </BlendStateInfo>
+        </RenderState>
+        <Program vertex_shader="models/sky_box/sky_box.vert" fragment_shader="models/sky_box/sky_box.frag">
+            <Uniform name="cube_map" type="CubeMap"/>
+            <Uniform name="vp" type="Matrix"/>
+            <Uniform name="cam_pos" type="Vector3"/>
+            <Uniform name="scale" type="Float"/>
+        </Program>
+    </RenderPass>
+</Technique>

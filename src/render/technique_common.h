@@ -40,6 +40,7 @@ namespace water {
 			TypeInt,
 			TypeSampler2D,
 			TypeLight,
+			TypeCubeMap,
 		};
 
 		typedef std::map<std::string, ParamValue> ParamValueMap;
@@ -52,6 +53,7 @@ namespace water {
 		constexpr auto MATERIAL_VALUE_TYPE_INT = "Int";
 		constexpr auto MATERIAL_VALUE_TYPE_SAMPLE2D = "Sampler2D";
 		constexpr auto MATERIAL_VALUE_TYPE_LIGHT = "Light";
+		constexpr auto MATERIAL_VALUE_TYPE_CubeMap = "CubeMap";
 
 
 
