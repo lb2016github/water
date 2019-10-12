@@ -20,7 +20,7 @@ namespace water {
 		public:
 			// not render object immediately, but create RenderTasks and add to RenderTaskManager
 			void render(IRenderable* render_obj);
-			void render(const DrawCommand& draw_cmd, MaterialPtr mat_ptr, MeshDataPtr mesh_ptr);
+			void render(MaterialPtr mat_ptr, MeshDataPtr mesh_ptr);
 		private:
 			std::string m_filepath;
 			std::vector<RenderPass> m_render_pass_queue;	// render queue

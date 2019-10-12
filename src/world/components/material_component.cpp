@@ -66,6 +66,15 @@ namespace water
 				auto wvp = proj * view * world_trans;
 				param_map->set_param(name, wvp);
 			}
+			else if (semantic == water::render::SemanticVP)
+			{
+				auto cam_ptr = scene_ptr->get_active_camera();
+				if (cam_ptr == nullptr) return;
+				auto view = cam_ptr->get_view_matrix();
+				auto proj = cam_ptr->get_projection_matrix();
+				auto vp = proj * view;
+				param_map->set_param(name, vp);
+			}
 			else if (semantic == water::render::SemanticWorld)
 			{
 				auto trans_comp = GET_COMPONENT(game_object, TransformComponent);
@@ -97,8 +106,8 @@ namespace water
 				//if (cam_ptr == nullptr) return;
 				//auto view = cam_ptr->get_view_matrix();
 				//auto proj = cam_ptr->get_projection_matrix();
-				//auto wvp = proj * view;
-				//param_map->set_param(name, wvp);
+				//auto vp = proj * view;
+				//param_map->set_param(name, vp);
 			}
 			else if (semantic == water::render::SemanticShadowMapTexture)
 			{

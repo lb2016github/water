@@ -27,10 +27,10 @@ namespace water
 		{
 			return m_render_state_manager_ptr;
 		}
-		void DeviceOpenGL::draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr)
+		void DeviceOpenGL::draw(MeshDataPtr mesh_ptr)
 		{
 			auto mesh_proxy = MeshProxyManager::get_instance()->get_proxy(mesh_ptr);
-			mesh_proxy->render(draw_cmd);
+			mesh_proxy->render();
 		}
 		void DeviceOpenGL::clear()
 		{

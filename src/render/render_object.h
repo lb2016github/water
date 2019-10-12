@@ -16,7 +16,6 @@ namespace water
 		{
 			virtual MaterialPtr get_material() = 0;
 			virtual MeshDataPtr get_mesh() = 0;
-			virtual DrawCommand get_draw_command() = 0;
 		};
 	}
 }

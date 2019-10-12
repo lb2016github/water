@@ -1,8 +1,8 @@
 #include "transform_component.h"
 #include "world/gameobjects/game_object.h"
 #include "component_const.h"
-#include "boost/algorithm/string.hpp"
 #include "world/gameobjects/space_object.h"
+#include "math3d/math3d_common.h"
 
 namespace water {
 	namespace world
@@ -50,7 +50,7 @@ namespace water {
 		}
 		void TransformComponent::set_position(std::string pos_str)
 		{
-			position = string_to_vector(pos_str);
+			position = math3d::string_to_vector(pos_str);
 		}
 		void TransformComponent::set_scale(math3d::Vector3 p_scale)
 		{
@@ -58,7 +58,7 @@ namespace water {
 		}
 		void TransformComponent::set_scale(std::string scale_str)
 		{
-			scale = string_to_vector(scale_str);
+			scale = math3d::string_to_vector(scale_str);
 		}
 		void TransformComponent::set_rotation(math3d::Vector3 p_rotation)
 		{
@@ -66,14 +66,7 @@ namespace water {
 		}
 		void TransformComponent::set_rotation(std::string rot_str)
 		{
-			rotation = string_to_vector(rot_str);
-		}
-		inline math3d::Vector3 TransformComponent::string_to_vector(std::string str)
-		{
-			std::vector<std::string> sub_values;
-			boost::split(sub_values, str, boost::is_space());
-			assert(sub_values.size() == 3);
-			return math3d::Vector3(atof(sub_values[0].c_str()), atof(sub_values[1].c_str()), atof(sub_values[2].c_str()));
+			rotation = math3d::string_to_vector(rot_str);
 		}
 	}
 }

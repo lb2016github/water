@@ -61,6 +61,7 @@ namespace water {
 		{
 			SemanticNone,	// no semantic
 			SemanticWVP,	// matrix of wvp
+			SemanticVP,		// matrix of vp
 			SemanticWorld,	// matrix of world
 			SemanticCameraPosition, // position of camera
 			SemanticLight,	// light

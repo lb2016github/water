@@ -139,7 +139,7 @@ namespace render {
 	};
 
 	// draw mode
-	enum DrawMode {
+	enum MeshMode {
 		POINTS,
 		LINES,
 		LINE_LOOP,

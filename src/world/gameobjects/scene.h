@@ -7,6 +7,8 @@
 #include "world/components/render_component.h"
 #include "space_object.h"
 #include "render/light.h"
+#include "billboardlist.h"
+#include <vector>
 
 namespace water
 {
@@ -21,7 +23,7 @@ namespace water
 			// get light config
 			render::LightConfig get_light_config();
 			// render
-			void render(const render::DrawCommand& draw_cmd);
+			void render();
 
 			//load scene from file
 			void load_from_file(std::string filepath);
@@ -34,9 +36,10 @@ namespace water
 			render::LightConfig m_light_cfg;
 			// current camera
 			CameraPtr m_cur_camera;
-			render::DrawCommand draw_cmd;
 			// enable shadowmap
 			bool enable_shadowmap = { true };
+			// billboardlist
+			std::vector<BillboardListPtr> m_billboards;
 		};
 
 		DECL_SHARED_PTR(Scene);

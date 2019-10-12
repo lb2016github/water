@@ -27,7 +27,6 @@ namespace water {
 			void set_scale(std::string scale_str);
 			void set_rotation(math3d::Vector3 rotation);
 			void set_rotation(std::string rot_str);
-			inline math3d::Vector3 string_to_vector(std::string str);
 		public:
 			math3d::Vector3 position = { 0, 0, 0 };
 			math3d::Vector3 rotation = { 0, 0, 0 };

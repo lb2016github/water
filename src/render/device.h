@@ -21,7 +21,7 @@ namespace water
 			// creat render target
 			virtual IRenderTargetPtr create_render_target(unsigned int width, unsigned int height) = 0;
 			// draw
-			virtual void draw(DrawCommand draw_cmd, MeshDataPtr mesh_ptr) = 0;
+			virtual void draw(MeshDataPtr mesh_ptr) = 0;
 			// clear screen
 			virtual void clear() = 0;
 			// create texture

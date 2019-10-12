@@ -146,9 +146,9 @@ namespace water
 			m_tech->render(render_obj);
 		}
 
-		void Material::render(const DrawCommand& draw_cmd, const MeshDataPtr mesh)
+		void Material::render(const MeshDataPtr mesh)
 		{
-			m_tech->render(draw_cmd, shared_from_this(), mesh);
+			m_tech->render(shared_from_this(), mesh);
 		}
 
 		ParameterMapPtr Material::get_param_map(int index)

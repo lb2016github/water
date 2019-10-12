@@ -22,13 +22,12 @@ namespace water
 
 		struct RenderTask: public IRenderTask
 		{
-			RenderTask(DrawCommand draw_command, MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent);
+			RenderTask(MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent);
 			virtual ~RenderTask();
 
 			virtual void render();
 			virtual RenderTaskList get_depend_tasks();
 
-			DrawCommand draw_cmd;		// draw command
 			MeshDataPtr mesh_ptr;				// mesh data
 			ProgramPtr program_ptr;			// program pointer
 			RenderStateInfo render_state;	// render state

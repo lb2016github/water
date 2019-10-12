@@ -13,14 +13,14 @@ namespace water
 		{
 		}
 
-		void RenderComponent::render(const render::DrawCommand & draw_cmd)
+		void RenderComponent::render()
 		{
 			for each (auto obj in m_space_object->get_children())
 			{
 				auto render_comp = GET_COMPONENT(obj, RenderComponent);
 				if (render_comp)
 				{
-					render_comp->render(draw_cmd);
+					render_comp->render();
 				}
 			}
 
@@ -33,16 +33,16 @@ namespace water
 			if (!mat_comp) return;
 			auto mat_ptr = mat_comp->get_material();
 			if (!mat_ptr) return;
-			mat_ptr->render(draw_cmd, mesh_ptr);
+			mat_ptr->render(mesh_ptr);
 		}
-		void RenderComponent::render(const render::DrawCommand & draw_cmd, render::MaterialPtr mat_ptr)
+		void RenderComponent::render(render::MaterialPtr mat_ptr)
 		{
 			for each (auto obj in m_space_object->get_children())
 			{
 				auto render_comp = GET_COMPONENT(obj, RenderComponent);
 				if (render_comp)
 				{
-					render_comp->render(draw_cmd, mat_ptr);
+					render_comp->render(mat_ptr);
 				}
 			}
 
@@ -50,7 +50,8 @@ namespace water
 			if (!mesh_comp) return;
 			auto mesh_ptr = mesh_comp->get_mesh_ptr();
 			if (!mesh_ptr) return;
-			mat_ptr->render(draw_cmd, mesh_ptr);
+			MaterialComponent::update_material(m_game_object, mat_ptr);
+			mat_ptr->render(mesh_ptr);
 		}
 	}
 }

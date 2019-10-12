@@ -7,14 +7,14 @@ namespace water
 	{
 		MeshProxyManager* instance = nullptr;
 
-		MeshProxyOpenGL::MeshProxyOpenGL(MeshDataPtr mesh_ptr): m_mesh_ptr(mesh_ptr), is_commited(false)
+		MeshProxyOpenGL::MeshProxyOpenGL(MeshDataPtr mesh_ptr): m_mesh_ptr(mesh_ptr)
 		{
 			glGenBuffers(LOCATION_LENGTH, m_buffers);
 		}
 		MeshProxyOpenGL::~MeshProxyOpenGL()
 		{
 		}
-		void MeshProxyOpenGL::render(DrawCommand draw_command)
+		void MeshProxyOpenGL::render()
 		{
 			// commit buffer data
 			commit_mesh();
@@ -22,20 +22,30 @@ namespace water
 			glBindVertexArray(m_vao);
 			GLuint mode;
 			// todo
-			switch (draw_command.draw_mode)
+			switch (m_mesh_ptr->mode)
 			{
 			case TRIANGLES:
 				mode = GL_TRIANGLES;
+				break;
+			case POINTS:
+				mode = GL_POINTS;
 				break;
 			default:
 				mode = GL_TRIANGLES;
 				break;
 			}
-			glDrawElements(mode, m_mesh_ptr->index_data.size(), GL_UNSIGNED_INT, &(m_mesh_ptr->index_data[0]));
+			if (m_mesh_ptr->index_data.size() > 0)
+			{
+				glDrawElements(mode, m_mesh_ptr->index_data.size(), GL_UNSIGNED_INT, &(m_mesh_ptr->index_data[0]));
+			}
+			else
+			{
+				glDrawArrays(mode, 0, m_mesh_ptr->position.size());
+			}
 		}
 		void MeshProxyOpenGL::commit_mesh()
 		{
-			if (is_commited) return;
+			if (!m_mesh_ptr->dirty) return;
 			glGenVertexArrays(1, &m_vao);
 			glBindVertexArray(m_vao);
 			unsigned int num_vertex = m_mesh_ptr->position.size();
@@ -77,11 +87,11 @@ namespace water
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glBindVertexArray(0);
 
-			is_commited = true;
+			m_mesh_ptr->dirty = false;
 		}
 		MeshProxyOpenGLPtr MeshProxyManager::get_proxy(MeshDataPtr mesh_ptr)
 		{
-			MESH_ID_TYPE mesh_id = mesh_ptr->mesh_id;
+			WATER_ID mesh_id = mesh_ptr->mesh_id;
 			auto iter = m_proxy_map.find(mesh_id);
 			if (iter != m_proxy_map.end())
 			{
