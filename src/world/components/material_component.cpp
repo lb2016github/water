@@ -99,15 +99,6 @@ namespace water
 			{
 				auto shadow_map_comp = GET_COMPONENT(scene_ptr, ShadowMapComponent);
 				param_map->set_param(name, shadow_map_comp->get_shadow_vp());
-				//auto trans_comp = GET_COMPONENT(game_object, TransformComponent);
-				//if (trans_comp == nullptr) return;
-				//auto world_trans = trans_comp->get_world_transformation();
-				//auto cam_ptr = scene_ptr->get_active_camera();
-				//if (cam_ptr == nullptr) return;
-				//auto view = cam_ptr->get_view_matrix();
-				//auto proj = cam_ptr->get_projection_matrix();
-				//auto vp = proj * view;
-				//param_map->set_param(name, vp);
 			}
 			else if (semantic == water::render::SemanticShadowMapTexture)
 			{

@@ -66,11 +66,12 @@ namespace water {
 		{
 			auto scene = dynamic_cast<Scene*>(m_game_object);
 			assert(scene);
-			auto light_cfg = scene->get_light_config();
-			auto light = light_cfg.dir_light;
-			auto light_view = math3d::look_at({ 0, 10, 0 }, { 0, 0, 0 }, { 0, 1, 0 });
-			auto light_proj = math3d::ortho(-10, 10, 10, -10);
-			m_shadow_vp = light_proj * light_view;
+			// todo 
+			auto cam_ptr = scene->get_active_camera();
+			if (cam_ptr == nullptr) return;
+			auto view = cam_ptr->get_view_matrix();
+			auto proj = cam_ptr->get_projection_matrix();
+			m_shadow_vp = proj * view;
 		}
 	}
 }
