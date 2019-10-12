@@ -32,7 +32,7 @@ namespace water
 			unsigned int base_index = 0;
 			for (int i = 0; i < scene->mNumMeshes; ++i)
 			{
-				render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>(filename, i);
+				render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>(filename, i, render::TRIANGLES);
 				aiMesh* mesh = scene->mMeshes[i];
 				// load vertex data
 				unsigned int num_vertices = mesh->mNumVertices;
@@ -80,7 +80,7 @@ namespace water
 		render::MeshDataPtr MeshLoader::load_sub_mesh(const std::string & filename, int mesh_idx)
 		{
 			auto abs_path = filesystem::FileSystem::get_instance()->get_absolute_path(filename);
-			render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>(filename, mesh_idx);
+			render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>(filename, mesh_idx, render::TRIANGLES);
 			Assimp::Importer importer;
 			const aiScene* scene = importer.ReadFile(abs_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals| aiProcess_CalcTangentSpace);
 
@@ -135,7 +135,7 @@ namespace water
 		render::MeshDataPtr MeshLoader::load_combined_mesh(const std::string & filename)
 		{
 			auto abs_path = filesystem::FileSystem::get_instance()->get_absolute_path(filename);
-			render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>(filename, -1);
+			render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>(filename, -1, render::TRIANGLES);
 			Assimp::Importer importer;
 			const aiScene* scene = importer.ReadFile(abs_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals| aiProcess_CalcTangentSpace);
 

@@ -3,6 +3,7 @@
 #include "world/gameobjects/space_object.h"
 #include "math3d/math3d.hpp"
 #include "render/material.h"
+#include "render/mesh.h"
 
 namespace water
 {
@@ -11,10 +12,13 @@ namespace water
 		class BillboardList: public GameObject
 		{
 		public:
+			BillboardList();
+			virtual ~BillboardList();
 			void render();
 		private:
 			std::vector<math3d::Vector3> m_positions;
 			render::MaterialPtr m_material;
+			render::MeshDataPtr m_mesh;
 		};
 
 	}

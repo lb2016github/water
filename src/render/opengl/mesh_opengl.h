@@ -23,7 +23,6 @@ namespace water
 			GLuint m_vao;
 			GLuint m_buffers[LOCATION_LENGTH];
 			MeshDataPtr m_mesh_ptr;
-			bool is_commited = { false };
 		};
 
 		typedef std::shared_ptr<MeshProxyOpenGL> MeshProxyOpenGLPtr;
@@ -34,7 +33,7 @@ namespace water
 			MeshProxyOpenGLPtr get_proxy(MeshDataPtr mesh_ptr);
 			static MeshProxyManager* get_instance();
 		protected:
-			std::map<MESH_ID_TYPE, MeshProxyOpenGLPtr> m_proxy_map;
+			std::map<WATER_ID, MeshProxyOpenGLPtr> m_proxy_map;
 		};
 	}
 }
