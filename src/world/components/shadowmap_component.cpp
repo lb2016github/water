@@ -43,7 +43,6 @@ namespace water {
 			update_shadow_vp();
 			// start draw task
 			render::DrawCommand draw_cmd;
-			MaterialComponent::update_material(m_game_object, m_material);
 			auto render_comp = GET_COMPONENT(m_game_object, RenderComponent);
 			render_comp->render(draw_cmd, m_material);
 			// end draw task

@@ -50,6 +50,7 @@ namespace water
 			if (!mesh_comp) return;
 			auto mesh_ptr = mesh_comp->get_mesh_ptr();
 			if (!mesh_ptr) return;
+			MaterialComponent::update_material(m_game_object, mat_ptr);
 			mat_ptr->render(draw_cmd, mesh_ptr);
 		}
 	}
