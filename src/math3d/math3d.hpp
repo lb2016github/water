@@ -17,6 +17,12 @@ namespace water {
 		typedef glm::vec4 Vector4;
 		typedef glm::mat4 Matrix;
 
+		template<class T>
+		T inline identity()
+		{
+			return glm::identity<T>();
+		}
+
 		Matrix inline inverse(const Matrix& mat)
 		{
 			return glm::inverse(mat);
@@ -55,6 +61,15 @@ namespace water {
 		Matrix inline look_at(const Vector3& eye, const Vector3& center, const Vector3& up)
 		{
 			return glm::lookAt(eye, center, up);
+		}
+		Matrix inline eular_angle_yx(const Vector2& xy)
+		{
+			return glm::eulerAngleYX(xy.x, xy.y);
+		}
+		Matrix inline euler_angle_xyz(const Vector3& rotation)
+		{
+			return glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
+
 		}
 	}
 }

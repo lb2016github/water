@@ -9,6 +9,7 @@ namespace water {
 	static GLFWwindow* window;
 	WindowWin32* m_instance = nullptr;
 
+	//////////////////////////////////////// start callbacks ////////////////////////////////////////
 	static void error_callback(int error, const char* desc) {
 		char error_desc[128];
 		sprintf(error_desc, "[GLFW Error]: %s", desc);
@@ -23,6 +24,17 @@ namespace water {
 		}
 		m_instance->on_key_callback(key, scancode, action, mods);
 	}
+
+	void mouse_button_callback(GLFWwindow* window, int button, int action, int mode)
+	{
+	}
+
+	void cursor_position_callback(GLFWwindow* window, double x, double y)
+	{
+
+	}
+
+	//////////////////////////////////////// end callbacks ////////////////////////////////////////
 
 	void WindowWin32::on_init()
 	{
@@ -133,6 +145,18 @@ namespace water {
 	int WindowWin32::get_key_state(int key)
 	{
 		return glfwGetKey(window, key);
+	}
+
+	int WindowWin32::get_mouse_state(int mouse_button)
+	{
+		return glfwGetMouseButton(window, mouse_button);
+	}
+
+	math3d::Vector2 WindowWin32::get_cursor_position()
+	{
+		double x, y;
+		glfwGetCursorPos(window, &x, &y);
+		return { x, y };
 	}
 
 	WindowWin32* WindowWin32::Instance()

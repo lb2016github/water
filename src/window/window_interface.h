@@ -26,6 +26,8 @@ namespace water {
 		virtual void add_callback(IWindowCallback* cb) = 0;
 		virtual void remove_callback(IWindowCallback* cb) = 0;
 		virtual int get_key_state(int key) = 0;
+		virtual int get_mouse_state(int mouse_button) = 0;
+		virtual math3d::Vector2 get_cursor_position() = 0;
 	};
 
 }

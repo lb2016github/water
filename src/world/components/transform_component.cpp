@@ -11,6 +11,7 @@ namespace water {
 
 		TransformComponent::TransformComponent(SpaceObject * space_object): BaseComponent(space_object)
 		{
+			rotation = math3d::identity<math3d::Matrix>();
 		}
 
 		TransformComponent& TransformComponent::operator=(const TransformComponent& trans_comp)
@@ -42,7 +43,7 @@ namespace water {
 
 		math3d::Matrix TransformComponent::get_transformation()
 		{
-			return math3d::get_transform_matrix(position, rotation, scale);
+			return math3d::get_translate_matrix(position) * rotation * math3d::get_scale_matrix(scale);
 		}
 		void TransformComponent::set_position(math3d::Vector3 pos)
 		{
@@ -62,11 +63,12 @@ namespace water {
 		}
 		void TransformComponent::set_rotation(math3d::Vector3 p_rotation)
 		{
-			rotation = p_rotation;
+			rotation = math3d::euler_angle_xyz(p_rotation);
 		}
 		void TransformComponent::set_rotation(std::string rot_str)
 		{
-			rotation = math3d::string_to_vector(rot_str);
+			auto rot_euler = math3d::string_to_vector(rot_str);
+			set_rotation(rot_euler);
 		}
 	}
 }

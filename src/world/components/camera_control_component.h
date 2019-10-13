@@ -19,12 +19,18 @@ namespace water
 			void update_camera();
 			// update move of camera
 			void update_move_dir();
+			// update dir of camera
+			void update_rotation();
 
 
 		private:
 			Camera* camera = { nullptr };
 			math3d::Vector3 m_move_dir = { 0, 0, 0 };	// right, up, forward
+			math3d::Vector2 m_cursor_pos;	// save pre cursor pos
+			math3d::Vector3 m_rotation = { 0, 0, 0 };	//
 			float m_speed = 0.01;
+			// defines rotation angle when mouse move from left edge to right edge
+			float m_rotation_speed = 30;
 		};
 
 	}

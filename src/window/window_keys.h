@@ -250,4 +250,17 @@
 #define WATER_PRESS                  1
 #define	WATER_REPEAT                 2
 
+#define WATER_MOUSE_BUTTON_1         0
+#define WATER_MOUSE_BUTTON_2         1
+#define WATER_MOUSE_BUTTON_3         2
+#define WATER_MOUSE_BUTTON_4         3
+#define WATER_MOUSE_BUTTON_5         4
+#define WATER_MOUSE_BUTTON_6         5
+#define WATER_MOUSE_BUTTON_7         6
+#define WATER_MOUSE_BUTTON_8         7
+#define WATER_MOUSE_BUTTON_LAST      WATER_MOUSE_BUTTON_8
+#define WATER_MOUSE_BUTTON_LEFT      WATER_MOUSE_BUTTON_1
+#define WATER_MOUSE_BUTTON_RIGHT     WATER_MOUSE_BUTTON_2
+#define WATER_MOUSE_BUTTON_MIDDLE    WATER_MOUSE_BUTTON_3
+
 #endif // !WATER_WINDOW_KEYS_H

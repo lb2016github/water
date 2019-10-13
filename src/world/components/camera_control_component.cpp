@@ -22,6 +22,7 @@ namespace water
 		void CameraControlComponent::update_camera()
 		{
 			update_move_dir();
+			update_rotation();
 			// update center, forward, up
 			auto delta = m_move_dir * m_speed;
 			auto comp = GET_COMPONENT(camera, TransformComponent);
@@ -31,6 +32,8 @@ namespace water
 				return;
 			}
 			comp->position += delta;
+			auto rot_mtx = math3d::euler_angle_xyz(m_rotation);
+			comp->rotation = rot_mtx * comp->rotation;
 		}
 		void CameraControlComponent::update_move_dir()
 		{
@@ -56,6 +59,28 @@ namespace water
 			m_move_dir.z = func(WATER_KEY_S, WATER_KEY_W);	// z is in negtive direction
 			m_move_dir.x = func(WATER_KEY_D, WATER_KEY_A);
 			m_move_dir.y = func(WATER_KEY_LEFT_SHIFT, WATER_KEY_LEFT_CONTROL);
+
+		}
+		void CameraControlComponent::update_rotation()
+		{
+			auto win = World::get_instance()->get_window();
+			if (!win) return;
+			auto pre_pos = m_cursor_pos;
+			m_cursor_pos = win->get_cursor_position();
+			auto mouse_state = win->get_mouse_state(WATER_MOUSE_BUTTON_LEFT);
+			if (mouse_state != WATER_PRESS)
+			{
+				m_rotation.x = 0;
+				m_rotation.y = 0;
+				return;
+			}
+			auto delta_pos = m_cursor_pos - pre_pos;
+			auto win_size = win->get_window_size();
+
+			auto speed = m_rotation_speed / win_size.x;
+
+			m_rotation.y = -delta_pos.x * speed;
+			m_rotation.x = delta_pos.y * speed;
 		}
 	}
 }
