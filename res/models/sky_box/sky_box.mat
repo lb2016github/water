@@ -3,7 +3,7 @@
     <Material index="0">
         <Technique>models/sky_box/sky_box.tech</Technique>
         <ParameterMap index="0">
-            <Parameter name="cube_map" type="CubeMap" value="models/box.png models/box.png models/box.png models/box.png models/box.png models/box.png"/>
+            <Parameter name="cube_map" type="CubeMap" value="models/sky_box/right.jpg models/sky_box/top.jpg models/sky_box/back.jpg models/sky_box/left.jpg models/sky_box/bottom.jpg models/sky_box/front.jpg"/>
             <Parameter name="vp" type="Matrix" semantic="VP"/>
             <Parameter name="cam_pos" type="Vector3" semantic="CAMERA_POSITION"/>
             <Parameter name="scale" type="Float" value="200"/>
