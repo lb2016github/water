@@ -35,7 +35,7 @@ namespace water {
 
 		Matrix inline get_rotation_matrix(const Vector3& rotation)
 		{
-			return glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
+			return glm::eulerAngleYXZ(rotation.y, rotation.x, rotation.z);
 
 		}
 		Matrix inline get_translate_matrix(const Vector3& position)
@@ -66,10 +66,15 @@ namespace water {
 		{
 			return glm::eulerAngleYX(xy.x, xy.y);
 		}
-		Matrix inline euler_angle_xyz(const Vector3& rotation)
+		Vector3 inline get_forward(const Matrix& rotation_mtx)
 		{
-			return glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
-
+			Vector3 forward = { rotation_mtx[2][0], rotation_mtx[2][1], rotation_mtx[2][2] };
+			return glm::normalize(forward);
+		}
+		Vector3 inline get_right(const Matrix& rotation_mtx)
+		{
+			Vector3 right = { rotation_mtx[0][0], rotation_mtx[0][1], rotation_mtx[0][2] };
+			return glm::normalize(right);
 		}
 	}
 }

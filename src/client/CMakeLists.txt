@@ -24,5 +24,6 @@ add_custom_command(
 	POST_BUILD
 	COMMAND echo "text"
 	COMMAND ${CMAKE_COMMAND} -E copy ${WATER_THIRD_LIBRARY_DIRECTORY}/assimp/${WATER_LIB_VERSION}/assimp-${WATER_LIB_VERSION}-mtd.dll ${DST_DIR}/assimp-${WATER_LIB_VERSION}-mtd.dll
+	COMMAND ${CMAKE_COMMAND} -E copy ${WATER_THIRD_LIBRARY_DIRECTORY}/zlib/${WATER_LIB_VERSION}/zlibd.dll ${DST_DIR}/zlibd.dll
 	COMMENT ${CMAKE_BINARY_DIR}/assimp-${WATER_LIB_VERSION}-mtd.dll
 )

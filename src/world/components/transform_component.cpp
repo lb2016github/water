@@ -45,6 +45,10 @@ namespace water {
 		{
 			return math3d::get_translate_matrix(position) * rotation * math3d::get_scale_matrix(scale);
 		}
+		math3d::Vector3 TransformComponent::get_forward()
+		{
+			return math3d::get_forward(rotation);
+		}
 		void TransformComponent::set_position(math3d::Vector3 pos)
 		{
 			position = pos;
@@ -63,7 +67,7 @@ namespace water {
 		}
 		void TransformComponent::set_rotation(math3d::Vector3 p_rotation)
 		{
-			rotation = math3d::euler_angle_xyz(p_rotation);
+			rotation = math3d::get_rotation_matrix(p_rotation);
 		}
 		void TransformComponent::set_rotation(std::string rot_str)
 		{

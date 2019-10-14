@@ -24,16 +24,17 @@ namespace water
 			update_move_dir();
 			update_rotation();
 			// update center, forward, up
-			auto delta = m_move_dir * m_speed;
+			auto delta = m_move_dir * m_move_speed;
 			auto comp = GET_COMPONENT(camera, TransformComponent);
 			if (!comp)
 			{
 				log_warn("[Camera]Transform component is required, but it is not existed");
 				return;
 			}
-			comp->position += delta;
-			auto rot_mtx = math3d::euler_angle_xyz(m_rotation);
-			comp->rotation = rot_mtx * comp->rotation;
+			auto rot_mtx = math3d::get_rotation_matrix(m_rotation);
+			comp->rotation = rot_mtx;
+			auto tmp = rot_mtx * math3d::Vector4(delta.x, delta.y, delta.z, 1);
+			comp->position += math3d::Vector3(tmp.x, tmp.y, tmp.z);
 		}
 		void CameraControlComponent::update_move_dir()
 		{
@@ -70,8 +71,6 @@ namespace water
 			auto mouse_state = win->get_mouse_state(WATER_MOUSE_BUTTON_LEFT);
 			if (mouse_state != WATER_PRESS)
 			{
-				m_rotation.x = 0;
-				m_rotation.y = 0;
 				return;
 			}
 			auto delta_pos = m_cursor_pos - pre_pos;
@@ -79,8 +78,8 @@ namespace water
 
 			auto speed = m_rotation_speed / win_size.x;
 
-			m_rotation.y = -delta_pos.x * speed;
-			m_rotation.x = delta_pos.y * speed;
+			m_rotation.y += -delta_pos.x * speed;	// yaw
+			m_rotation.x += -delta_pos.y * speed;		// pitch
 		}
 	}
 }

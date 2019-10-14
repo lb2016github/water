@@ -19,6 +19,7 @@ namespace water {
 		public:
 			math3d::Matrix get_world_transformation();
 			math3d::Matrix get_transformation();
+			math3d::Vector3 get_forward();
 
 			// position rotation scale
 			void set_position(math3d::Vector3 pos);
