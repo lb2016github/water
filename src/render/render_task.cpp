@@ -7,6 +7,10 @@
 #include "render/render_object.h"
 #include "render/device.h"
 #include "render_state.h"
+#include "world/gameobjects/world.h"
+#include "glad/glad.h"
+#include "glfw3/glfw3.h"
+#include "common/log.h"
 
 namespace water
 {
@@ -42,7 +46,13 @@ namespace water
 		void RenderTaskManager::tick()
 		{
 			commit();
-			m_render->do_render();
+			if (!m_render)
+			{
+				m_render = new RenderThread();
+				std::thread th(&RenderThread::render, m_render);
+				if (th.joinable()) th.detach();
+			}
+			//m_render->do_render();
 		}
 		RenderTaskManager * RenderTaskManager::get_instance()
 		{
@@ -54,9 +64,6 @@ namespace water
 		}
 		RenderTaskManager::RenderTaskManager()
 		{
-			m_render = new RenderThread();
-			//std::thread th(&RenderThread::render, m_render);
-			//if (th.joinable()) th.detach();
 		}
 		RenderTaskManager::~RenderTaskManager()
 		{
@@ -120,8 +127,20 @@ namespace water
 		}
 		void RenderThread::render()
 		{
+			auto window = world::World::get_instance()->get_window();
+			auto size = window->get_window_size();
+			auto this_window = glfwCreateWindow(size.x, size.y, "tmp", NULL, nullptr);
+
+			glfwMakeContextCurrent(this_window);
+			// int glad
+			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+			{
+				log_error("[GLAD]Failed to initialize glad");
+				return;
+			}
 			while (true)
 			{
+				get_device()->clear();
 				// get buffer data
 				RenderTaskManager::get_instance()->get_front_buffer(m_task_buffer);
 				if (!m_task_buffer.is_ready())
@@ -135,6 +154,8 @@ namespace water
 					task->render();
 				}
 				// render end
+				glfwSwapBuffers(this_window);
+				glfwPollEvents();
 			}
 		}
 		void RenderThread::do_render()

@@ -20,8 +20,9 @@ namespace water
 			void init_texture_2d();
 			void init_texture_cube();
 
-			GLuint m_texture_obj = { 0 };
-			GLenum m_texture_target = { 0 };
+			GLuint m_texture_obj { 0 };
+			GLenum m_texture_target { 0 };
+			bool m_data_dirty{ false };
 
 		};
 

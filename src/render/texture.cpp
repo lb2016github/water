@@ -27,6 +27,10 @@ namespace water
 		{
 			m_data_ptr = ptr;
 		}
+		void Texture::set_tex_param(const TextureParameterConfig & tex_config)
+		{
+			m_tex_config = tex_config;
+		}
 		TextureManager* TextureManager::get_instance()
 		{
 			if (instance == nullptr)

@@ -14,6 +14,8 @@ namespace water {
 		void on_frame();
 		void on_destroy();
 
+		virtual void* get_context();
+		virtual void make_current(bool is_current);
 		virtual bool is_full_screen() const;
 		virtual bool is_window_closed() const;
 		virtual math3d::Vector2 get_window_size() const;

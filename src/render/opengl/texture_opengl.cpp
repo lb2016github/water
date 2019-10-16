@@ -15,10 +15,6 @@ namespace water
 			{
 				m_texture_obj = tex_obj;
 			}
-			else
-			{
-				glGenTextures(1, &m_texture_obj);
-			}
 			switch (m_type)
 			{
 			case TEXTURE_2D:
@@ -42,6 +38,24 @@ namespace water
 		}
 		void TextureOpenGL::bind(TextureUnit tex_unit)
 		{
+			if (m_texture_obj <= 0)
+			{
+				glGenTextures(1, &m_texture_obj);
+			}
+			if (m_data_dirty)
+			{
+				switch (m_type)
+				{
+				case TEXTURE_2D:
+					init_texture_2d();
+					break;
+				case TEXTURE_CUBE:
+					init_texture_cube();
+					break;
+				default:
+					break;
+				}
+			}
 			GLenum gl_unit = GL_TEXTURE0 + tex_unit - TEXTURE_UNIT_0;
 			glActiveTexture(gl_unit);
 			glBindTexture(m_texture_target, m_texture_obj);
@@ -49,27 +63,19 @@ namespace water
 		void TextureOpenGL::set_tex_data(TextureDataPtr ptr)
 		{
 			Texture::set_tex_data(ptr);
-			switch (m_type)
-			{
-			case TEXTURE_2D:
-				init_texture_2d();
-				break;
-			case TEXTURE_CUBE:
-				init_texture_cube();
-				break;
-			default:
-				break;
-			}
+			m_data_dirty = true;
 		}
 		void TextureOpenGL::init_texture_2d()
 		{
 			glBindTexture(GL_TEXTURE_2D, m_texture_obj);
-			assert(m_data_ptr->images.size() > 0);
-			auto img = m_data_ptr->images[0];
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img->m_width, img->m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->get_data());
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glBindTexture(GL_TEXTURE_2D, 0);
+			if(m_data_ptr->images.size() > 0)
+			{
+				auto img = m_data_ptr->images[0];
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img->m_width, img->m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->get_data());
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
 		}
 		void TextureOpenGL::init_texture_cube()
 		{

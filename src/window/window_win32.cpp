@@ -58,34 +58,51 @@ namespace water {
 			return;
 		}
 
-		glfwMakeContextCurrent(window);
+		//glfwMakeContextCurrent(window);
 		// set key callback
 		glfwSetKeyCallback(window, key_callback);
 
 
-		// int glad
-		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		{
-			log_error("[GLAD]Failed to initialize glad");
-			return;
-		}
+		//// int glad
+		//if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+		//{
+		//	log_error("[GLAD]Failed to initialize glad");
+		//	return;
+		//}
 		
 	}
 
 	void WindowWin32::on_frame()
 	{
 		glfwGetFramebufferSize(window, &m_width, &m_height);
+		make_current(nullptr);
 		for each(auto cb in m_callbacks)
 		{
 			cb->on_frame();
 		}
-		glfwSwapBuffers(window);
+		//glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
 	void WindowWin32::on_destroy()
 	{
 		glfwTerminate();
+	}
+
+	void WindowWin32::make_current(bool is_current)
+	{
+		if (is_current)
+		{
+			glfwMakeContextCurrent(window);
+		}
+		else
+		{
+			glfwMakeContextCurrent(nullptr);
+		}
+	}
+	void* WindowWin32::get_context()
+	{
+		return window;
 	}
 
 	bool WindowWin32::is_full_screen() const
