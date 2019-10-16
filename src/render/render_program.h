@@ -29,12 +29,6 @@ namespace water
 			virtual bool init(const std::string& vertex_shader_path, const std::string& geom_shader_path, const std::string& frag_shader_path) = 0;
 			virtual bool init(ShaderObject vertex_shader, ShaderObject geom_shader, ShaderObject frag_shader) = 0;
 			virtual bool init(ShaderObject vertex_shader, ShaderObject frag_shader) = 0;
-			// set uniform
-			virtual bool set_uniform(const std::string& name, math3d::Matrix& mat) = 0;
-			virtual bool set_uniform(const std::string& name, math3d::Vector3& vec3) = 0;
-			virtual bool set_uniform(const std::string& name, math3d::Vector2& vec2) = 0;
-			virtual bool set_uniform(const std::string& name, int val) = 0;
-			virtual bool set_uniform(const std::string& name, float val) = 0;
 			// set uniform config
 			virtual bool set_uniform_config(ParamTypeMap& uniform_map) = 0;
 			virtual bool set_attribute_config(ParamTypeMap& attribute_map) = 0;

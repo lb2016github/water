@@ -94,7 +94,6 @@ namespace water
 
 		RenderProgramOpenGL::RenderProgramOpenGL()
 		{
-			m_program = glCreateProgram();
 		}
 
 		RenderProgramOpenGL::~RenderProgramOpenGL()
@@ -104,43 +103,9 @@ namespace water
 
 		bool RenderProgramOpenGL::init(const std::string& vertex_shader_path, const std::string& geom_shader_path, const std::string& frag_shader_path)
 		{
-			if (vertex_shader_path != "")
-			{
-				ShaderObject obj = get_device()->get_program_manager()->load_shader(VertexShader, vertex_shader_path);
-				if (obj != UNDEFINED_SHADER)
-				{
-					glAttachShader(m_program, obj);
-				}
-			}
-			if (geom_shader_path != "")
-			{
-				auto obj = get_device()->get_program_manager()->load_shader(GeometryShader, geom_shader_path);
-				if (obj != UNDEFINED_SHADER)
-				{
-					glAttachShader(m_program, obj);
-				}
-			}
-			if (frag_shader_path != "")
-			{
-				auto obj = get_device()->get_program_manager()->load_shader(FragmentShader, frag_shader_path);
-				if (obj != UNDEFINED_SHADER)
-				{
-					glAttachShader(m_program, obj);
-				}
-			}
-			glLinkProgram(m_program);
-			// check program link success
-			GLint result = GL_FALSE;
-			GLint log_length = 0;
-			glGetProgramiv(m_program, GL_LINK_STATUS, &result);
-			glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &log_length);
-			if (log_length > 0)
-			{
-				char* msg = new char[log_length];
-				glGetProgramInfoLog(m_program, log_length, NULL, msg);
-				log_info(msg);
-				delete[] msg;
-			}
+			m_shader_paths[0] = vertex_shader_path;
+			m_shader_paths[1] = geom_shader_path;
+			m_shader_paths[2] = frag_shader_path;
 			return true;
 		}
 
@@ -211,9 +176,8 @@ namespace water
 		bool RenderProgramOpenGL::set_uniform_config(ParamTypeMap & uniform_map)
 		{
 			m_uniform_map = uniform_map;
-			m_location_map.clear();
-			m_invalid_map.clear();
-			return update_location(uniform_map);
+			m_location_inited = false;
+			return true;
 		}
 
 		bool RenderProgramOpenGL::set_attribute_config(ParamTypeMap & attribute_map)
@@ -224,6 +188,7 @@ namespace water
 
 		bool RenderProgramOpenGL::use_program()
 		{
+			if (!m_inited) real_init();
 			glUseProgram(m_program);
 			GL_CHECK_ERROR
 			return true;
@@ -231,6 +196,8 @@ namespace water
 
 		void RenderProgramOpenGL::apply_parameters(const ParameterMap& param_map)
 		{
+			if (!m_inited) real_init();
+			if (!m_location_inited) update_location(m_uniform_map);
 			for (auto param : param_map.m_value_map)
 			{
 				std::string name = param.first;
@@ -278,8 +245,53 @@ namespace water
 			}
 			GL_CHECK_ERROR
 		}
+		bool RenderProgramOpenGL::real_init()
+		{
+			m_inited = true;
+			m_program = glCreateProgram();
+			auto vertex_shader_path = m_shader_paths[0], geom_shader_path = m_shader_paths[1], frag_shader_path = m_shader_paths[2];
+			if (vertex_shader_path != "")
+			{
+				ShaderObject obj = get_device()->get_program_manager()->load_shader(VertexShader, vertex_shader_path);
+				if (obj != UNDEFINED_SHADER)
+				{
+					glAttachShader(m_program, obj);
+				}
+			}
+			if (geom_shader_path != "")
+			{
+				auto obj = get_device()->get_program_manager()->load_shader(GeometryShader, geom_shader_path);
+				if (obj != UNDEFINED_SHADER)
+				{
+					glAttachShader(m_program, obj);
+				}
+			}
+			if (frag_shader_path != "")
+			{
+				auto obj = get_device()->get_program_manager()->load_shader(FragmentShader, frag_shader_path);
+				if (obj != UNDEFINED_SHADER)
+				{
+					glAttachShader(m_program, obj);
+				}
+			}
+			glLinkProgram(m_program);
+			// check program link success
+			GLint result = GL_FALSE;
+			GLint log_length = 0;
+			glGetProgramiv(m_program, GL_LINK_STATUS, &result);
+			glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &log_length);
+			if (log_length > 0)
+			{
+				char* msg = new char[log_length];
+				glGetProgramInfoLog(m_program, log_length, NULL, msg);
+				log_info(msg);
+				delete[] msg;
+			}
+			return false;
+		}
 		bool RenderProgramOpenGL::update_location(ParamTypeMap & uniform_map)
 		{
+			m_location_inited = true;
 			for (auto iter = uniform_map.begin(); iter != uniform_map.end(); ++iter)
 			{
 				auto name = iter->first;
