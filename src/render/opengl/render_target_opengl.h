@@ -22,9 +22,13 @@ namespace water
 			virtual TexturePtr get_texture(Attachment attachement);
 			virtual void reset();
 		private:
-			GLuint m_fbo;;
+			void update_attachments();
+		private:
+			GLuint m_fbo{ 0 };
 			std::map<Attachment, TexturePtr> m_textures;
 			unsigned int m_width, m_height;
+			std::vector<Attachment> m_tex_attachments, m_render_buffer_attachments;
+			bool m_attachment_dirty{ false };
 		};
 
 	}

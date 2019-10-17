@@ -129,9 +129,10 @@ namespace water
 		{
 			auto window = world::World::get_instance()->get_window();
 			auto size = window->get_window_size();
-			auto this_window = glfwCreateWindow(size.x, size.y, "tmp", NULL, nullptr);
+			auto this_window = (GLFWwindow*)window->get_context();
 
-			glfwMakeContextCurrent(this_window);
+			window->make_current(true);
+			//glfwMakeContextCurrent();
 			// int glad
 			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 			{
@@ -155,7 +156,6 @@ namespace water
 				}
 				// render end
 				glfwSwapBuffers(this_window);
-				glfwPollEvents();
 			}
 		}
 		void RenderThread::do_render()
