@@ -75,20 +75,6 @@ namespace water
 			bool m_ready;	// is the buffer ready for rendering
 		};
 
-		/*
-		RenderTread is used for do render task. The task data is from RenderTaskManager. 
-		*/
-		class RenderThread 
-		{
-		public:
-			// constructor
-			RenderThread();
-			// do render
-			void render();
-			void do_render();
-		private:
-			RenderTaskBuffer m_task_buffer; // the task buffer for rendering
-		};
 
 		/*
 		RenderTaskManager supplies task buffers for render thread while render thread do the render task with suppled task buffer
@@ -110,7 +96,6 @@ namespace water
 			~RenderTaskManager();
 
 		private:
-			RenderThread* m_render = { nullptr };	// render thread
 			int m_front_buffer = { 0 }, m_back_buffer = { 1 };
 			RenderTaskBuffer m_task_buffers[2];	// buffers of render task
 			static RenderTaskManager* m_instance;

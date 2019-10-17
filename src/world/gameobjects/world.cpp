@@ -58,7 +58,7 @@ namespace water
 			{
 				m_cur_scene->on_frame();
 			}
-			render::RenderTaskManager::get_instance()->tick();
+			render::RenderTaskManager::get_instance()->commit();
 
 		}
 		World * World::get_instance()

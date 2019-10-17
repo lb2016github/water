@@ -40,19 +40,12 @@ namespace water
 		void RenderTaskManager::get_front_buffer(RenderTaskBuffer& dst_buffer)
 		{
 			buffer_mtx.lock();
-			dst_buffer = m_task_buffers[m_front_buffer];
+			dst_buffer = std::move(m_task_buffers[m_front_buffer]);
 			buffer_mtx.unlock();
 		}
 		void RenderTaskManager::tick()
 		{
 			commit();
-			if (!m_render)
-			{
-				m_render = new RenderThread();
-				std::thread th(&RenderThread::render, m_render);
-				if (th.joinable()) th.detach();
-			}
-			//m_render->do_render();
 		}
 		RenderTaskManager * RenderTaskManager::get_instance()
 		{
@@ -71,14 +64,13 @@ namespace water
 			{
 				m_task_buffers[i].clear();
 			}
-			delete m_render;
 		}
 		RenderTaskBuffer::RenderTaskBuffer(): m_ready(false)
 		{
 		}
 		RenderTaskBuffer::RenderTaskBuffer(RenderTaskBuffer&& buffer)
 		{
-			std::move(buffer.m_tasks.begin(), buffer.m_tasks.end(), m_tasks.begin());
+			m_tasks = std::move(buffer.m_tasks);
 			m_ready = buffer.m_ready;
 			buffer.m_ready = false;
 		}
@@ -91,7 +83,7 @@ namespace water
 		{
 			if (&buffer == this) return *this;
 			clear();
-			std::move(buffer.m_tasks.begin(), buffer.m_tasks.end(), m_tasks.begin());
+			m_tasks = std::move(buffer.m_tasks);
 			m_ready = buffer.m_ready;
 			buffer.m_ready = false;
 			return *this;
@@ -124,58 +116,6 @@ namespace water
 		void RenderTaskBuffer::set_ready(bool is_ready)
 		{
 			m_ready = is_ready;
-		}
-		void RenderThread::render()
-		{
-			auto window = world::World::get_instance()->get_window();
-			auto size = window->get_window_size();
-			auto this_window = (GLFWwindow*)window->get_context();
-
-			window->make_current(true);
-			//glfwMakeContextCurrent();
-			// int glad
-			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-			{
-				log_error("[GLAD]Failed to initialize glad");
-				return;
-			}
-			while (true)
-			{
-				get_device()->clear();
-				// get buffer data
-				RenderTaskManager::get_instance()->get_front_buffer(m_task_buffer);
-				if (!m_task_buffer.is_ready())
-				{
-					continue;
-				}
-				// todo sort tasks to decrease drawcall 
-				// do render jobs
-				for each (RenderTaskPtr task in m_task_buffer.m_tasks)
-				{
-					task->render();
-				}
-				// render end
-				glfwSwapBuffers(this_window);
-			}
-		}
-		void RenderThread::do_render()
-		{
-			get_device()->clear();
-			// get buffer data
-			RenderTaskManager::get_instance()->get_front_buffer(m_task_buffer);
-			if (!m_task_buffer.is_ready())
-			{
-				return;
-			}
-			// todo sort tasks to decrease drawcall 
-			// do render jobs
-			for each (RenderTaskPtr task in m_task_buffer.m_tasks)
-			{
-				task->render();
-			}
-		}
-		RenderThread::RenderThread()
-		{
 		}
 		RenderTask::RenderTask(MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent):
 			mesh_ptr(mesh), program_ptr(program), render_state(render_state), param_map(param_map)

@@ -6,16 +6,15 @@
 #include <memory>
 #include <string>
 #include <set>
+#include "common/fps.h"
 
 namespace water {
-	class WindowWin32 : public IWindow {
+	class WindowWin32 : public IWindow, public FramePerSecond {
 	public:
 		void on_init();
 		void on_frame();
 		void on_destroy();
 
-		virtual void* get_context();
-		virtual void make_current(bool is_current);
 		virtual bool is_full_screen() const;
 		virtual bool is_window_closed() const;
 		virtual math3d::Vector2 get_window_size() const;
@@ -27,6 +26,8 @@ namespace water {
 		virtual int get_key_state(int key);
 		virtual int get_mouse_state(int mouse_button);
 		virtual math3d::Vector2 get_cursor_position();
+		virtual void init_render_context();
+		virtual void swap_frame_buffer();
 	public:
 		void on_key_callback(int key, int scancode, int action, int mods);
 

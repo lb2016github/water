@@ -58,51 +58,26 @@ namespace water {
 			return;
 		}
 
-		//glfwMakeContextCurrent(window);
 		// set key callback
 		glfwSetKeyCallback(window, key_callback);
-
-
-		//// int glad
-		//if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		//{
-		//	log_error("[GLAD]Failed to initialize glad");
-		//	return;
-		//}
 		
 	}
 
 	void WindowWin32::on_frame()
 	{
 		glfwGetFramebufferSize(window, &m_width, &m_height);
-		make_current(nullptr);
 		for each(auto cb in m_callbacks)
 		{
 			cb->on_frame();
 		}
 		//glfwSwapBuffers(window);
 		glfwPollEvents();
+		FramePerSecond::on_frame();
 	}
 
 	void WindowWin32::on_destroy()
 	{
 		glfwTerminate();
-	}
-
-	void WindowWin32::make_current(bool is_current)
-	{
-		if (is_current)
-		{
-			glfwMakeContextCurrent(window);
-		}
-		else
-		{
-			glfwMakeContextCurrent(nullptr);
-		}
-	}
-	void* WindowWin32::get_context()
-	{
-		return window;
 	}
 
 	bool WindowWin32::is_full_screen() const
@@ -174,6 +149,22 @@ namespace water {
 		double x, y;
 		glfwGetCursorPos(window, &x, &y);
 		return { x, y };
+	}
+
+	void WindowWin32::init_render_context()
+	{
+		glfwMakeContextCurrent(window);
+		// int glad
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+		{
+			log_error("[GLAD]Failed to initialize glad");
+			return;
+		}
+	}
+
+	void WindowWin32::swap_frame_buffer()
+	{
+		glfwSwapBuffers(window);
 	}
 
 	WindowWin32* WindowWin32::Instance()

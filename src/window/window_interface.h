@@ -18,7 +18,6 @@ namespace water {
 	WaterInterface IWindow : IPlugin
 	{
 		virtual bool is_full_screen() const = 0;
-		virtual void make_current(bool is_current) = 0;
 		virtual math3d::Vector2 get_window_size() const = 0;
 		virtual void set_window_size(unsigned width, unsigned height) = 0;
 		virtual std::string get_window_title() const = 0;
@@ -29,7 +28,8 @@ namespace water {
 		virtual int get_key_state(int key) = 0;
 		virtual int get_mouse_state(int mouse_button) = 0;
 		virtual math3d::Vector2 get_cursor_position() = 0;
-		virtual void* get_context() = 0;
+		virtual void init_render_context() = 0;
+		virtual void swap_frame_buffer() = 0;
 	};
 
 }
