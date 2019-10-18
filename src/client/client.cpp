@@ -5,6 +5,7 @@
 #include "common/fps.h"
 #include "render/render_thread.h"
 #include <thread>
+#include <sstream>
 
 using namespace water;
 
@@ -68,13 +69,15 @@ void main() {
 	window->add_callback(world);
 
 	WaterRenderThread wrt(window);
-	std::thread th(&WaterRenderThread::thread_run, wrt);
+	std::thread th(&WaterRenderThread::thread_run, &wrt);
 	if (th.joinable()) th.detach();
 
 	while (!window->is_window_closed()) {
 		window->on_frame();
+		std::stringstream ss;
+		ss << "LogicFps: " << window->m_fps << " RenderFps: " << wrt.m_fps;
+		window->set_window_title(ss.str());
 		//wrt.run();
-		//std::cout << "logic fps: " << window->m_fps << std::endl;
 	}
 	window->on_destroy();
 }

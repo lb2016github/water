@@ -113,6 +113,7 @@ namespace water {
 
 	void WindowWin32::set_window_title(std::string title)
 	{
+		m_title = title;
 		glfwSetWindowTitle(window, m_title.c_str());
 	}
 
