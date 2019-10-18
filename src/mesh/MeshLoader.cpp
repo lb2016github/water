@@ -38,27 +38,27 @@ namespace water
 				unsigned int num_vertices = mesh->mNumVertices;
 				for (auto i = 0; i < num_vertices; ++i)
 				{
-					aiVector3D tmp = mesh->mVertices[i];
-					data_ptr->position.push_back(math3d::Vector3(tmp.x, tmp.y, tmp.z));
+					aiVector3D* tmp = &(mesh->mVertices[i]);
+					data_ptr->position.push_back(math3d::Vector3(tmp->x, tmp->y, tmp->z));
 					if (mesh->mNormals != nullptr)
 					{
-						tmp = mesh->mNormals[i];
-						data_ptr->normal.push_back(math3d::Vector3(tmp.x, tmp.y, tmp.z));
+						tmp = &(mesh->mNormals[i]);
+						data_ptr->normal.push_back(math3d::Vector3(tmp->x, tmp->y, tmp->z));
 					}
 					if (mesh->mColors[0] != nullptr)
 					{
 						aiColor4D clr = mesh->mColors[0][i]; // todo currently assume only one color
 						data_ptr->color.push_back(math3d::Vector4(clr.r, clr.g, clr.b, clr.a));
 					}
-					if (mesh->mTextureCoords[0] != nullptr)
+					if (mesh->HasTextureCoords(0))
 					{
-						tmp = mesh->mTextureCoords[0][i];	// todo currently assume only one texture coordinate is supporetd
-						data_ptr->coordinate.push_back(math3d::Vector2(tmp.x, tmp.y));
+						tmp = &(mesh->mTextureCoords[0][i]);	// todo currently assume only one texture coordinate is supporetd
+						data_ptr->coordinate.push_back(math3d::Vector2(tmp->x, tmp->y));
 					}
 					if (mesh->mTangents != nullptr)
 					{
-						tmp = mesh->mTangents[i];
-						data_ptr->tangent.push_back(math3d::Vector3(tmp.x, tmp.y, tmp.z));
+						tmp = &(mesh->mTangents[i]);
+						data_ptr->tangent.push_back(math3d::Vector3(tmp->x, tmp->y, tmp->z));
 					}
 					// todo load bone info
 				}
@@ -94,12 +94,12 @@ namespace water
 				unsigned int num_vertices = mesh->mNumVertices;
 				for (auto i = 0; i < num_vertices; ++i)
 				{
-					aiVector3D tmp = mesh->mVertices[i];
-					data_ptr->position.push_back(math3d::Vector3(tmp.x, tmp.y, tmp.z));
+					aiVector3D* tmp = &(mesh->mVertices[i]);
+					data_ptr->position.push_back(math3d::Vector3(tmp->x, tmp->y, tmp->z));
 					if (mesh->mNormals != nullptr)
 					{
-						tmp = mesh->mNormals[i];
-						data_ptr->normal.push_back(math3d::Vector3(tmp.x, tmp.y, tmp.z));
+						tmp = &(mesh->mNormals[i]);
+						data_ptr->normal.push_back(math3d::Vector3(tmp->x, tmp->y, tmp->z));
 					}
 					if (mesh->mColors[0] != nullptr)
 					{
@@ -108,13 +108,13 @@ namespace water
 					}
 					if (mesh->mTextureCoords[0] != nullptr)
 					{
-						tmp = mesh->mTextureCoords[0][i];	// todo currently assume only one texture coordinate is supporetd
-						data_ptr->coordinate.push_back(math3d::Vector2(tmp.x, tmp.y));
+						tmp = &(mesh->mTextureCoords[0][i]);	// todo currently assume only one texture coordinate is supporetd
+						data_ptr->coordinate.push_back(math3d::Vector2(tmp->x, tmp->y));
 					}
 					if (mesh->mTangents != nullptr)
 					{
-						tmp = mesh->mTangents[i];
-						data_ptr->tangent.push_back(math3d::Vector3(tmp.x, tmp.y, tmp.z));
+						tmp = &(mesh->mTangents[i]);
+						data_ptr->tangent.push_back(math3d::Vector3(tmp->x, tmp->y, tmp->z));
 					}
 					// todo load bone info
 				}
@@ -148,12 +148,12 @@ namespace water
 				unsigned int num_vertices = mesh->mNumVertices;
 				for (unsigned int i = 0; i < num_vertices; ++i)
 				{
-					aiVector3D tmp = mesh->mVertices[i];
-					data_ptr->position.push_back(math3d::Vector3(tmp.x, tmp.y, tmp.z));
+					aiVector3D* tmp = &(mesh->mVertices[i]);
+					data_ptr->position.push_back(math3d::Vector3(tmp->x, tmp->y, tmp->z));
 					if (mesh->mNormals != nullptr)
 					{
-						tmp = mesh->mNormals[i];
-						data_ptr->normal.push_back(math3d::Vector3(tmp.x, tmp.y, tmp.z));
+						tmp = &(mesh->mNormals[i]);
+						data_ptr->normal.push_back(math3d::Vector3(tmp->x, tmp->y, tmp->z));
 					}
 					if (mesh->mColors[0] != nullptr)
 					{
@@ -162,13 +162,13 @@ namespace water
 					}
 					if (mesh->mTextureCoords[0] != nullptr)
 					{
-						tmp = mesh->mTextureCoords[0][i];	// todo currently assume only one texture coordinate is supporetd
-						data_ptr->coordinate.push_back(math3d::Vector2(tmp.x, tmp.y));
+						tmp = &(mesh->mTextureCoords[0][i]);	// todo currently assume only one texture coordinate is supporetd
+						data_ptr->coordinate.push_back(math3d::Vector2(tmp->x, tmp->y));
 					}
 					if (mesh->mTangents != nullptr)
 					{
-						tmp = mesh->mTangents[i];
-						data_ptr->tangent.push_back(math3d::Vector3(tmp.x, tmp.y, tmp.z));
+						tmp = &(mesh->mTangents[i]);
+						data_ptr->tangent.push_back(math3d::Vector3(tmp->x, tmp->y, tmp->z));
 					}
 					// todo load bone info
 				}
