@@ -43,6 +43,10 @@ namespace water
 			dst_buffer = std::move(m_task_buffers[m_front_buffer]);
 			buffer_mtx.unlock();
 		}
+		bool RenderTaskManager::is_front_ready()
+		{
+			return m_task_buffers[m_front_buffer].m_ready;
+		}
 		void RenderTaskManager::tick()
 		{
 			commit();
@@ -83,8 +87,8 @@ namespace water
 		{
 			if (&buffer == this) return *this;
 			clear();
-			m_tasks = std::move(buffer.m_tasks);
 			m_ready = buffer.m_ready;
+			m_tasks = std::move(buffer.m_tasks);
 			buffer.m_ready = false;
 			return *this;
 		}

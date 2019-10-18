@@ -89,6 +89,7 @@ namespace water
 			void commit();
 			void add_task(RenderTaskPtr task);
 			void get_front_buffer(RenderTaskBuffer& dst_buffer);
+			bool is_front_ready();
 			void tick();
 			static RenderTaskManager* get_instance();
 		private:

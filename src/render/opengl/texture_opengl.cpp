@@ -55,6 +55,7 @@ namespace water
 				default:
 					break;
 				}
+				m_data_dirty = false;
 			}
 			GLenum gl_unit = GL_TEXTURE0 + tex_unit - TEXTURE_UNIT_0;
 			glActiveTexture(gl_unit);
