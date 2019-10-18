@@ -27,6 +27,7 @@ namespace water
 		{
 			auto window_ptr = WindowWin32::Instance();
 			auto size = window_ptr->get_window_size();
+			if (size.y <= 0.0001) return;
 			aspect = size.x / size.y;
 		}
 	}
