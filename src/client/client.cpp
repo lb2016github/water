@@ -7,6 +7,7 @@
 #include <thread>
 #include <sstream>
 
+
 using namespace water;
 
 struct WaterRenderThread: public FramePerSecond
@@ -69,15 +70,23 @@ void main() {
 	window->add_callback(world);
 
 	WaterRenderThread wrt(window);
+
+#define RENDER_IN_SUB_THREAD
+#ifdef RENDER_IN_SUB_THREAD
 	std::thread th(&WaterRenderThread::thread_run, &wrt);
 	if (th.joinable()) th.detach();
+#endif // RENDER_IN_SUB_THREAD
+
 
 	while (!window->is_window_closed()) {
 		window->on_frame();
+#ifndef RENDER_IN_SUB_THREAD
+		wrt.run();
+#endif // !RENDER_IN_SUB_THREAD
 		std::stringstream ss;
 		ss << "LogicFps: " << window->m_fps << " RenderFps: " << wrt.m_fps;
 		window->set_window_title(ss.str());
-		//wrt.run();
+
 	}
 	window->on_destroy();
 }
