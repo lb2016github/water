@@ -20,5 +20,5 @@ void main(){
     vec4 wvp_pos = vp * vec4(position * scale + cam_pos, 1);
     wvp_pos.z = wvp_pos.w * 0.999f;
     gl_Position = wvp_pos;
-    tex_coord = vec3(position.x, -position.yz);
+    tex_coord = position;
 }
