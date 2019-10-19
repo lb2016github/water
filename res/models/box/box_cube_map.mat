@@ -4,7 +4,7 @@
         <Technique>shaders/simple_cube_map.tech</Technique>
         <ParameterMap index="0">
             <Parameter name="wvp" type="Matrix" value="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" semantic="WVP"/>
-            <Parameter name="cube_map" type="CubeMap" value="models/sky_box/right.jpg models/sky_box/top.jpg models/sky_box/back.jpg models/sky_box/left.jpg models/sky_box/bottom.jpg models/sky_box/front.jpg"/>
+            <Parameter name="cube_map" type="CubeMap" value="models/box/right.jpg models/box/top.jpg models/box/back.jpg models/box/left.jpg models/box/bottom.jpg models/box/front.jpg"/>
         </ParameterMap>
     </Material>
 </MaterialGroup>
