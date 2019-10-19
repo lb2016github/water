@@ -25,19 +25,21 @@
             <Atten constant="0" exp="1" linear="0.1"/>
         </SpotLight>
     </LightConfig>
-    <ShadowMap enable="true" material="scenes/shadow_map.mat"/>
-    <Camera active="true" fovy="50" znear="1" zfar="50" position="0 0 0" rotation="0 0 0"/>
-    <Model path="models/box.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>
-    <Model path="models/box.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>
-    <Model path="models/sky_box/sky_box.model" position="0 0 0" scale="1 1 1" rotation="0 0 0"/>
+    <ShadowMap enable="false" material="scenes/shadow_map.mat"/>
+    <Camera active="true" fovy="50" znear="1" zfar="5000" position="0 0 0" rotation="0 0 0"/>
+<!--    <Model path="models/fish/fish.model" position="0 0 -10" scale="0.3 0.3 0.3" rotation="0 0 0"/>-->
+<!--    <Model path="models/quad/quad.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
+        <Model path="models/sky_box/sky_box.model" position="0 0 0" scale="1 1 1" rotation="0 0 0"/>
+<!--        <Model path="models/box/box_cubemap.model" position="0 0 -5" scale="1 1 1" rotation="0 0 0"/>-->
 <!--    <Model path="models/floor/floor.model" position="0 0 -10"/>-->
 <!--    <Model path="models/shadow_map_show/shadow_show.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>-->
 <!--    <Model path="models/crown.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>-->
 <!--    <Model path="models/gun/gun.model" position="0 0 -3" scale="2 2 2" rotation="0 0 0"/>-->
 <!--    <Model path="models/gun/gun_pbr.model" position="0 0 -3" scale="1.5 1.5 1.5" rotation="0 0 0"/>-->
+    <Model path="models/star_ship/starship.model" position="0 0 -10" scale="0.5 0.5 0.5" rotation="0 0 0"/>
 <!--    <Model path="models/pbr_ball/gun_pbr.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
 <!--    <Model path="models/ball.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
-    <BillboardList material="models/billboard/billboard.mat" size="2 2">
-        <Position>0 0 -3</Position>
-    </BillboardList>
+<!--    <BillboardList material="models/billboard/billboard.mat" size="2 2">-->
+<!--        <Position>0 0 -3</Position>-->
+<!--    </BillboardList>-->
 </Scene>

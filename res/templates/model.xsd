@@ -3,7 +3,7 @@
 targetNamespace="/water" xmlns:water="/water">
     <xs:complexType name="Mesh">
         <xs:attribute name="path" type="xs:string"/>
-        <xs:attribute name="mesh_idx" type="xs:nonNegativeInteger"/>
+        <xs:attribute name="mesh_idx" type="xs:integer"/>
     </xs:complexType>
     <xs:complexType name="Material">
         <xs:attribute name="path" type="xs:string"/>
