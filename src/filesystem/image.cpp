@@ -10,6 +10,7 @@ namespace water
 	{
 		bool Image::do_load()
 		{
+			stbi_set_flip_vertically_on_load(true);
 			auto abs_path = FileSystem::get_instance()->get_absolute_path(m_file_path);
 			m_data = stbi_load(abs_path.c_str(), &m_width, &m_height, &m_channel_in_file, 4);
 			if (m_data == nullptr)
@@ -17,6 +18,7 @@ namespace water
 				log_error("[Image]Failed to load image: %s", m_file_path.c_str());
 				return false;
 			}
+			log_info("[Image]Success to load image: %s", m_file_path.c_str());
 			return true;
 		}
 		unsigned char* Image::get_data()

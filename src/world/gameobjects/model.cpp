@@ -46,7 +46,12 @@ namespace water
 						std::string filepath = child.attribute("path").as_string();
 						int mesh_idx = child.attribute("mesh_idx").as_int();
 						auto mesh_comp = (MeshComponent*)model->get_component(COMP_MESH);
-						if (filepath != cached_mesh_path)
+						if (mesh_idx < 0)
+						{
+							mesh_comp->set_mesh_ptr(mesh_comp->load_from_file(filepath, true)[0]);
+							continue;
+						}
+						else if (filepath != cached_mesh_path)
 						{
 							cached_mesh = mesh_comp->load_from_file(filepath, false);
 							cached_mesh_path = filepath;
