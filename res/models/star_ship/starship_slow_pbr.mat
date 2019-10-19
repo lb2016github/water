@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<MaterialGroup xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../../templates/material.xsd">
+    <Material index="0">
+        <Technique>shaders/pbr_cube_slow.tech</Technique>
+        <ParameterMap index="0">
+            <Parameter name="albedo" type="Sampler2D" value="models/star_ship/textures/Cockpit_initialShadingGroup_color.tga.png"/>
+            <Parameter name="metallic" type="Sampler2D" value="models/star_ship/textures/Cockpit_initialShadingGroup_metalness.tga.png"/>
+            <Parameter name="normal" type="Sampler2D" value="models/star_ship/textures/Cockpit_initialShadingGroup_nmap.tga.png"/>
+            <Parameter name="roughness" type="Sampler2D" value="models/star_ship/textures/Cockpit_initialShadingGroup_rough.tga.png"/>
+            <Parameter name="ao" type="Sampler2D" value="models/star_ship/textures/Cockpit_initialShadingGroup_ao.tga.png"/>
+            <Parameter name="wvp" type="Matrix" semantic="WVP"/>
+            <Parameter name="world_matrix" type="Matrix" semantic="WORLD"/>
+            <Parameter name="cam_position" type="Vector3" semantic="CAMERA_POSITION"/>
+            <Parameter name="light" type="Light" semantic="LIGHT"/>
+            <Parameter name="env" type="CubeMap" value="models/sky_box/right.jpg models/sky_box/bottom.jpg models/sky_box/back.jpg models/sky_box/left.jpg models/sky_box/top.jpg models/sky_box/front.jpg"/>
+            <Parameter name="step" type="Vector2" value="0.5 0.5"/>
+        </ParameterMap>
+    </Material>
+    <Material index="1">
+        <Technique>shaders/pbr_cube_slow.tech</Technique>
+        <ParameterMap index="0">
+            <Parameter name="albedo" type="Sampler2D" value="models/star_ship/textures/Vaisseau_VaisseauLow_initialShadingGroup_c.png"/>
+            <Parameter name="metallic" type="Sampler2D" value="models/star_ship/textures/Vaisseau_VaisseauLow_initialShadingGroup_m.png"/>
+            <Parameter name="normal" type="Sampler2D" value="models/star_ship/textures/Vaisseau_VaisseauLow_initialShadingGroup_n.png"/>
+            <Parameter name="roughness" type="Sampler2D" value="models/star_ship/textures/Vaisseau_VaisseauLow_initialShadingGroup_r.png"/>
+            <Parameter name="ao" type="Sampler2D" value="models/star_ship/textures/Vaisseau_VaisseauLow_initialShadingGroup_a.png"/>
+            <Parameter name="wvp" type="Matrix" semantic="WVP"/>
+            <Parameter name="world_matrix" type="Matrix" semantic="WORLD"/>
+            <Parameter name="cam_position" type="Vector3" semantic="CAMERA_POSITION"/>
+            <Parameter name="light" type="Light" semantic="LIGHT"/>
+            <Parameter name="env" type="CubeMap" value="models/sky_box/right.jpg models/sky_box/bottom.jpg models/sky_box/back.jpg models/sky_box/left.jpg models/sky_box/top.jpg models/sky_box/front.jpg"/>
+            <Parameter name="step" type="Vector2" value="0.5 0.5"/>
+        </ParameterMap>
+    </Material>
+</MaterialGroup>

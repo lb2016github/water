@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Technique xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../templates/technique.xsd">
+    <RenderPass index="0">
+        <RenderState>
+            <DepthStateInfo enabled="true" write_enabled="true">
+                <CompareFunc>CMP_LESS</CompareFunc>
+            </DepthStateInfo>
+            <RasterizeStateInfo front_ccw="true" scissor_test_enabled="true">
+                <FillMode>FILL_SOLID</FillMode>
+                <CullMode>CULL_BACK</CullMode>
+            </RasterizeStateInfo>
+            <StencilStateInfo enabled="true">
+                <Ref>0x01</Ref>
+                <Mask>0xff</Mask>
+                <CompareFunc>CMP_ALWAYS</CompareFunc>
+                <StencilOperation>
+                    <SFail>STENCILOP_KEEP</SFail>
+                    <ZPass>STENCILOP_REPLACE</ZPass>
+                    <ZFail>STENCILOP_KEEP</ZFail>
+                </StencilOperation>
+            </StencilStateInfo>
+            <BlendStateInfo enabled="false">
+                <SrcFactor>BLEND_SRC_ALPHA</SrcFactor>
+                <DstFactor>BLEND_DST_ALPHA</DstFactor>
+                <BlendOperation>BLENDOP_MAX</BlendOperation>
+            </BlendStateInfo>
+        </RenderState>
+        <Program vertex_shader="shaders/pbr_cube_slow.vert" fragment_shader="shaders/pbr_cube_slow.frag">
+            <Uniform name="wvp" type="Matrix"/>
+            <Uniform name="world_matrix" type="Matrix"/>
+            <Uniform name="cam_position" type="Vector3"/>
+            <Uniform name="light" type="Light"/>
+            <Uniform name="albedo" type="Sampler2D"/>
+            <Uniform name="normal" type="Sampler2D"/>
+            <Uniform name="metallic" type="Sampler2D"/>
+            <Uniform name="roughness" type="Sampler2D"/>
+            <Uniform name="env" type="CubeMap"/>
+            <Uniform name="step" type="Vector2"/>
+        </Program>
+    </RenderPass>
+</Technique>
