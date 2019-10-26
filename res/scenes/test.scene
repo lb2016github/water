@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scene xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../templates/scene.xsd">
     <LightConfig>
-        <DirectionLight direction="0.3 -1 0">
+        <DirectionLight direction="0.1 -1 0.1">
             <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
         </DirectionLight>
-        <PointLight position="0 20 -10">
-            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
-            <Atten constant="0" exp="0.01" linear="0.1"/>
-        </PointLight>
-        <PointLight position="0 30 0">
-            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
-            <Atten constant="0" exp="0.01" linear="0.1"/>
-        </PointLight>
-        <PointLight position="0 0 0">
-            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
-            <Atten constant="0" exp="0.01" linear="0.1"/>
-        </PointLight>
-        <PointLight position="5 0 -3">
-            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
-            <Atten constant="0" exp="0.01" linear="0.1"/>
-        </PointLight>
-        <SpotLight position="0 0 0" direction="0 0 -1" cutoff="20">
-            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
-            <Atten constant="0" exp="1" linear="0.1"/>
-        </SpotLight>
+<!--        <PointLight position="0 20 -10">-->
+<!--            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>-->
+<!--            <Atten constant="0" exp="0.01" linear="0.1"/>-->
+<!--        </PointLight>-->
+<!--        <PointLight position="0 30 0">-->
+<!--            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>-->
+<!--            <Atten constant="0" exp="0.01" linear="0.1"/>-->
+<!--        </PointLight>-->
+<!--        <PointLight position="0 0 0">-->
+<!--            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>-->
+<!--            <Atten constant="0" exp="0.01" linear="0.1"/>-->
+<!--        </PointLight>-->
+<!--        <PointLight position="5 0 -3">-->
+<!--            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>-->
+<!--            <Atten constant="0" exp="0.01" linear="0.1"/>-->
+<!--        </PointLight>-->
+<!--        <SpotLight position="0 0 0" direction="0 0 -1" cutoff="20">-->
+<!--            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>-->
+<!--            <Atten constant="0" exp="1" linear="0.1"/>-->
+<!--        </SpotLight>-->
     </LightConfig>
     <ShadowMap enable="false" material="scenes/shadow_map.mat"/>
     <Camera active="true" fovy="50" znear="1" zfar="5000" position="0 0 0" rotation="0 0 0"/>
