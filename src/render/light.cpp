@@ -88,6 +88,7 @@ namespace water
 				if (strcmp(attr.name(), "direction") == 0)
 				{
 					load_vec3_from_str(attr.as_string(), direction);
+					direction = math3d::normalize(direction);
 				}
 				else
 				{
@@ -176,6 +177,7 @@ namespace water
 				if (strcmp(attr.name(), "direction") == 0)
 				{
 					load_vec3_from_str(attr.as_string(), direction);
+					direction = math3d::normalize(direction);
 				}
 				else if (strcmp(attr.name(), "cutoff") == 0)
 				{

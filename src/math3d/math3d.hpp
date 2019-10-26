@@ -76,6 +76,10 @@ namespace water {
 			Vector3 right = { rotation_mtx[0][0], rotation_mtx[0][1], rotation_mtx[0][2] };
 			return glm::normalize(right);
 		}
+		Vector3 inline normalize(const Vector3& vec)
+		{
+			return glm::normalize(vec);
+		}
 	}
 }
 #endif

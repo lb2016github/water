@@ -79,8 +79,6 @@ float calc_geometry_smith(vec3 n, vec3 view, vec3 light, float k);
 vec3 calc_fresnel_schlick(vec3 h, vec3 v, vec3 f0);
 vec3 calc_brdf_cook_torrance(PBRMaterial mat, vec3 view_dir, vec3 light_dir);
 
-vec3 calc_out_radiance(vec3 light_dir, vec3 view_dir, vec3 radiance, PBRMaterial mat);
-
 void main()
 {
     vec3 tex_normal = texture2D(normal, vs_out.coord).xyz;
@@ -111,14 +109,14 @@ void main()
         Atten atten = light.point_lights[i].atten;
         vec3 radiance = light.point_lights[i].base_light.color / (atten.constant + atten.linear * distance + atten.exp * distance * distance);
         vec3 brdf = calc_brdf_cook_torrance(mat, view_dir, light_dir);
-        out_light += brdf * dot(mat.normal, light_dir) * radiance;
+        out_light += brdf * dot(mat.normal, -light_dir) * radiance;
     }
     // for direction light
     {
         vec3 light_dir = normalize(light.dir_light.direction);
         vec3 radiance = light.dir_light.base_light.color;
         vec3 brdf = calc_brdf_cook_torrance(mat, view_dir, light_dir);
-        out_light += brdf * dot(mat.normal, light_dir) * radiance;
+        out_light += brdf * dot(mat.normal, -light_dir) * radiance;
     }
     vec3 ambient = vec3(0.03) * tex_albedo * tex_ao;
     // for ibl
@@ -132,8 +130,8 @@ void main()
         {
             for(float theta = 0; theta < PI * 0.5; theta += step.y)
             {
-                vec3 pos = sin(theta) * cos(phy) * right + cos(theta) * up + sin(theta) * sin(phy) * w_normal;
-                vec3 radiance = texture(env, vec3(pos.x, -pos.y, pos.z)).xyz;
+                vec3 pos = sin(theta) * cos(phy) * right + cos(theta) * w_normal + sin(theta) * sin(phy) * up;
+                vec3 radiance = texture(env, vec3(pos.x, pos.y, pos.z)).xyz;
                 vec3 light_dir = -normalize(pos);
                 ibl_light += calc_brdf_cook_torrance(mat, view_dir, light_dir)*dot(mat.normal, -light_dir) * radiance;
                 samples += 1;
@@ -142,12 +140,6 @@ void main()
         ibl_light /= samples;
     }
     frag_color = vec4(out_light + ambient + ibl_light, 1);
-}
-
-vec3 calc_out_radiance(vec3 light_dir, vec3 view_dir, vec3 radiance, PBRMaterial mat)
-{
-    vec3 brdf = calc_brdf_cook_torrance(mat, view_dir, light_dir);
-    return brdf * dot(mat.normal, light_dir) * radiance;
 }
 
 // r^2 / (pi((n*h)^2(r^2-1) + 1)^2)
@@ -171,7 +163,7 @@ float calc_geometry_schlick_ggx(vec3 n, vec3 v, float k)
 float calc_geometry_smith(vec3 n, vec3 view_dir, vec3 light_dir, float k)
 {
     float view_dir_geom = calc_geometry_schlick_ggx(n, view_dir, k);
-    float light_dir_geom = calc_geometry_schlick_ggx(n, light_dir, k);
+    float light_dir_geom = calc_geometry_schlick_ggx(n, -light_dir, k);
     return view_dir_geom * light_dir_geom;
 }
 
@@ -184,7 +176,7 @@ vec3 calc_fresnel_schlick(vec3 h, vec3 v, vec3 f0)
 // calculate brdf of cook-torrance
 vec3 calc_brdf_cook_torrance(PBRMaterial mat, vec3 view_dir, vec3 light_dir)
 {
-    vec3 h = normalize(view_dir + light_dir);
+    vec3 h = normalize(view_dir -light_dir);
     // calculating dfg
     float d = calc_ndf_ggx_tr(mat.normal, h, mat.roughness);    // ndf
 
@@ -205,7 +197,7 @@ vec3 calc_brdf_cook_torrance(PBRMaterial mat, vec3 view_dir, vec3 light_dir)
 
 
     vec3 f_diffuse = kd * mat.albedo / PI;
-    vec3 f_specular = d * f * geom / (4 * max(dot(view_dir, mat.normal), 0) * max(dot(light_dir, mat.normal), 0) + 0.0001);
+    vec3 f_specular = d * f * geom / (4 * max(dot(view_dir, mat.normal), 0) * max(dot(-light_dir, mat.normal), 0) + 0.0001);
 
     return f_diffuse + f_specular;
 }
