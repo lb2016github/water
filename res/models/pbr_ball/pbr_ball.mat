@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <MaterialGroup xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../../templates/material.xsd">
     <Material index="0">
-        <Technique>shaders/pbr.tech</Technique>
+        <Technique>models/pbr_ball/pbr_ball.tech</Technique>
         <ParameterMap index="0">
             <Parameter name="wvp" type="Matrix" semantic="WVP"/>
             <Parameter name="world_matrix" type="Matrix" semantic="WORLD"/>
             <Parameter name="albedo" type="Vector3" value="1.00 0.71 0.29"/>
             <Parameter name="cam_position" type="Vector3" semantic="CAMERA_POSITION"/>
             <Parameter name="light" type="Light" semantic="LIGHT"/>
-            <Parameter name="metalness" type="Float" value="1.0"/>
+            <Parameter name="metallic" type="Float" value="1.0"/>
             <Parameter name="roughness" type="Float" value="0.5"/>
-            <Parameter name="s_normal" type="Sampler2D" value="models/pbr_ball/normal.jpg"/>
+            <Parameter name="env" type="CubeMap" value="models/sky_box/right.jpg models/sky_box/bottom.jpg models/sky_box/back.jpg models/sky_box/left.jpg models/sky_box/top.jpg models/sky_box/front.jpg"/>
+            <Parameter name="step" type="Vector2" value="0.5 0.5"/>
         </ParameterMap>
     </Material>
 </MaterialGroup>
