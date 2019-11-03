@@ -10,6 +10,14 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 # include modules
 include(common)
 
+# add config files
+configure_file(
+"${CMAKE_CURRENT_SOURCE_DIR}/config.h.in"
+"${CMAKE_CURRENT_SOURCE_DIR}/config.h"
+)
+option(ENABLE_SHADER_DEBUG OFF)
+
+
 # add subdirectories
 add_subdirectory(common)
 add_subdirectory(math3d)
