@@ -1,4 +1,4 @@
-#version 330
+#version 420
 #define MAX_POINT_LIGHT_NUM 5
 #define MAX_SPOT_LIGHT_NUM 5
 #define PI 3.141592654
@@ -56,6 +56,8 @@ struct VSOut
 {
     vec3 position;
     mat4 world_mtx;
+    float metallic;
+    float roughness;
 };
 
 in VSOut vs_out;
@@ -64,8 +66,6 @@ out vec4 frag_color;
 uniform LightConfig light;
 uniform vec3 cam_position;
 uniform vec3 albedo;
-uniform float metallic;
-uniform float roughness;
 uniform samplerCube env;
 uniform vec2 step;
 
@@ -85,8 +85,8 @@ void main()
     PBRMaterial mat;
     mat.normal = w_normal;
     mat.albedo = albedo;
-    mat.metalness = metallic;
-    mat.roughness = roughness;
+    mat.metalness = vs_out.metallic;
+    mat.roughness = vs_out.roughness;
     vec3 view_dir = normalize(cam_position - world_position);
     vec3 out_light = vec3(0, 0, 0);
     for(int i = 0; i < light.point_light_num; ++i)

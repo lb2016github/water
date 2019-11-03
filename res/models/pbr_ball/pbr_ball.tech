@@ -25,14 +25,12 @@
                 <BlendOperation>BLENDOP_MAX</BlendOperation>
             </BlendStateInfo>
         </RenderState>
-        <Program vertex_shader="models/pbr_ball/pbr_ball.vert" fragment_shader="models/pbr_ball/pbr_ball.frag">
-            <Uniform name="wvp" type="Matrix"/>
+        <Program vertex_shader="models/pbr_ball/pbr_ball.vert" geometry_shader="models/pbr_ball/pbr_ball.geom" fragment_shader="models/pbr_ball/pbr_ball.frag">
+            <Uniform name="vp" type="Matrix"/>
             <Uniform name="world_matrix" type="Matrix"/>
             <Uniform name="cam_position" type="Vector3"/>
             <Uniform name="light" type="Light"/>
             <Uniform name="albedo" type="Vector3"/>
-            <Uniform name="metallic" type="Float"/>
-            <Uniform name="roughness" type="Float"/>
             <Uniform name="env" type="CubeMap"/>
             <Uniform name="step" type="Vector2"/>
         </Program>

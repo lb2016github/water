@@ -3,13 +3,11 @@
     <Material index="0">
         <Technique>models/pbr_ball/pbr_ball.tech</Technique>
         <ParameterMap index="0">
-            <Parameter name="wvp" type="Matrix" semantic="WVP"/>
+            <Parameter name="vp" type="Matrix" semantic="VP"/>
             <Parameter name="world_matrix" type="Matrix" semantic="WORLD"/>
             <Parameter name="albedo" type="Vector3" value="1.00 0.71 0.29"/>
             <Parameter name="cam_position" type="Vector3" semantic="CAMERA_POSITION"/>
             <Parameter name="light" type="Light" semantic="LIGHT"/>
-            <Parameter name="metallic" type="Float" value="1.0"/>
-            <Parameter name="roughness" type="Float" value="0.5"/>
             <Parameter name="env" type="CubeMap" value="models/sky_box/right.jpg models/sky_box/bottom.jpg models/sky_box/back.jpg models/sky_box/left.jpg models/sky_box/top.jpg models/sky_box/front.jpg"/>
             <Parameter name="step" type="Vector2" value="0.5 0.5"/>
         </ParameterMap>
