@@ -55,7 +55,7 @@ struct PBRMaterial
 struct VSOut
 {
     vec3 position;
-    mat4 world_mtx;
+    vec3 trans;
     float metallic;
     float roughness;
 };
@@ -68,6 +68,7 @@ uniform vec3 cam_position;
 uniform vec3 albedo;
 uniform samplerCube env;
 uniform vec2 step;
+uniform mat4 world_matrix;
 
 float calc_ndf_ggx_tr(vec3 n, vec3 h, float r);
 float calc_geometry_schlick_ggx(vec3 n, vec3 v, float k);
@@ -78,9 +79,9 @@ vec3 calc_brdf_cook_torrance(PBRMaterial mat, vec3 view_dir, vec3 light_dir);
 void main()
 {
     // get normal
-    vec3 w_normal = (vs_out.world_mtx * vec4(vs_out.position, 0)).xyz;
+    vec3 w_normal = (world_matrix * vec4(vs_out.position, 0)).xyz;
     w_normal = normalize(w_normal);
-    vec3 world_position = (vs_out.world_mtx * vec4(vs_out.position, 1)).xyz;
+    vec3 world_position = (world_matrix * vec4(vs_out.position, 1)).xyz + vs_out.trans;
 
     PBRMaterial mat;
     mat.normal = w_normal;
