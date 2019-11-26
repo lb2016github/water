@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<MaterialGroup xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../templates/material.xsd">
+    <Material index="0">
+        <Technique>models/sky_box/sky_box_hdr.tech</Technique>
+        <ParameterMap index="0">
+            <Parameter name="env_map_hdr" type="Sampler2D" semantic="ENV_MAP_TEXTURE"/>
+            <Parameter name="vp" type="Matrix" semantic="VP"/>
+            <Parameter name="cam_pos" type="Vector3" semantic="CAMERA_POSITION"/>
+            <Parameter name="scale" type="Float" value="200"/>
+        </ParameterMap>
+    </Material>
+</MaterialGroup>
