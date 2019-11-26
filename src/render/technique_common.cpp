@@ -94,6 +94,7 @@ namespace water {
 			{"LIGHT", SemanticLight},
 			{"SHADOW_MAP_VP", SemanticShadowMapVP},
 			{"SHADOW_MAP_TEXTURE", SemanticShadowMapTexture},
+			{"ENV_MAP_TEXTURE", SemanticEnvMap},
 		};
 	}
 }

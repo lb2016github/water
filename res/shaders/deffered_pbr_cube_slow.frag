@@ -48,7 +48,7 @@ struct PBRMaterial
 {
     vec3 albedo;
     vec3 normal;
-    float metalness;
+    vec3 metalness;
     float roughness;
 };
 
@@ -65,10 +65,10 @@ out vec4 frag_color;
 
 uniform LightConfig light;
 uniform vec3 cam_position;
-uniform sampler2D albedo;
-uniform sampler2D metallic;
-uniform sampler2D normal;
-uniform sampler2D roughness;
+
+uniform sampler2D g_albedo;
+uniform sampler2D g_meta_rough;   // metallic: xyz, roughness: w
+uniform sampler2D g_normal;
 uniform sampler2D ao;
 uniform samplerCube env;
 uniform vec2 step;
@@ -81,10 +81,16 @@ vec3 calc_brdf_cook_torrance(PBRMaterial mat, vec3 view_dir, vec3 light_dir);
 
 void main()
 {
-    vec3 tex_normal = texture2D(normal, vs_out.coord).xyz;
-    vec3 tex_albedo = texture2D(albedo, vs_out.coord).xyz;
-    vec3 tex_metallic = texture2D(metallic, vs_out.coord).xyz;
-    vec3 tex_roughness = texture2D(roughness, vs_out.coord).xyz;
+    // compute coordinate
+    coord =
+
+
+
+    vec3 tex_normal = texture2D(g_normal, vs_out.coord).xyz;
+    vec3 tex_albedo = texture2D(g_albedo, vs_out.coord).xyz;
+    vec3 tex_meta_rough = texture2D(g_meta_rough, vs_out.coord);
+    float tex_roughness = tex_meta_rough.w;
+    vec3 tex_metallic = tex_meta_rough.xyz;
     vec3 tex_ao = texture2D(ao, vs_out.coord).xyz;
 
     // get normal
@@ -98,8 +104,8 @@ void main()
     PBRMaterial mat;
     mat.normal = normalize(tbn * tex_normal);
     mat.albedo = tex_albedo;
-    mat.metalness = tex_metallic.x;
-    mat.roughness = tex_roughness.x;
+    mat.metalness = tex_metallic;
+    mat.roughness = tex_roughness;
     vec3 view_dir = normalize(cam_position - vs_out.world_position);
     vec3 out_light = vec3(0, 0, 0);
     for(int i = 0; i < light.point_light_num; ++i)

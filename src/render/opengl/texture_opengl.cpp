@@ -8,7 +8,25 @@ namespace water
 {
 	namespace render
 	{
+		void commit_image_data(GLuint target, filesystem::ImagePtr img)
+		{
+			switch (img->get_data_format())
+			{
+			case filesystem::ImageDataFormat::DATA_CHAR:
+				unsigned char* img_data;
+				img->get_data(&img_data);
+				glTexImage2D(target, 0, GL_RGBA, img->m_width, img->m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img_data);
+				break;
+			case filesystem::ImageDataFormat::DATA_FLOAT:
+				float* img_data_f;
+				img->get_data(&img_data_f);
+				glTexImage2D(target, 0, GL_RGBA16F, img->m_width, img->m_height, 0, GL_RGBA, GL_FLOAT, img_data_f);
+				break;
+			default:
+				break;
+			}
 
+		}
 		TextureOpenGL::TextureOpenGL(TextureType tex_type, GLuint tex_obj): Texture(tex_type)
 		{
 			if (tex_obj > 0)
@@ -72,7 +90,7 @@ namespace water
 			if(m_data_ptr->images.size() > 0)
 			{
 				auto img = m_data_ptr->images[0];
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img->m_width, img->m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->get_data());
+				commit_image_data(GL_TEXTURE_2D, img);
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				glBindTexture(GL_TEXTURE_2D, 0);
@@ -97,7 +115,7 @@ namespace water
 			{
 				auto img = m_data_ptr->images[i];
 				auto tag = tex_types[i];
-				glTexImage2D(tex_types[i], 0, GL_RGBA, img->m_width, img->m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->get_data());
+				commit_image_data(tex_types[i], img);
 				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);

@@ -9,20 +9,29 @@ namespace water
 {
 	namespace filesystem
 	{
+		enum class ImageDataFormat
+		{
+			DATA_UNKOWN,
+			DATA_CHAR,
+			DATA_FLOAT,
+		};
 		class Image: public FileBase
 		{
 		public:
 			using FileBase::FileBase;
 			~Image();
 			virtual bool do_load();
-			unsigned char* get_data();
+			void get_data(unsigned char** data_ptr);
+			void get_data(float** data_ptr);
+			ImageDataFormat get_data_format();
 			void release();
 		public:
-			int m_width = { 0 }, m_height = { 0 };
-			int m_channel_in_file = { 0 };
+			int m_width{ 0 }, m_height{ 0 };
+			int m_channel_in_file{ 0 };
 		private:
-			unsigned char* m_data = { nullptr };
-
+			ImageDataFormat m_data_format{ ImageDataFormat::DATA_UNKOWN };
+			unsigned char* m_data{ nullptr };
+			float* m_data_f{ nullptr };
 		};
 		DECL_SHARED_PTR(Image);
 	}

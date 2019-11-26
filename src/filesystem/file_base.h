@@ -9,7 +9,7 @@ namespace water {
 		WaterInterface FileBase: public std::enable_shared_from_this<FileBase>
 		{
 		public:
-			FileBase(const std::string& file_path) : m_file_path(file_path), m_loaded(false) { load(); }
+			FileBase(const std::string& file_path) : m_file_path(file_path), m_loaded(false) {}
 			FileBase(): m_loaded(false) {}
 			virtual ~FileBase() {}
 			void load() { do_load(); }

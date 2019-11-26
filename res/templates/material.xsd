@@ -66,6 +66,7 @@ targetNamespace="/water" xmlns:water="/water">
             <xs:enumeration value="LIGHT"/>
             <xs:enumeration value="SHADOW_MAP_VP"/>
             <xs:enumeration value="SHADOW_MAP_TEXTURE"/>
+            <xs:enumeration value="ENV_MAP_TEXTURE"/>
             <xs:enumeration value="VP"/>
         </xs:restriction>
     </xs:simpleType>

@@ -14,6 +14,7 @@ namespace water {
 			int get_file_size(const char* file_path);
 			std::string get_absolute_path(const std::string related_path);
 			void set_res_root(const std::string& res_path);
+			std::string get_extension(const std::string& filepath);
 
 			static FileSystem* get_instance();
 

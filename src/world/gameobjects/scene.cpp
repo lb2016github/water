@@ -9,6 +9,7 @@
 #include "world/components/shadowmap_component.h"
 #include "billboardlist.h"
 #include "math3d/math3d_common.h"
+#include "render/device.h"
 
 namespace water
 {
@@ -25,6 +26,10 @@ namespace water
 		render::LightConfig Scene::get_light_config()
 		{
 			return m_light_cfg;
+		}
+		render::TexturePtr Scene::get_env_map()
+		{
+			return m_env;
 		}
 		void Scene::render()
 		{
@@ -115,6 +120,17 @@ namespace water
 							log_error("[Scene]Load camera attribute failed with name %s", iter->name());
 						}
 					}
+				}
+				// load env map
+				else if (strcmp(child.name(), "EnvMap") == 0)
+				{
+					std::string path = child.attribute("Path").as_string();
+					auto img = std::make_shared<filesystem::Image>(path);
+					auto tex_data = std::make_shared<render::TextureData>();
+					tex_data->images.emplace_back(img);
+					tex_data->load();
+					m_env = render::get_device()->create_texture(render::TEXTURE_2D);
+					m_env->set_tex_data(tex_data);
 				}
 				// load light
 				else if (strcmp(child.name(), "LightConfig") == 0)

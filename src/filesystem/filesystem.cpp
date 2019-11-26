@@ -54,6 +54,11 @@ namespace water {
 			}
 			m_res_path = path;
 		}
+		std::string FileSystem::get_extension(const std::string & filepath)
+		{
+			boost::filesystem::path path(filepath);
+			return path.extension().string();
+		}
 		FileSystem* FileSystem::get_instance()
 		{
 			if (instance == nullptr)

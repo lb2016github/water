@@ -74,6 +74,11 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="EnvMap">
+                    <xs:complexType>
+                        <xs:attribute name="Path" type="xs:string"/>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element name="ShadowMap">
                     <xs:complexType>
                         <xs:attribute name="enable" type="xs:boolean"/>

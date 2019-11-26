@@ -69,6 +69,7 @@ namespace water {
 			SemanticLight,	// light
 			SemanticShadowMapVP,	// vp of shadow map
 			SemanticShadowMapTexture,	// texture of shadow map
+			SemanticEnvMap,	// env map
 		};
 		extern std::map<std::string, SemanticType> CONFIG_Semantic;
 	}

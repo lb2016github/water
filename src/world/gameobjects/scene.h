@@ -22,6 +22,8 @@ namespace water
 			void set_active_camera(CameraPtr cam_ptr);
 			// get light config
 			render::LightConfig get_light_config();
+			// get env map
+			render::TexturePtr get_env_map();
 			// render
 			void render();
 
@@ -40,6 +42,8 @@ namespace water
 			bool enable_shadowmap = { true };
 			// billboardlist
 			std::vector<BillboardListPtr> m_billboards;
+			// env texture
+			render::TexturePtr m_env;
 		};
 
 		DECL_SHARED_PTR(Scene);
