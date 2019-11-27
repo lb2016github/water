@@ -28,6 +28,7 @@ namespace water
 				}
 				mesh_id = hash;
 			}
+			MeshData(MeshMode mesh_mode) : mode(mesh_mode), mesh_id(-1) {}
 			WATER_ID mesh_id;
 			std::vector<math3d::Vector3> position;
 			std::vector<math3d::Vector3> normal;

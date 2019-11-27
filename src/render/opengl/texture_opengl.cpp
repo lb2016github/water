@@ -10,12 +10,15 @@ namespace water
 	{
 		void commit_image_data(GLuint target, filesystem::ImagePtr img)
 		{
+			auto format = GL_RGBA;
 			switch (img->get_data_format())
 			{
 			case filesystem::ImageDataFormat::DATA_CHAR:
 				unsigned char* img_data;
 				img->get_data(&img_data);
-				glTexImage2D(target, 0, GL_RGBA, img->m_width, img->m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img_data);
+				glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+				format = img->m_channel_in_file == 1 ? GL_RED : GL_RGBA;
+				glTexImage2D(target, 0, format, img->m_width, img->m_height, 0, format, GL_UNSIGNED_BYTE, img_data);
 				break;
 			case filesystem::ImageDataFormat::DATA_FLOAT:
 				float* img_data_f;

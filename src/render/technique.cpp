@@ -118,7 +118,7 @@ namespace water
 			return n;
 		}
 
-		TechniquePtr TechniqueManager::get_technique(std::string & file_path)
+		TechniquePtr TechniqueManager::get_technique(const std::string & file_path)
 		{
 			if (m_tech_map.find(file_path) != m_tech_map.end())
 			{
@@ -143,7 +143,7 @@ namespace water
 			return instance;
 		}
 
-		bool TechniqueManager::do_load(std::string & file_path)
+		bool TechniqueManager::do_load(const std::string & file_path)
 		{
 			TechniquePtr tech = std::make_shared<Technique>();
 			filesystem::XMLFile xml_file;

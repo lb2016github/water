@@ -177,9 +177,19 @@ namespace water
 			return nullptr;
 		}
 
+		void Material::set_param_map(int index, ParameterMapPtr param_map)
+		{
+			m_param_map[index] = param_map;
+		}
+
 		unsigned int Material::get_param_map_count()
 		{
 			return m_param_map.size();
+		}
+
+		void Material::set_technique(const std::string & tech_filepath)
+		{
+			m_tech = TechniqueManager::get_instance()->get_technique(tech_filepath);
 		}
 
 		std::map<int, MaterialPtr> Material::load_from_file(const std::string & filepath)

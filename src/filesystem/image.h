@@ -23,6 +23,7 @@ namespace water
 			virtual bool do_load();
 			void get_data(unsigned char** data_ptr);
 			void get_data(float** data_ptr);
+			void set_data(int width, int height, int channels, unsigned char** data_ptr);
 			ImageDataFormat get_data_format();
 			void release();
 		public:

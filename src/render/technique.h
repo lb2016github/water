@@ -31,11 +31,11 @@ namespace water {
 		class TechniqueManager
 		{
 		public:
-			TechniquePtr get_technique(std::string& file_path);
+			TechniquePtr get_technique(const std::string& file_path);
 			static TechniqueManager* get_instance();
 		private:
 			TechniqueManager() {};
-			bool do_load(std::string& file_path);
+			bool do_load(const std::string& file_path);
 		private:
 			std::map<std::string, TechniquePtr> m_tech_map;
 			static TechniqueManager* instance;

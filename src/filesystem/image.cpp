@@ -43,6 +43,15 @@ namespace water
 		{
 			*data_ptr = m_data_f;
 		}
+		void Image::set_data(int width, int height, int channels, unsigned char ** data_ptr)
+		{
+			m_width = width;
+			m_height = height;
+			m_channel_in_file = channels;
+			m_data = *data_ptr;
+			m_loaded = true;
+			m_data_format = ImageDataFormat::DATA_CHAR;
+		}
 		ImageDataFormat Image::get_data_format()
 		{
 			return m_data_format;

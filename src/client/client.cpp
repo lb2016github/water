@@ -6,6 +6,7 @@
 #include "render/render_thread.h"
 #include <thread>
 #include <sstream>
+#include "text/text.h"
 
 
 using namespace water;
@@ -77,8 +78,15 @@ void main() {
 	if (th.joinable()) th.detach();
 #endif // RENDER_IN_SUB_THREAD
 
+	// text
+	text::Text text;
+	text::Font font("fonts/arial.ttf", "shaders/font.tech");
+	text.set_font(&font);
+	text.set_text("Hello World");
+
 
 	while (!window->is_window_closed()) {
+		text.render({255, 255, 255}, { 0, 0 });
 		window->on_frame();
 #ifndef RENDER_IN_SUB_THREAD
 		wrt.run();

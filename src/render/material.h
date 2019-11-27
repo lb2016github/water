@@ -20,7 +20,9 @@ namespace water
 			void render(IRenderable* render_obj);
 			void render(const MeshDataPtr mesh);
 			ParameterMapPtr get_param_map(int index);
+			void set_param_map(int index, ParameterMapPtr param_map);
 			unsigned int get_param_map_count();
+			void set_technique(const std::string& tech_filepath);
 
 			static std::map<int, MaterialPtr> load_from_file(const std::string& filepath);
 		private:
