@@ -41,7 +41,7 @@
 <!--    <Model path="models/star_ship/starship_slow_pbr.model" position="0 0 -10" scale="0.5 0.5 0.5" rotation="0 0 0"/>-->
 <!--    <Model path="models/pbr_ball/gun_pbr.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
 <!--    <Model path="models/ball.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
-        <Model path="models/pbr_ball/pbr_ball.model" position="0 0 -15" scale="1 1 1" rotation="0 0 0"/>
+<!--        <Model path="models/pbr_ball/pbr_ball.model" position="0 0 -15" scale="1 1 1" rotation="0 0 0"/>-->
     <BillboardList material="models/billboard/billboard.mat" size="2 2">
         <Position>0 0 -3</Position>
     </BillboardList>
