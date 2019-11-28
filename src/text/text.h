@@ -23,6 +23,7 @@ namespace water
 			render::TexturePtr m_texture{ nullptr };
 			render::MaterialPtr m_material{ nullptr };
 			std::map<char, render::TexturePtr> m_texture_map;
+			unsigned int m_font_height{ 48 };
 		};
 		class Text
 		{

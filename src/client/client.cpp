@@ -93,8 +93,7 @@ void main() {
 #endif // !RENDER_IN_SUB_THREAD
 		std::stringstream ss;
 		ss << "LogicFps: " << window->m_fps << " RenderFps: " << wrt.m_fps;
-		window->set_window_title(ss.str());
-
+		text.set_text(ss.str());
 	}
 	window->on_destroy();
 }

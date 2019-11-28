@@ -42,7 +42,7 @@ namespace water
 				log_error("ERROR::FREETYPE: Faild to load font");
 			}
 			// set size to load glyphs as
-			FT_Set_Pixel_Sizes(m_face, 0, 48);
+			FT_Set_Pixel_Sizes(m_face, 0, m_font_height);
 			// init texture
 			m_texture = render::get_device()->create_texture(render::TEXTURE_2D);
 			// init material
@@ -95,26 +95,33 @@ namespace water
 				auto mesh = std::make_shared<render::MeshData>(render::TRIANGLES);
 				
 				auto size = texture->m_data_ptr->get_size();
+				if (size.x > 0 && size.y > 0)
+				{
+					mesh->position = 
+					{
+						{base_pos.x, base_pos.y + size.y, 0 },
+						{base_pos.x + 0, base_pos.y + 0, 0},
+						{base_pos.x + size.x, base_pos.y + 0, 0},
+						{base_pos.x + 0, base_pos.y + size.y, 0 },
+						{base_pos.x + size.x, base_pos.y + 0, 0},
+						{base_pos.x + size.x, base_pos.y + size.y, 0},
+					};
+					mesh->coordinate = 
+					{
+						{0, 1},
+						{0, 0},
+						{1, 0},
+						{0, 1},
+						{1, 0},
+						{1, 1},
+					};
+					m_material->render(mesh);
+				}
+				else
+				{
+					size.x = m_font_height / 2;
+				}
 
-				mesh->position = 
-				{
-					{base_pos.x, base_pos.y + size.y, 0 },
-					{base_pos.x + 0, base_pos.y + 0, 0},
-					{base_pos.x + size.x, base_pos.y + 0, 0},
-					{base_pos.x + 0, base_pos.y + size.y, 0 },
-					{base_pos.x + size.x, base_pos.y + 0, 0},
-					{base_pos.x + size.x, base_pos.y + size.y, 0},
-				};
-				mesh->coordinate = 
-				{
-					{0, 1},
-					{0, 0},
-					{1, 0},
-					{0, 1},
-					{1, 0},
-					{1, 1},
-				};
-				m_material->render(mesh);
 				base_pos.x += size.x;
 			}
 		}
