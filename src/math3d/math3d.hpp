@@ -50,9 +50,10 @@ namespace water {
 		{
 			return get_translate_matrix(position) * get_rotation_matrix(rotation) * get_scale_matrix(scale);
 		}
-		Matrix inline get_perpective_matrix(float near, float far, float fov_y, float aspect)
+		template<class T>
+		Matrix inline get_perpective_matrix(T near, T far, T fov_y, T aspect)
 		{
-			return glm::perspective(glm::radians(fov_y), aspect, near, far);
+			return glm::perspective<T>(glm::radians<T>(fov_y), aspect, near, far);
 		}
 		Matrix inline ortho(float left, float right, float up, float down)
 		{
