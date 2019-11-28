@@ -56,14 +56,16 @@ struct WaterRenderThread: public FramePerSecond
 };
 
 
-void main() {
+void main(int argc, char* argv[]) {
+	std::string res_dir = argv[1];
+
 	WindowWin32* window = water::WindowWin32::Instance();
 	window->set_window_size(1344, 750);
 	window->on_init();
 	window->set_window_title("Water");
 
 	auto fs = filesystem::FileSystem::get_instance();
-	fs->set_res_root("E:/Projects/C++/water/res");
+	fs->set_res_root(res_dir);
 
 	auto world = world::World::get_instance();
 	world->set_window(window);
