@@ -7,17 +7,17 @@
 #include <memory>
 #include <map>
 #include "common/common.h"
+#include "math3d/math3d.hpp"
 
 
 namespace water
 {
 	namespace render
 	{
-		
-
 		struct TextureData: public std::enable_shared_from_this<TextureData>
 		{
 			void load();
+			math3d::Vector2 get_size();
 			TextureType tex_type;
 			std::vector<filesystem::ImagePtr> images;
 		};

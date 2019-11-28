@@ -80,13 +80,13 @@ void main() {
 
 	// text
 	text::Text text;
-	text::Font font("fonts/arial.ttf", "shaders/font.tech");
+	text::Font font("fonts/arial.ttf", "fonts/font.mat");
 	text.set_font(&font);
 	text.set_text("Hello World");
 
 
 	while (!window->is_window_closed()) {
-		text.render({255, 255, 255}, { 0, 0 });
+		text.render({255, 0, 0}, { 0, 0 });
 		window->on_frame();
 #ifndef RENDER_IN_SUB_THREAD
 		wrt.run();

@@ -9,6 +9,7 @@
 #include "common/common.h"
 #include <string>
 #include "render_const.h"
+#include "common/util.h"
 
 
 namespace water
@@ -28,7 +29,7 @@ namespace water
 				}
 				mesh_id = hash;
 			}
-			MeshData(MeshMode mesh_mode) : mode(mesh_mode), mesh_id(-1) {}
+			MeshData(MeshMode mesh_mode) : mode(mesh_mode) { mesh_id = create_id(); }
 			WATER_ID mesh_id;
 			std::vector<math3d::Vector3> position;
 			std::vector<math3d::Vector3> normal;

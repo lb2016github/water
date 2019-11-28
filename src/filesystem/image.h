@@ -3,6 +3,7 @@
 #include <string>
 #include "file_base.h"
 #include <memory>
+#include "math3d/math3d.hpp"
 
 
 namespace water
@@ -25,6 +26,7 @@ namespace water
 			void get_data(float** data_ptr);
 			void set_data(int width, int height, int channels, unsigned char** data_ptr);
 			ImageDataFormat get_data_format();
+			math3d::Vector2 get_size();
 			void release();
 		public:
 			int m_width{ 0 }, m_height{ 0 };

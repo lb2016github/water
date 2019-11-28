@@ -16,6 +16,14 @@ namespace water
 				}
 			}
 		}
+		math3d::Vector2 TextureData::get_size()
+		{
+			for (auto iter = images.begin(); iter != images.end(); ++iter)
+			{
+				return (*iter)->get_size();
+			}
+			return math3d::Vector2(0, 0);
+		}
 		Texture::Texture(TextureType tex_type): m_type(tex_type)
 		{
 		}

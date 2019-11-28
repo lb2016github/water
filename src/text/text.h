@@ -15,7 +15,7 @@ namespace water
 		class Font
 		{
 		public:
-			Font(const std::string& fnt_filepath, const std::string& tech_filepath);
+			Font(const std::string& fnt_filepath, const std::string& mat_filepath);
 			void draw(const std::string& text, const math3d::Vector3& color, const math3d::Vector2& screen_pos);
 		private:
 			FT_Library m_ft;

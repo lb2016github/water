@@ -16,18 +16,9 @@ uniform vec2 screen_size;
 
 void main(){
 	uv = coordinate;
-//    float x = 2 * position.x / screen_size.x - 1;
-//    float y = 2 * position.y / screen_size.y - 1;
     float x = 2 * position.x / screen_size.x - 1;
     float y = 2 * position.y / screen_size.y - 1;
-//    vec2 xy = position.xy - 1;
-//    if (xy.x > 1)
-//    {
-//        xy.x = 1;
-//    }
-//    if(xy.y > 1)
-//    {
-//        xy.y = 1;
-//    }
+//    float x = 2 * position.x / screen_size.x - 1;
+//    float y = 2 * position.y / screen_size.y - 1;
     gl_Position = vec4(x, y, -0.9, 1);
 }

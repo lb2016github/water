@@ -56,6 +56,10 @@ namespace water
 		{
 			return m_data_format;
 		}
+		math3d::Vector2 Image::get_size()
+		{
+			return math3d::Vector2(m_width, m_height);
+		}
 		void Image::release()
 		{
 			if (m_data)

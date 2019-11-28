@@ -28,7 +28,7 @@ namespace water
 		{
 			m_fnt->draw(m_text, color, screen_pos);
 		}
-		Font::Font(const std::string & fnt_filepath, const std::string& tech_filepath)
+		Font::Font(const std::string & fnt_filepath, const std::string& mat_filepath)
 		{
 			// init ft library
 			if (FT_Init_FreeType(&m_ft))
@@ -46,10 +46,9 @@ namespace water
 			// init texture
 			m_texture = render::get_device()->create_texture(render::TEXTURE_2D);
 			// init material
-			m_material = std::make_shared<render::Material>();
-			m_material->set_technique(tech_filepath);
-			render::ParameterMapPtr param_map = std::make_shared<render::ParameterMap>();
-			m_material->set_param_map(0, param_map);
+			auto rst = render::Material::load_from_file(mat_filepath);
+			assert(rst.size() > 0);
+			m_material = rst[0];
 		}
 		void Font::draw(const std::string & text, const math3d::Vector3& color, const math3d::Vector2& screen_pos)
 		{
@@ -65,7 +64,6 @@ namespace water
 			for each (auto c in text)
 			{
 				auto rst = m_texture_map.find(c);
-				math3d::Vector2 size(100, 100);
 				render::TexturePtr texture = nullptr;
 				if (rst == m_texture_map.end())
 				{
@@ -78,8 +76,9 @@ namespace water
 					filesystem::ImagePtr img = std::make_shared<filesystem::Image>();
 					auto bitmap = m_face->glyph->bitmap;
 					math3d::Vector2 size(bitmap.width, bitmap.rows);
-					unsigned char* data = new unsigned char[size.x * size.y];
-					memcpy(data, bitmap.buffer, size.x * size.y);
+					auto data_size = bitmap.width * bitmap.rows;
+					unsigned char* data = new unsigned char[data_size];
+					memcpy(data, bitmap.buffer, data_size);
 					img->set_data(size.x, size.y, 1, &data);
 					render::TextureDataPtr tex_data = std::make_shared<render::TextureData>();
 					tex_data->images.push_back(img);
@@ -94,6 +93,8 @@ namespace water
 				param_map->set_texture("tex", texture);
 				// create mesh
 				auto mesh = std::make_shared<render::MeshData>(render::TRIANGLES);
+				
+				auto size = texture->m_data_ptr->get_size();
 
 				mesh->position = 
 				{

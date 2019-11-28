@@ -107,7 +107,14 @@ namespace water
 				{
 					auto tex_ptr = std::make_shared<TextureData>();
 					auto img_ptr = std::make_shared<filesystem::Image>();
-					img_ptr->load(raw_value);
+					if(raw_value != "")
+					{
+						img_ptr->load(raw_value);
+					}
+					else
+					{
+						log_warn("Parameter value of %s is not set in material file", name.c_str());
+					}
 					tex_ptr->tex_type = TEXTURE_2D;
 					tex_ptr->images.push_back(img_ptr);
 					auto texture_ptr = TextureManager::get_instance()->get_texture(tex_ptr);
