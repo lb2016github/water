@@ -7,11 +7,26 @@
 #include "math3d/math3d.hpp"
 #include "render/material.h"
 #include <map>
+#include "common/common.h"
+#include <memory>
 
 namespace water
 {
 	namespace text
 	{
+		struct Character: public std::enable_shared_from_this<Character> 
+		{
+			Character(char c, const math3d::Vector2& size, const math3d::Vector2& bearing, const math3d::IVector2& advance, unsigned char* buffer);
+			render::MeshDataPtr create_mesh(math3d::Vector2 base_pos);
+
+			math3d::Vector2 size{ 0, 0 };
+			math3d::Vector2 bearing{ 0,0 };
+			math3d::IVector2 advance{ 0 };
+			render::TexturePtr texture{ nullptr };
+			math3d::Vector2 pos{ 0, 0 };
+			char c;
+		};
+		DECL_SHARED_PTR(Character);
 		class Font
 		{
 		public:
@@ -22,7 +37,7 @@ namespace water
 			FT_Face m_face;
 			render::TexturePtr m_texture{ nullptr };
 			render::MaterialPtr m_material{ nullptr };
-			std::map<char, render::TexturePtr> m_texture_map;
+			std::map<char, CharacterPtr> m_char_map;
 			unsigned int m_font_height{ 48 };
 		};
 		class Text

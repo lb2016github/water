@@ -63,67 +63,82 @@ namespace water
 			// mesh, program, render_state, param_map, dependent
 			for each (auto c in text)
 			{
-				auto rst = m_texture_map.find(c);
-				render::TexturePtr texture = nullptr;
-				if (rst == m_texture_map.end())
+				auto rst = m_char_map.find(c);
+				CharacterPtr char_ptr = nullptr;
+				if (rst == m_char_map.end())
 				{
 					if (FT_Load_Char(m_face, c, FT_LOAD_RENDER))
 					{
 						log_error("ERROR::FREETYPE: Failed to load Glyph %s", c);
 						continue;
 					}
-					// create glyph texture
-					filesystem::ImagePtr img = std::make_shared<filesystem::Image>();
-					auto bitmap = m_face->glyph->bitmap;
-					math3d::Vector2 size(bitmap.width, bitmap.rows);
-					auto data_size = bitmap.width * bitmap.rows;
-					unsigned char* data = new unsigned char[data_size];
-					memcpy(data, bitmap.buffer, data_size);
-					img->set_data(size.x, size.y, 1, &data);
-					render::TextureDataPtr tex_data = std::make_shared<render::TextureData>();
-					tex_data->images.push_back(img);
-					texture = render::get_device()->create_texture(render::TEXTURE_2D);
-					texture->set_tex_data(tex_data);
-					m_texture_map[c] = texture;
+					auto glyph = m_face->glyph;
+					char_ptr = std::make_shared<Character>(
+						c,
+						math3d::Vector2(glyph->bitmap.width, glyph->bitmap.rows),
+						math3d::Vector2(glyph->bitmap_left, glyph->bitmap_top),
+						math3d::IVector2(glyph->advance.x, glyph->advance.y),
+						glyph->bitmap.buffer
+						);
+					m_char_map[c] = char_ptr;
 				}
 				else
 				{
-					texture = rst->second;
+					char_ptr = rst->second;
 				}
-				param_map->set_texture("tex", texture);
-				// create mesh
-				auto mesh = std::make_shared<render::MeshData>(render::TRIANGLES);
-				
-				auto size = texture->m_data_ptr->get_size();
-				if (size.x > 0 && size.y > 0)
-				{
-					mesh->position = 
-					{
-						{base_pos.x, base_pos.y + size.y, 0 },
-						{base_pos.x + 0, base_pos.y + 0, 0},
-						{base_pos.x + size.x, base_pos.y + 0, 0},
-						{base_pos.x + 0, base_pos.y + size.y, 0 },
-						{base_pos.x + size.x, base_pos.y + 0, 0},
-						{base_pos.x + size.x, base_pos.y + size.y, 0},
-					};
-					mesh->coordinate = 
-					{
-						{0, 1},
-						{0, 0},
-						{1, 0},
-						{0, 1},
-						{1, 0},
-						{1, 1},
-					};
-					m_material->render(mesh);
-				}
-				else
-				{
-					size.x = m_font_height / 2;
-				}
+				param_map->set_texture("tex", char_ptr->texture);
+				auto mesh = char_ptr->create_mesh(base_pos);
+				m_material->render(mesh);
 
-				base_pos.x += size.x;
+				base_pos.x += (char_ptr->advance.x >> 6);
 			}
 		}
-	}
+		Character::Character(char c, const math3d::Vector2& size, const math3d::Vector2& bearing, const math3d::IVector2& advance, unsigned char* buffer)
+			: size(size), bearing(bearing), advance(advance), pos(bearing.x, bearing.y - size.y)
+		{
+			// create glyph texture
+			filesystem::ImagePtr img = std::make_shared<filesystem::Image>();
+			auto data_size = size.x * size.y;
+			unsigned char* data = new unsigned char[data_size];
+			memcpy(data, buffer, data_size);
+			img->set_data(size.x, size.y, 1, &data);
+			render::TextureDataPtr tex_data = std::make_shared<render::TextureData>();
+			tex_data->images.push_back(img);
+			texture = render::get_device()->create_texture(render::TEXTURE_2D);
+			texture->set_tex_data(tex_data);
+		}
+		render::MeshDataPtr Character::create_mesh(math3d::Vector2 base_pos)
+		{
+			// create mesh
+			auto mesh = std::make_shared<render::MeshData>(render::TRIANGLES);
+			math3d::Vector2 p1 = {
+				base_pos.x + pos.x,
+				base_pos.y + pos.y
+			};
+			math3d::Vector2 p2 = {
+				p1.x + size.x,
+				p1.y + size.y
+			};
+			
+			mesh->position = 
+			{
+				{p1.x, p2.y, 0},
+				{p1.x, p1.y, 0},
+				{p2.x, p1.y, 0},
+				{p1.x, p2.y, 0},
+				{p2.x, p1.y, 0},
+				{p2.x, p2.y, 0},
+			};
+			mesh->coordinate = 
+			{
+				{0, 1},
+				{0, 0},
+				{1, 0},
+				{0, 1},
+				{1, 0},
+				{1, 1},
+			};
+			return mesh;
+		}
+}
 }

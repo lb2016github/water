@@ -86,7 +86,7 @@ void main() {
 
 
 	while (!window->is_window_closed()) {
-		text.render({255, 0, 0}, { 0, 0 });
+		text.render({255, 0, 0}, { 0, 20 });
 		window->on_frame();
 #ifndef RENDER_IN_SUB_THREAD
 		wrt.run();
