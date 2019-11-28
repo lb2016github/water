@@ -27,7 +27,6 @@ add_subdirectory(window)
 add_subdirectory(client)
 add_subdirectory(filesystem)
 add_subdirectory(mesh)
-add_subdirectory(text)
 add_subdirectory(test)
 
 

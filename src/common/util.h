@@ -1,7 +1,8 @@
 #ifndef WATER_UTIL_H
 #define WATER_UTIL_H
 namespace water {
-	unsigned long create_id();
+	typedef unsigned long WaterID;
+	WaterID create_id();
 }
 
 #endif

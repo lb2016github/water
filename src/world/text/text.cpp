@@ -10,25 +10,41 @@
 
 namespace water
 {
-	namespace text
+	namespace world
 	{
-		void Text::set_text(const std::string & text)
+		Text::Text(const std::string& text, const math3d::Vector3& color, FontPtr font, const math3d::Vector2& screen_pos, float scale)
+			:m_text(text), m_color(color), m_fnt(font), m_pos(screen_pos), m_scale(scale)
+		{
+		}
+		void Text::set_text(const std::string& text)
 		{
 			m_text = text;
+		}
+		void Text::set_color(const math3d::Vector3& color)
+		{
+			m_color = color;
 		}
 		std::string Text::get_text()
 		{
 			return m_text;
 		}
-		void Text::set_font(Font * fnt)
+		void Text::set_font(FontPtr fnt)
 		{
 			m_fnt = fnt;
 		}
-		void Text::render(const math3d::Vector3& color, const math3d::Vector2& screen_pos)
+		void Text::set_scale(float scale)
 		{
-			m_fnt->draw(m_text, color, screen_pos);
+			m_scale = scale;
 		}
-		Font::Font(const std::string & fnt_filepath, const std::string& mat_filepath)
+		void Text::set_pos(const math3d::Vector2& screen_pos)
+		{
+			m_pos = screen_pos;
+		}
+		void Text::render()
+		{
+			m_fnt->draw(m_text, m_color, m_pos, m_scale);
+		}
+		Font::Font(const std::string& fnt_filepath, const std::string& mat_filepath)
 		{
 			// init ft library
 			if (FT_Init_FreeType(&m_ft))
@@ -50,7 +66,7 @@ namespace water
 			assert(rst.size() > 0);
 			m_material = rst[0];
 		}
-		void Font::draw(const std::string & text, const math3d::Vector3& color, const math3d::Vector2& screen_pos)
+		void Font::draw(const std::string& text, const math3d::Vector3& color, const math3d::Vector2& screen_pos, float scale)
 		{
 			math3d::Vector2 base_pos = screen_pos;
 			// init material
@@ -87,10 +103,10 @@ namespace water
 					char_ptr = rst->second;
 				}
 				param_map->set_texture("tex", char_ptr->texture);
-				auto mesh = char_ptr->create_mesh(base_pos);
+				auto mesh = char_ptr->create_mesh(base_pos, scale);
 				m_material->render(mesh);
 
-				base_pos.x += (char_ptr->advance.x >> 6);
+				base_pos.x += (char_ptr->advance.x >> 6) * scale;
 			}
 		}
 		Character::Character(char c, const math3d::Vector2& size, const math3d::Vector2& bearing, const math3d::IVector2& advance, unsigned char* buffer)
@@ -107,20 +123,20 @@ namespace water
 			texture = render::get_device()->create_texture(render::TEXTURE_2D);
 			texture->set_tex_data(tex_data);
 		}
-		render::MeshDataPtr Character::create_mesh(math3d::Vector2 base_pos)
+		render::MeshDataPtr Character::create_mesh(math3d::Vector2 base_pos, float scale)
 		{
 			// create mesh
 			auto mesh = std::make_shared<render::MeshData>(render::TRIANGLES);
 			math3d::Vector2 p1 = {
-				base_pos.x + pos.x,
-				base_pos.y + pos.y
+				base_pos.x + pos.x * scale,
+				base_pos.y + pos.y * scale
 			};
 			math3d::Vector2 p2 = {
-				p1.x + size.x,
-				p1.y + size.y
+				p1.x + size.x * scale,
+				p1.y + size.y * scale
 			};
-			
-			mesh->position = 
+
+			mesh->position =
 			{
 				{p1.x, p2.y, 0},
 				{p1.x, p1.y, 0},
@@ -129,7 +145,7 @@ namespace water
 				{p2.x, p1.y, 0},
 				{p2.x, p2.y, 0},
 			};
-			mesh->coordinate = 
+			mesh->coordinate =
 			{
 				{0, 1},
 				{0, 0},
@@ -139,6 +155,28 @@ namespace water
 				{1, 1},
 			};
 			return mesh;
+		}
+
+		TextPtr TextManager::create_text(const std::string& text, const math3d::Vector3& color, FontPtr font, const math3d::Vector2& screen_pos, float scale)
+		{
+			auto text_ptr = std::make_shared<Text>(text, color, font, screen_pos, scale);
+			m_tex_set.emplace(text_ptr);
+			return text_ptr;
+		}
+		void TextManager::remove_text(TextPtr text)
+		{
+			auto rst = m_tex_set.find(text);
+			if (rst != m_tex_set.end())
+			{
+				m_tex_set.erase(rst);
+			}
+		}
+		void TextManager::render()
+		{
+			for (auto iter : m_tex_set)
+			{
+				iter->render();
+			}
 		}
 }
 }

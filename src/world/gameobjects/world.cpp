@@ -58,6 +58,7 @@ namespace water
 			{
 				m_cur_scene->on_frame();
 			}
+			m_text_mgr.render();
 			render::RenderTaskManager::get_instance()->commit();
 
 		}

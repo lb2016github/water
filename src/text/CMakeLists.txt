@@ -1,8 +1,0 @@
-set(PROJNAME "text")
-project(${PROJNAME})
-
-file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.*)
-
-add_library(${PROJNAME} ${SOURCE_FILES})
-set_property(TARGET ${PROJNAME} PROPERTY FOLDER "ENGINE")
-

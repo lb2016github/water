@@ -6,6 +6,7 @@
 #include <set>
 #include "window/window_interface.h"
 #include <string>
+#include "world/text/text.h"
 
 namespace water
 {
@@ -29,6 +30,9 @@ namespace water
 			virtual void on_frame();
 
 			static World* get_instance();
+
+		public:
+			TextManager m_text_mgr;
 
 		protected:
 			World();

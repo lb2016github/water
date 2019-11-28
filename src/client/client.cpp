@@ -6,7 +6,7 @@
 #include "render/render_thread.h"
 #include <thread>
 #include <sstream>
-#include "text/text.h"
+#include "world/text/text.h"
 
 
 using namespace water;
@@ -55,6 +55,7 @@ struct WaterRenderThread: public FramePerSecond
 	bool m_inited{ false };
 };
 
+
 void main() {
 	WindowWin32* window = water::WindowWin32::Instance();
 	window->set_window_size(1344, 750);
@@ -79,21 +80,17 @@ void main() {
 #endif // RENDER_IN_SUB_THREAD
 
 	// text
-	text::Text text;
-	text::Font font("fonts/arial.ttf", "fonts/font.mat");
-	text.set_font(&font);
-	text.set_text("Hello World");
-
+	auto font_ptr = std::make_shared<world::Font>("fonts/arial.ttf", "fonts/font.mat");
+	auto text = world->m_text_mgr.create_text("Hello World", { 255, 0, 0 }, font_ptr, { 0, 20 }, 1);
 
 	while (!window->is_window_closed()) {
-		text.render({255, 0, 0}, { 0, 20 });
 		window->on_frame();
 #ifndef RENDER_IN_SUB_THREAD
 		wrt.run();
 #endif // !RENDER_IN_SUB_THREAD
 		std::stringstream ss;
 		ss << "LogicFps: " << window->m_fps << " RenderFps: " << wrt.m_fps;
-		text.set_text(ss.str());
+		text->set_text(ss.str());
 	}
 	window->on_destroy();
 }
