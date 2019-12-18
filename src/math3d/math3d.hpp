@@ -7,6 +7,7 @@
 #include "glm/gtx/euler_angles.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/ext/matrix_clip_space.hpp"
+#include "glm/gtc/quaternion.hpp"
 #include <vector>
 
 namespace water {
@@ -17,6 +18,7 @@ namespace water {
 		typedef glm::vec4 Vector4;
 		typedef glm::mat4 Matrix;
 		typedef glm::ivec2 IVector2;
+		typedef glm::dquat Quaternion;
 
 		template<class T>
 		T inline identity()
