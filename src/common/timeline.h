@@ -1,6 +1,8 @@
 #ifndef WATER_TIMELINE_H
 #include <list>
 #include "adt.hpp"
+#include <set>
+#include "common.h"
 
 
 namespace water
@@ -22,27 +24,40 @@ namespace water
 		static CallbackHandler get_handler();
 	};
 
+	WaterInterface TimelineObserver
+	{
+		virtual void on_time(float time) = 0;
+		virtual void on_start() = 0;
+		virtual void on_end() = 0;
+		virtual void on_cancel() = 0;
+	};
+
 	class Timeline
 	{
-	private:
+	protected:
+		// duration and current time
 		float m_duration{ 0 };
 		float m_time{ 0 };
+		float m_ratio{ 1.0 };	// ratio of timeline
+		bool m_loop{ false };
+		// tag of status
+		bool m_paused{ false };
 		bool m_started{ false };
-		WaterPriorityQueue<TimelineCallbackWrapper> m_callbacks;
-	protected:
-		void tick(float delta_time);
-		void virtual on_start();
-		void virtual on_end();
+		bool m_ended{ false };
+		// observers
+		std::set<TimelineObserver*> m_observer_set;
+
 	public:
 		void start();
-		CallbackHandler register_callback(float time, TimelineCallback cb);
-		CallbackHandler register_start_callback(TimelineCallback cb);
-		CallbackHandler register_end_callback(TimelineCallback cb);
-		void unregister_callback(CallbackHandler handler);
-	};
-	class LoopTimeline
-	{
-		void virtual on_end();
+		void stop();
+		void pause();
+		void resume();
+		
+		// users should call tick
+		void tick(float delta_time);
+		void set_ratio(float ratio);
+		void add_observer(TimelineObserver* observer);
+		void remove_observer(TimelineObserver* observer);
 	};
 }
 

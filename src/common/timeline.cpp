@@ -5,56 +5,91 @@ namespace water
 {
 	void Timeline::tick(float delta_time)
 	{
-		if (!m_started)
+		delta_time = m_ratio * delta_time;
+		// check pause state
+		if (!m_started || m_paused || m_ended)
 		{
-			m_started = true;
-			on_start();
+			return;
 		}
 		// trigger start 
 		m_time += delta_time;
-		// 1. trigger callbacks
-		while (true)
-		{
-			auto top = m_callbacks.top();
-			if (top.m_time <= m_time)
-			{
-				// trigger
-				top.m_callback();
-				m_callbacks.pop();
-			}
-			else
-			{
-				break;
-			}
-		}
 		// check if timeline is end
 		if (m_time >= m_duration)
 		{
-			on_end();
+			for each (auto observer in m_observer_set)
+			{
+				observer->on_time(m_duration);
+			}
+
+			if (m_loop)
+			{
+				m_time -= m_duration;
+			}
+			else
+			{
+				m_ended = true;
+				for each (auto observer in m_observer_set)
+				{
+					observer->on_end();
+				}
+			}
+		}
+		else
+		{
+			for each (auto observer in m_observer_set)
+			{
+				observer->on_time(m_duration);
+			}
 		}
 	}
-	void Timeline::on_start()
+	void Timeline::pause()
 	{
+		m_paused = true;
 	}
-	void Timeline::on_end()
+	void Timeline::resume()
 	{
+		m_paused = false;
 	}
-	CallbackHandler Timeline::register_callback(float time, TimelineCallback cb)
+	void Timeline::start()
 	{
-		TimelineCallbackWrapper tcw(time, cb);
-		m_callbacks.push(tcw);
+		if (m_started)
+		{
+			return;
+		}
+		m_started = true;
+		for each (auto observer in m_observer_set)
+		{
+			observer->on_start();
+		}
 	}
-	CallbackHandler Timeline::register_start_callback(TimelineCallback cb)
+	void Timeline::stop()
 	{
-		register_callback(0, cb);
+		m_ended = true;
+		for each (auto observer in m_observer_set)
+		{
+			observer->on_cancel();
+		}
+		
 	}
-	CallbackHandler Timeline::register_end_callback(TimelineCallback cb)
+	void Timeline::set_ratio(float ratio)
 	{
-		register_callback(m_duration, cb);
+		m_ratio = ratio;
 	}
-	void Timeline::unregister_callback(CallbackHandler handler)
+	void Timeline::add_observer(TimelineObserver* observer)
 	{
-		m_callbacks.erase(handler);
+		auto iter = m_observer_set.find(observer);
+		if (iter == m_observer_set.end())
+		{
+			m_observer_set.emplace(observer);
+		}
+	}
+	void Timeline::remove_observer(TimelineObserver* observer)
+	{
+		auto iter = m_observer_set.find(observer);
+		if (iter != m_observer_set.end())
+		{
+			m_observer_set.erase(iter);
+		}
 	}
 	TimelineCallbackWrapper::TimelineCallbackWrapper(float time, TimelineCallback cb): m_time(time), m_callback(cb)
 	{
