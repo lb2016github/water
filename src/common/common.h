@@ -1,5 +1,6 @@
 #ifndef WATER_COMMON_H
 #define WATER_COMMON_H
+#include <memory>
 
 #define WaterInterface struct
 
