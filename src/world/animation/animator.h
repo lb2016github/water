@@ -20,7 +20,9 @@ namespace water
 		public:
 			void tick(float delta);
 		};
-		// helper of playing an animation
+		/*
+		helper of playing an animation
+		*/
 		class AnimationPlayHelper: TimelineObserver
 		{
 		public:
@@ -31,6 +33,20 @@ namespace water
 			virtual void on_start();
 			virtual void on_end();
 			virtual void on_cancel();
+		public:
+			// base control
+			void start();
+			void stop();
+			void pause();
+			void resume();
+			// users should call tick
+			void tick(float delta_time);
+			void set_ratio(float ratio);
+			// callbacks
+			void register_anim_callback(float time, TimelineCallback cb);
+			void register_start_callback(TimelineCallback cb);
+			void register_end_callback(TimelineCallback cb);
+
 		private:
 			float pre_time = { -1 };
 			std::vector<TimelineCallbackWrapper> m_callbacks;
@@ -39,5 +55,19 @@ namespace water
 	}
 }
 
+class Tree {
+public:
+	Tree* lChild;
+	Tree* rChild;
+};
+
+bool isSubTree(Tree child, Tree root)
+{
+	if (child == root) return true;
+	if (isSubTree(child, root->lCHild)) return true;
+	if (isSubTree(child, root->rChild)) return true;
+	return false;
+	
+}
 
 #endif // !WATER_ANIMATOR_H
