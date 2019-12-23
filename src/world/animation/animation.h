@@ -1,4 +1,5 @@
 #ifndef WATER_ANIMATION_H
+#define WATER_ANIMATION_H
 #include "math3d/math3d.hpp"
 #include "skeleton.h"
 #include <map>
@@ -11,11 +12,26 @@ namespace water
 		/*
 		data of one animation sample
 		*/
-		struct AnimationSample
+		struct AnimationSample: std::enable_shared_from_this<AnimationSample>
 		{
-			JointPose* m_aJointPose{ nullptr };
+			AnimationSample(unsigned int jointCount);
 			~AnimationSample();
+
+			/*
+			array of JointPose, which saves joint pose data
+			*/
+			JointPose* m_jointPose{ nullptr };
+			/*
+			joint count
+			*/
+			unsigned int m_jointCount;
+
+			/*
+			mix two samples
+			*/
+			static void mix(const AnimationSamplePtr srcSample, const AnimationSamplePtr dstSample, AnimationSamplePtr& outSample, const float& dstFactor);
 		};
+		DECL_SHARED_PTR(AnimationSample);
 
 		/*
 		data of one animation clip
@@ -23,12 +39,23 @@ namespace water
 		class AnimationClip: std::enable_shared_from_this<AnimationClip>
 		{
 		public:
-			AnimationClip(SkeletonID skeletonId, unsigned int sampleCount);
+			AnimationClip(SkeletonPtr skPtr, unsigned int sampleCount);
 			~AnimationClip();
+		public:
+			/*
+			get before sample and after sample with given time(in microsecond).
+			With the before and after samples, joint poses can be interpola
+			*/
+			AnimationSamplePtr getSample(float timeMic);
+			/*
+			get duration of animation clip
+			@return time/microsecond
+			*/
+			float getDuration();
 		private:
-			SkeletonID m_idSkeleton;		// id of skeleton
-			AnimationSample* m_aAnimSample;
-			unsigned int* m_aTimeMic;		// time in micsecond of samples
+			SkeletonPtr m_skeleton;		// id of skeleton
+			AnimationSamplePtr* m_animSample;
+			unsigned int* m_timeMic;		// time in micsecond of samples
 			unsigned int m_sampleCount;		// count of samples
 		};
 
@@ -37,11 +64,15 @@ namespace water
 		/*
 		animation clip data of one skeleton
 		*/
-		struct SkeletonAnimationClipData
+		struct AnimationClipData
 		{
-			std::map<std::string, AnimationClipPtr> m_mAnimClipData;
+			AnimationClipData();
+			AnimationClipPtr getAnimClip(const std::string& animName);
+
+			std::map<std::string, AnimationClipPtr> m_animClipData;
+			std::string m_defaultClipName;
 		};
-		DECL_SHARED_PTR(SkeletonAnimationClipData);
+		DECL_SHARED_PTR(AnimationClipData);
 
 		/*
 		Manager of animation clip
@@ -49,7 +80,7 @@ namespace water
 		class AnimationClipManager
 		{
 		private:
-			std::map<SkeletonID, SkeletonAnimationClipDataPtr> m_mSkeletonAnimClipData;
+			std::map<SkeletonID, AnimationClipDataPtr> m_skeletonAnimClipData;
 		public:
 			static AnimationClipManager* instance();
 		};

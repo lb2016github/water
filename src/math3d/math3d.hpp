@@ -84,6 +84,11 @@ namespace water {
 		{
 			return glm::normalize(vec);
 		}
+		template<class T>
+		inline T mix(const T& src, const T& target, const float& targetFactor)
+		{
+			return glm::mix(src, target, targetFactor);
+		}
 	}
 }
 #endif

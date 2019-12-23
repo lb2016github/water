@@ -1,33 +1,47 @@
 #include "animator.h"
+#include "common/log.h"
 
-water::world::AnimationPlayHelper::AnimationPlayHelper()
-{
-	add_observer(this);
-}
 
-water::world::AnimationPlayHelper::~AnimationPlayHelper()
+namespace water
 {
-}
-
-void water::world::AnimationPlayHelper::on_time(float time)
-{
-	for each (auto cb in m_callbacks)
+	namespace world
 	{
-		if (cb.m_time > pre_time&& cb.m_time <= time)
+		Animator::Animator(AnimationClipDataPtr clipData):
+			m_animClipData(clipData)
 		{
-			cb.m_callback();
+		}
+		void Animator::playAnim(std::string animName, bool loop)
+		{
+			log_info("[Anim]Play anim %s", animName.c_str());
+			if (m_curAnimName == animName && m_curAnimTimeline != nullptr)
+			{
+				m_curAnimTimeline->setLoop(loop);
+				m_curAnimTimeline->replay();
+				return;
+			}
+			AnimationClipPtr animClip = m_animClipData->getAnimClip(animName);
+			if (animClip == nullptr)
+			{
+				log_error("[Anim]Anim name %s is not found", animName.c_str());
+				return;
+			}
+			SAFE_DELETE(m_curAnimTimeline);
+			m_curAnimName = animName;
+			m_curAnimTimeline = new AnimationTimeline(animClip, loop);
+		}
+		AnimationTimeline* Animator::getAnimTimeline()
+		{
+			return m_curAnimTimeline;
+		}
+		AnimationTimeline::AnimationTimeline(AnimationClipPtr animClip, bool loop):
+			Timeline(animClip->getDuration(), loop), m_animClip(animClip)
+		{
+			m_curAnimSample = m_animClip->getSample(m_curTime);
+			addObserver(this);
+		}
+		void AnimationTimeline::onTime(float curTime)
+		{
+			m_curAnimSample = m_animClip->getSample(curTime);
 		}
 	}
-}
-
-void water::world::AnimationPlayHelper::on_start()
-{
-}
-
-void water::world::AnimationPlayHelper::on_end()
-{
-}
-
-void water::world::AnimationPlayHelper::on_cancel()
-{
 }
