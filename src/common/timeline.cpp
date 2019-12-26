@@ -1,118 +1,151 @@
 #include "timeline.h"
-
+#include <math.h>
 
 namespace water
 {
-	void Timeline::tick(float delta_time)
+	Timeline::Timeline(float duration): m_duration(duration), m_playing(true)
 	{
-		delta_time = m_ratio * delta_time;
-		// check pause state
-		if (!m_started || m_paused || m_ended)
+	}
+
+	Timeline::Timeline(float duration, bool loop):
+		m_duration(duration), m_loop(loop), m_playing(true)
+	{
+	}
+
+	Timeline::Timeline(float duration, bool loop, float speedRate):
+		m_duration(duration), m_loop(loop), m_speedRate(speedRate), m_playing(true)
+	{
+	}
+
+	Timeline::~Timeline()
+	{
+		m_sObserver.clear();
+	}
+
+	void Timeline::onTick()
+	{
+	}
+
+	void Timeline::play()
+	{
+		m_playing = true;
+	}
+
+	void Timeline::replay()
+	{
+		m_curTime = 0;
+		m_playing = true;
+	}
+
+	void Timeline::pause()
+	{
+		m_playing = false;
+	}
+
+	void Timeline::tick(float deltaTime)
+	{
+		if (!m_playing)
 		{
 			return;
 		}
-		// trigger start 
-		m_time += delta_time;
-		// check if timeline is end
-		if (m_time >= m_duration)
-		{
-			for each (auto observer in m_observer_set)
-			{
-				observer->on_time(m_duration);
-			}
+		// update current time
+		m_curTime += m_speedRate * deltaTime;
 
-			if (m_loop)
-			{
-				m_time -= m_duration;
-			}
-			else
-			{
-				m_ended = true;
-				for each (auto observer in m_observer_set)
-				{
-					observer->on_end();
-				}
-			}
+		// inform observers
+		if (m_curTime < 0)
+		{
+			_informTime(0);
+		}
+		else if (m_duration >= 0 && m_curTime > m_duration)
+		{
+			_informTime(m_duration);
 		}
 		else
 		{
-			for each (auto observer in m_observer_set)
+			_informTime(m_curTime);
+		}
+
+		// update current time when it is out of range
+		if (m_curTime < 0)
+		{
+			if (m_loop && m_duration >= 0)
 			{
-				observer->on_time(m_duration);
+				m_curTime += m_duration;
+			}
+			else
+			{
+				m_playing = false;
 			}
 		}
-	}
-	void Timeline::pause()
-	{
-		m_paused = true;
-	}
-	void Timeline::resume()
-	{
-		m_paused = false;
-	}
-	void Timeline::start()
-	{
-		if (m_started)
+		else if (m_duration >= 0 && m_curTime > m_duration)
 		{
+			if (m_loop)
+			{
+				m_curTime -= m_duration;
+			}
+			else
+			{
+				m_playing = false;
+			}
+		}
+		onTick();
+	}
+
+	float Timeline::getCurrentTime()
+	{
+		return m_curTime;
+	}
+
+	void Timeline::setCurrentTime(float time)
+	{
+		m_curTime = time;
+	}
+
+	void Timeline::setCurrentTimeRatio(float timeRatio)
+	{
+		if (m_duration < 0)
+		{
+			// duration is infinate
 			return;
 		}
-		m_started = true;
-		for each (auto observer in m_observer_set)
+		m_curTime = timeRatio * m_duration;
+	}
+
+	void Timeline::setLoop(bool loop)
+	{
+		m_loop = loop;
+	}
+
+	void Timeline::addObserver(TimelineObserver* obs)
+	{
+		m_sObserver.emplace(obs);
+	}
+
+	void Timeline::removeObserver(TimelineObserver* obs)
+	{
+		auto iter = m_sObserver.find(obs);
+		if (iter != m_sObserver.end())
 		{
-			observer->on_start();
+			m_sObserver.erase(iter);
 		}
 	}
-	void Timeline::stop()
+
+	void Timeline::setSpeedRate(float speedRate)
 	{
-		m_ended = true;
-		for each (auto observer in m_observer_set)
+		m_speedRate = speedRate;
+	}
+
+	float Timeline::getSpeedRate()
+	{
+		return m_speedRate;
+	}
+
+	void Timeline::_informTime(float time)
+	{
+		for each (auto obs in m_sObserver)
 		{
-			observer->on_cancel();
+			obs->onTime(time);
 		}
-		
-	}
-	void Timeline::set_ratio(float ratio)
-	{
-		m_ratio = ratio;
-	}
-	void Timeline::add_observer(TimelineObserver* observer)
-	{
-		auto iter = m_observer_set.find(observer);
-		if (iter == m_observer_set.end())
-		{
-			m_observer_set.emplace(observer);
-		}
-	}
-	void Timeline::remove_observer(TimelineObserver* observer)
-	{
-		auto iter = m_observer_set.find(observer);
-		if (iter != m_observer_set.end())
-		{
-			m_observer_set.erase(iter);
-		}
-	}
-	TimelineCallbackWrapper::TimelineCallbackWrapper(float time, TimelineCallback cb): m_time(time), m_callback(cb)
-	{
-		m_handler = get_handler();
-	}
-	TimelineCallbackWrapper::TimelineCallbackWrapper(CallbackHandler handler): m_handler(handler)
-	{
-	}
-	TimelineCallbackWrapper::TimelineCallbackWrapper(const TimelineCallbackWrapper& tcw):
-		m_time(tcw.m_time), m_handler(tcw.m_handler), m_callback(tcw.m_callback)
-	{
-	}
-	bool TimelineCallbackWrapper::operator<(const TimelineCallbackWrapper& tcw)
-	{
-		return m_time < tcw.m_time;
-	}
-	bool TimelineCallbackWrapper::operator==(const TimelineCallbackWrapper& tcw)
-	{
-		return m_handler == tcw.m_handler || (m_time == tcw.m_time && m_callback == tcw.m_callback);
-	}
-	CallbackHandler TimelineCallbackWrapper::get_handler()
-	{
-		static CallbackHandler handler = 0;
-		return ++handler;
 	}
 }
+

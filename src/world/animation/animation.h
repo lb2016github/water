@@ -1,4 +1,5 @@
 #ifndef WATER_ANIMATION_H
+#define WATER_ANIMATION_H
 #include "math3d/math3d.hpp"
 #include "skeleton.h"
 #include <map>
@@ -8,13 +9,53 @@ namespace water
 {
 	namespace world
 	{
-		/*
-		data of one animation sample
-		*/
-		struct AnimationSample
+		struct Vector3KeyFrame
 		{
-			JointPose* m_aJointPose{ nullptr };
-			~AnimationSample();
+			float m_timeMic;
+			math3d::Vector3 m_data;
+
+			bool operator<(const Vector3KeyFrame& vkf);
+		};
+		struct QuaternionKeyFrame
+		{
+			float m_timeMic;
+			math3d::Quaternion m_data;
+
+			bool operator<(const QuaternionKeyFrame& vkf);
+		};
+		/*
+		key frame data of one joint
+		*/
+		class JointFrameData
+		{
+		public:
+			JointFrameData(unsigned int numTrans, unsigned int numRot, unsigned int numScale = 1);
+			JointFrameData(const JointFrameData& animFrameData);
+			JointFrameData(JointFrameData&& animFrameData);
+			JointFrameData& operator=(const JointFrameData& animFrameData);
+			JointFrameData& operator=(JointFrameData&& animFrameData);
+			~JointFrameData();
+			/*
+			sort by time
+			*/
+			void sortByTime();
+			/*
+			get transformation by time in microsecond
+			*/
+			JointPose getJointPose(float timeMic);
+
+		public:
+			unsigned int m_numTrans;
+			unsigned int m_numRot;
+			unsigned int m_numScale;
+			Vector3KeyFrame* m_trans;
+			QuaternionKeyFrame* m_rot;
+			Vector3KeyFrame* m_scale;
+		private:
+			// record the pre index
+			unsigned int m_preTransIndex{ 0 };
+			unsigned int m_preRotIndex{ 0 };
+			unsigned int m_preScaleIndex{ 0 };
 		};
 
 		/*
@@ -23,13 +64,26 @@ namespace water
 		class AnimationClip: std::enable_shared_from_this<AnimationClip>
 		{
 		public:
-			AnimationClip(SkeletonID skeletonId, unsigned int sampleCount);
+			AnimationClip(SkeletonPtr skPtr, float duration);
 			~AnimationClip();
-		private:
-			SkeletonID m_idSkeleton;		// id of skeleton
-			AnimationSample* m_aAnimSample;
-			unsigned int* m_aTimeMic;		// time in micsecond of samples
-			unsigned int m_sampleCount;		// count of samples
+		public:
+			void setJointFrameData(unsigned int jointIdx, const JointFrameData& jointFrameData);
+			void setJointFrameData(unsigned int jointIdx, JointFrameData&& jointFrameData);
+			/*
+			get skeleton pose with given time in microsecond
+			@param timeMic: time in microsecond
+			@return SkeletonPose
+			*/
+			SkeletonPosePtr getPose(float timeMic);
+			/*
+			get duration of animation clip
+			@return time/microsecond
+			*/
+			float getDuration();
+		public:
+			SkeletonPtr m_skeleton;		// id of skeleton
+			JointFrameData** m_jointFrameData;	// joint frames
+			float m_duration;
 		};
 
 		DECL_SHARED_PTR(AnimationClip);
@@ -37,11 +91,17 @@ namespace water
 		/*
 		animation clip data of one skeleton
 		*/
-		struct SkeletonAnimationClipData
+		struct AnimationClipData
 		{
-			std::map<std::string, AnimationClipPtr> m_mAnimClipData;
+			AnimationClipData();
+
+			AnimationClipPtr getAnimClip(const std::string& animName);
+			void addAnimClip(const std::string& animName, AnimationClipPtr animClip);
+
+			std::map<std::string, AnimationClipPtr> m_animClipData;
+			std::string m_defaultClipName;
 		};
-		DECL_SHARED_PTR(SkeletonAnimationClipData);
+		DECL_SHARED_PTR(AnimationClipData);
 
 		/*
 		Manager of animation clip
@@ -49,7 +109,7 @@ namespace water
 		class AnimationClipManager
 		{
 		private:
-			std::map<SkeletonID, SkeletonAnimationClipDataPtr> m_mSkeletonAnimClipData;
+			std::map<SkeletonID, AnimationClipDataPtr> m_skeletonAnimClipData;
 		public:
 			static AnimationClipManager* instance();
 		};

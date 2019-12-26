@@ -1,4 +1,5 @@
 #ifndef WATER_ANIMATOR_H
+#define WATER_ANIMATOR_H
 #include "animation.h"
 #include <map>
 #include <string>
@@ -10,64 +11,47 @@ namespace water
 {
 	namespace world
 	{
+		class AnimationTimeline;
+		/*
+		Animator of a model
+		*/
 		class Animator
 		{
-		private:
-			// animation data
-			SkeletonAnimationClipDataPtr m_pSkelAnimClipData;
-			// cur anim name
-			std::string m_sCurAnim;
 		public:
-			void tick(float delta);
+			Animator(AnimationClipDataPtr clipData);
+			/*
+			play animation
+			@param animName: name of animation
+			@param loop: whether current animation is loop
+			*/
+			void playAnim(std::string animName, bool loop = false);
+			AnimationTimeline* getAnimTimeline();
+		protected:
+			// animation data
+			AnimationClipDataPtr m_animClipData;
+			// cur anim name
+			std::string m_curAnimName{ "" };
+			// timeline of animation
+			AnimationTimeline* m_curAnimTimeline{ nullptr };
 		};
+
 		/*
-		helper of playing an animation
+		implementation of updating animation
 		*/
-		class AnimationPlayHelper: TimelineObserver
+		class AnimationTimeline : public Timeline, public TimelineObserver
 		{
 		public:
-			AnimationPlayHelper();
-			~AnimationPlayHelper();
-		protected:
-			virtual void on_time(float time);
-			virtual void on_start();
-			virtual void on_end();
-			virtual void on_cancel();
-		public:
-			// base control
-			void start();
-			void stop();
-			void pause();
-			void resume();
-			// users should call tick
-			void tick(float delta_time);
-			void set_ratio(float ratio);
-			// callbacks
-			void register_anim_callback(float time, TimelineCallback cb);
-			void register_start_callback(TimelineCallback cb);
-			void register_end_callback(TimelineCallback cb);
-
+			AnimationTimeline(AnimationClipPtr animClip, bool loop);
 		private:
-			float pre_time = { -1 };
-			std::vector<TimelineCallbackWrapper> m_callbacks;
-			Timeline m_timeline;
+			SkeletonPosePtr m_curPose{ nullptr };
+			AnimationClipPtr m_animClip{ nullptr };
+		protected:
+			void onTime(float curTime);
 		};
+
+
 	}
 }
 
-class Tree {
-public:
-	Tree* lChild;
-	Tree* rChild;
-};
-
-bool isSubTree(Tree child, Tree root)
-{
-	if (child == root) return true;
-	if (isSubTree(child, root->lCHild)) return true;
-	if (isSubTree(child, root->rChild)) return true;
-	return false;
-	
-}
 
 #endif // !WATER_ANIMATOR_H

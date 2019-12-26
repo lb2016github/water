@@ -4,6 +4,8 @@
 #include "assimp/postprocess.h"
 #include "scene.h"
 #include "filesystem/filesystem.h"
+#include "common/log.h"
+#include <string>
 
 namespace water
 {
@@ -139,6 +141,9 @@ namespace water
 			Assimp::Importer importer;
 			const aiScene* scene = importer.ReadFile(abs_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals| aiProcess_CalcTangentSpace);
 
+			// TODO DELETE TEST CODE
+			load_animation(filename);
+
 			// load meshes and combine meshes directly
 			unsigned int base_index = 0;
 			for (int i = 0; i < scene->mNumMeshes; ++i)
@@ -185,6 +190,130 @@ namespace water
 				base_index += num_vertices;
 			}
 			return data_ptr;
+		}
+		aiNode* getNodeByName(aiNode* node, const char* name)
+		{
+			if (strcmp(node->mName.C_Str(), name) ==0) return node;
+			for (int i = 0; i < node->mNumChildren; ++i)
+			{
+				auto tmp = getNodeByName(node->mChildren[i], name);
+				if (tmp != nullptr) return tmp;
+			}
+			return nullptr;
+
+		};
+
+		void printNode(aiNode* node, int prefex)
+		{
+			std::string preStr = "";
+			for (int i = 0; i < prefex; ++i)
+			{
+				preStr += "   |";
+			}
+
+			log_info("%s%s", preStr.c_str(), node->mName.C_Str());
+			for (int i = 0; i < node->mNumChildren; ++i)
+			{
+				printNode(node->mChildren[i], prefex + 1);
+			}
+		}
+
+		aiNode* getRootBone(aiNode* rootNode, const char* name)
+		{
+			aiNode* node = getNodeByName(rootNode, name);
+			while (node)
+			{
+				aiNode* parent = node->mParent;
+				if (!parent) return node;
+				std::string pName = parent->mName.C_Str();
+				if (pName.find(name) == 0 && pName.find("Assimp") != std::string::npos)
+				{
+					return node;
+				}
+				else
+				{
+					node = parent;
+				}
+			}
+			return nullptr;
+		}
+
+		world::SkeletonPtr createSkeletonByRootBone(aiNode* rootNode)
+		{
+			// hierachy first 
+			std::vector<world::Joint> joints;
+			auto node = rootNode;
+			int parentIndex = -1;
+			do
+			{
+				world::Joint joint;
+				joint.m_name = node->mName.C_Str();
+				auto& mtx = node->mTransformation;
+				joint.m_parentIndex = parentIndex;
+				joint.m_invBindPose = math3d::Matrix(
+					mtx.a1, mtx.a2, mtx.a3, mtx.a4,
+					mtx.b1, mtx.b2, mtx.b3, mtx.b4,
+					mtx.c1, mtx.c2, mtx.c3, mtx.c4,
+					mtx.d1, mtx.d2, mtx.d3, mtx.d4
+					);
+				joints.push_back(std::move(joint));
+			} while (node);
+		}
+
+		world::AnimationClipData MeshLoader::load_animation(const std::string& filename)
+		{
+			auto abs_path = filesystem::FileSystem::get_instance()->get_absolute_path(filename);
+			render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>(filename, -1, render::TRIANGLES);
+			Assimp::Importer importer;
+			const aiScene* scene = importer.ReadFile(abs_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals| aiProcess_CalcTangentSpace);
+			if (!scene->HasAnimations()) return world::AnimationClipData();
+			printNode(scene->mRootNode, 0);
+			// 1. load skeletons
+			for (int i = 0; i < scene->mNumMeshes; ++i)
+			{
+				auto meshPtr = scene->mMeshes[i];
+				std::vector<world::Joint*> joints;
+				if (meshPtr->mNumBones <= 0) continue;
+				world::SkeletonPtr skePtr = nullptr;
+				for (int j = 0; j < meshPtr->mNumBones; ++j)
+				{
+					auto bone = meshPtr->mBones[j];
+					// init skeleton
+					if (!skePtr)
+					{
+						aiNode* rootBoneNode = getRootBone(scene->mRootNode, bone->mName.C_Str());
+					}
+					world::Joint* joint = new world::Joint();
+					joint->m_name = bone->mName.C_Str();
+					auto& mtx = bone->mOffsetMatrix;
+					joint->m_invBindPose = math3d::Matrix(
+						mtx.a1, mtx.a2, mtx.a3, mtx.a4,
+						mtx.b1, mtx.b2, mtx.b3, mtx.b4,
+						mtx.c1, mtx.c2, mtx.c3, mtx.c4,
+						mtx.d1, mtx.d2, mtx.d3, mtx.d4
+						);
+					joints.push_back(joint);
+				}
+			}
+
+
+			// 2. load animation
+			for (int i = 0; i < scene->mNumAnimations; ++i)
+			{
+				// todo
+				auto anim = scene->mAnimations[i];
+				// 1. load skeleton
+				world::SkeletonPtr sk_ptr = std::make_shared<world::Skeleton>(anim->mNumChannels);
+				world::AnimationClipPtr anim_clip_ptr = std::make_shared<world::AnimationClip>(sk_ptr, anim->mDuration);
+				// for every bone
+				for (int j = 0; j < anim->mNumChannels; ++i)
+				{
+					auto nodeAnim = anim->mChannels[j];
+					auto boneName = nodeAnim->mNodeName;
+					// update skeleton info
+				}
+			}
+			return world::AnimationClipData();
 		}
 	}
 }
