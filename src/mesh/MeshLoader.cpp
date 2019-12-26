@@ -6,6 +6,7 @@
 #include "filesystem/filesystem.h"
 #include "common/log.h"
 #include <string>
+#include <queue>
 
 namespace water
 {
@@ -240,24 +241,50 @@ namespace water
 
 		world::SkeletonPtr createSkeletonByRootBone(aiNode* rootNode)
 		{
-			// hierachy first 
+			// hierachy first traverse
+			std::queue<aiNode*> nodes;
+			std::map<aiString, int> indexMap;
+			nodes.push(rootNode);
+
+			// save nodes
 			std::vector<world::Joint> joints;
-			auto node = rootNode;
-			int parentIndex = -1;
-			do
+			while (nodes.size() > 0)
 			{
+				aiNode* node = nodes.front();
+				nodes.pop();
+				indexMap[node->mName] = joints.size();
+				// create Joint with aiNode
 				world::Joint joint;
 				joint.m_name = node->mName.C_Str();
 				auto& mtx = node->mTransformation;
-				joint.m_parentIndex = parentIndex;
 				joint.m_invBindPose = math3d::Matrix(
 					mtx.a1, mtx.a2, mtx.a3, mtx.a4,
 					mtx.b1, mtx.b2, mtx.b3, mtx.b4,
 					mtx.c1, mtx.c2, mtx.c3, mtx.c4,
 					mtx.d1, mtx.d2, mtx.d3, mtx.d4
 					);
-				joints.push_back(std::move(joint));
-			} while (node);
+				auto rst = indexMap.find(node->mName);
+				if (rst == indexMap.end())
+				{
+					joint.m_parentIndex = -1;
+				}
+				else
+				{
+					joint.m_parentIndex = rst->second;
+				}
+				joints.push_back(joint);
+				// add children to nodes
+				for (int i = 0; i < node->mNumChildren; ++i)
+				{
+					nodes.push(node->mChildren[i]);
+				}
+			}
+			world::SkeletonPtr skPtr = std::make_shared<world::Skeleton>(joints.size());
+			for (int i = 0; i < joints.size(); ++i)
+			{
+				skPtr->m_joints[i] = joints[i];
+			}
+			return skPtr;
 		}
 
 		world::AnimationClipData MeshLoader::load_animation(const std::string& filename)
@@ -282,6 +309,7 @@ namespace water
 					if (!skePtr)
 					{
 						aiNode* rootBoneNode = getRootBone(scene->mRootNode, bone->mName.C_Str());
+						skePtr = createSkeletonByRootBone(rootBoneNode);
 					}
 					world::Joint* joint = new world::Joint();
 					joint->m_name = bone->mName.C_Str();
