@@ -243,7 +243,6 @@ namespace water
 		{
 			// hierachy first traverse
 			std::queue<aiNode*> nodes;
-			std::map<aiString, int> indexMap;
 			nodes.push(rootNode);
 
 			// save nodes
@@ -252,7 +251,6 @@ namespace water
 			{
 				aiNode* node = nodes.front();
 				nodes.pop();
-				indexMap[node->mName] = joints.size();
 				// create Joint with aiNode
 				world::Joint joint;
 				joint.m_name = node->mName.C_Str();
@@ -263,14 +261,12 @@ namespace water
 					mtx.c1, mtx.c2, mtx.c3, mtx.c4,
 					mtx.d1, mtx.d2, mtx.d3, mtx.d4
 					);
-				auto rst = indexMap.find(node->mName);
-				if (rst == indexMap.end())
+				for (int i = 0; i < joints.size(); ++i)
 				{
-					joint.m_parentIndex = -1;
-				}
-				else
-				{
-					joint.m_parentIndex = rst->second;
+					if (strcmp(node->mName.C_Str(), joints[i].m_name.c_str()) == 0)
+					{
+						joint.m_parentIndex = i;
+					}
 				}
 				joints.push_back(joint);
 				// add children to nodes
