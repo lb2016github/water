@@ -13,12 +13,12 @@ namespace water
 		Skeleton::Skeleton(unsigned int jointCount):
 			m_jointCount(jointCount)
 		{
-			m_aJoint = new Joint[jointCount];
+			m_joints = new Joint[jointCount];
 			m_id = SkeletonManager::instance()->createSkeletonID();
 		}
 		Skeleton::~Skeleton()
 		{
-			delete[] m_aJoint;
+			delete[] m_joints;
 		}
 		SkeletonPtr SkeletonManager::getSkeleton(SkeletonID skeId)
 		{
@@ -42,11 +42,34 @@ namespace water
 			static SkeletonManager skMgr;
 			return &skMgr;
 		}
+		JointPose::JointPose()
+		{
+			m_trans = math3d::Vector3(0, 0, 0);
+			m_scale = math3d::Vector3(1, 1, 1);
+			m_rot = math3d::identity<math3d::Quaternion>();
+		}
+		JointPose::JointPose(const math3d::Vector3& trans, const math3d::Vector3& scale, const math3d::Quaternion& rot):
+			m_trans(trans), m_scale(scale), m_rot(rot)
+		{
+		}
 		void JointPose::mix(const JointPose& srcPose, const JointPose& destPose, JointPose& outPose, float destFactor)
 		{
 			outPose.m_trans = math3d::mix(srcPose.m_trans, destPose.m_trans, destFactor);
 			outPose.m_rot = math3d::mix(srcPose.m_rot, destPose.m_rot, destFactor);
 			outPose.m_scale = math3d::mix(srcPose.m_scale, destPose.m_scale, destFactor);
+		}
+		Joint::Joint()
+		{
+			m_invBindPose = math3d::identity<math3d::Matrix>();
+		}
+		SkeletonPose::SkeletonPose(SkeletonPtr skePtr):
+			m_skeleton(skePtr)
+		{
+			m_jointPoses = new JointPose[skePtr->m_jointCount];
+		}
+		SkeletonPose::~SkeletonPose()
+		{
+			delete[] m_jointPoses;
 		}
 	}
 }

@@ -9,29 +9,54 @@ namespace water
 {
 	namespace world
 	{
-		/*
-		data of one animation sample
-		*/
-		struct AnimationSample: std::enable_shared_from_this<AnimationSample>
+		struct Vector3KeyFrame
 		{
-			AnimationSample(unsigned int jointCount);
-			~AnimationSample();
+			float m_timeMic;
+			math3d::Vector3 m_data;
 
-			/*
-			array of JointPose, which saves joint pose data
-			*/
-			JointPose* m_jointPose{ nullptr };
-			/*
-			joint count
-			*/
-			unsigned int m_jointCount;
-
-			/*
-			mix two samples
-			*/
-			static void mix(const AnimationSamplePtr srcSample, const AnimationSamplePtr dstSample, AnimationSamplePtr& outSample, const float& dstFactor);
+			bool operator<(const Vector3KeyFrame& vkf);
 		};
-		DECL_SHARED_PTR(AnimationSample);
+		struct QuaternionKeyFrame
+		{
+			float m_timeMic;
+			math3d::Quaternion m_data;
+
+			bool operator<(const QuaternionKeyFrame& vkf);
+		};
+		/*
+		key frame data of one joint
+		*/
+		class JointFrameData
+		{
+		public:
+			JointFrameData(unsigned int numTrans, unsigned int numRot, unsigned int numScale = 1);
+			JointFrameData(const JointFrameData& animFrameData);
+			JointFrameData(JointFrameData&& animFrameData);
+			JointFrameData& operator=(const JointFrameData& animFrameData);
+			JointFrameData& operator=(JointFrameData&& animFrameData);
+			~JointFrameData();
+			/*
+			sort by time
+			*/
+			void sortByTime();
+			/*
+			get transformation by time in microsecond
+			*/
+			JointPose getJointPose(float timeMic);
+
+		public:
+			unsigned int m_numTrans;
+			unsigned int m_numRot;
+			unsigned int m_numScale;
+			Vector3KeyFrame* m_trans;
+			QuaternionKeyFrame* m_rot;
+			Vector3KeyFrame* m_scale;
+		private:
+			// record the pre index
+			unsigned int m_preTransIndex{ 0 };
+			unsigned int m_preRotIndex{ 0 };
+			unsigned int m_preScaleIndex{ 0 };
+		};
 
 		/*
 		data of one animation clip
@@ -39,24 +64,26 @@ namespace water
 		class AnimationClip: std::enable_shared_from_this<AnimationClip>
 		{
 		public:
-			AnimationClip(SkeletonPtr skPtr, unsigned int sampleCount);
+			AnimationClip(SkeletonPtr skPtr, float duration);
 			~AnimationClip();
 		public:
+			void setJointFrameData(unsigned int jointIdx, const JointFrameData& jointFrameData);
+			void setJointFrameData(unsigned int jointIdx, JointFrameData&& jointFrameData);
 			/*
-			get before sample and after sample with given time(in microsecond).
-			With the before and after samples, joint poses can be interpola
+			get skeleton pose with given time in microsecond
+			@param timeMic: time in microsecond
+			@return SkeletonPose
 			*/
-			AnimationSamplePtr getSample(float timeMic);
+			SkeletonPosePtr getPose(float timeMic);
 			/*
 			get duration of animation clip
 			@return time/microsecond
 			*/
 			float getDuration();
-		private:
+		public:
 			SkeletonPtr m_skeleton;		// id of skeleton
-			AnimationSamplePtr* m_animSample;
-			unsigned int* m_timeMic;		// time in micsecond of samples
-			unsigned int m_sampleCount;		// count of samples
+			JointFrameData** m_jointFrameData;	// joint frames
+			float m_duration;
 		};
 
 		DECL_SHARED_PTR(AnimationClip);
@@ -67,7 +94,9 @@ namespace water
 		struct AnimationClipData
 		{
 			AnimationClipData();
+
 			AnimationClipPtr getAnimClip(const std::string& animName);
+			void addAnimClip(const std::string& animName, AnimationClipPtr animClip);
 
 			std::map<std::string, AnimationClipPtr> m_animClipData;
 			std::string m_defaultClipName;

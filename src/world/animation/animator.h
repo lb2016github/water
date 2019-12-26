@@ -11,6 +11,7 @@ namespace water
 {
 	namespace world
 	{
+		class AnimationTimeline;
 		/*
 		Animator of a model
 		*/
@@ -25,7 +26,7 @@ namespace water
 			*/
 			void playAnim(std::string animName, bool loop = false);
 			AnimationTimeline* getAnimTimeline();
-		private:
+		protected:
 			// animation data
 			AnimationClipDataPtr m_animClipData;
 			// cur anim name
@@ -42,7 +43,7 @@ namespace water
 		public:
 			AnimationTimeline(AnimationClipPtr animClip, bool loop);
 		private:
-			AnimationSamplePtr m_curAnimSample{ nullptr };
+			SkeletonPosePtr m_curPose{ nullptr };
 			AnimationClipPtr m_animClip{ nullptr };
 		protected:
 			void onTime(float curTime);

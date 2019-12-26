@@ -8,6 +8,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/ext/matrix_clip_space.hpp"
 #include "glm/gtc/quaternion.hpp"
+#include "glm/ext.hpp"
 #include <vector>
 
 namespace water {
@@ -18,7 +19,7 @@ namespace water {
 		typedef glm::vec4 Vector4;
 		typedef glm::mat4 Matrix;
 		typedef glm::ivec2 IVector2;
-		typedef glm::dquat Quaternion;
+		typedef glm::fquat Quaternion;
 
 		template<class T>
 		T inline identity()
@@ -85,8 +86,9 @@ namespace water {
 			return glm::normalize(vec);
 		}
 		template<class T>
-		inline T mix(const T& src, const T& target, const float& targetFactor)
+		inline T mix(const T& src, const T& target, float targetFactor)
 		{
+			//return glm::lerp(src, target, targetFactor);
 			return glm::mix(src, target, targetFactor);
 		}
 	}

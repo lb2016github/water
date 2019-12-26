@@ -36,12 +36,12 @@ namespace water
 		AnimationTimeline::AnimationTimeline(AnimationClipPtr animClip, bool loop):
 			Timeline(animClip->getDuration(), loop), m_animClip(animClip)
 		{
-			m_curAnimSample = m_animClip->getSample(m_curTime);
+			m_curPose = m_animClip->getPose(m_curTime);
 			addObserver(this);
 		}
 		void AnimationTimeline::onTime(float curTime)
 		{
-			m_curAnimSample = m_animClip->getSample(curTime);
+			m_curPose = m_animClip->getPose(curTime);
 		}
 	}
 }
