@@ -1,96 +1,21 @@
 #ifndef WATER_MATH3D_H
 #define WATER_MATH3D_H
 
-#include "glm/vec3.hpp"
-#include "glm/mat4x4.hpp"
-#include "glm/vec2.hpp"
-#include "glm/gtx/euler_angles.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/ext/matrix_clip_space.hpp"
-#include "glm/gtc/quaternion.hpp"
-#include "glm/ext.hpp"
 #include <vector>
+#include "math3d/matrix.hpp"
+#include "math3d/euler_angle.hpp"
+#include "math3d/vector.hpp"
+#include "math3d/quaternion.hpp"
 
 namespace water {
 	namespace math3d
 	{
-		typedef glm::vec2 Vector2;
-		typedef glm::vec3 Vector3;
-		typedef glm::vec4 Vector4;
-		typedef glm::mat4 Matrix;
-		typedef glm::ivec2 IVector2;
-		typedef glm::fquat Quaternion;
-
-		template<class T>
-		T inline identity()
-		{
-			return glm::identity<T>();
-		}
-
-		Matrix inline inverse(const Matrix& mat)
-		{
-			return glm::inverse(mat);
-		}
-
-		Matrix inline transpose(const Matrix& mat)
-		{
-			return glm::inverse(mat);
-		}
-
-		Matrix inline get_rotation_matrix(const Vector3& rotation)
-		{
-			return glm::eulerAngleYXZ(rotation.y, rotation.x, rotation.z);
-
-		}
-		Matrix inline get_translate_matrix(const Vector3& position)
-		{
-			return glm::translate(glm::identity<Matrix>(), position);
-		}
-		Matrix inline get_scale_matrix(const Vector3& scale)
-		{
-			return glm::scale(glm::identity<Matrix>(), scale);
-		}
-		Matrix inline get_transform_matrix(const Vector3& position, const Vector3& rotation, const Vector3& scale)
-		{
-			return get_translate_matrix(position) * get_rotation_matrix(rotation) * get_scale_matrix(scale);
-		}
-		template<class T>
-		Matrix inline get_perpective_matrix(T near, T far, T fov_y, T aspect)
-		{
-			return glm::perspective<T>(glm::radians<T>(fov_y), aspect, near, far);
-		}
-		Matrix inline ortho(float left, float right, float up, float down)
-		{
-			return glm::ortho<float>(left, right, up, down);
-		}
-		Matrix inline look_at(const Vector3& eye, const Vector3& center, const Vector3& up)
-		{
-			return glm::lookAt(eye, center, up);
-		}
-		Matrix inline eular_angle_yx(const Vector2& xy)
-		{
-			return glm::eulerAngleYX(xy.x, xy.y);
-		}
-		Vector3 inline get_forward(const Matrix& rotation_mtx)
-		{
-			Vector3 forward = { rotation_mtx[2][0], rotation_mtx[2][1], rotation_mtx[2][2] };
-			return glm::normalize(forward);
-		}
-		Vector3 inline get_right(const Matrix& rotation_mtx)
-		{
-			Vector3 right = { rotation_mtx[0][0], rotation_mtx[0][1], rotation_mtx[0][2] };
-			return glm::normalize(right);
-		}
-		Vector3 inline normalize(const Vector3& vec)
-		{
-			return glm::normalize(vec);
-		}
-		template<class T>
-		inline T mix(const T& src, const T& target, float targetFactor)
-		{
-			//return glm::lerp(src, target, targetFactor);
-			return glm::mix(src, target, targetFactor);
-		}
+		typedef TVector4<float> Vector4;
+		typedef TVector3<float> Vector3;
+		typedef TVector2<float> Vector2;
+		typedef TMatrix44<float> Matrix;
+		typedef TEulerAngle<float> EulerAngle;
+		typedef TQuaternion<float> Quaternion;
 	}
 }
 #endif
