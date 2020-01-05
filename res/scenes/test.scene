@@ -32,8 +32,8 @@
 <!--    <Model path="models/fish/fish.model" position="0 0 -10" scale="0.3 0.3 0.3" rotation="0 0 0"/>-->
 <!--    <Model path="models/quad/quad.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
         <!-- <Model path="models/sky_box/sky_box_hdr.model" position="0 0 0" scale="1 1 1" rotation="0 0 0"/> -->
-        <!-- <Model path="models/sky_box/sky_box.model" position="0 0 0" scale="1 1 1" rotation="0 0 0"/> -->
-        <Model path="models/minotaur/minotaur.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>
+        <Model path="models/sky_box/sky_box.model" position="0 0 0" scale="1 1 1" rotation="0 0 0"/>
+        <!-- <Model path="models/minotaur/minotaur.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/> -->
         <!-- <Model path="models/box/box_cubemap.model" position="0 0 -5" scale="1 1 1" rotation="0 0 0"/> -->
 <!--    <Model path="models/floor/floor.model" position="0 0 -10"/>-->
 <!--    <Model path="models/shadow_map_show/shadow_show.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>-->
@@ -41,7 +41,7 @@
 <!--    <Model path="models/gun/gun.model" position="0 0 -3" scale="2 2 2" rotation="0 0 0"/>-->
 <!--    <Model path="models/gun/gun_pbr.model" position="0 0 -3" scale="1.5 1.5 1.5" rotation="0 0 0"/>-->
 <!--    <Model path="models/star_ship/starship.model" position="0 0 -10" scale="0.5 0.5 0.5" rotation="0 0 0"/>-->
-<!--    <Model path="models/star_ship/starship_slow_pbr.model" position="0 0 -10" scale="0.5 0.5 0.5" rotation="0 0 0"/>-->
+   <Model path="models/star_ship/starship_slow_pbr.model" position="0 0 -10" scale="0.5 0.5 0.5" rotation="0 0 0"/>
 <!--    <Model path="models/pbr_ball/gun_pbr.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
 <!--    <Model path="models/ball.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
 <!--        <Model path="models/pbr_ball/pbr_ball.model" position="0 0 -15" scale="1 1 1" rotation="0 0 0"/>-->

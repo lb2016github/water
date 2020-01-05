@@ -143,7 +143,7 @@ namespace water
 			const aiScene* scene = importer.ReadFile(abs_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals| aiProcess_CalcTangentSpace);
 
 			// TODO DELETE TEST CODE
-			load_animation(filename);
+			//load_animation(filename);
 
 			// load meshes and combine meshes directly
 			unsigned int base_index = 0;
