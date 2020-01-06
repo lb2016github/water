@@ -25,7 +25,7 @@ namespace water
 
 		private:
 			Camera* camera = { nullptr };
-			math3d::Vector3 m_rotation = { 0, 0, 0};// pitch yaw roll
+			math3d::EulerAngle m_rotation = { 0, 0, 0 };	// pitch yaw roll
 			math3d::Vector2 m_cursor_pos;	// save pre cursor pos
 			math3d::Vector3 m_move_dir = { 0, 0, 0 };
 			// move speed

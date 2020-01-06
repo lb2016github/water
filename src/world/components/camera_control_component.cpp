@@ -31,7 +31,7 @@ namespace water
 				log_warn("[Camera]Transform component is required, but it is not existed");
 				return;
 			}
-			auto rot_mtx = math3d::get_rotation_matrix(m_rotation);
+			auto rot_mtx = math3d::Matrix::makeRotationMatrix(m_rotation);
 			comp->rotation = rot_mtx;
 			auto tmp = rot_mtx * math3d::Vector4(delta.x, delta.y, delta.z, 1);
 			comp->position += math3d::Vector3(tmp.x, tmp.y, tmp.z);

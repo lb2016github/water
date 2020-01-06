@@ -134,6 +134,7 @@ namespace water
 			Q* after{ nullptr };
 			unsigned int index = 0;
 
+			// to speed up search speed, the index starts from preIndex
 			Q* curData = &(dataArray[preIndex]);
 			if (curData->m_timeMic < timeMic)
 			{
@@ -155,8 +156,8 @@ namespace water
 				}
 			}
 			assert(before && after);
-			float ratio = (timeMic - before->m_timeMic) / (after->m_timeMic - before->m_timeMic);
-			return math3d::mix(before->m_data, after->m_data, ratio);
+			float factor = (timeMic - before->m_timeMic) / (after->m_timeMic - before->m_timeMic);
+			return Q::lerp(*before, *after, factor);
 		}
 		
 		JointPose JointFrameData::getJointPose(float timeMic)
@@ -214,9 +215,17 @@ namespace water
 		{
 			return m_timeMic < vkf.m_timeMic;
 		}
+		math3d::Vector3 Vector3KeyFrame::lerp(const Vector3KeyFrame& a, const Vector3KeyFrame& b, float factor)
+		{
+			return math3d::Vector3::lerp(a.m_data, b.m_data, factor);
+		}
 		bool QuaternionKeyFrame::operator<(const QuaternionKeyFrame& vkf)
 		{
 			return m_timeMic < vkf.m_timeMic;
+		}
+		math3d::Quaternion QuaternionKeyFrame::lerp(const QuaternionKeyFrame& a, const QuaternionKeyFrame& b, float factor)
+		{
+			return math3d::Quaternion::slerp(a.m_data, b.m_data, factor);
 		}
 }
 }

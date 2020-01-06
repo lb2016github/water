@@ -13,9 +13,11 @@ namespace water {
 		typedef TVector4<float> Vector4;
 		typedef TVector3<float> Vector3;
 		typedef TVector2<float> Vector2;
+		typedef TVector2<int> Vector2I;
 		typedef TMatrix44<float> Matrix;
 		typedef TEulerAngle<float> EulerAngle;
 		typedef TQuaternion<float> Quaternion;
+
 	}
 }
 #endif

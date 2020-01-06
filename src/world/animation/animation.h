@@ -15,6 +15,7 @@ namespace water
 			math3d::Vector3 m_data;
 
 			bool operator<(const Vector3KeyFrame& vkf);
+			static math3d::Vector3 lerp(const Vector3KeyFrame& a, const Vector3KeyFrame& b, float factor);
 		};
 		struct QuaternionKeyFrame
 		{
@@ -22,6 +23,7 @@ namespace water
 			math3d::Quaternion m_data;
 
 			bool operator<(const QuaternionKeyFrame& vkf);
+			static math3d::Quaternion lerp(const QuaternionKeyFrame& a, const QuaternionKeyFrame& b, float factor);
 		};
 		/*
 		key frame data of one joint

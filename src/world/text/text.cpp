@@ -93,7 +93,7 @@ namespace water
 						c,
 						math3d::Vector2(glyph->bitmap.width, glyph->bitmap.rows),
 						math3d::Vector2(glyph->bitmap_left, glyph->bitmap_top),
-						math3d::IVector2(glyph->advance.x, glyph->advance.y),
+						math3d::Vector2I(glyph->advance.x, glyph->advance.y),
 						glyph->bitmap.buffer
 						);
 					m_char_map[c] = char_ptr;
@@ -109,7 +109,7 @@ namespace water
 				base_pos.x += (char_ptr->advance.x >> 6) * scale;
 			}
 		}
-		Character::Character(char c, const math3d::Vector2& size, const math3d::Vector2& bearing, const math3d::IVector2& advance, unsigned char* buffer)
+		Character::Character(char c, const math3d::Vector2& size, const math3d::Vector2& bearing, const math3d::Vector2I& advance, unsigned char* buffer)
 			: size(size), bearing(bearing), advance(advance), pos(bearing.x, bearing.y - size.y)
 		{
 			// create glyph texture

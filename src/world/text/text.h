@@ -18,12 +18,12 @@ namespace water
 	{
 		struct Character: public std::enable_shared_from_this<Character> 
 		{
-			Character(char c, const math3d::Vector2& size, const math3d::Vector2& bearing, const math3d::Vector2& advance, unsigned char* buffer);
+			Character(char c, const math3d::Vector2& size, const math3d::Vector2& bearing, const math3d::Vector2I& advance, unsigned char* buffer);
 			render::MeshDataPtr create_mesh(math3d::Vector2 base_pos, float scale);
 
 			math3d::Vector2 size{ 0, 0 };
 			math3d::Vector2 bearing{ 0,0 };
-			math3d::Vector2 advance{ 0, 0 };
+			math3d::Vector2I advance{ 0, 0 };
 			render::TexturePtr texture{ nullptr };
 			math3d::Vector2 pos{ 0, 0 };
 			char c;

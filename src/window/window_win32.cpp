@@ -149,7 +149,7 @@ namespace water {
 	{
 		double x, y;
 		glfwGetCursorPos(window, &x, &y);
-		return { x, y };
+		return { (float)x, (float)y };
 	}
 
 	void WindowWin32::init_render_context()
