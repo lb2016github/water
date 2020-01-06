@@ -15,7 +15,7 @@ namespace water
 		}
 		math3d::Matrix Camera::get_projection_matrix()
 		{
-			return math3d::Matrix::makePerspectiveProjectionMatrix(fovy, aspect, z_near, z_far);
+			return math3d::Matrix::makePerspectiveProjectionMatrix(math3d::radian(fovy), aspect, z_near, z_far);
 		}
 		void Camera::update()
 		{

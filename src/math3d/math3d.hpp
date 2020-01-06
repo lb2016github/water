@@ -18,6 +18,17 @@ namespace water {
 		typedef TEulerAngle<float> EulerAngle;
 		typedef TQuaternion<float> Quaternion;
 
+		template<class T>
+		T radian(T angle)
+		{
+			return TO_RAD(angle);
+		}
+
+		template<class T>
+		T angle(T radian)
+		{
+			return TO_ANGLE(radian);
+		}
 	}
 }
 #endif
