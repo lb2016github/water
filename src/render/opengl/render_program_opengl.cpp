@@ -133,7 +133,7 @@ namespace water
 			auto rst = m_location_map.find(name);
 			if (rst == m_location_map.end()) return false;
 			auto location = rst->second;
-			glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
+			glUniformMatrix4fv(location, 1, GL_FALSE, mat.getData());
 			return true;
 		}
 
@@ -142,7 +142,7 @@ namespace water
 			auto rst = m_location_map.find(name);
 			if (rst == m_location_map.end()) return false;
 			auto location = rst->second;
-			glUniform3fv(location, 1, &vec3[0]);
+			glUniform3fv(location, 1, vec3.getData());
 			return true;
 		}
 
@@ -151,7 +151,7 @@ namespace water
 			auto rst = m_location_map.find(name);
 			if (rst == m_location_map.end()) return false;
 			auto location = rst->second;
-			glUniform2fv(location, 1, &vec2[0]);
+			glUniform2fv(location, 1, vec2.getData());
 			return true;
 		}
 

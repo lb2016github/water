@@ -21,13 +21,20 @@ namespace water {
 		extern std::map<std::string, BlendFactor> CONFIG_BlendFactor;
 
 		// represent value of varial types
-		union ParamValue
+		struct ParamValue
 		{
-			math3d::Vector3 vec3;
-			math3d::Vector2 vec2;
-			math3d::Matrix mat;
-			float float_1;
-			int int_1;
+			union
+			{
+				math3d::Vector3 vec3;
+				math3d::Vector2 vec2;
+				math3d::Matrix mat;
+				float float_1;
+				int int_1;
+			};
+			ParamValue();
+			ParamValue(const ParamValue& param_value);
+			ParamValue& operator=(const ParamValue& param_value);
+
 		};
 
 		enum ParamValueType

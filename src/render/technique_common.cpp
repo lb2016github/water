@@ -96,6 +96,19 @@ namespace water {
 			{"SHADOW_MAP_TEXTURE", SemanticShadowMapTexture},
 			{"ENV_MAP_TEXTURE", SemanticEnvMap},
 		};
+		ParamValue::ParamValue()
+		{
+		}
+		ParamValue::ParamValue(const ParamValue& param_value)
+		{
+			mat = param_value.mat;
+		}
+		ParamValue& ParamValue::operator=(const ParamValue& param_value)
+		{
+			if (this == &param_value) return *this;
+			mat = param_value.mat;
+			return *this;
+		}
 	}
 }
 

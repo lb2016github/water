@@ -75,7 +75,7 @@ namespace water
 					for (int i = 0; i < 16; ++i)
 					{
 						int col = i / 4, row = i % 4;
-						p_value.mat[col][row] = atof(sub_values[i].c_str());
+						p_value.mat.setValue(row, col, atof(sub_values[i].c_str()));
 					}
 
 				}
