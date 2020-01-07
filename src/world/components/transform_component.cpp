@@ -68,14 +68,18 @@ namespace water {
 		{
 			scale = math3d::string_to_vector(scale_str);
 		}
-		void TransformComponent::set_rotation(math3d::EulerAngle p_rotation)
+		void TransformComponent::set_rotation(math3d::LEulerAngle p_rotation)
 		{
-			rotation = math3d::EulerAngle::toRotationMatrix(p_rotation);
+			rotation = math3d::Matrix::makeRotationMatrix(p_rotation);
+		}
+		void TransformComponent::set_rotation(math3d::GEulerAngle p_rotation)
+		{
+			rotation = math3d::Matrix::makeRotationMatrix(p_rotation);
 		}
 		void TransformComponent::set_rotation(std::string rot_str)
 		{
 			auto rot_euler = math3d::string_to_vector(rot_str);
-			set_rotation(math3d::EulerAngle(rot_euler.x, rot_euler.y, rot_euler.z));
+			set_rotation(math3d::LEulerAngle(math3d::radian(rot_euler.x), math3d::radian(rot_euler.y), math3d::radian(rot_euler.z)));
 		}
 	}
 }

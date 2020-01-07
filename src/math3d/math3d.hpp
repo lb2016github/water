@@ -15,8 +15,15 @@ namespace water {
 		typedef TVector2<float> Vector2;
 		typedef TVector2<int> Vector2I;
 		typedef TMatrix44<float> Matrix;
-		typedef TEulerAngle<float> EulerAngle;
 		typedef TQuaternion<float> Quaternion;
+		/*
+		define extrinsic rotation with y->x->z
+		*/
+		typedef TEulerAngle<float, EulerType::YXZ> GEulerAngle;
+		/*
+		define intrinsic rotation with y->x->z, which equals to extrinsic rotation z->x->y
+		*/
+		typedef TEulerAngle<float, EulerType::ZXY> LEulerAngle;
 
 		template<class T>
 		T radian(T angle)
