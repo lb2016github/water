@@ -133,7 +133,7 @@ namespace water
 			auto rst = m_location_map.find(name);
 			if (rst == m_location_map.end()) return false;
 			auto location = rst->second;
-			glUniformMatrix4fv(location, 1, GL_FALSE, mat.getData());
+			glUniformMatrix4fv(location, 1, GL_TRUE, mat.getData());
 			return true;
 		}
 

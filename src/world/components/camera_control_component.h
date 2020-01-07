@@ -31,7 +31,8 @@ namespace water
 			// move speed
 			float m_move_speed = 0.01;
 			// defines rotation angle when mouse move from left edge to right edge
-			float m_rotation_speed = 30;
+			// note that angle is represented by radian
+			float m_rotation_speed{ 3.14f };
 		};
 
 	}
