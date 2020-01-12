@@ -327,9 +327,9 @@ namespace water
 				// todo
 				auto anim = scene->mAnimations[i];
 				// 1. load skeleton
+				// todo check whether the skeleton has been created
 				world::SkeletonPtr sk_ptr = std::make_shared<world::Skeleton>(anim->mNumChannels);
 				world::AnimationClipPtr anim_clip_ptr = std::make_shared<world::AnimationClip>(sk_ptr, anim->mDuration);
-				// todo save animation
 				// for every bone
 				for (int j = 0; j < anim->mNumChannels; ++i)
 				{
@@ -359,6 +359,8 @@ namespace water
 					}
 					anim_clip_ptr->setJointFrameData(idx, std::move(data));
 				}
+				// save animation
+				world::AnimationClipManager::instance()->getAnimClipDataPtr(sk_ptr->m_id)->addAnimClip(anim->mName.C_Str(), anim_clip_ptr);
 			}
 			return world::AnimationClipData();
 		}

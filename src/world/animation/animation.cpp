@@ -8,6 +8,21 @@ namespace water
 {
 	namespace world
 	{
+		void AnimationClipManager::addAnimClipData(SkeletonID skeId, AnimationClipDataPtr animClipData)
+		{
+			m_skeletonAnimClipData[skeId] = animClipData;
+		}
+		AnimationClipDataPtr AnimationClipManager::getAnimClipDataPtr(SkeletonID skeId)
+		{
+			auto rst = m_skeletonAnimClipData.find(skeId);
+			if (rst == m_skeletonAnimClipData.end())
+			{
+				auto ptr = std::make_shared<AnimationClipData>();
+				m_skeletonAnimClipData[skeId] = ptr;
+				return ptr;
+			}
+			return rst->second;
+		}
 		AnimationClipManager* AnimationClipManager::instance()
 		{
 			static AnimationClipManager instance;

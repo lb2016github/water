@@ -116,6 +116,9 @@ namespace water
 		private:
 			std::map<SkeletonID, AnimationClipDataPtr> m_skeletonAnimClipData;
 		public:
+			void addAnimClipData(SkeletonID skeId, AnimationClipDataPtr animClipData);
+			AnimationClipDataPtr getAnimClipDataPtr(SkeletonID skeId);
+		public:
 			static AnimationClipManager* instance();
 		};
 	}
