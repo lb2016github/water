@@ -329,12 +329,35 @@ namespace water
 				// 1. load skeleton
 				world::SkeletonPtr sk_ptr = std::make_shared<world::Skeleton>(anim->mNumChannels);
 				world::AnimationClipPtr anim_clip_ptr = std::make_shared<world::AnimationClip>(sk_ptr, anim->mDuration);
+				// todo save animation
 				// for every bone
 				for (int j = 0; j < anim->mNumChannels; ++i)
 				{
 					auto nodeAnim = anim->mChannels[j];
 					auto boneName = nodeAnim->mNodeName;
+					auto idx = sk_ptr->getJointIndexByName(boneName.C_Str());
+					if (idx < 0) continue;
 					// update skeleton info
+					world::JointFrameData data(nodeAnim->mNumPositionKeys, nodeAnim->mNumRotationKeys, nodeAnim->mNumScalingKeys);
+					for (int k = 0; k < nodeAnim->mNumPositionKeys; ++k)
+					{
+						auto trans = nodeAnim->mPositionKeys[k];
+						// todo check whether need to multiply 1000
+						data.m_trans[k].setData(trans.mTime * 1000, trans.mValue.x, trans.mValue.y, trans.mValue.z);
+					}
+					for (int k = 0; k < nodeAnim->mNumScalingKeys; ++k)
+					{
+						auto scale = nodeAnim->mScalingKeys[k];
+						// todo check whether need to multiply 1000
+						data.m_scale[k].setData(scale.mTime * 1000, scale.mValue.x, scale.mValue.y, scale.mValue.z);
+					}
+					for (int k = 0; k < nodeAnim->mNumRotationKeys; ++k)
+					{
+						auto rot = nodeAnim->mRotationKeys[k];
+						// todo check whether need to multiply 1000
+						data.m_rot[k].setData(rot.mTime * 1000, rot.mValue.w, rot.mValue.x, rot.mValue.y, rot.mValue.z);
+					}
+					anim_clip_ptr->setJointFrameData(idx, std::move(data));
 				}
 			}
 			return world::AnimationClipData();

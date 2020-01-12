@@ -4,8 +4,8 @@
 
 #define WaterInterface struct
 
-#define SAFE_DELETE(ptr) if(ptr != nullptr) delete ptr;
-#define SAFE_DELETE_ARRAY(ptr) if (ptr != nullptr) delete[] ptr;
+#define SAFE_DELETE(ptr) if(ptr != nullptr) delete ptr; ptr = nullptr;
+#define SAFE_DELETE_ARRAY(ptr) if (ptr != nullptr) delete[] ptr; ptr = nullptr;
 
 #define	DECL_SHARED_PTR(cls) typedef std::shared_ptr<cls> cls##Ptr;
 #define DECL_WEEK_PTR(cls) typedef std::weak_ptr<cls> cls##WeekPtr;

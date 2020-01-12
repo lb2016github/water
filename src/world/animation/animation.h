@@ -14,6 +14,8 @@ namespace water
 			float m_timeMic;
 			math3d::Vector3 m_data;
 
+			void setData(float timeMic, float x, float y, float z);
+
 			bool operator<(const Vector3KeyFrame& vkf);
 			static math3d::Vector3 lerp(const Vector3KeyFrame& a, const Vector3KeyFrame& b, float factor);
 		};
@@ -22,6 +24,7 @@ namespace water
 			float m_timeMic;
 			math3d::Quaternion m_data;
 
+			void setData(float timeMic, float w, float x, float y, float z);
 			bool operator<(const QuaternionKeyFrame& vkf);
 			static math3d::Quaternion lerp(const QuaternionKeyFrame& a, const QuaternionKeyFrame& b, float factor);
 		};
@@ -47,12 +50,12 @@ namespace water
 			JointPose getJointPose(float timeMic);
 
 		public:
-			unsigned int m_numTrans;
-			unsigned int m_numRot;
-			unsigned int m_numScale;
-			Vector3KeyFrame* m_trans;
-			QuaternionKeyFrame* m_rot;
-			Vector3KeyFrame* m_scale;
+			unsigned int m_numTrans{ 0 };
+			unsigned int m_numRot{ 0 };
+			unsigned int m_numScale{ 0 };
+			Vector3KeyFrame* m_trans{ nullptr };
+			QuaternionKeyFrame* m_rot{ nullptr };
+			Vector3KeyFrame* m_scale{ nullptr };
 		private:
 			// record the pre index
 			unsigned int m_preTransIndex{ 0 };

@@ -24,6 +24,8 @@ namespace water
 		{
 			Skeleton(unsigned int jointCount);
 			~Skeleton();
+			int getJointIndexByName(std::string name);
+
 			SkeletonID m_id;				// id of skeleton
 			unsigned int m_jointCount;	// count of joints
 			Joint* m_joints;			// array of joints

@@ -20,6 +20,15 @@ namespace water
 		{
 			delete[] m_joints;
 		}
+
+		int Skeleton::getJointIndexByName(std::string name)
+		{
+			for (int i = 0; i < m_jointCount; ++i)
+			{
+				if (m_joints[i].m_name == name) return i;
+			}
+			return -1;
+		}
 		SkeletonPtr SkeletonManager::getSkeleton(SkeletonID skeId)
 		{
 			auto iter = m_mSkeleton.find(skeId);

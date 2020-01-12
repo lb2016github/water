@@ -34,9 +34,18 @@ namespace water
 		JointFrameData::JointFrameData(unsigned int numTrans, unsigned int numRot, unsigned int numScale):
 			m_numTrans(numTrans), m_numRot(numRot), m_numScale(numScale)
 		{
-			m_trans = new Vector3KeyFrame[m_numTrans];
-			m_rot = new QuaternionKeyFrame[m_numRot];
-			m_scale = new Vector3KeyFrame[m_numScale];
+			if (m_numTrans > 0)
+			{
+				m_trans = new Vector3KeyFrame[m_numTrans];
+			}
+			if (m_numRot > 0)
+			{
+				m_rot = new QuaternionKeyFrame[m_numRot];
+			}
+			if (m_scale > 0)
+			{
+				m_scale = new Vector3KeyFrame[m_numScale];
+			}
 		}
 		JointFrameData::JointFrameData(const JointFrameData& animFrameData)
 		{
@@ -74,38 +83,57 @@ namespace water
 		JointFrameData& JointFrameData::operator=(const JointFrameData& animFrameData)
 		{
 			if (this == &animFrameData) return *this;
+			SAFE_DELETE_ARRAY(m_trans);
+			SAFE_DELETE_ARRAY(m_scale);
+			SAFE_DELETE_ARRAY(m_rot);
 
 			m_numTrans = animFrameData.m_numTrans;
 			m_numRot = animFrameData.m_numRot;
 			m_numScale = animFrameData.m_numScale;
-			m_trans = new Vector3KeyFrame[m_numTrans];
-			m_rot = new QuaternionKeyFrame[m_numRot];
-			m_scale = new Vector3KeyFrame[m_numScale];
-			for (int i = 0; i < m_numTrans; ++i)
+			if (m_numTrans > 0)
 			{
-				m_trans[i] = animFrameData.m_trans[i];
+				m_trans = new Vector3KeyFrame[m_numTrans];
+				for (int i = 0; i < m_numTrans; ++i)
+				{
+					m_trans[i] = animFrameData.m_trans[i];
+				}
 			}
-			for (int i = 0; i < m_numRot; ++i)
+			if (m_numRot > 0)
 			{
-				m_rot[i] = animFrameData.m_rot[i];
+				m_rot = new QuaternionKeyFrame[m_numRot];
+				for (int i = 0; i < m_numRot; ++i)
+				{
+					m_rot[i] = animFrameData.m_rot[i];
+				}
 			}
-			for (int i = 0; i < m_numScale; ++i)
+			if (m_scale > 0)
 			{
-				m_scale[i] = animFrameData.m_scale[i];
+				m_scale = new Vector3KeyFrame[m_numScale];
+				for (int i = 0; i < m_numScale; ++i)
+				{
+					m_scale[i] = animFrameData.m_scale[i];
+				}
 			}
 			return *this;
 		}
 		JointFrameData& JointFrameData::operator=(JointFrameData&& animFrameData)
 		{
+			if (this == &animFrameData) return *this;
+			SAFE_DELETE_ARRAY(m_trans);
+			SAFE_DELETE_ARRAY(m_scale);
+			SAFE_DELETE_ARRAY(m_rot);
 			m_numTrans = animFrameData.m_numTrans;
 			m_numRot = animFrameData.m_numRot;
 			m_numScale = animFrameData.m_numScale;
 			m_trans = animFrameData.m_trans;
-			animFrameData.m_trans = nullptr;
 			m_rot = animFrameData.m_rot;
-			animFrameData.m_rot = nullptr;
 			m_scale = animFrameData.m_scale;
 			animFrameData.m_scale = nullptr;
+			animFrameData.m_trans = nullptr;
+			animFrameData.m_rot = nullptr;
+			animFrameData.m_numTrans = 0;
+			animFrameData.m_numScale = 0;
+			animFrameData.m_numRot = 0;
 			return *this;
 		}
 		JointFrameData::~JointFrameData()
@@ -162,9 +190,20 @@ namespace water
 		
 		JointPose JointFrameData::getJointPose(float timeMic)
 		{
-			math3d::Vector3 trans = getFrameValue<math3d::Vector3, Vector3KeyFrame>(timeMic, m_trans, m_numTrans, m_preTransIndex);
-			math3d::Vector3 scale = getFrameValue<math3d::Vector3, Vector3KeyFrame>(timeMic, m_scale, m_numScale, m_preScaleIndex);
-			math3d::Quaternion rot = getFrameValue<math3d::Quaternion, QuaternionKeyFrame>(timeMic, m_rot, m_numRot, m_preRotIndex);
+			math3d::Vector3 trans(0, 0, 0), scale(1, 1, 1);
+			math3d::Quaternion rot(1, 0, 0, 0);
+			if (m_numTrans > 0)
+			{
+				trans = getFrameValue<math3d::Vector3, Vector3KeyFrame>(timeMic, m_trans, m_numTrans, m_preTransIndex);
+			}
+			if (m_numScale > 0)
+			{
+				scale = getFrameValue<math3d::Vector3, Vector3KeyFrame>(timeMic, m_scale, m_numScale, m_preScaleIndex);
+			}
+			if (m_numRot > 0)
+			{
+				rot = getFrameValue<math3d::Quaternion, QuaternionKeyFrame>(timeMic, m_rot, m_numRot, m_preRotIndex);
+			}
 			return { trans, scale, rot };
 		}
 		// ============================ AnimationFrameData END ========================== //
@@ -174,6 +213,10 @@ namespace water
 			m_skeleton(skPtr), m_duration(duration)
 		{
 			m_jointFrameData = new JointFrameData * [m_skeleton->m_jointCount];
+			for (int i = 0; i < m_skeleton->m_jointCount; ++i)
+			{
+				m_jointFrameData[i] = new JointFrameData(0, 0, 0);
+			}
 		}
 		AnimationClip::~AnimationClip()
 		{
@@ -181,20 +224,10 @@ namespace water
 		}
 		void AnimationClip::setJointFrameData(unsigned int jointIdx, const JointFrameData& jointFrameData)
 		{
-			if (!m_jointFrameData[jointIdx])
-			{
-				m_jointFrameData[jointIdx] = new JointFrameData(jointFrameData);
-				return;
-			}
 			*(m_jointFrameData[jointIdx]) = jointFrameData;
 		}
 		void AnimationClip::setJointFrameData(unsigned int jointIdx, JointFrameData&& jointFrameData)
 		{
-			if (!m_jointFrameData[jointIdx])
-			{
-				m_jointFrameData[jointIdx] = new JointFrameData(jointFrameData);
-				return;
-			}
 			*(m_jointFrameData[jointIdx]) = jointFrameData;
 		}
 		SkeletonPosePtr AnimationClip::getPose(float timeMic)
@@ -210,6 +243,13 @@ namespace water
 		{
 			return m_duration;
 		}
+		void Vector3KeyFrame::setData(float timeMic, float x, float y, float z)
+		{
+			m_timeMic = timeMic;
+			m_data.x = x;
+			m_data.y = y;
+			m_data.z = z;
+		}
 		// ============================ AnimationClip END ========================== //
 		bool Vector3KeyFrame::operator<(const Vector3KeyFrame& vkf)
 		{
@@ -218,6 +258,14 @@ namespace water
 		math3d::Vector3 Vector3KeyFrame::lerp(const Vector3KeyFrame& a, const Vector3KeyFrame& b, float factor)
 		{
 			return math3d::Vector3::lerp(a.m_data, b.m_data, factor);
+		}
+		void QuaternionKeyFrame::setData(float timeMic, float w, float x, float y, float z)
+		{
+			m_timeMic = timeMic;
+			m_data.w = w;
+			m_data.x = x;
+			m_data.y = y;
+			m_data.z = z;
 		}
 		bool QuaternionKeyFrame::operator<(const QuaternionKeyFrame& vkf)
 		{
