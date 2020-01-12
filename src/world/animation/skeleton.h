@@ -38,7 +38,7 @@ namespace water
 			math3d::Vector3 m_scale;
 			math3d::Quaternion m_rot;
 
-			static void mix(const JointPose& srcPose, const JointPose& destPose, JointPose& outPose, float destFactor);
+			static void lerp(const JointPose& srcPose, const JointPose& destPose, JointPose& outPose, float destFactor);
 		};
 		struct SkeletonPose: public std::enable_shared_from_this<SkeletonPose>
 		{

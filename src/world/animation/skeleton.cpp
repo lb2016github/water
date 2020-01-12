@@ -52,7 +52,7 @@ namespace water
 			m_trans(trans), m_scale(scale), m_rot(rot)
 		{
 		}
-		void JointPose::mix(const JointPose& srcPose, const JointPose& destPose, JointPose& outPose, float destFactor)
+		void JointPose::lerp(const JointPose& srcPose, const JointPose& destPose, JointPose& outPose, float destFactor)
 		{
 			outPose.m_trans = math3d::Vector3::lerp(srcPose.m_trans, destPose.m_trans, destFactor);
 			outPose.m_rot = math3d::Quaternion::slerp(srcPose.m_rot, destPose.m_rot, destFactor);
