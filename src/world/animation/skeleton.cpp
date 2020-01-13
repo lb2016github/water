@@ -53,16 +53,17 @@ namespace water
 			}
 			return iter->second;
 		}
-		void SkeletonManager::addSkeleton(SkeletonPtr skeletonPtr)
+		SkeletonID SkeletonManager::addSkeleton(SkeletonPtr skeletonPtr)
 		{
 			for (auto iter = m_mSkeleton.begin(); iter != m_mSkeleton.end(); ++iter)
 			{
 				if (iter->second->equals(skeletonPtr))
 				{
-					return;
+					return iter->second->m_id;
 				}
 			}
 			m_mSkeleton[skeletonPtr->m_id] = skeletonPtr;
+			return skeletonPtr->m_id;
 		}
 		SkeletonID SkeletonManager::createSkeletonID()
 		{

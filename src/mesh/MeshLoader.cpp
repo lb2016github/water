@@ -193,18 +193,83 @@ namespace water
 			}
 			return data_ptr;
 		}
-		aiNode* getNodeByName(aiNode* node, const char* name)
+
+		void MeshLoader::load_animation(const std::string& filename)
 		{
-			if (strcmp(node->mName.C_Str(), name) ==0) return node;
-			for (int i = 0; i < node->mNumChildren; ++i)
+			auto abs_path = filesystem::FileSystem::get_instance()->get_absolute_path(filename);
+			render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>(filename, -1, render::TRIANGLES);
+			Assimp::Importer importer;
+			const aiScene* scene = importer.ReadFile(abs_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals| aiProcess_CalcTangentSpace);
+			if (!scene->HasAnimations()) return;
+			printNode(scene->mRootNode, 0);
+			// 1. load skeletons
+			std::map<aiString, world::SkeletonID> skeMap;
+			for (int i = 0; i < scene->mNumMeshes; ++i)
 			{
-				auto tmp = getNodeByName(node->mChildren[i], name);
-				if (tmp != nullptr) return tmp;
+				auto meshPtr = scene->mMeshes[i];
+				if (meshPtr->mNumBones <= 0) continue;
+				auto bone = meshPtr->mBones[0];
+				aiNode* rootBoneNode = getRootBone(scene->mRootNode, bone->mName);
+				if (!rootBoneNode) continue;
+				// check whether has been loaded
+				if (skeMap.find(rootBoneNode->mName) != skeMap.end()) continue;
+				world::SkeletonPtr skePtr = createSkeletonByRootBone(rootBoneNode);
+				
+				// add to SkeletonManager
+				world::SkeletonID skId = world::SkeletonManager::instance()->addSkeleton(skePtr);
+				skeMap[rootBoneNode->mName] = skId;
 			}
-			return nullptr;
 
-		};
 
+			// 2. load animation
+			for (int i = 0; i < scene->mNumAnimations; ++i)
+			{
+				auto anim = scene->mAnimations[i];
+				assert(anim->mNumChannels > 0);
+
+				// find the skeleton
+				aiNode* rootBoneNode = getRootBone(scene->mRootNode, anim->mChannels[0]->mNodeName);
+				auto rst = skeMap.find(rootBoneNode->mName);
+				assert(rst != skeMap.end());
+				auto skPtr = world::SkeletonManager::instance()->getSkeleton(rst->second);
+
+				world::AnimationClipPtr anim_clip_ptr = std::make_shared<world::AnimationClip>(skPtr, anim->mDuration);
+				// for every bone
+				for (int j = 0; j < anim->mNumChannels; ++i)
+				{
+					auto nodeAnim = anim->mChannels[j];
+					auto boneName = nodeAnim->mNodeName;
+					auto idx = skPtr->getJointIndexByName(boneName.C_Str());
+					if (idx < 0) continue;
+					// update skeleton info
+					world::JointFrameData data(nodeAnim->mNumPositionKeys, nodeAnim->mNumRotationKeys, nodeAnim->mNumScalingKeys);
+					for (int k = 0; k < nodeAnim->mNumPositionKeys; ++k)
+					{
+						auto trans = nodeAnim->mPositionKeys[k];
+						// todo check whether need to multiply 1000
+						data.m_trans[k].setData(trans.mTime * 1000, trans.mValue.x, trans.mValue.y, trans.mValue.z);
+					}
+					for (int k = 0; k < nodeAnim->mNumScalingKeys; ++k)
+					{
+						auto scale = nodeAnim->mScalingKeys[k];
+						// todo check whether need to multiply 1000
+						data.m_scale[k].setData(scale.mTime * 1000, scale.mValue.x, scale.mValue.y, scale.mValue.z);
+					}
+					for (int k = 0; k < nodeAnim->mNumRotationKeys; ++k)
+					{
+						auto rot = nodeAnim->mRotationKeys[k];
+						// todo check whether need to multiply 1000
+						data.m_rot[k].setData(rot.mTime * 1000, rot.mValue.w, rot.mValue.x, rot.mValue.y, rot.mValue.z);
+					}
+					anim_clip_ptr->setJointFrameData(idx, std::move(data));
+				}
+				// save animation
+				world::AnimationClipManager::instance()->getAnimClipDataPtr(skPtr->m_id)->addAnimClip(anim->mName.C_Str(), anim_clip_ptr);
+			}
+			return;
+		}
+
+		///////////////////////////////// tool methods ////////////////////////////
 		void printNode(aiNode* node, int prefex)
 		{
 			std::string preStr = "";
@@ -220,9 +285,9 @@ namespace water
 			}
 		}
 
-		aiNode* getRootBone(aiNode* rootNode, const char* name)
+		aiNode* getRootBone(aiNode* pNode, const aiString& name)
 		{
-			aiNode* node = getNodeByName(rootNode, name);
+			aiNode* node = getNodeByName(pNode, name);
 			while (node)
 			{
 				aiNode* parent = node->mParent;
@@ -291,73 +356,22 @@ namespace water
 			}
 			return skPtr;
 		}
-
-		world::AnimationClipData MeshLoader::load_animation(const std::string& filename)
+		aiNode* getNodeByName(aiNode* rootNode, const aiString& name)
 		{
-			auto abs_path = filesystem::FileSystem::get_instance()->get_absolute_path(filename);
-			render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>(filename, -1, render::TRIANGLES);
-			Assimp::Importer importer;
-			const aiScene* scene = importer.ReadFile(abs_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals| aiProcess_CalcTangentSpace);
-			if (!scene->HasAnimations()) return world::AnimationClipData();
-			printNode(scene->mRootNode, 0);
-			// 1. load skeletons
-			std::set<aiString> loadedSkeSet;
-			for (int i = 0; i < scene->mNumMeshes; ++i)
+			// to speed up searching, use hierachy first search
+			std::queue<aiNode*> que;
+			que.push(rootNode);
+			while (que.size() > 0)
 			{
-				auto meshPtr = scene->mMeshes[i];
-				if (meshPtr->mNumBones <= 0) continue;
-				auto bone = meshPtr->mBones[0];
-				aiNode* rootBoneNode = getRootBone(scene->mRootNode, bone->mName.C_Str());
-				if (!rootBoneNode) continue;
-				// check whether has been loaded
-				if (loadedSkeSet.find(rootBoneNode->mName) != loadedSkeSet.end()) continue;
-				loadedSkeSet.emplace(rootBoneNode->mName);
-				world::SkeletonPtr skePtr = createSkeletonByRootBone(rootBoneNode);
-				
-				// add to SkeletonManager
-				world::SkeletonManager::instance()->addSkeleton(skePtr);
-			}
-
-
-			// 2. load animation
-			for (int i = 0; i < scene->mNumAnimations; ++i)
-			{
-				// todo
-				auto anim = scene->mAnimations[i];
-				world::AnimationClipPtr anim_clip_ptr = std::make_shared<world::AnimationClip>(sk_ptr, anim->mDuration);
-				// for every bone
-				for (int j = 0; j < anim->mNumChannels; ++i)
+				aiNode* node = que.front();
+				que.pop();
+				if (node->mName == name) return node;
+				for (int i = 0; i < node->mNumChildren; ++i)
 				{
-					auto nodeAnim = anim->mChannels[j];
-					auto boneName = nodeAnim->mNodeName;
-					auto idx = sk_ptr->getJointIndexByName(boneName.C_Str());
-					if (idx < 0) continue;
-					// update skeleton info
-					world::JointFrameData data(nodeAnim->mNumPositionKeys, nodeAnim->mNumRotationKeys, nodeAnim->mNumScalingKeys);
-					for (int k = 0; k < nodeAnim->mNumPositionKeys; ++k)
-					{
-						auto trans = nodeAnim->mPositionKeys[k];
-						// todo check whether need to multiply 1000
-						data.m_trans[k].setData(trans.mTime * 1000, trans.mValue.x, trans.mValue.y, trans.mValue.z);
-					}
-					for (int k = 0; k < nodeAnim->mNumScalingKeys; ++k)
-					{
-						auto scale = nodeAnim->mScalingKeys[k];
-						// todo check whether need to multiply 1000
-						data.m_scale[k].setData(scale.mTime * 1000, scale.mValue.x, scale.mValue.y, scale.mValue.z);
-					}
-					for (int k = 0; k < nodeAnim->mNumRotationKeys; ++k)
-					{
-						auto rot = nodeAnim->mRotationKeys[k];
-						// todo check whether need to multiply 1000
-						data.m_rot[k].setData(rot.mTime * 1000, rot.mValue.w, rot.mValue.x, rot.mValue.y, rot.mValue.z);
-					}
-					anim_clip_ptr->setJointFrameData(idx, std::move(data));
+					que.push(node->mChildren[i]);
 				}
-				// save animation
-				world::AnimationClipManager::instance()->getAnimClipDataPtr(sk_ptr->m_id)->addAnimClip(anim->mName.C_Str(), anim_clip_ptr);
 			}
-			return world::AnimationClipData();
+			return nullptr;
 		}
 	}
 }

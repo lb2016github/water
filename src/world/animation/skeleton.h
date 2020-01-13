@@ -28,7 +28,6 @@ namespace water
 			int getJointIndexByName(std::string name);
 			bool equals(const SkeletonPtr skePtr);
 
-
 		public:
 			SkeletonID m_id;				// id of skeleton
 			unsigned int m_jointCount;	// count of joints
@@ -61,7 +60,7 @@ namespace water
 		{
 		public:
 			SkeletonPtr getSkeleton(SkeletonID skeId);
-			void addSkeleton(SkeletonPtr skeletonPtr);
+			SkeletonID addSkeleton(SkeletonPtr skeletonPtr);
 			static SkeletonID createSkeletonID();
 			static SkeletonManager* instance();
 		private:
