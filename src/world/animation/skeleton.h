@@ -19,13 +19,17 @@ namespace water
 			int m_parentIndex{ -1 };		// index of parent joint
 		};
 
-		struct Skeleton: public std::enable_shared_from_this<Skeleton>
-
+		class Skeleton: public std::enable_shared_from_this<Skeleton>
 		{
+		public:
 			Skeleton(unsigned int jointCount);
 			~Skeleton();
+		public:
 			int getJointIndexByName(std::string name);
+			bool equals(const SkeletonPtr skePtr);
 
+
+		public:
 			SkeletonID m_id;				// id of skeleton
 			unsigned int m_jointCount;	// count of joints
 			Joint* m_joints;			// array of joints

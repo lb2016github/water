@@ -7,6 +7,7 @@
 #include "common/log.h"
 #include <string>
 #include <queue>
+#include <set>
 
 namespace water
 {
@@ -261,11 +262,19 @@ namespace water
 					mtx.c1, mtx.c2, mtx.c3, mtx.c4,
 					mtx.d1, mtx.d2, mtx.d3, mtx.d4
 					);
-				for (int i = 0; i < joints.size(); ++i)
+				// set parent index. As we use hierachy first traverse, parent is inited before children and supposed to be found here
+				joint.m_parentIndex = -1;
+				aiNode* parent = node->mParent;
+				if (parent)
 				{
-					if (strcmp(node->mName.C_Str(), joints[i].m_name.c_str()) == 0)
+					auto parentName = node->mName.C_Str();
+					for (int i = 0; i < joints.size(); ++i)
 					{
-						joint.m_parentIndex = i;
+						if (strcmp(parentName, joints[i].m_name.c_str()) == 0)
+						{
+							joint.m_parentIndex = i;
+							break;
+						}
 					}
 				}
 				joints.push_back(joint);
@@ -292,32 +301,21 @@ namespace water
 			if (!scene->HasAnimations()) return world::AnimationClipData();
 			printNode(scene->mRootNode, 0);
 			// 1. load skeletons
+			std::set<aiString> loadedSkeSet;
 			for (int i = 0; i < scene->mNumMeshes; ++i)
 			{
 				auto meshPtr = scene->mMeshes[i];
-				std::vector<world::Joint*> joints;
 				if (meshPtr->mNumBones <= 0) continue;
-				world::SkeletonPtr skePtr = nullptr;
-				for (int j = 0; j < meshPtr->mNumBones; ++j)
-				{
-					auto bone = meshPtr->mBones[j];
-					// init skeleton
-					if (!skePtr)
-					{
-						aiNode* rootBoneNode = getRootBone(scene->mRootNode, bone->mName.C_Str());
-						skePtr = createSkeletonByRootBone(rootBoneNode);
-					}
-					world::Joint* joint = new world::Joint();
-					joint->m_name = bone->mName.C_Str();
-					auto& mtx = bone->mOffsetMatrix;
-					joint->m_invBindPose = math3d::Matrix(
-						mtx.a1, mtx.a2, mtx.a3, mtx.a4,
-						mtx.b1, mtx.b2, mtx.b3, mtx.b4,
-						mtx.c1, mtx.c2, mtx.c3, mtx.c4,
-						mtx.d1, mtx.d2, mtx.d3, mtx.d4
-						);
-					joints.push_back(joint);
-				}
+				auto bone = meshPtr->mBones[0];
+				aiNode* rootBoneNode = getRootBone(scene->mRootNode, bone->mName.C_Str());
+				if (!rootBoneNode) continue;
+				// check whether has been loaded
+				if (loadedSkeSet.find(rootBoneNode->mName) != loadedSkeSet.end()) continue;
+				loadedSkeSet.emplace(rootBoneNode->mName);
+				world::SkeletonPtr skePtr = createSkeletonByRootBone(rootBoneNode);
+				
+				// add to SkeletonManager
+				world::SkeletonManager::instance()->addSkeleton(skePtr);
 			}
 
 
@@ -326,9 +324,6 @@ namespace water
 			{
 				// todo
 				auto anim = scene->mAnimations[i];
-				// 1. load skeleton
-				// todo check whether the skeleton has been created
-				world::SkeletonPtr sk_ptr = std::make_shared<world::Skeleton>(anim->mNumChannels);
 				world::AnimationClipPtr anim_clip_ptr = std::make_shared<world::AnimationClip>(sk_ptr, anim->mDuration);
 				// for every bone
 				for (int j = 0; j < anim->mNumChannels; ++i)

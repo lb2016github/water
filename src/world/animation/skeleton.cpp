@@ -29,6 +29,21 @@ namespace water
 			}
 			return -1;
 		}
+		bool Skeleton::equals(const SkeletonPtr skePtr)
+		{
+			if (m_jointCount != skePtr->m_jointCount) return false;
+			for (int i = 0; i < m_jointCount; ++i)
+			{
+				// only check join structor
+				auto joint1 = m_joints[i];
+				auto joint2 = skePtr->m_joints[i];
+				if (joint1.m_parentIndex != joint2.m_parentIndex)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
 		SkeletonPtr SkeletonManager::getSkeleton(SkeletonID skeId)
 		{
 			auto iter = m_mSkeleton.find(skeId);
@@ -40,6 +55,13 @@ namespace water
 		}
 		void SkeletonManager::addSkeleton(SkeletonPtr skeletonPtr)
 		{
+			for (auto iter = m_mSkeleton.begin(); iter != m_mSkeleton.end(); ++iter)
+			{
+				if (iter->second->equals(skeletonPtr))
+				{
+					return;
+				}
+			}
 			m_mSkeleton[skeletonPtr->m_id] = skeletonPtr;
 		}
 		SkeletonID SkeletonManager::createSkeletonID()
