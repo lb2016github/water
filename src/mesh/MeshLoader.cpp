@@ -38,6 +38,9 @@ namespace water
 			{
 				render::MeshDataPtr data_ptr = std::make_shared<render::MeshData>(filename, i, render::TRIANGLES);
 				aiMesh* mesh = scene->mMeshes[i];
+				// todo first load skin data
+
+
 				// load vertex data
 				unsigned int num_vertices = mesh->mNumVertices;
 				for (auto i = 0; i < num_vertices; ++i)
@@ -373,6 +376,23 @@ namespace water
 			}
 			return nullptr;
 		}
-	}
+		struct SkinData
+		{
+			struct VertexSkinData
+			{
+				unsigned int jointIdx;
+				float weight;
+			};
+			std::map<unsigned int, std::vector<VertexSkinData>> m_skinData;
+			world::SkeletonID m_skId;
+		};
+		SkinData loadFromAiBones(aiBone** aiBones, unsigned int numBones)
+		{
+		}
+		ModelData::ModelData(const std::string& filepath) :
+			m_filepath(filepath);
+		{
+		}
+}
 }
 

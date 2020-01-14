@@ -14,6 +14,26 @@ namespace water
 			virtual render::MeshDataPtr load_combined_mesh(const std::string& filename);
 			virtual void load_animation(const std::string& filename);
 		};
+
+		class ModelData
+		{
+		public:
+			/*
+			init ModelData with filename and meshIdx
+			@param filepath: filepath of assert
+			@param meshIdx: mesh idx of 
+			*/
+			ModelData(const std::string& filepath);
+		public:
+			/* filename of model */
+			std::string m_filepath{ "" };
+			/* mesh of model */
+			render::MeshDataPtr m_meshPtr{ nullptr };
+			/* skeleton pointer */
+			world::SkeletonPtr m_skPtr{ nullptr };
+			/* animation list */
+			world::AnimationClipData m_animClipData;
+		};
 	}
 }
 

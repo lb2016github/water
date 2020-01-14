@@ -31,14 +31,23 @@ namespace water
 			}
 			MeshData(MeshMode mesh_mode) : mode(mesh_mode) { mesh_id = create_id(); }
 			WATER_ID mesh_id;
+			/* position of vertex */
 			std::vector<math3d::Vector3> position;
+			/* normal of vertex */
 			std::vector<math3d::Vector3> normal;
+			/* color of vertex */
 			std::vector<math3d::Vector4> color;
+			/* texture coordinate of vertex */
 			std::vector<math3d::Vector2> coordinate;
+			/* tangent of vertex */
 			std::vector<math3d::Vector3> tangent;
-			std::vector<math3d::Vector4> bone_id;
-			std::vector<math3d::Vector4> bone_weight;
+			/* idx of joints */
+			std::vector<math3d::Vector4I> joint_indices;
+			/* weights of joints */
+			std::vector<math3d::Vector4> joint_weights;
+			/* element data of vertices */
 			std::vector<unsigned int> index_data;
+			/* mode of primitive */
 			MeshMode mode;
 
 			bool dirty = { true };
