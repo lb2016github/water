@@ -30,56 +30,8 @@ namespace water
 		render::MeshDataPtr AssimpLoader::getCombinedMesh()
 		{
 			if (m_combinedMeshPtr) return m_combinedMeshPtr;
-			if (m_meshList.size() < 0) return nullptr;
-			if (m_meshList.size() == 1) return m_meshList[0];
-			// check skeleton and vertex format
-			world::SkeletonID skId = m_meshList[0]->skeID;
-			render::MeshData::VertexFormat format = m_meshList[0]->format;
-			for each (auto ptr in m_meshList)
-			{
-				if (ptr->skeID != skId) return nullptr;
-				if (ptr->format != format) return nullptr;
-			}
-			// do combine mesh
-			unsigned int baseIndex = 0;
-			render::MeshDataPtr dataPtr = std::make_shared<render::MeshData>(m_filepath, -1, render::TRIANGLES);
-			for each (auto meshPtr in m_meshList)
-			{
-				if (format & render::MeshData::BIT_POSITION > 0)
-				{
-					dataPtr->position.insert(dataPtr->position.end(), meshPtr->position.begin(), meshPtr->position.end());
-				}
-				if (format & render::MeshData::BIT_NORMAL > 0)
-				{
-					dataPtr->normal.insert(dataPtr->normal.end(), meshPtr->normal.begin(), meshPtr->normal.end());
-				}
-				if (format & render::MeshData::BIT_COLOR > 0)
-				{
-					dataPtr->color.insert(dataPtr->color.end(), meshPtr->color.begin(), meshPtr->color.end());
-				}
-				if (format & render::MeshData::BIT_COORDINATE > 0)
-				{
-					dataPtr->coordinate.insert(dataPtr->coordinate.end(), meshPtr->coordinate.begin(), meshPtr->coordinate.end());
-				}
-				if (format & render::MeshData::BIT_TANGENT > 0)
-				{
-					dataPtr->tangent.insert(dataPtr->tangent.end(), meshPtr->tangent.begin(), meshPtr->tangent.end());
-				}
-				if (format & render::MeshData::BIT_SKIN > 0)
-				{
-					dataPtr->joint_indices.insert(dataPtr->joint_indices.end(), meshPtr->joint_indices.begin(), meshPtr->joint_indices.end());
-					dataPtr->joint_weights.insert(dataPtr->joint_weights.end(), meshPtr->joint_weights.begin(), meshPtr->joint_weights.end());
-				}
-				if (format & render::MeshData::BIT_INDEX > 0)
-				{
-					for (auto iter = meshPtr->index_data.begin(); iter != meshPtr->index_data.end(); ++iter)
-					{
-						dataPtr->index_data.emplace_back(*iter + baseIndex);
-					}
-				}
-				baseIndex = dataPtr->index_data.size();
-			}
-			return dataPtr;
+			m_combinedMeshPtr = render::MeshData::combineMeshes(m_meshList);
+			return m_combinedMeshPtr;
 		}
 
 		std::vector<render::MeshDataPtr> AssimpLoader::getAllMesh()
@@ -117,13 +69,14 @@ namespace water
 
 				// find the skeleton
 				aiNode* rootBoneNode = getRootBone(anim->mChannels[0]->mNodeName);
+				printNode(rootBoneNode);
 				auto rst = m_skMap.find(rootBoneNode->mName.C_Str());
 				assert(rst != m_skMap.end());
 				auto skPtr = rst->second;
 
 				world::AnimationClipPtr anim_clip_ptr = std::make_shared<world::AnimationClip>(skPtr, anim->mDuration);
 				// for every bone
-				for (int j = 0; j < anim->mNumChannels; ++i)
+				for (int j = 0; j < anim->mNumChannels; ++j)
 				{
 					auto nodeAnim = anim->mChannels[j];
 					auto boneName = nodeAnim->mNodeName;
@@ -269,16 +222,18 @@ namespace water
 			{
 				aiNode* parent = node->mParent;
 				if (!parent) return node;
-				std::string pName = parent->mName.C_Str();
-				// parent name starts with child name and contains Assimp
-				if (pName.find(node->mName.C_Str()) == 0 && pName.find("Assimp") != std::string::npos)
-				{
-					return node;
-				}
-				else
-				{
-					node = parent;
-				}
+				if (parent == m_scene->mRootNode) return node;
+				else node = parent;
+				//std::string pName = parent->mName.C_Str();
+				//// parent name starts with child name and contains Assimp
+				//if (pName.find(node->mName.C_Str()) == 0 && pName == "RootNode")
+				//{
+				//	return node;
+				//}
+				//else
+				//{
+				//	node = parent;
+				//}
 			}
 			return nullptr;
 		}

@@ -17,62 +17,29 @@ namespace water
 {
 	namespace render
 	{
-		struct MeshData
+		class MeshData;
+		typedef std::shared_ptr<MeshData> MeshDataPtr;
+
+		class MeshData: std::enable_shared_from_this<MeshData>
 		{
-			static const unsigned char BIT_POSITION = 0;
-			static const unsigned char BIT_NORMAL = 1;
-			static const unsigned char BIT_COLOR = 2;
-			static const unsigned char BIT_COORDINATE = 3;
-			static const unsigned char BIT_TANGENT = 4;
-			static const unsigned char BIT_SKIN = 5;
-			static const unsigned char BIT_INDEX = 6;
+		public:
+			static const unsigned char BIT_POSITION = 1;
+			static const unsigned char BIT_NORMAL = 2;
+			static const unsigned char BIT_COLOR = 3;
+			static const unsigned char BIT_COORDINATE = 4;
+			static const unsigned char BIT_TANGENT = 5;
+			static const unsigned char BIT_SKIN = 6;
+			static const unsigned char BIT_INDEX = 7;
 			typedef unsigned long VertexFormat;
 
-			MeshData(const std::string& filepath, int mesh_idx, MeshMode mesh_mode): mode(mesh_mode)
-			{
-				WATER_ID hash = 5333 + mesh_idx;
-				auto char_str = filepath.c_str();
-				int c;
-				while (c = *char_str++)
-				{
-					hash = ((hash << 5) + hash) + c;
-				}
-				mesh_id = hash;
-			}
-			MeshData(MeshMode mesh_mode) : mode(mesh_mode) { mesh_id = create_id(); }
-			void updateFormat()
-			{
-				if (position.size() > 0)
-				{
-					format |= 1 << BIT_POSITION;
-				}
-				if (normal.size() > 0)
-				{
-					format |= 1 << BIT_NORMAL;
-				}
-				if (color.size() > 0)
-				{
-					format |= 1 << BIT_COLOR;
-				}
-				if (coordinate.size() > 0)
-				{
-					format |= 1 << BIT_COORDINATE;
-				}
-				if (tangent.size() > 0)
-				{
-					format |= 1 << BIT_TANGENT;
-				}
-				if (joint_indices.size() > 0)
-				{
-					format |= 1 << BIT_SKIN;
-				}
-				if (index_data.size() > 0)
-				{
-					format |= 1 << BIT_INDEX;
-				}
-			}
+		public:
+			MeshData(const std::string& filepath, int mesh_idx, MeshMode mesh_mode);
+			MeshData(MeshMode mesh_mode);
+			void updateFormat();
+		public:
+			static MeshDataPtr combineMeshes(const std::vector<MeshDataPtr>& meshList);
 
-
+		public:
 			WATER_ID mesh_id;
 			VertexFormat format;
 			/* position of vertex */
@@ -98,9 +65,6 @@ namespace water
 
 			bool dirty = { true };
 		};
-		typedef std::shared_ptr<MeshData> MeshDataPtr;
-
-
 	}
 }
 

@@ -57,7 +57,7 @@ namespace water
 			{
 				m_rot = new QuaternionKeyFrame[m_numRot];
 			}
-			if (m_scale > 0)
+			if (m_numScale > 0)
 			{
 				m_scale = new Vector3KeyFrame[m_numScale];
 			}

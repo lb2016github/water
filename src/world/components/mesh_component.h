@@ -21,8 +21,8 @@ namespace water
 
 
 		public:
-			std::vector<render::MeshDataPtr> load_from_file(std::string filename, bool combined_mesh);
 			void set_mesh_ptr(render::MeshDataPtr mesh_ptr);
+			void initMesh(const std::string& filepath, std::vector<int> meshIndices);
 			render::MeshDataPtr get_mesh_ptr();
 
 		protected:

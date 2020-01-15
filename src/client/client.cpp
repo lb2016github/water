@@ -69,7 +69,7 @@ void main(int argc, char* argv[]) {
 
 	auto world = world::World::get_instance();
 	world->set_window(window);
-	auto scn = world->load_scene("scenes/test.scene");
+	auto scn = world->load_scene("scenes/animation.scene");
 	world->set_cur_scene(scn);
 	window->add_callback(world);
 
