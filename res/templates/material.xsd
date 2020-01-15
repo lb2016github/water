@@ -2,6 +2,10 @@
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 targetNamespace="/water" xmlns:water="/water">
     <!-- ========================= Define Param Types ===================== -->
+    <!--Define IntList-->
+    <xs:simpleType name="IntList">
+        <xs:list itemType="xs:integer"/>
+    </xs:simpleType>
     <!--Define FloatList-->
     <xs:simpleType name="FloatList">
         <xs:list itemType="xs:float"/>
@@ -54,6 +58,7 @@ targetNamespace="/water" xmlns:water="/water">
             <xs:enumeration value="Sampler2D"/>
             <xs:enumeration value="Light"/>
             <xs:enumeration value="CubeMap"/>
+            <xs:enumeration value="IntList"/>
         </xs:restriction>
     </xs:simpleType>
     <!--Define semantics -->

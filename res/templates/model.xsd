@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 targetNamespace="/water" xmlns:water="/water">
+    <!--Define IntList-->
+    <xs:simpleType name="IntList">
+        <xs:list itemType="xs:integer"/>
+    </xs:simpleType>
     <xs:complexType name="Mesh">
         <xs:attribute name="path" type="xs:string"/>
-        <xs:attribute name="mesh_idx" type="xs:integer"/>
+        <xs:attribute name="mesh_idx" type="IntList"/>
     </xs:complexType>
     <xs:complexType name="Material">
         <xs:attribute name="path" type="xs:string"/>

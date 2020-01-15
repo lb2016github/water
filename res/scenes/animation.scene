@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scene xmlns="/water" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/water ../templates/scene.xsd">
     <LightConfig>
-        <DirectionLight direction="0.1 -1 0.1">
+        <DirectionLight direction="-1 -0.5 -1">
             <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
         </DirectionLight>
 <!--        <PointLight position="0 20 -10">-->
 <!--            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>-->
 <!--            <Atten constant="0" exp="0.01" linear="0.1"/>-->
 <!--        </PointLight>-->
-<!--        <PointLight position="0 30 0">-->
-<!--            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>-->
-<!--            <Atten constant="0" exp="0.01" linear="0.1"/>-->
-<!--        </PointLight>-->
+        <PointLight position="0 30 0">
+            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>
+            <Atten constant="0" exp="0.01" linear="0.1"/>
+        </PointLight>
 <!--        <PointLight position="0 0 0">-->
 <!--            <BaseLight color="1 1 1" ambiance_intensity="0.1" diffuse_intensity="0.2"/>-->
 <!--            <Atten constant="0" exp="0.01" linear="0.1"/>-->
@@ -32,7 +32,7 @@
 <!--    <Model path="models/quad/quad.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
         <!-- <Model path="models/sky_box/sky_box_hdr.model" position="0 0 0" scale="1 1 1" rotation="0 0 0"/> -->
         <Model path="models/sky_box/sky_box.model" position="0 0 0" scale="1 1 1" rotation="0 0 0"/>
-        <Model path="models/minotaur/minotaur.model" position="0 0 -100" scale="1 1 1" rotation="0 0 0"/>
+        <Model path="models/minotaur/minotaur.model" position="0 0 -10" scale="0.1 0.1 0.1" rotation="-90 0 0"/>
         <!-- <Model path="models/box/box_cubemap.model" position="0 0 -5" scale="1 1 1" rotation="0 0 0"/> -->
 <!--    <Model path="models/floor/floor.model" position="0 0 -10"/>-->
 <!--    <Model path="models/shadow_map_show/shadow_show.model" position="0 0 -10" scale="2 2 2" rotation="0 0 0"/>-->
