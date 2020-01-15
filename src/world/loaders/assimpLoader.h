@@ -1,24 +1,26 @@
 #ifndef WATER_ASSIMP_LOADER_H
 #define WATER_ASSIMP_LOADER_H
-#include "MeshLoader.h"
 #include <vector>
 #include <map>
 #include "render/mesh.h"
 #include "assimp/Importer.hpp"
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
+#include "world/animation/skeleton.h"
 
 
 namespace water
 {
-	namespace loader
+	namespace world
 	{
 		class AssimpLoader
 		{
 			struct VertexSkinData
 			{
-				unsigned int jointIdx;
-				float weight;
+				VertexSkinData() {}
+				VertexSkinData(unsigned int jointIdx, float weight);
+				unsigned int jointIdx{ 0 };
+				float weight{ 0 };
 			};
 		public:
 			AssimpLoader(const std::string& filepath);
@@ -32,6 +34,7 @@ namespace water
 				Many things may result in combining meshes fail, such as different skeleton, different vertex format.
 			*/
 			render::MeshDataPtr getCombinedMesh();
+			std::vector<render::MeshDataPtr> getAllMesh();
 		protected:
 			void loadSkeleton();
 			void loadAnimation();
@@ -54,7 +57,7 @@ namespace water
 		private:
 			std::string m_filepath{ "" };
 			/* map of referenced skeletons, key is root bone name */
-			std::map<aiString, world::SkeletonPtr> m_skMap;
+			std::map<std::string, world::SkeletonPtr> m_skMap;
 			/* list of loaded meshes */
 			std::vector<render::MeshDataPtr> m_meshList;
 		private:

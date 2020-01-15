@@ -11,7 +11,7 @@ link_directories(
 	${WATER_THIRD_LIBRARY_DIRECTORY}/freetype
 	)
 
-list(APPEND DEPEND_LIBS render world window filesystem common mesh math3d)
+list(APPEND DEPEND_LIBS render world window filesystem common math3d)
 list(APPEND THIRD_LIBS glfw3 assimp-${WATER_LIB_VERSION}-mtd zlibd irrXMLd freetype)
 
 add_executable(client ${SOURCE_FILES})

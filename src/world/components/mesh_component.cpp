@@ -1,9 +1,9 @@
 #include "mesh_component.h"
 #include "mesh_component.h"
 #include "component_const.h"
-#include "mesh/IMeshLoader.h"
 #include "world/gameobjects/component_object.hpp"
 #include "filesystem/filesystem.h"
+#include "world/loaders/assimpLoader.h"
 
 namespace water
 {
@@ -25,16 +25,21 @@ namespace water
 
 		std::vector<render::MeshDataPtr> MeshComponent::load_from_file(std::string filename, bool combined_mesh)
 		{
+			auto loader = AssimpLoader(filename);
+			loader.doLoad();
 			std::vector<render::MeshDataPtr> meshes;
 			if (combined_mesh)
 			{
-				auto mesh = mesh::get_mesh_loader()->load_combined_mesh(filename);
-				meshes.push_back(mesh);
+				auto mesh = loader.getCombinedMesh();
+				if (mesh)
+				{
+					meshes.push_back(mesh);
+				}
 				return meshes;
 			}
 			else
 			{
-				return mesh::get_mesh_loader()->load_all_mesh(filename);
+				return loader.getAllMesh();
 			}
 		}
 

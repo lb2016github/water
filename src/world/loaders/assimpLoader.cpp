@@ -4,17 +4,18 @@
 #include "common/log.h"
 #include <set>
 #include <queue>
+#include "world/animation/animation.h"
 
 namespace water
 {
-	namespace loader
+	namespace world
 	{
-		loader::AssimpLoader::AssimpLoader(const std::string& filepath):
+		AssimpLoader::AssimpLoader(const std::string& filepath):
 			m_filepath(filepath)
 		{
 		}
 
-		void loader::AssimpLoader::doLoad()
+		void AssimpLoader::doLoad()
 		{
 			auto abs_path = filesystem::FileSystem::get_instance()->get_absolute_path(m_filepath);
 			Assimp::Importer importer;
@@ -81,6 +82,11 @@ namespace water
 			return dataPtr;
 		}
 
+		std::vector<render::MeshDataPtr> AssimpLoader::getAllMesh()
+		{
+			return m_meshList;
+		}
+
 		void AssimpLoader::loadSkeleton()
 		{
 			if (!m_scene->HasAnimations()) return;
@@ -93,12 +99,12 @@ namespace water
 				aiNode* rootBoneNode = getRootBone(bone->mName);
 				if (!rootBoneNode) continue;
 				// check whether has been loaded
-				if (m_skMap.find(rootBoneNode->mName) != m_skMap.end()) continue;
+				if (m_skMap.find(rootBoneNode->mName.C_Str()) != m_skMap.end()) continue;
 				world::SkeletonPtr skePtr = createSkeletonByRootBone(rootBoneNode);
 				
 				// add to SkeletonManager
 				world::SkeletonID skId = world::SkeletonManager::instance()->addSkeleton(skePtr);
-				m_skMap[rootBoneNode->mName] = world::SkeletonManager::instance()->getSkeleton(skId);
+				m_skMap[rootBoneNode->mName.C_Str()] = world::SkeletonManager::instance()->getSkeleton(skId);
 			}
 		}
 
@@ -111,9 +117,9 @@ namespace water
 
 				// find the skeleton
 				aiNode* rootBoneNode = getRootBone(anim->mChannels[0]->mNodeName);
-				auto rst = m_skMap.find(rootBoneNode->mName);
+				auto rst = m_skMap.find(rootBoneNode->mName.C_Str());
 				assert(rst != m_skMap.end());
-				auto skPtr = world::SkeletonManager::instance()->getSkeleton(rst->second);
+				auto skPtr = rst->second;
 
 				world::AnimationClipPtr anim_clip_ptr = std::make_shared<world::AnimationClip>(skPtr, anim->mDuration);
 				// for every bone
@@ -196,16 +202,16 @@ namespace water
 					{
 						auto tmp = skinDataPtr->find(j);
 						assert(tmp != skinDataPtr->end());
-						for each (auto data in tmp->second)
+						math3d::Vector4I jointIndex(0, 0, 0, 0);
+						math3d::Vector4 jointWeight(0, 0, 0, 0);
+						for (int n = 0; n < tmp->second.size(); ++n)
 						{
-							data_ptr->joint_indices.emplace_back(data.jointIdx);
-							data_ptr->joint_weights.emplace_back(data.weight);
+							auto data = tmp->second[n];
+							jointIndex[n] = data.jointIdx;
+							jointWeight[n] = data.weight;
 						}
-						for (int m = tmp->second.size(); m < 4; ++m)
-						{
-							data_ptr->joint_indices.emplace_back(0);
-							data_ptr->joint_weights.emplace_back(0);
-						}
+						data_ptr->joint_indices.emplace_back(jointIndex);
+						data_ptr->joint_weights.emplace_back(jointWeight);
 					}
 				}
 
@@ -232,7 +238,7 @@ namespace water
 				MeshVertexSkinData mvkd;
 				// load from skin data from bone
 				aiNode* rootBone = getRootBone(mesh->mBones[0]->mName);
-				auto tmpRst = m_skMap.find(rootBone->mName);
+				auto tmpRst = m_skMap.find(rootBone->mName.C_Str());
 				assert(tmpRst != m_skMap.end());
 				world::SkeletonPtr skPtr = tmpRst->second;
 				// save skin data
@@ -292,7 +298,7 @@ namespace water
 			}
 		}
 
-		aiNode* water::loader::AssimpLoader::getNodeByName(aiNode* rootNode, const aiString& name)
+		aiNode* AssimpLoader::getNodeByName(aiNode* rootNode, const aiString& name)
 		{
 			// to speed up searching, use hierachy first search
 			std::queue<aiNode*> que;
@@ -362,6 +368,11 @@ namespace water
 			return skPtr;
 		}
 
-	}
+		AssimpLoader::VertexSkinData::VertexSkinData(unsigned int jointIdx, float weight):
+			jointIdx(jointIdx), weight(weight)
+		{
+		}
+
+}
 }
 

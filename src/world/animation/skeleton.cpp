@@ -94,6 +94,14 @@ namespace water
 		{
 			m_invBindPose = math3d::Matrix::makeIdentityMatrix();
 		}
+		Joint& Joint::operator=(const Joint& joint)
+		{
+			if (this == &joint) return *this;
+			m_name = joint.m_name;
+			m_invBindPose = joint.m_invBindPose;
+			m_parentIndex = joint.m_parentIndex;
+			return *this;
+		}
 		SkeletonPose::SkeletonPose(SkeletonPtr skePtr):
 			m_skeleton(skePtr)
 		{

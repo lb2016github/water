@@ -28,7 +28,7 @@
     </LightConfig>
     <EnvMap Path="envs/Mono_Lake_C_Ref.hdr"/>
     <ShadowMap enable="false" material="scenes/shadow_map.mat"/>
-    <Camera active="true" fovy="50" znear="1" zfar="5000" position="0 0 0" rotation="0 0 0"/>
+    <Camera active="true" fovy="50" znear="1" zfar="5000" position="0 0 0" rotation="0 30 0"/>
 <!--    <Model path="models/fish/fish.model" position="0 0 -10" scale="0.3 0.3 0.3" rotation="0 0 0"/>-->
 <!--    <Model path="models/quad/quad.model" position="0 0 -10" scale="1 1 1" rotation="0 0 0"/>-->
         <!-- <Model path="models/sky_box/sky_box_hdr.model" position="0 0 0" scale="1 1 1" rotation="0 0 0"/> -->

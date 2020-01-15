@@ -10,6 +10,7 @@
 #include <string>
 #include "render_const.h"
 #include "common/util.h"
+#include "world/animation/skeleton.h"
 
 
 namespace water
@@ -65,7 +66,7 @@ namespace water
 				{
 					format |= 1 << BIT_SKIN;
 				}
-				if (index_data.size > 0)
+				if (index_data.size() > 0)
 				{
 					format |= 1 << BIT_INDEX;
 				}

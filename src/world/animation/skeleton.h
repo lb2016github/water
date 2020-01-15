@@ -11,12 +11,17 @@ namespace water
 	namespace world
 	{
 		typedef WATER_ID SkeletonID;
+		class Skeleton;
+		DECL_SHARED_PTR(Skeleton);
+
 		struct Joint
 		{
 			Joint();
 			std::string m_name {""};				// name of joint
 			math3d::Matrix m_invBindPose;	// inverse of bind pose
 			int m_parentIndex{ -1 };		// index of parent joint
+
+			Joint& operator=(const Joint& joint);
 		};
 
 		class Skeleton: public std::enable_shared_from_this<Skeleton>
@@ -33,7 +38,6 @@ namespace water
 			unsigned int m_jointCount;	// count of joints
 			Joint* m_joints;			// array of joints
 		};
-		DECL_SHARED_PTR(Skeleton);
 
 		struct JointPose
 		{
