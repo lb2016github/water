@@ -113,6 +113,10 @@ namespace water
 					param_map->set_texture(name, env_map);
 				}
 			}
+			else if (semantic == water::render::SemanticSkinMatrix)
+			{
+
+			}
 		}
 
 

@@ -95,6 +95,7 @@ namespace water {
 			{"SHADOW_MAP_VP", SemanticShadowMapVP},
 			{"SHADOW_MAP_TEXTURE", SemanticShadowMapTexture},
 			{"ENV_MAP_TEXTURE", SemanticEnvMap},
+			{"SKIN_MATRIX", SemanticSkinMatrix},
 		};
 		ParamValue::ParamValue()
 		{

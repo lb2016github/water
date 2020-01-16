@@ -14,6 +14,7 @@ namespace water
 			COMP_RENDER,			// RenderComponent
 			COMP_SCENE_OBJECT,		// SceneObjectComponent
 			COMP_SHADOWMAP,			// ShadowMapComponent
+			COMP_ANIMATOR,			// AnimatorComponent
 		};
 	}
 }
