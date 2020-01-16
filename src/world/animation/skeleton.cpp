@@ -53,17 +53,17 @@ namespace water
 			}
 			return iter->second;
 		}
-		SkeletonID SkeletonManager::addSkeleton(SkeletonPtr skeletonPtr)
+		SkeletonPtr SkeletonManager::addSkeleton(SkeletonPtr skeletonPtr)
 		{
 			for (auto iter = m_mSkeleton.begin(); iter != m_mSkeleton.end(); ++iter)
 			{
 				if (iter->second->equals(skeletonPtr))
 				{
-					return iter->second->m_id;
+					return iter->second;
 				}
 			}
 			m_mSkeleton[skeletonPtr->m_id] = skeletonPtr;
-			return skeletonPtr->m_id;
+			return skeletonPtr;
 		}
 		SkeletonID SkeletonManager::createSkeletonID()
 		{
@@ -101,6 +101,18 @@ namespace water
 			m_invBindPose = joint.m_invBindPose;
 			m_parentIndex = joint.m_parentIndex;
 			return *this;
+		}
+		bool Joint::operator==(const Joint& joint)
+		{
+			if (this == &joint) return true;
+			if (m_name != joint.m_name) return false;
+			if (m_parentIndex != joint.m_parentIndex) return false;
+			if (m_invBindPose != joint.m_invBindPose) return false;
+			return true;
+		}
+		bool Joint::operator!=(const Joint& joint)
+		{
+			return !operator==(joint);
 		}
 		SkeletonPose::SkeletonPose(SkeletonPtr skePtr):
 			m_skeleton(skePtr)

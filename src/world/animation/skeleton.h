@@ -22,6 +22,8 @@ namespace water
 			int m_parentIndex{ -1 };		// index of parent joint
 
 			Joint& operator=(const Joint& joint);
+			bool operator==(const Joint& joint);
+			bool operator!=(const Joint& joint);
 		};
 
 		class Skeleton: public std::enable_shared_from_this<Skeleton>
@@ -64,7 +66,7 @@ namespace water
 		{
 		public:
 			SkeletonPtr getSkeleton(SkeletonID skeId);
-			SkeletonID addSkeleton(SkeletonPtr skeletonPtr);
+			SkeletonPtr addSkeleton(SkeletonPtr skeletonPtr);
 			static SkeletonID createSkeletonID();
 			static SkeletonManager* instance();
 		private:
