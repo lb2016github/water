@@ -7,6 +7,7 @@
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
 #include "world/animation/skeleton.h"
+#include <function>
 
 
 namespace water
@@ -44,8 +45,9 @@ namespace water
 		protected:
 			/*
 			create skeleton with root bone
+			@param subRootNdoes: list of affected nodes in animation
 			*/
-			static world::SkeletonPtr createSkeletonByRootBone(aiNode* rootNode);
+			static world::SkeletonPtr createSkeletonByRootBone(aiNode* rootNode, std::function<bool(aiNode*)> filter);
 			/*
 			print sturct node
 			*/
@@ -56,8 +58,8 @@ namespace water
 			static aiNode* getNodeByName(aiNode* rootNode, const aiString& name);
 		private:
 			std::string m_filepath{ "" };
-			/* map of referenced skeletons, key is root bone name */
-			std::map<std::string, world::SkeletonPtr> m_skMap;
+			/* ptr to created skeleton */
+			world::SkeletonPtr m_skPtr;
 			/* list of loaded meshes */
 			std::vector<render::MeshDataPtr> m_meshList;
 		private:
