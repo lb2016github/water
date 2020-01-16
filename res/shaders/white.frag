@@ -85,7 +85,7 @@ void main(){
     vec4 color = vec4(1, 1, 1, 1);
     // calulate direction color
     DirectionLight dir_light = light_cfg.dir_light;
-    vec3 dir_color_factor = calc_dir_color_factor(dir_light.direction, vs_out.normal, dir_light.base_light);
+    vec3 dir_color_factor = calc_dir_color_factor(dir_light.direction, normalize(vs_out.normal), dir_light.base_light);
     vec3 dir_color = dir_color_factor * color.xyz;
     frag_color = vec4(dir_color, 1);
 }

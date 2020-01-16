@@ -21,7 +21,7 @@ out struct
 }vs_out;
 
 void main(){
-	vs_out.normal = normal;
+	vs_out.normal = (world * vec4(normal, 0)).xyz;
 	vs_out.tex_coord = coordinate;
 	vs_out.world_pos = (world * vec4(position, 1)).xyz;
 	gl_Position = wvp * vec4(position, 1);
