@@ -10,6 +10,10 @@ namespace water
 			m_animClipData(clipData)
 		{
 		}
+		Animator::~Animator()
+		{
+			SAFE_DELETE(m_curAnimTimeline);
+		}
 		void Animator::playAnim(std::string animName, bool loop)
 		{
 			log_info("[Anim]Play anim %s", animName.c_str());
@@ -38,6 +42,10 @@ namespace water
 		{
 			m_curPose = m_animClip->getPose(m_curTime);
 			addObserver(this);
+		}
+		SkeletonPosePtr AnimationTimeline::getCurPose()
+		{
+			return m_curPose;
 		}
 		void AnimationTimeline::onTime(float curTime)
 		{

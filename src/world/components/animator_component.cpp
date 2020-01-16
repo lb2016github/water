@@ -7,7 +7,25 @@ namespace water
 {
 	namespace world
 	{
-		REGISTER_COMPONENT(AnimatorComponent, GameObject)
+		REGISTER_COMPONENT(AnimatorComponent, GameObject);
+
+		void AnimatorComponent::initAnimationClipData(AnimationClipDataPtr animClipDataPtr)
+		{
+			SAFE_DELETE(m_animator);
+			m_animator = new Animator(animClipDataPtr);
+			m_animator->playAnim(animClipDataPtr->m_defaultClipName, true);
+		}
+
+		Animator* AnimatorComponent::getAnimator()
+		{
+			return m_animator;
+		}
+
+		SkeletonPosePtr AnimatorComponent::getCurPose()
+		{
+			if (!m_animator) return nullptr;
+			return m_animator->getAnimTimeline()->getCurPose();
+		}
 
 	}
 }

@@ -19,12 +19,16 @@ namespace water
 		{
 		public:
 			Animator(AnimationClipDataPtr clipData);
+			~Animator();
 			/*
 			play animation
 			@param animName: name of animation
 			@param loop: whether current animation is loop
 			*/
 			void playAnim(std::string animName, bool loop = false);
+			/*
+			return current animation timeline
+			*/
 			AnimationTimeline* getAnimTimeline();
 		protected:
 			// animation data
@@ -42,6 +46,7 @@ namespace water
 		{
 		public:
 			AnimationTimeline(AnimationClipPtr animClip, bool loop);
+			SkeletonPosePtr getCurPose();
 		private:
 			SkeletonPosePtr m_curPose{ nullptr };
 			AnimationClipPtr m_animClip{ nullptr };

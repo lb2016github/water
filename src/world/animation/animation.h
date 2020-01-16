@@ -4,6 +4,7 @@
 #include "skeleton.h"
 #include <map>
 #include "common/common.h"
+#include <set>
 
 namespace water
 {
@@ -102,9 +103,10 @@ namespace water
 
 			AnimationClipPtr getAnimClip(const std::string& animName);
 			void addAnimClip(const std::string& animName, AnimationClipPtr animClip);
+			std::set<std::string> getAnimList();
 
 			std::map<std::string, AnimationClipPtr> m_animClipData;
-			std::string m_defaultClipName;
+			std::string m_defaultClipName{ "" };
 		};
 		DECL_SHARED_PTR(AnimationClipData);
 

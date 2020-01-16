@@ -6,6 +6,8 @@
 #include "common/common.h"
 #include <map>
 
+#define MAX_BONE_NUM 128
+
 namespace water
 {
 	namespace world
@@ -55,8 +57,16 @@ namespace water
 		{
 			SkeletonPose(SkeletonPtr skePtr);
 			~SkeletonPose();
+
+			/*
+			calculate skin matrix
+			*/
+			void initSkinMatrix();
+
 			SkeletonPtr m_skeleton;
 			JointPose* m_jointPoses;	//array of joint pose
+			/* list of skin matrix */
+			math3d::Matrix m_skinMatrices[MAX_BONE_NUM];
 		};
 		DECL_SHARED_PTR(SkeletonPose);
 		/*

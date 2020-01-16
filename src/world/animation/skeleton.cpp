@@ -118,10 +118,36 @@ namespace water
 			m_skeleton(skePtr)
 		{
 			m_jointPoses = new JointPose[skePtr->m_jointCount];
+			for (int i = 0; i < MAX_BONE_NUM; ++i)
+			{
+				m_skinMatrices[i] = math3d::Matrix::makeIdentityMatrix();
+			}
 		}
 		SkeletonPose::~SkeletonPose()
 		{
 			delete[] m_jointPoses;
+		}
+		void SkeletonPose::initSkinMatrix()
+		{
+			std::vector<math3d::Matrix> gJointPose;
+			for (int i = 0; i < m_skeleton->m_jointCount; ++i)
+			{
+				Joint& joint = m_skeleton->m_joints[i];
+				math3d::Matrix& invMatrix = joint.m_invBindPose;
+				unsigned int parentIndex = joint.m_parentIndex;
+				JointPose& jointPose = m_jointPoses[i];
+				math3d::Matrix local = math3d::Matrix::makeMatrix(jointPose.m_scale, jointPose.m_rot, jointPose.m_trans);
+				if (parentIndex > 0)
+				{
+					math3d::Matrix& parentPose = gJointPose[parentIndex];
+					gJointPose[i] = parentPose * local;
+				}
+				else
+				{
+					gJointPose[i] = local;
+				}
+				m_skinMatrices[i] = gJointPose[i] * invMatrix;
+			}
 		}
 	}
 }

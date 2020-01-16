@@ -7,6 +7,9 @@
 #include "world/gameobjects/scene.h"
 #include "world/gameobjects/world.h"
 #include "shadowmap_component.h"
+#include "mesh_component.h"
+#include "world/animation/skeleton.h"
+#include "animator_component.h"
 
 namespace water
 {
@@ -115,7 +118,12 @@ namespace water
 			}
 			else if (semantic == water::render::SemanticSkinMatrix)
 			{
-
+				auto animComp = GET_COMPONENT(game_object, AnimatorComponent);
+				if (animComp)
+				{
+					auto skePose = animComp->getCurPose();
+					// todo
+				}
 			}
 		}
 

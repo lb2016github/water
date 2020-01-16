@@ -43,6 +43,17 @@ namespace water
 		void AnimationClipData::addAnimClip(const std::string& animName, AnimationClipPtr animClip)
 		{
 			m_animClipData[animName] = animClip;
+			if (m_defaultClipName == "") m_defaultClipName = animName;
+		}
+
+		std::set<std::string> AnimationClipData::getAnimList()
+		{
+			std::set<std::string> animList;
+			for (auto iter = m_animClipData.begin(); iter != m_animClipData.end(); ++iter)
+			{
+				animList.emplace(iter->first);
+			}
+			return animList;
 		}
 
 		// ============================ AnimationFrameData START ========================== //
@@ -252,6 +263,7 @@ namespace water
 			{
 				posePtr->m_jointPoses[i] = m_jointFrameData[i]->getJointPose(timeMic);
 			}
+			posePtr->initSkinMatrix();
 			return posePtr;
 		}
 		float AnimationClip::getDuration()

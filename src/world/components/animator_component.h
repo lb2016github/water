@@ -3,7 +3,8 @@
 
 #include "base_component.h"
 #include <string>
-#include "render/render_const.h"
+#include "world/animation/animator.h"
+#include "world/animation/animation.h"
 
 namespace water
 {
@@ -13,8 +14,15 @@ namespace water
 		{
 		public:
 			using BaseComponent::BaseComponent;
+			static const ComponentTag tag = COMP_ANIMATOR;
+		public:
+			void initAnimationClipData(AnimationClipDataPtr animClipDataPtr);
+			Animator* getAnimator();
+			SkeletonPosePtr getCurPose();
 
-			static const ComponentTag tag = COMP_MESH;
+		public:
+			Animator* m_animator{ nullptr };
+
 		};
 	}
 }
