@@ -125,6 +125,7 @@ namespace water
 		template<UniformType type, class T>
 		inline MaterialParam::MaterialParam(T value)
 		{
+			setValue<type>(value);
 		}
 
 		template<UniformType type, class T>

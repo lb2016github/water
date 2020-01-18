@@ -38,6 +38,9 @@ namespace water {
 			virtual bool set_uniform(const std::string& name, float val);
 		private:
 			bool real_init();
+			/*
+			init location of uniform parameters
+			*/
 			bool update_location(ParamTypeMap& uniform_map);
 			bool set_light(LightParamMap& light_param);
 

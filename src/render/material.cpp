@@ -5,6 +5,7 @@
 #include "boost/algorithm/string.hpp"
 #include "technique_common.h"
 #include "filesystem/filesystem.h"
+#include "material_param.h"
 
 namespace water
 {
