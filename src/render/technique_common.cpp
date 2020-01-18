@@ -69,19 +69,17 @@ namespace water {
 			{"BLEND_INV_CONSTANT", BLEND_INV_CONSTANT},
 		};
 
-		typedef std::map<std::string, ParamValue> ParamValueMap;
-		typedef std::map<std::string, ParamValueType> ParamTypeMap;
-
-		std::map<std::string, ParamValueType> CONFIG_param_type =
+		std::map<std::string, UniformType> CONFIG_uniform_type =
 		{
-			{MATERIAL_VALUE_TYPE_VECTOR3, TypeVector3},
-			{MATERIAL_VALUE_TYPE_VECTOR2, TypeVector2},
-			{MATERIAL_VALUE_TYPE_MATRIX, TypeMatrix},
-			{MATERIAL_VALUE_TYPE_FLOAT, TypeFloat},
-			{MATERIAL_VALUE_TYPE_INT, TypeInt},
-			{MATERIAL_VALUE_TYPE_SAMPLE2D, TypeSampler2D},
-			{MATERIAL_VALUE_TYPE_LIGHT, TypeLight},
-		{MATERIAL_VALUE_TYPE_CubeMap, TypeCubeMap},
+			{UNIFORM_VALUE_TYPE_VECTOR3, UniformType::TypeVector3},
+			{UNIFORM_VALUE_TYPE_VECTOR2, UniformType::TypeVector2},
+			{UNIFORM_VALUE_TYPE_MATRIX, UniformType::TypeMatrix},
+			{UNIFORM_VALUE_TYPE_FLOAT, UniformType::TypeFloat},
+			{UNIFORM_VALUE_TYPE_INT, UniformType::TypeInt},
+			{UNIFORM_VALUE_TYPE_SAMPLE2D, UniformType::TypeSampler2D},
+			{UNIFORM_VALUE_TYPE_CUBEMAP, UniformType::TypeCubeMap},
+			{UNIFORM_VALUE_TYPE_MATRIX_ARRAY, UniformType::TypeMatrixArray},
+			{UNIFORM_VALUE_TYPE_STRUCT, UniformType::TypeStuct},
 		};
 
 		std::map<std::string, SemanticType> CONFIG_Semantic =
@@ -97,19 +95,6 @@ namespace water {
 			{"ENV_MAP_TEXTURE", SemanticEnvMap},
 			{"SKIN_MATRIX", SemanticSkinMatrix},
 		};
-		ParamValue::ParamValue()
-		{
-		}
-		ParamValue::ParamValue(const ParamValue& param_value)
-		{
-			mat = param_value.mat;
-		}
-		ParamValue& ParamValue::operator=(const ParamValue& param_value)
-		{
-			if (this == &param_value) return *this;
-			mat = param_value.mat;
-			return *this;
-		}
 	}
 }
 

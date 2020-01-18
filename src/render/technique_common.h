@@ -20,24 +20,10 @@ namespace water {
 
 		extern std::map<std::string, BlendFactor> CONFIG_BlendFactor;
 
-		// represent value of varial types
-		struct ParamValue
-		{
-			union
-			{
-				math3d::Vector3 vec3;
-				math3d::Vector2 vec2;
-				math3d::Matrix mat;
-				float float_1;
-				int int_1;
-			};
-			ParamValue();
-			ParamValue(const ParamValue& param_value);
-			ParamValue& operator=(const ParamValue& param_value);
-
-		};
-
-		enum ParamValueType
+		/*
+		types of uniform
+		*/
+		enum class UniformType
 		{
 			TypeNone,
 			TypeVector3,
@@ -46,25 +32,23 @@ namespace water {
 			TypeFloat,
 			TypeInt,
 			TypeSampler2D,
-			TypeLight,
 			TypeCubeMap,
+			/* array of matrix */
+			TypeMatrixArray,
+			TypeStuct,
 		};
 
-		typedef std::map<std::string, ParamValue> ParamValueMap;
-		typedef std::map<std::string, ParamValueType> ParamTypeMap;
+		constexpr auto UNIFORM_VALUE_TYPE_MATRIX = "Matrix";
+		constexpr auto UNIFORM_VALUE_TYPE_VECTOR3 = "Vector3";
+		constexpr auto UNIFORM_VALUE_TYPE_VECTOR2 = "Vector2";
+		constexpr auto UNIFORM_VALUE_TYPE_FLOAT = "Float";
+		constexpr auto UNIFORM_VALUE_TYPE_INT = "Int";
+		constexpr auto UNIFORM_VALUE_TYPE_SAMPLE2D = "Sampler2D";
+		constexpr auto UNIFORM_VALUE_TYPE_CUBEMAP = "CubeMap";
+		constexpr auto UNIFORM_VALUE_TYPE_MATRIX_ARRAY = "MatrixArray";
+		constexpr auto UNIFORM_VALUE_TYPE_STRUCT = "Struct";
 
-		constexpr auto MATERIAL_VALUE_TYPE_MATRIX = "Matrix";
-		constexpr auto MATERIAL_VALUE_TYPE_VECTOR3 = "Vector3";
-		constexpr auto MATERIAL_VALUE_TYPE_VECTOR2 = "Vector2";
-		constexpr auto MATERIAL_VALUE_TYPE_FLOAT = "Float";
-		constexpr auto MATERIAL_VALUE_TYPE_INT = "Int";
-		constexpr auto MATERIAL_VALUE_TYPE_SAMPLE2D = "Sampler2D";
-		constexpr auto MATERIAL_VALUE_TYPE_LIGHT = "Light";
-		constexpr auto MATERIAL_VALUE_TYPE_CubeMap = "CubeMap";
-
-
-
-		extern std::map<std::string, ParamValueType> CONFIG_param_type;
+		extern std::map<std::string, UniformType> CONFIG_uniform_type;
 
 		enum SemanticType
 		{
