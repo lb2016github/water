@@ -6,6 +6,7 @@
 #include <atomic>
 #include "render/render.h"
 #include "render/material.h"
+#include "render/material_param.h"
 #include "mesh.h"
 #include "draw_command.h"
 #include "render_target.h"
@@ -22,7 +23,7 @@ namespace water
 
 		struct RenderTask: public IRenderTask
 		{
-			RenderTask(MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent);
+			RenderTask(MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, MaterialParamMap param_map, RenderTaskPtr dependent);
 			virtual ~RenderTask();
 
 			virtual void render();
@@ -31,7 +32,7 @@ namespace water
 			MeshDataPtr mesh_ptr;				// mesh data
 			ProgramPtr program_ptr;			// program pointer
 			RenderStateInfo render_state;	// render state
-			ParameterMap param_map;	// parameter map
+			MaterialParamMap param_map;	// parameter map
 		};
 
 		struct RenderTargetTask : public IRenderTask

@@ -121,7 +121,7 @@ namespace water
 		{
 			m_ready = is_ready;
 		}
-		RenderTask::RenderTask(MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, ParameterMap param_map, RenderTaskPtr dependent):
+		RenderTask::RenderTask(MeshDataPtr mesh, ProgramPtr program, RenderStateInfo render_state, MaterialParamMap param_map, RenderTaskPtr dependent):
 			mesh_ptr(mesh), program_ptr(program), render_state(render_state), param_map(param_map)
 		{
 		}

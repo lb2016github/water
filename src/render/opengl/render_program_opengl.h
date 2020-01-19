@@ -37,7 +37,7 @@ namespace water {
 			virtual bool setUniform(const std::string& name, int* val);
 			virtual bool setUniform(const std::string& name, float* val);
 			virtual bool setUniform(const std::string& name, MaterialParam::MatrixArray* mtxArray);
-			virtual bool setUniform(const std::string& name, BaseStructParam* baseStructParam);
+			virtual bool setUniform(const std::string& name, StructParam* structParam);
 		private:
 			bool real_init();
 			/*

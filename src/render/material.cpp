@@ -1,9 +1,9 @@
-#include "render/material.h"
+#include "material.h"
 #include "filesystem/xml_file.h"
 #include "common/log.h"
 #include "render/technique.h"
 #include "boost/algorithm/string.hpp"
-#include "technique_common.h"
+#include "render/technique_common.h"
 #include "filesystem/filesystem.h"
 #include "material_param.h"
 

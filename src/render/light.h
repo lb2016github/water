@@ -6,7 +6,6 @@
 #include <vector>
 #include <string>
 #include "pugixml/pugixml.hpp"
-#include "material_param.h"
 
 #define COLOR_WHITE math3d::Vector3(1.0f, 1.0f, 1.0f)
 #define COLOR_RED math3d::Vector3(1.0f, 0.0f, 0.0f)
@@ -52,7 +51,7 @@ namespace water
 			float cutoff = { 20 };	// 
 		};
 
-		struct LightConfig: public BaseStructParam
+		struct LightConfig
 		{
 			virtual void init_from_xml(pugi::xml_node node);
 			DirectionLight dir_light;

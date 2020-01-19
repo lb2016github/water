@@ -49,15 +49,6 @@ namespace water
 				}
 			}
 		}
-		MaterialParamMap BaseLight::get_light_param_map(std::string base_name) const
-		{
-			auto param =  MaterialParamMap();
-			param.setParam(base_name + ".color", color);
-			param.setParam(base_name + ".ambiance_intensity", ambiance_intensity);
-			param.setParam(base_name + ".diffuse_intensity", diffuse_intensity);
-			param.setParam(base_name + ".color", color);
-			return param;
-		}
 		void DirectionLight::init_from_xml(pugi::xml_node node)
 		{
 			for each (auto child in node.children())
@@ -83,13 +74,6 @@ namespace water
 					log_error("[LIGHT]DirectionLight unkown attribute name: %s \n%s", attr.name(), __FUNCSIG__);
 				}
 			}
-		}
-		MaterialParamMap DirectionLight::get_light_param_map(std::string base_name) const
-		{
-			std::string base_light_name = base_name + ".base_light";
-			auto param = BaseLight::get_light_param_map(base_light_name);
-			param.setParam(base_name + ".direction",direction);
-			return param;
 		}
 		void PointLight::init_from_xml(pugi::xml_node node)
 		{
@@ -134,17 +118,6 @@ namespace water
 				}
 			}
 		}
-		MaterialParamMap PointLight::get_light_param_map(std::string base_name) const
-		{
-			std::string base_light_name = base_name + ".base_light";
-			auto param = BaseLight::get_light_param_map(base_light_name);
-			param.setParam(base_name + ".position", position);
-			param.setParam(base_name + ".atten.constant", atten.constant);
-			param.setParam(base_name + ".atten.linear", atten.linear);
-			param.setParam(base_name + ".atten.exp", atten.exp);
-
-			return param;
-		}
 		void SpotLight::init_from_xml(pugi::xml_node node)
 		{
 			PointLight::init_from_xml(node);
@@ -160,14 +133,6 @@ namespace water
 					cutoff = attr.as_float();
 				}
 			}
-		}
-		MaterialParamMap SpotLight::get_light_param_map(std::string base_name) const
-		{
-			auto param = PointLight::get_light_param_map(base_name);
-			param.setParam(base_name + ".direction", direction);
-			param.setParam(base_name + ".cutoff", cutoff);
-			return param;
-
 		}
 		void LightConfig::init_from_xml(pugi::xml_node node)
 		{
@@ -195,34 +160,6 @@ namespace water
 				}
 			}
 
-		}
-		MaterialParamMap LightConfig::get_light_param_map(std::string base_name) const
-		{
-			MaterialParamMap param;
-			// dir light
-			std::string tmp_base_name = base_name + ".dir_light";
-			param.unionMap(dir_light.get_light_param_map(tmp_base_name));
-
-			int index = 0;
-			for (auto iter = point_lights.begin(); iter != point_lights.end(); ++iter, ++index)
-			{
-				std::stringstream ss;
-				ss << base_name << ".point_lights" << "[" << index << "]";
-				std::string tmp_base_name = ss.str();
-				param.unionMap(iter->get_light_param_map(tmp_base_name));
-			}
-			index = 0;
-			for (auto iter = spot_lights.begin(); iter != spot_lights.end(); ++iter, ++index)
-			{
-				std::stringstream ss;
-				ss << base_name << ".spot_lights" << "[" << index << "]";
-				std::string tmp_base_name = ss.str();
-				param.unionMap(iter->get_light_param_map(tmp_base_name));
-			}
-			param.setParam(base_name + ".point_light_num", int(point_lights.size()));
-			param.setParam(base_name + ".spot_light_num", int(spot_lights.size()));
-
-			return param;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 #include "material_param.h"
 #include "boost/algorithm/string.hpp"
 #include "common/log.h"
+#include <sstream>
 
 namespace water
 {
@@ -18,22 +19,20 @@ namespace water
 			boost::split(sub_values, str, boost::is_space());
 			auto texPtr = std::make_shared<TextureData>();
 			unsigned int requireSize = 0;
-			switch (value->m_type)
+			switch (sub_values.size())
 			{
-			case TEXTURE_2D:
+			case 2:
+				texPtr->tex_type = TEXTURE_2D;
 				requireSize = 2;
 				break;
-			case TEXTURE_CUBE:
+			case 6:
+				texPtr->tex_type = TEXTURE_CUBE;
 				requireSize = 6;
 				break;
 			default:
-				break;
-			}
-			if (sub_values.size() < requireSize)
-			{
-				value = nullptr;
-				log_warn("[TEXTURE INIT]+%d images is required to init texture(%d), but only %d supplied", requireSize, value->m_type, sub_values.size());
+				log_error("[TEXTURE INIT]Ellegal images count(%d)", sub_values.size());
 				return;
+				break;
 			}
 			for(int i = 0; i < requireSize; ++i)
 			{
@@ -72,11 +71,7 @@ namespace water
 					loadFromString(str, m_vec3);
 					break;
 				case UniformType::TypeCubeMap:
-					m_tex = std::make_shared<Texture>(TEXTURE_CUBE);
-					loadFromString(str, m_tex);
-					break;
 				case UniformType::TypeSampler2D:
-					m_tex = std::make_shared<Texture>(TEXTURE_2D);
 					loadFromString(str, m_tex);
 					break;
 				case UniformType::TypeMatrixArray:
@@ -186,7 +181,7 @@ namespace water
 				m_mtxArray->insert(m_mtxArray->begin(), param.m_mtxArray->begin(), param.m_mtxArray->end());
 				break;
 			case UniformType::TypeStruct:
-				m_struct = param.m_struct->clone();
+				m_struct = new StructParam(*param.m_struct);
 				break;
 			default:
 				log_error("Unkown type: %d", param.m_type);
@@ -223,7 +218,7 @@ namespace water
 				MaterialParam& param = iter->second;
 				if (param.m_type == UniformType::TypeStruct)
 				{
-					if (param.m_struct && param.m_struct->getParamMap().hasParam(name)) return true;
+					if (param.m_struct && param.m_struct->hasParam(name)) return true;
 				}
 			}
 			return false;
@@ -268,7 +263,7 @@ namespace water
 				break;
 			}
 		}
-		void MaterialParamMap::setParam(const std::string& name, BaseStructParam& value)
+		void MaterialParamMap::setParam(const std::string& name, StructParam& value)
 		{
 			m_paramMap[name] = MaterialParam(UniformType::TypeStruct, value);
 		}
@@ -315,29 +310,73 @@ namespace water
 			if (rst == m_semanticMap.end()) return render::SemanticNone;
 			return rst->second;
 		}
-		BaseStructParam::BaseStructParam()
+
+		UniformTypeMap StructParam::getUniformTypeMap()
 		{
-			m_mapPtr = std::make_shared<MaterialParamMap>();
+			UniformTypeMap uMap;
+			for (auto iter = m_paramMap.begin(); iter != m_paramMap.end(); ++iter)
+			{
+				uMap[iter->first] = iter->second.m_type;
+			}
+			return uMap;
 		}
-		BaseStructParam::BaseStructParam(const BaseStructParam& param)
+		StructParam StructParam::getStructParam(const LightConfig& config, const std::string& baseName)
 		{
-			m_mapPtr = std::make_shared<MaterialParamMap>(*param.m_mapPtr);
+			StructParam param;
+			std::string subBaseName = baseName + ".dir_light";
+			param.unionMap(getStructParam(config.dir_light, subBaseName));
+			int index = 0;
+			for (auto iter = config.point_lights.begin(); iter != config.point_lights.end(); ++iter, ++index)
+			{
+				std::stringstream ss;
+				ss << baseName.c_str() << ".point_lights" << "[" << index << "]";
+				subBaseName = ss.str();
+				param.unionMap(getStructParam(*iter, subBaseName));
+			}
+			index = 0;
+			for (auto iter = config.spot_lights.begin(); iter != config.spot_lights.end(); ++iter, ++index)
+			{
+				std::stringstream ss;
+				ss << baseName << ".spot_lights" << "[" << index << "]";
+				subBaseName = ss.str();
+				param.unionMap(getStructParam(*iter, subBaseName));
+			}
+			param.setParam(baseName + ".point_light_num", int(config.point_lights.size()));
+			param.setParam(baseName + ".spot_light_num", int(config.spot_lights.size()));
+			return param;
 		}
-		MaterialParamMapPtr BaseStructParam::getParamMap()
+		StructParam StructParam::getStructParam(const BaseLight& light, const std::string& baseName)
 		{
-			return m_mapPtr;
+			auto param =  StructParam();
+			param.setParam(baseName + ".color", light.color);
+			param.setParam(baseName + ".ambiance_intensity", light.ambiance_intensity);
+			param.setParam(baseName + ".diffuse_intensity", light.diffuse_intensity);
+			return param;
 		}
-		UniformTypeMap BaseStructParam::getUniformTypeMap()
+		StructParam StructParam::getStructParam(const PointLight& light, const std::string& baseName)
 		{
-			return m_mapPtr->getUniformMap();
+			std::string subBaseName = baseName + ".base_light";
+			auto param = getStructParam((BaseLight)light, subBaseName);
+			param.setParam(baseName + ".position", light.position);
+			param.setParam(baseName + ".atten.constant", light.atten.constant);
+			param.setParam(baseName + ".atten.linear", light.atten.linear);
+			param.setParam(baseName + ".atten.exp", light.atten.exp);
+			return param;
 		}
-		BaseStructParam* BaseStructParam::clone()
+		StructParam StructParam::getStructParam(const DirectionLight& light, const std::string& baseName)
 		{
-			return new BaseStructParam(*this);
+			std::string subBaseName = baseName + ".base_light";
+			auto param = getStructParam((BaseLight)light, subBaseName);
+			param.setParam(baseName + ".direction", light.direction);
+			return param;
 		}
-		BaseStructParam::~BaseStructParam()
+		StructParam StructParam::getStructParam(const SpotLight& light, const std::string& baseName)
 		{
-			m_mapPtr = nullptr;
+			std::string subBaseName = baseName + ".base_light";
+			auto param = getStructParam((BaseLight)light, subBaseName);
+			param.setParam(baseName + ".direction", light.direction);
+			param.setParam(baseName + ".cutoff", light.cutoff);
+			return param;
 		}
-}
+	}
 }

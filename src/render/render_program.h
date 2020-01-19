@@ -5,7 +5,7 @@
 #include "math3d/math3d.hpp"
 #include <memory>
 #include "render/render.h"
-#include "material_param.h"
+#include "render/material_param.h"
 
 namespace water
 {

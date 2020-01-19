@@ -128,7 +128,7 @@ namespace water
 			return true;
 		}
 
-		bool RenderProgramOpenGL::set_Uniform_config(UniformTypeMap& uniform_map)
+		bool RenderProgramOpenGL::set_uniform_config(UniformTypeMap& uniform_map)
 		{
 			m_uniform_map = uniform_map;
 			m_location_inited = false;
@@ -189,12 +189,12 @@ namespace water
 			return true;
 		}
 
-		bool RenderProgramOpenGL::setUniform(const std::string& name, BaseStructParam* baseStructParam)
+		bool RenderProgramOpenGL::setUniform(const std::string& name, StructParam* structParam)
 		{
 			if (m_uniform_map.find(name) == m_uniform_map.end()) return false;
-			UniformTypeMap uMap = baseStructParam->getUniformTypeMap();
+			UniformTypeMap uMap = structParam->getUniformTypeMap();
 			update_location(uMap);
-			apply_parameters(baseStructParam->getParamMap());
+			apply_parameters(*structParam);
 			return true;
 		}
 
@@ -302,18 +302,6 @@ namespace water
 		}
 		bool RenderProgramOpenGL::update_location(UniformTypeMap & uniform_map)
 		{
-			auto doUpdateLocation = [this](const std::string& name)
-			{
-				GLuint location = glGetUniformLocation(m_program, name.c_str());
-				if (check_location(name, location))
-				{
-					m_location_map[name] = location;
-				}
-				else
-				{
-					m_invalid_map.insert(name);
-				}
-			};
 			m_location_inited = true;
 			for (auto iter = uniform_map.begin(); iter != uniform_map.end(); ++iter)
 			{
@@ -322,14 +310,18 @@ namespace water
 				{
 					continue;
 				}
-				if (iter->second != UniformType::TypeStruct) 
+				if (iter->second == UniformType::TypeStruct) 
 				{
-					doUpdateLocation(name);
+					continue;
+				}
+				GLuint location = glGetUniformLocation(m_program, name.c_str());
+				if (check_location(name, location))
+				{
+					m_location_map[name] = location;
 				}
 				else
 				{
-					LightConfig cfg;
-					auto map = cfg.get_light_param_map(name);
+					m_invalid_map.insert(name);
 				}
 			}
 			return true;
