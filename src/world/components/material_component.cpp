@@ -39,12 +39,12 @@ namespace water
 		{
 			if (mat_ptr)
 			{
-				auto num = mat_ptr->get_param_map_count();
+				auto num = mat_ptr->getParamMapCount();
 				for (unsigned int i = 0; i < num; ++i)
 				{
-					auto param_map = mat_ptr->get_param_map(i);
+					auto param_map = mat_ptr->getParamMap(i);
 					if (!param_map) continue;
-					for (auto iter = param_map->m_semantic_map.begin(); iter != param_map->m_semantic_map.end(); ++iter)
+					for (auto iter = param_map->m_semanticMap.begin(); iter != param_map->m_semanticMap.end(); ++iter)
 					{
 						// update semantic
 						update_semantic_param(game_object, param_map, iter->first, iter->second);
@@ -53,7 +53,7 @@ namespace water
 			}
 		}
 
-		void MaterialComponent::update_semantic_param(GameObject* game_object, render::ParameterMapPtr param_map, std::string name, render::SemanticType semantic)
+		void MaterialComponent::update_semantic_param(GameObject* game_object, render::MaterialParamMapPtr param_map, std::string name, render::SemanticType semantic)
 		{
 			auto scene_ptr = World::get_instance()->get_cur_scene();
 			if (scene_ptr == nullptr) return;
@@ -67,7 +67,7 @@ namespace water
 				auto view = cam_ptr->get_view_matrix();
 				auto proj = cam_ptr->get_projection_matrix();
 				auto wvp = proj * view * world_trans;
-				param_map->set_param(name, wvp);
+				param_map->setParam(name, wvp);
 			}
 			else if (semantic == water::render::SemanticVP)
 			{
@@ -76,14 +76,14 @@ namespace water
 				auto view = cam_ptr->get_view_matrix();
 				auto proj = cam_ptr->get_projection_matrix();
 				auto vp = proj * view;
-				param_map->set_param(name, vp);
+				param_map->setParam(name, vp);
 			}
 			else if (semantic == water::render::SemanticWorld)
 			{
 				auto trans_comp = GET_COMPONENT(game_object, TransformComponent);
 				if (trans_comp == nullptr) return;
 				auto world_trans = trans_comp->get_world_transformation();
-				param_map->set_param(name, world_trans);
+				param_map->setParam(name, world_trans);
 			}
 			else if (semantic == water::render::SemanticCameraPosition)
 			{
@@ -91,7 +91,7 @@ namespace water
 				if (cam_ptr == nullptr) return;
 				auto cam_trans = GET_COMPONENT(cam_ptr, TransformComponent);
 				auto cam_pos = cam_trans->position;
-				param_map->set_param(name, cam_pos);
+				param_map->setParam(name, cam_pos);
 
 			}
 			else if (semantic == water::render::SemanticLight)
@@ -101,7 +101,7 @@ namespace water
 			else if (semantic == water::render::SemanticShadowMapVP)
 			{
 				auto shadow_map_comp = GET_COMPONENT(scene_ptr, ShadowMapComponent);
-				param_map->set_param(name, shadow_map_comp->get_shadow_vp());
+				param_map->setParam(name, shadow_map_comp->get_shadow_vp());
 			}
 			else if (semantic == water::render::SemanticShadowMapTexture)
 			{

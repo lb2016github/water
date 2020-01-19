@@ -32,7 +32,7 @@ namespace water
 			* @return void
 			*/
 			template<class T>
-			void set_param(std::string name, T& value, unsigned int index = 0);
+			void setParam(std::string name, T& value, unsigned int index = 0);
 
 			// check has certern param
 			bool has_param(std::string name, unsigned int index = 0);
@@ -45,18 +45,18 @@ namespace water
 
 		protected:
 			// update value of semantic param
-			static void update_semantic_param(GameObject* game_object, render::ParameterMapPtr param_map, std::string name, render::SemanticType semantic);
+			static void update_semantic_param(GameObject* game_object, render::MaterialParamMapPtr param_map, std::string name, render::SemanticType semantic);
 
 		private:
 			render::MaterialPtr m_material_ptr = { nullptr };
 		};
 
 		template<class T>
-		inline void MaterialComponent::set_param(std::string name, T& value, unsigned int index)
+		inline void MaterialComponent::setParam(std::string name, T& value, unsigned int index)
 		{
 			auto ptr = m_material_ptr->get_param_map(index);
 			if (!ptr) return;
-			ptr->set_param(name, value);
+			ptr->setParam(name, value);
 		}
 
 	}

@@ -128,61 +128,73 @@ namespace water
 			return true;
 		}
 
-		bool RenderProgramOpenGL::set_uniform(const std::string & name, math3d::Matrix & mat)
-		{
-			auto rst = m_location_map.find(name);
-			if (rst == m_location_map.end()) return false;
-			auto location = rst->second;
-			glUniformMatrix4fv(location, 1, GL_TRUE, mat.getData());
-			return true;
-		}
-
-		bool RenderProgramOpenGL::set_uniform(const std::string & name, math3d::Vector3 & vec3)
-		{
-			auto rst = m_location_map.find(name);
-			if (rst == m_location_map.end()) return false;
-			auto location = rst->second;
-			glUniform3fv(location, 1, vec3.getData());
-			return true;
-		}
-
-		bool RenderProgramOpenGL::set_uniform(const std::string & name, math3d::Vector2 & vec2)
-		{
-			auto rst = m_location_map.find(name);
-			if (rst == m_location_map.end()) return false;
-			auto location = rst->second;
-			glUniform2fv(location, 1, vec2.getData());
-			return true;
-		}
-
-		bool RenderProgramOpenGL::set_uniform(const std::string & name, int val)
-		{
-			auto rst = m_location_map.find(name);
-			if (rst == m_location_map.end()) return false;
-			auto location = rst->second;
-			glUniform1i(location, val);
-			return true;
-		}
-
-		bool RenderProgramOpenGL::set_uniform(const std::string & name, float val)
-		{
-			auto rst = m_location_map.find(name);
-			if (rst == m_location_map.end()) return false;
-			auto location = rst->second;
-			glUniform1f(location, val);
-			return true;
-		}
-
-		bool RenderProgramOpenGL::set_uniform_config(ParamTypeMap & uniform_map)
+		bool RenderProgramOpenGL::set_Uniform_config(UniformTypeMap& uniform_map)
 		{
 			m_uniform_map = uniform_map;
 			m_location_inited = false;
 			return true;
 		}
 
-		bool RenderProgramOpenGL::set_attribute_config(ParamTypeMap & attribute_map)
+		bool RenderProgramOpenGL::setUniform(const std::string & name, math3d::Matrix* mat)
 		{
-			m_attribute_map = attribute_map;
+			auto rst = m_location_map.find(name);
+			if (rst == m_location_map.end()) return false;
+			auto location = rst->second;
+			glUniformMatrix4fv(location, 1, GL_TRUE, mat->getData());
+			return true;
+		}
+
+		bool RenderProgramOpenGL::setUniform(const std::string & name, math3d::Vector3* vec3)
+		{
+			auto rst = m_location_map.find(name);
+			if (rst == m_location_map.end()) return false;
+			auto location = rst->second;
+			glUniform3fv(location, 1, vec3->getData());
+			return true;
+		}
+
+		bool RenderProgramOpenGL::setUniform(const std::string & name, math3d::Vector2* vec2)
+		{
+			auto rst = m_location_map.find(name);
+			if (rst == m_location_map.end()) return false;
+			auto location = rst->second;
+			glUniform2fv(location, 1, vec2->getData());
+			return true;
+		}
+
+		bool RenderProgramOpenGL::setUniform(const std::string & name, int* val)
+		{
+			auto rst = m_location_map.find(name);
+			if (rst == m_location_map.end()) return false;
+			auto location = rst->second;
+			glUniform1i(location, *val);
+			return true;
+		}
+
+		bool RenderProgramOpenGL::setUniform(const std::string & name, float* val)
+		{
+			auto rst = m_location_map.find(name);
+			if (rst == m_location_map.end()) return false;
+			auto location = rst->second;
+			glUniform1f(location, *val);
+			return true;
+		}
+
+		bool RenderProgramOpenGL::setUniform(const std::string& name, MaterialParam::MatrixArray* mtxArray)
+		{
+			auto rst = m_location_map.find(name);
+			if (rst == m_location_map.end()) return false;
+			auto location = rst->second;
+			glUniformMatrix4fv(location, mtxArray->size(), GL_TRUE, (*mtxArray)[0].getData());
+			return true;
+		}
+
+		bool RenderProgramOpenGL::setUniform(const std::string& name, BaseStructParam* baseStructParam)
+		{
+			if (m_uniform_map.find(name) == m_uniform_map.end()) return false;
+			UniformTypeMap uMap = baseStructParam->getUniformTypeMap();
+			update_location(uMap);
+			apply_parameters(baseStructParam->getParamMap());
 			return true;
 		}
 
@@ -194,54 +206,53 @@ namespace water
 			return true;
 		}
 
-		void RenderProgramOpenGL::apply_parameters(const ParameterMap& param_map)
+		void RenderProgramOpenGL::apply_parameters(const MaterialParamMap& param_map)
 		{
 			if (!m_inited) real_init();
 			if (!m_location_inited) update_location(m_uniform_map);
-			for (auto param : param_map.m_value_map)
-			{
-				std::string name = param.first;
-				ParamValue pv = param.second;
-				ParamValueType pvt = param_map.get_value_type(name);
-				switch (pvt)
-				{
-				case water::render::TypeNone:
-					break;
-				case water::render::TypeVector3:
-					set_uniform(name, pv.vec3);
-					break;
-				case water::render::TypeVector2:
-					set_uniform(name, pv.vec2);
-					break;
-				case water::render::TypeMatrix:
-					set_uniform(name, pv.mat);
-					break;
-				case water::render::TypeFloat:
-					set_uniform(name, pv.float_1);
-					break;
-				case water::render::TypeInt:
-					set_uniform(name, pv.int_1);
-					break;
-				case water::render::TypeLight:
-					set_light(param_map.m_light_cfg.get_light_param_map(name));
-					break;
-				default:
-					break;
-				}
-			}
+
 			// set textuers
 			auto device = get_device();
-			auto tex_map = param_map.m_tex_map;
 			TextureUnit tex_units[] = { TEXTURE_UNIT_0, TEXTURE_UNIT_1, TEXTURE_UNIT_2, TEXTURE_UNIT_3, TEXTURE_UNIT_4, TEXTURE_UNIT_5};
-			assert(tex_map.size() <= sizeof(tex_units) / sizeof(TextureUnit));
-			GLuint index = 0;
-			for (auto iter = tex_map.begin(); iter != tex_map.end(); ++iter, ++index)
+			GLuint texIndex = 0;
+
+			for(auto iter = param_map.m_paramMap.begin(); iter != param_map.m_paramMap.end(); ++iter)
 			{
-				auto name = iter->first;
-				auto tex_ptr = iter->second;
-				GLuint loc = glGetUniformLocation(m_program, name.c_str());
-				tex_ptr->bind(tex_units[index]);
-				glUniform1i(loc, index);
+				std::string name = iter->first;
+				MaterialParam param = iter->second;
+				switch (param.m_type)
+				{
+					case UniformType::TypeFloat :
+						setUniform(name, param.m_float);
+						break;
+					case UniformType::TypeInt:
+						setUniform(name, param.m_int);
+						break;
+					case UniformType::TypeMatrix:
+						setUniform(name, param.m_mtx);
+						break;
+					case UniformType::TypeVector2:
+						setUniform(name, param.m_vec2);
+						break;
+					case UniformType::TypeVector3:
+						setUniform(name, param.m_vec3);
+						break;
+					case UniformType::TypeCubeMap:
+					case UniformType::TypeSampler2D:
+						param.m_tex->bind(tex_units[texIndex]);
+						setUniform(name, (int*)&texIndex);
+						++texIndex;
+						break;
+					case UniformType::TypeMatrixArray:
+						setUniform(name, param.m_mtxArray);
+						break;
+					case UniformType::TypeStruct:
+						setUniform(name, param.m_struct);
+						break;
+					default:
+						log_error("Unkown type: %d", param.m_type);
+						break;
+				}
 			}
 			GL_CHECK_ERROR
 		}
@@ -289,8 +300,20 @@ namespace water
 			}
 			return false;
 		}
-		bool RenderProgramOpenGL::update_location(ParamTypeMap & uniform_map)
+		bool RenderProgramOpenGL::update_location(UniformTypeMap & uniform_map)
 		{
+			auto doUpdateLocation = [this](const std::string& name)
+			{
+				GLuint location = glGetUniformLocation(m_program, name.c_str());
+				if (check_location(name, location))
+				{
+					m_location_map[name] = location;
+				}
+				else
+				{
+					m_invalid_map.insert(name);
+				}
+			};
 			m_location_inited = true;
 			for (auto iter = uniform_map.begin(); iter != uniform_map.end(); ++iter)
 			{
@@ -299,55 +322,14 @@ namespace water
 				{
 					continue;
 				}
-				if (iter->second != TypeLight) {
-					GLuint location = glGetUniformLocation(m_program, name.c_str());
-					if (check_location(name, location))
-					{
-						m_location_map[name] = location;
-					}
-					else
-					{
-						m_invalid_map.insert(name);
-					}
+				if (iter->second != UniformType::TypeStruct) 
+				{
+					doUpdateLocation(name);
 				}
 				else
 				{
 					LightConfig cfg;
 					auto map = cfg.get_light_param_map(name);
-					update_location(map.type_map);
-				}
-			}
-			return true;
-		}
-		bool RenderProgramOpenGL::set_light(LightParamMap & light_param)
-		{
-			update_location(light_param.type_map);
-			for (auto iter = light_param.value_map.begin(); iter != light_param.value_map.end(); ++iter)
-			{
-				auto name = iter->first;
-				auto pv = iter->second;
-				auto pvt = light_param.type_map[name];
-				switch (pvt)
-				{
-				case water::render::TypeNone:
-					break;
-				case water::render::TypeVector3:
-					set_uniform(name, pv.vec3);
-					break;
-				case water::render::TypeVector2:
-					set_uniform(name, pv.vec2);
-					break;
-				case water::render::TypeMatrix:
-					set_uniform(name, pv.mat);
-					break;
-				case water::render::TypeFloat:
-					set_uniform(name, pv.float_1);
-					break;
-				case water::render::TypeInt:
-					set_uniform(name, pv.int_1);
-					break;
-				default:
-					break;
 				}
 			}
 			return true;

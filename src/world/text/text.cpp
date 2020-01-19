@@ -71,10 +71,10 @@ namespace water
 			math3d::Vector2 base_pos = screen_pos;
 			// init material
 			auto param_map = m_material->get_param_map(0);
-			param_map->set_param("color", color);
+			param_map->setParam("color", color);
 			auto world_ptr = world::World::get_instance();
 			math3d::Vector2 screen_size = world_ptr->get_window()->get_window_size();
-			param_map->set_param("screen_size", screen_size);
+			param_map->setParam("screen_size", screen_size);
 			// Create Render Tasks
 			// mesh, program, render_state, param_map, dependent
 			for each (auto c in text)

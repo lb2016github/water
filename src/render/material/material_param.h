@@ -1,0 +1,147 @@
+#ifndef WATER_MATERIAL_PARAM_H
+#include "math3d/math3d.hpp"
+#include <vector>
+#include <string>
+#include "render/texture.h"
+#include "render/technique_common.h"
+#include "common/common.h"
+
+namespace water
+{
+	namespace render
+	{
+		struct StructParam;
+
+		/*
+		struct of Material Param, which can save data of any types of param
+		*/
+		struct MaterialParam
+		{
+			MaterialParam(UniformType type);
+			template<class T>
+			MaterialParam(UniformType type, T value);
+			MaterialParam(UniformType pType, const std::string& str);
+			MaterialParam(const MaterialParam& param);
+			MaterialParam(MaterialParam&& param);
+			~MaterialParam();
+			MaterialParam& operator=(const MaterialParam& param);
+			MaterialParam& operator=(MaterialParam&& param);
+
+			template<UniformType type, class T>
+			void setValue(const T& value);
+
+			typedef std::vector<math3d::Matrix> MatrixArray;
+
+			UniformType m_type;
+			union
+			{
+				void* m_data;
+				int* m_int;
+				float* m_float;
+				math3d::Vector2* m_vec2;
+				math3d::Vector3* m_vec3;
+				math3d::Matrix* m_mtx;
+				TexturePtr m_tex;
+				MatrixArray* m_mtxArray;
+				StructParam* m_struct;
+			};
+
+		private:
+			/*
+			init data with param
+			*/
+			void _initData(const  MaterialParam& param);
+			/*
+			release data
+			*/
+			void _releaseData();
+		};
+
+		/*
+		map of material parameter
+		*/
+		struct MaterialParamMap : public std::enable_shared_from_this<MaterialParamMap>
+		{
+			MaterialParamMap();
+			MaterialParamMap(const MaterialParamMap& matParamMap);
+			MaterialParamMap(MaterialParamMap&& matParamMap);
+			/*
+			merge another MaterialParamMap
+			*/
+			void unionMap(const MaterialParamMap& paramMap);
+			// check has certern parameter
+			bool hasParam(const std::string& name);
+			// set param
+			void setParam(const std::string& name, const MaterialParam& pvalue);
+			void setParam(const std::string& name, int value);
+			void setParam(const std::string& name, float value);
+			void setParam(const std::string& name, const math3d::Matrix& value);
+			void setParam(const std::string& name, const math3d::Vector3& value);
+			void setParam(const std::string& name, const math3d::Vector2& value);
+			void setParam(const std::string& name, const MaterialParam::MatrixArray& value);
+			void setParam(const std::string& name, TexturePtr tex_ptr);
+			void setParam(const std::string& name, StructParam& value);
+			// get param
+			const MaterialParam* getParam(const std::string& name);
+			/*
+			get uniform type map
+			*/
+			std::map<std::string, UniformType> getUniformMap();
+			/*
+			set param value with str_value and type, which is called when param value is read from material file
+			*/
+			void setRawParam(const std::string& name, const std::string& type, const std::string& raw_value, const std::string& semantic);
+			// get semantic of param by name
+			SemanticType getSemantic(const std::string& name) const;
+
+			/* map of parameters */
+			std::map<std::string, MaterialParam> m_paramMap;
+			// map of {name: semantic}
+			std::map<std::string, SemanticType> m_semanticMap;
+		};
+		DECL_SHARED_PTR(MaterialParamMap);
+		
+		template<class T>
+		inline MaterialParam::MaterialParam(UniformType type, T value)
+		{
+			setValue<type>(value);
+		}
+
+		template<UniformType type, class T>
+		inline void MaterialParam::setValue(const T& value)
+		{
+			if (type == UniformType::TypeCubeMap || type == UniformType::TypeSampler2D)
+			{
+				m_tex = value;
+				return;
+			}
+			if (type == UniformType::TypeStruct)
+			{
+				if (m_struct)
+				{
+					delete m_struct;
+				}
+				m_struct = value.clone();
+				return;
+			}
+			// same type of data, than just replace value
+			if (type == m_type && m_data)
+			{
+				*(T*)m_data = value;
+				return;
+			}
+			// type is different, than reinit data
+			m_type = type;
+			if (m_data)
+			{
+				// first release old data
+				_releaseData();
+			}
+			m_data = new T(value);
+		}
+
+}
+}
+
+
+#endif // !WATER_MATERIAL_PARAM_H

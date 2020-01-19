@@ -184,34 +184,20 @@ namespace water
 				}
 				render_pass.program = get_device()->get_program_manager()->load_program(vertex_shader, geom_shader, frag_shader);
 				tech->m_render_pass_queue.push_back(render_pass);	// will copy the object?
-				// load attribute param type
-				ParamTypeMap attribute_map;
-				for (pugi::xml_node attr_node = program_node.child("Attribute"); attr_node; attr_node = program_node.next_sibling("Attribute"))
-				{
-					std::string type = attr_node.attribute("type").as_string();
-					std::map<std::string, ParamValueType>::iterator iter = CONFIG_param_type.find(type);
-					if (iter == CONFIG_param_type.end())
-					{
-						log_error("Iegal param type %s", type);
-						continue;
-					}
-					attribute_map[attr_node.attribute("name").as_string()] = iter->second;
-				}
-				render_pass.program->set_attribute_config(attribute_map);
 				// load uniform param type
-				ParamTypeMap uniform_map;
+				UniformTypeMap uniformMap;
 				for each (auto child in program_node.children())
 				{
 					std::string type = child.attribute("type").as_string();
-					std::map<std::string, ParamValueType>::iterator iter = CONFIG_param_type.find(type);
-					if (iter == CONFIG_param_type.end())
+					auto rst = CONFIG_uniform_type.find(type);
+					if (rst == CONFIG_uniform_type.end())
 					{
 						log_error("Illegal param type %s", type);
 						continue;
 					}
-					uniform_map[child.attribute("name").as_string()] = iter->second;
+					uniformMap[child.attribute("name").as_string()] = rst->second;
 				}
-				render_pass.program->set_uniform_config(uniform_map);
+				render_pass.program->set_uniform_config(uniformMap);
 			}
 			m_tech_map[file_path] = tech;
 			return true;

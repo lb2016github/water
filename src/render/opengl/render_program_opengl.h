@@ -8,6 +8,7 @@
 #include <string>
 #include "glad/glad.h"
 #include "render/light.h"
+#include "render/material_param.h"
 #include <array>
 
 namespace water {
@@ -23,32 +24,31 @@ namespace water {
 			virtual bool init(ShaderObject vertex_shader, ShaderObject geom_shader, ShaderObject frag_shader);
 			virtual bool init(ShaderObject vertex_shader, ShaderObject frag_shader);
 			// set uniform config
-			virtual bool set_uniform_config(ParamTypeMap& uniform_map);
-			virtual bool set_attribute_config(ParamTypeMap& attribute_map);
+			virtual bool set_uniform_config(UniformTypeMap& uniform_map);
 			// use program
 			virtual bool use_program();
 			// apply parameters
-			virtual void apply_parameters(const ParameterMap& param_map);
+			virtual void apply_parameters(const MaterialParamMap& param_map);
 		public:
 			// set uniform
-			virtual bool set_uniform(const std::string& name, math3d::Matrix& mat);
-			virtual bool set_uniform(const std::string& name, math3d::Vector3& vec3);
-			virtual bool set_uniform(const std::string& name, math3d::Vector2& vec2);
-			virtual bool set_uniform(const std::string& name, int val);
-			virtual bool set_uniform(const std::string& name, float val);
+			virtual bool setUniform(const std::string& name, math3d::Matrix* mat);
+			virtual bool setUniform(const std::string& name, math3d::Vector3* vec3);
+			virtual bool setUniform(const std::string& name, math3d::Vector2* vec2);
+			virtual bool setUniform(const std::string& name, int* val);
+			virtual bool setUniform(const std::string& name, float* val);
+			virtual bool setUniform(const std::string& name, MaterialParam::MatrixArray* mtxArray);
+			virtual bool setUniform(const std::string& name, BaseStructParam* baseStructParam);
 		private:
 			bool real_init();
 			/*
 			init location of uniform parameters
 			*/
-			bool update_location(ParamTypeMap& uniform_map);
-			bool set_light(LightParamMap& light_param);
+			bool update_location(UniformTypeMap& uniform_map);
 
 		private:
 			GLuint m_program;
 			std::array<std::string, 3> m_shader_paths;
-			ParamTypeMap m_uniform_map;
-			ParamTypeMap m_attribute_map;
+			UniformTypeMap m_uniform_map;
 			std::map<std::string, GLuint> m_location_map;
 			std::set<std::string> m_invalid_map;
 			bool m_inited{ false }, m_location_inited{ false };

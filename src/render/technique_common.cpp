@@ -79,7 +79,7 @@ namespace water {
 			{UNIFORM_VALUE_TYPE_SAMPLE2D, UniformType::TypeSampler2D},
 			{UNIFORM_VALUE_TYPE_CUBEMAP, UniformType::TypeCubeMap},
 			{UNIFORM_VALUE_TYPE_MATRIX_ARRAY, UniformType::TypeMatrixArray},
-			{UNIFORM_VALUE_TYPE_STRUCT, UniformType::TypeStuct},
+			{UNIFORM_VALUE_TYPE_STRUCT, UniformType::TypeStruct},
 		};
 
 		std::map<std::string, SemanticType> CONFIG_Semantic =

@@ -5,6 +5,7 @@
 #include "math3d/math3d.hpp"
 #include <memory>
 #include "render/render.h"
+#include "material_param.h"
 
 namespace water
 {
@@ -30,12 +31,11 @@ namespace water
 			virtual bool init(ShaderObject vertex_shader, ShaderObject geom_shader, ShaderObject frag_shader) = 0;
 			virtual bool init(ShaderObject vertex_shader, ShaderObject frag_shader) = 0;
 			// set uniform config
-			virtual bool set_uniform_config(ParamTypeMap& uniform_map) = 0;
-			virtual bool set_attribute_config(ParamTypeMap& attribute_map) = 0;
+			virtual bool set_uniform_config(UniformTypeMap& uniform_map) = 0;
 			// use program
 			virtual bool use_program() = 0;
 			// apply parameters
-			virtual void apply_parameters(const ParameterMap& param_map) = 0;
+			virtual void apply_parameters(const MaterialParamMap& param_map) = 0;
 		};
 
 	}

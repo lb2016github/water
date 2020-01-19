@@ -35,8 +35,10 @@ namespace water {
 			TypeCubeMap,
 			/* array of matrix */
 			TypeMatrixArray,
-			TypeStuct,
+			TypeStruct,
 		};
+
+		typedef std::map<std::string, UniformType> UniformTypeMap;
 
 		constexpr auto UNIFORM_VALUE_TYPE_MATRIX = "Matrix";
 		constexpr auto UNIFORM_VALUE_TYPE_VECTOR3 = "Vector3";

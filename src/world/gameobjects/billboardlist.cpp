@@ -21,7 +21,7 @@ namespace water
 		void BillboardList::render()
 		{
 			MaterialComponent::update_material(this, m_material);
-			m_material->get_param_map(0)->set_param("size", m_size);
+			m_material->get_param_map(0)->setParam("size", m_size);
 			m_mesh->position.resize(m_positions.size());
 			std::copy(m_positions.begin(), m_positions.end(), m_mesh->position.begin());
 			m_mesh->dirty = true;
