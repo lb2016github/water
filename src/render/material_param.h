@@ -13,6 +13,7 @@ namespace water
 	namespace render
 	{
 		struct StructParam;
+		struct TextureParam;
 		/*
 		struct of Material Param, which can save data of any types of param
 		*/
@@ -52,7 +53,7 @@ namespace water
 				math3d::Vector2* m_vec2;
 				math3d::Vector3* m_vec3;
 				math3d::Matrix* m_mtx;
-				TexturePtr m_tex;
+				TextureParam* m_tex;
 				MatrixArray* m_mtxArray;
 				StructParam* m_struct;
 			};
@@ -132,6 +133,18 @@ namespace water
 			static StructParam getStructParam(const PointLight& light, const std::string& baseName);
 			static StructParam getStructParam(const DirectionLight& light, const std::string& baseName);
 			static StructParam getStructParam(const SpotLight& light, const std::string& baseName);
+		};
+
+		/*
+		parameter of texture
+		*/
+		struct TextureParam
+		{
+			TextureParam();
+			TextureParam(TexturePtr texPtr);
+			TextureParam(const TextureParam& param);
+			TextureParam& operator=(const TextureParam& param);
+			TexturePtr m_texPtr{ nullptr };
 		};
 
 	}

@@ -9,12 +9,12 @@ namespace water
 	namespace render
 	{
 		// load value from str
-		void loadFromString(const std::string& str, int* value);
-		void loadFromString(const std::string& str, float* value);
-		void loadFromString(const std::string& str, math3d::Vector2* value);
-		void loadFromString(const std::string& str, math3d::Vector3* value);
-		void loadFromString(const std::string& str, math3d::Matrix* value);
-		void loadFromString(const std::string& str, TexturePtr& value);
+		void loadFromString(const std::string& str, int*& value);
+		void loadFromString(const std::string& str, float*& value);
+		void loadFromString(const std::string& str, math3d::Vector2*& value);
+		void loadFromString(const std::string& str, math3d::Vector3*& value);
+		void loadFromString(const std::string& str, math3d::Matrix*& value);
+		void loadFromString(const std::string& str, TextureParam*& value);
 
 		MaterialParam::MaterialParam(UniformType type):
 			m_type(type), m_data(nullptr)
@@ -58,7 +58,7 @@ namespace water
 			m_struct = new StructParam(param);
 		}
 
-		MaterialParam::MaterialParam(TexturePtr texPtr): m_tex(texPtr)
+		MaterialParam::MaterialParam(TexturePtr texPtr)
 		{
 			switch (texPtr->m_type)
 			{
@@ -69,6 +69,7 @@ namespace water
 				m_type = UniformType::TypeCubeMap;
 				break;
 			}
+			m_tex = new TextureParam(texPtr);
 		}
 
 		MaterialParam::MaterialParam(UniformType pType, const std::string& str):
@@ -420,7 +421,7 @@ namespace water
 #define SAFE_ASSIGN(var, type, value) if(!var){var = new type(value);} else {*var = value;}
 #define TO_FLOAT(idx) atof(subValues[idx].c_str())
 #define TO_INT(idx) atoi(subValues[idx].c_str())
-		void loadFromString(const std::string& str, int* value)
+		void loadFromString(const std::string& str, int*& value)
 		{
 			std::vector<std::string> subValues;
 			boost::split(subValues, str, boost::is_space());
@@ -428,7 +429,7 @@ namespace water
 			int v = TO_INT(0);
 			SAFE_ASSIGN(value, int, v);
 		}
-		void loadFromString(const std::string& str, float* value)
+		void loadFromString(const std::string& str, float*& value)
 		{
 			std::vector<std::string> subValues;
 			boost::split(subValues, str, boost::is_space());
@@ -436,7 +437,7 @@ namespace water
 			float v = TO_FLOAT(0);
 			SAFE_ASSIGN(value, float, v);
 		}
-		void loadFromString(const std::string& str, math3d::Vector2* value)
+		void loadFromString(const std::string& str, math3d::Vector2*& value)
 		{
 			std::vector<std::string> subValues;
 			boost::split(subValues, str, boost::is_space());
@@ -444,7 +445,7 @@ namespace water
 			math3d::Vector2 v(TO_FLOAT(0), TO_FLOAT(1));
 			SAFE_ASSIGN(value, math3d::Vector2, v);
 		}
-		void loadFromString(const std::string& str, math3d::Vector3* value)
+		void loadFromString(const std::string& str, math3d::Vector3*& value)
 		{
 			std::vector<std::string> subValues;
 			boost::split(subValues, str, boost::is_space());
@@ -452,7 +453,7 @@ namespace water
 			math3d::Vector3 v(TO_FLOAT(0), TO_FLOAT(1), TO_FLOAT(2));
 			SAFE_ASSIGN(value, math3d::Vector3, v);
 		}
-		void loadFromString(const std::string& str, math3d::Matrix* value)
+		void loadFromString(const std::string& str, math3d::Matrix*& value)
 		{
 			std::vector<std::string> subValues;
 			boost::split(subValues, str, boost::is_space());
@@ -465,7 +466,7 @@ namespace water
 			);
 			SAFE_ASSIGN(value, math3d::Matrix, v);
 		}
-		void loadFromString(const std::string& str, TexturePtr& value)
+		void loadFromString(const std::string& str, TextureParam*& value)
 		{
 			std::vector<std::string> sub_values;
 			boost::split(sub_values, str, boost::is_space());
@@ -492,10 +493,25 @@ namespace water
 				img_ptr->load(sub_values[i]);
 				texPtr->images.push_back(img_ptr);
 			}
-			value = TextureManager::get_instance()->get_texture(texPtr);
+			value = new TextureParam(TextureManager::get_instance()->get_texture(texPtr));
 		}
 #undef SAFE_ASSIGN(var, type, value)
 #undef TO_FLOAT(idx)
 #define to_int(idx)
+		TextureParam::TextureParam()
+		{
+		}
+		TextureParam::TextureParam(TexturePtr texPtr): m_texPtr(texPtr)
+		{
+		}
+		TextureParam::TextureParam(const TextureParam& param): m_texPtr(param.m_texPtr)
+		{
+		}
+		TextureParam& TextureParam::operator=(const TextureParam& param)
+		{
+			if (this == &param) return *this;
+			m_texPtr = param.m_texPtr;
+			return *this;
+		}
 }
 }

@@ -239,7 +239,7 @@ namespace water
 						break;
 					case UniformType::TypeCubeMap:
 					case UniformType::TypeSampler2D:
-						param.m_tex->bind(tex_units[texIndex]);
+						param.m_tex->m_texPtr->bind(tex_units[texIndex]);
 						setUniform(name, (int*)&texIndex);
 						++texIndex;
 						break;
