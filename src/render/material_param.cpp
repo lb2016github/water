@@ -229,43 +229,43 @@ namespace water
 		}
 		void MaterialParamMap::setParam(const std::string& name, int value)
 		{
-			m_paramMap[name] = MaterialParam(UniformType::TypeInt, value);
+			m_paramMap[name] = MaterialParam(value);
 		}
 		void MaterialParamMap::setParam(const std::string& name, float value)
 		{
-			m_paramMap[name] = MaterialParam(UniformType::TypeFloat, value);
+			m_paramMap[name] = MaterialParam(value);
 		}
 		void MaterialParamMap::setParam(const std::string& name, const math3d::Matrix& value)
 		{
-			m_paramMap[name] = MaterialParam(UniformType::TypeMatrix, value);
+			m_paramMap[name] = MaterialParam(value);
 		}
 		void MaterialParamMap::setParam(const std::string& name, const math3d::Vector3& value)
 		{
-			m_paramMap[name] = MaterialParam(UniformType::TypeVector3, value);
+			m_paramMap[name] = MaterialParam(value);
 		}
 		void MaterialParamMap::setParam(const std::string& name, const math3d::Vector2& value)
 		{
-			m_paramMap[name] = MaterialParam(UniformType::TypeVector2, value);
+			m_paramMap[name] = MaterialParam(value);
 		}
 		void MaterialParamMap::setParam(const std::string& name, const MaterialParam::MatrixArray& value)
 		{
-			m_paramMap[name] = MaterialParam(UniformType::TypeMatrixArray, value);
+			m_paramMap[name] = MaterialParam(value);
 		}
 		void MaterialParamMap::setParam(const std::string& name, TexturePtr tex_ptr)
 		{
 			switch (tex_ptr->m_type)
 			{
 			case TEXTURE_2D:
-				m_paramMap[name] = MaterialParam(UniformType::TypeSampler2D, tex_ptr);
+				m_paramMap[name] = MaterialParam(tex_ptr);
 				break;
 			case TEXTURE_CUBE:
-				m_paramMap[name] = MaterialParam(UniformType::TypeCubeMap, tex_ptr);
+				m_paramMap[name] = MaterialParam(tex_ptr);
 				break;
 			}
 		}
 		void MaterialParamMap::setParam(const std::string& name, StructParam& value)
 		{
-			m_paramMap[name] = MaterialParam(UniformType::TypeStruct, value);
+			m_paramMap[name] = MaterialParam(value);
 		}
 		const MaterialParam* MaterialParamMap::getParam(const std::string& name)
 		{

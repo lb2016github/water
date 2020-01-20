@@ -18,10 +18,19 @@ namespace water
 		*/
 		struct MaterialParam
 		{
-			MaterialParam(UniformType type);
-			template<class T>
-			MaterialParam(UniformType type, T value);
-			MaterialParam(UniformType pType, const std::string& str);
+			typedef std::vector<math3d::Matrix> MatrixArray;
+
+			MaterialParam(UniformType type = UniformType::TypeNone);
+			MaterialParam(int value);
+			MaterialParam(float value);
+			MaterialParam(const math3d::Vector2& vec2);
+			MaterialParam(const math3d::Vector3& vec3);
+			MaterialParam(const math3d::Matrix& mtx);
+			MaterialParam(const MatrixArray& mtxArray);
+			MaterialParam(const StructParam& param);
+			MaterialParam(TexturePtr texPtr);
+			MaterialParam(UniformType typem, const std::string& str);
+
 			MaterialParam(const MaterialParam& param);
 			MaterialParam(MaterialParam&& param);
 			~MaterialParam();
@@ -33,7 +42,6 @@ namespace water
 			template<class T>
 			void setValue(UniformType type, T& value);
 
-			typedef std::vector<math3d::Matrix> MatrixArray;
 
 			UniformType m_type;
 			union
@@ -126,11 +134,6 @@ namespace water
 
 
 
-		template<class T>
-		inline MaterialParam::MaterialParam(UniformType type, T value)
-		{
-			setValue(type, value);
-		}
 		template<class T>
 		inline void MaterialParam::setValue(UniformType type, T& value)
 		{
