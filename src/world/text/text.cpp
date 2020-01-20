@@ -62,7 +62,7 @@ namespace water
 			// init texture
 			m_texture = render::get_device()->create_texture(render::TEXTURE_2D);
 			// init material
-			auto rst = render::Material::load_from_file(mat_filepath);
+			auto rst = render::Material::loadFromFile(mat_filepath);
 			assert(rst.size() > 0);
 			m_material = rst[0];
 		}
@@ -70,7 +70,7 @@ namespace water
 		{
 			math3d::Vector2 base_pos = screen_pos;
 			// init material
-			auto param_map = m_material->get_param_map(0);
+			auto param_map = m_material->getParamMap(0);
 			param_map->setParam("color", color);
 			auto world_ptr = world::World::get_instance();
 			math3d::Vector2 screen_size = world_ptr->get_window()->get_window_size();
@@ -102,7 +102,7 @@ namespace water
 				{
 					char_ptr = rst->second;
 				}
-				param_map->set_texture("tex", char_ptr->texture);
+				param_map->setParam("tex", char_ptr->texture);
 				auto mesh = char_ptr->create_mesh(base_pos, scale);
 				m_material->render(mesh);
 

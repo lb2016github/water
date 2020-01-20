@@ -55,7 +55,7 @@ namespace water {
 		}
 		void ShadowMapComponent::init(const std::string & mat_path)
 		{
-			auto mat_map = render::Material::load_from_file(mat_path);
+			auto mat_map = render::Material::loadFromFile(mat_path);
 			m_material = mat_map[0];
 		}
 		math3d::Matrix ShadowMapComponent::get_shadow_vp()

@@ -55,7 +55,7 @@ namespace water
 					{
 						std::string filepath = child.attribute("path").as_string();
 						int mat_idx = child.attribute("mat_idx").as_int();
-						auto mat_map = render::Material::load_from_file(filepath);
+						auto mat_map = render::Material::loadFromFile(filepath);
 						MaterialComponent* comp = (MaterialComponent*)model->get_component(COMP_MATERIAL);
 						comp->set_material(mat_map[mat_idx]);
 					}
