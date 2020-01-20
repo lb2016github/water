@@ -171,6 +171,7 @@ namespace water
 					break;
 				case UniformType::TypeStruct:
 					delete m_struct;
+					break;
 				default:
 					log_error("Unkown type: %d", m_type);
 					break;
