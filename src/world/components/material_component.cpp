@@ -10,6 +10,7 @@
 #include "mesh_component.h"
 #include "world/animation/skeleton.h"
 #include "animator_component.h"
+#include "render/material_param.h"
 
 namespace water
 {
@@ -20,9 +21,9 @@ namespace water
 
 		bool MaterialComponent::has_param(std::string name, unsigned int index)
 		{
-			auto ptr = m_material_ptr->get_param_map(index);
+			auto ptr = m_material_ptr->getParamMap(index);
 			if (!ptr) return false;
-			return ptr->has_param(name);
+			return ptr->hasParam(name);
 		}
 
 		render::MaterialPtr MaterialComponent::get_material()
@@ -96,7 +97,7 @@ namespace water
 			}
 			else if (semantic == water::render::SemanticLight)
 			{
-				param_map->m_light_cfg = scene_ptr->get_light_config();
+				param_map->setParam(name, render::StructParam::getStructParam(scene_ptr->get_light_config(), name));
 			}
 			else if (semantic == water::render::SemanticShadowMapVP)
 			{
@@ -106,14 +107,14 @@ namespace water
 			else if (semantic == water::render::SemanticShadowMapTexture)
 			{
 				auto shadow_map_comp = GET_COMPONENT(scene_ptr, ShadowMapComponent);
-				param_map->set_texture(name, shadow_map_comp->get_shadow_map());
+				param_map->setParam(name, shadow_map_comp->get_shadow_map());
 			}
 			else if (semantic == water::render::SemanticEnvMap)
 			{
 				auto env_map = scene_ptr->get_env_map();
 				if (env_map)
 				{
-					param_map->set_texture(name, env_map);
+					param_map->setParam(name, env_map);
 				}
 			}
 			else if (semantic == water::render::SemanticSkinMatrix)

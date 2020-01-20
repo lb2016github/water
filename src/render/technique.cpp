@@ -216,7 +216,7 @@ namespace water
 			{
 				RenderTaskPtr cur_task = std::make_shared<RenderTask>(
 					mesh_ptr, iter->program, iter->render_state,
-					*(mat_ptr->get_param_map(cur_idx)), pre_task
+					*(mat_ptr->getParamMap(cur_idx)), pre_task
 				);
 				RenderTaskManager::get_instance()->add_task(cur_task);
 				pre_task = cur_task;
