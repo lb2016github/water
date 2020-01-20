@@ -29,11 +29,11 @@
             <Uniform name="wvp" type="Matrix"/>
             <Uniform name="w" type="Matrix"/>
             <Uniform name="light_wvp" type="Matrix"/>
-            <Uniform name="g_dir_light" type="DirectionLight"/>
+            <Uniform name="g_dir_light" type="Struct"/>
             <Uniform name="g_point_light_num" type="Int"/>
-            <Uniform name="g_point_light_list" type="PointLight"/>
+            <Uniform name="g_point_light_list" type="Struct"/>
             <Uniform name="g_spot_light_num" type="Int"/>
-            <Uniform name="g_spot_light_list" type="SpotLight"/>
+            <Uniform name="g_spot_light_list" type="Struct"/>
         </Program>
     </RenderPass>
 </Technique>

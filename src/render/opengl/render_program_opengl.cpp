@@ -220,6 +220,12 @@ namespace water
 			{
 				std::string name = iter->first;
 				MaterialParam param = iter->second;
+				if (!param.isInited())
+				{
+					log_error("Material param %s is not inited", name);
+					continue;
+				}
+
 				switch (param.m_type)
 				{
 					case UniformType::TypeFloat :

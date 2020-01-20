@@ -30,6 +30,10 @@ namespace water
 			MaterialParam(const MatrixArray& mtxArray);
 			MaterialParam(const StructParam& param);
 			MaterialParam(TexturePtr texPtr);
+			/*
+			init param with string
+			note that str may be null
+			*/
 			MaterialParam(UniformType typem, const std::string& str);
 
 			MaterialParam(const MaterialParam& param);
@@ -38,11 +42,7 @@ namespace water
 			MaterialParam& operator=(const MaterialParam& param);
 			MaterialParam& operator=(MaterialParam&& param);
 
-			void setValue(TexturePtr texPtr);
-			void setValue(StructParam structParam);
-			template<class T>
-			void setValue(UniformType type, T& value);
-
+			bool isInited();
 
 			UniformType m_type;
 			union

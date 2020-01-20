@@ -6,7 +6,7 @@
             <Parameter name="wvp" type="Matrix" value="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" semantic="WVP"/>
             <Parameter name="world" type="Matrix" semantic="WORLD"/>
             <Parameter name="eye_pos" type="Vector3" semantic="CAMERA_POSITION"/>
-            <Parameter name="light_cfg" type="Light" semantic="LIGHT"/>
+            <Parameter name="light_cfg" type="Struct" semantic="LIGHT"/>
         </ParameterMap>
     </Material>
 </MaterialGroup>

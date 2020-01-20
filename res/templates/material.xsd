@@ -56,7 +56,7 @@ targetNamespace="/water" xmlns:water="/water">
             <xs:enumeration value="Vector3"/>
             <xs:enumeration value="Matrix"/>
             <xs:enumeration value="Sampler2D"/>
-            <xs:enumeration value="Light"/>
+            <xs:enumeration value="Struct"/>
             <xs:enumeration value="CubeMap"/>
             <xs:enumeration value="IntList"/>
         </xs:restriction>

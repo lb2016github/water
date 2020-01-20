@@ -30,7 +30,7 @@
             <Uniform name="world" type="Matrix"/>
             <Uniform name="diffuse" type="Sampler2D"/>
             <Uniform name="eye_pos" type="Vector3"/>
-            <Uniform name="light_cfg" type="Light"/>
+            <Uniform name="light_cfg" type="Struct"/>
         </Program>
     </RenderPass>
 </Technique>

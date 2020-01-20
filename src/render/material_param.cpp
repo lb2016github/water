@@ -137,6 +137,10 @@ namespace water
 			param.m_data = nullptr;
 			return *this;
 		}
+		bool MaterialParam::isInited()
+		{
+			return m_data != nullptr;
+		}
 		void MaterialParam::_releaseData()
 		{
 			if (m_data)
@@ -474,9 +478,9 @@ namespace water
 			unsigned int requireSize = 0;
 			switch (sub_values.size())
 			{
-			case 2:
+			case 1:
 				texPtr->tex_type = TEXTURE_2D;
-				requireSize = 2;
+				requireSize = 1;
 				break;
 			case 6:
 				texPtr->tex_type = TEXTURE_CUBE;
