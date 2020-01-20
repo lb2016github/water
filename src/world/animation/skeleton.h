@@ -66,7 +66,7 @@ namespace water
 			SkeletonPtr m_skeleton;
 			JointPose* m_jointPoses;	//array of joint pose
 			/* list of skin matrix */
-			math3d::Matrix m_skinMatrices[MAX_BONE_NUM];
+			std::vector<math3d::Matrix> m_skinMatrices;
 		};
 		DECL_SHARED_PTR(SkeletonPose);
 		/*

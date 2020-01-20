@@ -118,10 +118,6 @@ namespace water
 			m_skeleton(skePtr)
 		{
 			m_jointPoses = new JointPose[skePtr->m_jointCount];
-			for (int i = 0; i < MAX_BONE_NUM; ++i)
-			{
-				m_skinMatrices[i] = math3d::Matrix::makeIdentityMatrix();
-			}
 		}
 		SkeletonPose::~SkeletonPose()
 		{
@@ -146,7 +142,7 @@ namespace water
 				{
 					gJointPose[i] = local;
 				}
-				m_skinMatrices[i] = gJointPose[i] * invMatrix;
+				m_skinMatrices.push_back(gJointPose[i] * invMatrix);
 			}
 		}
 	}

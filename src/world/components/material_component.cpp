@@ -123,7 +123,7 @@ namespace water
 				if (animComp)
 				{
 					auto skePose = animComp->getCurPose();
-					// todo
+					param_map->setParam(name, skePose->m_skinMatrices);
 				}
 			}
 		}

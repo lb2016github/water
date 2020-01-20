@@ -76,6 +76,8 @@ namespace water
 			MaterialParamMap();
 			MaterialParamMap(const MaterialParamMap& matParamMap);
 			MaterialParamMap(MaterialParamMap&& matParamMap);
+			MaterialParamMap& operator=(const MaterialParamMap& matParamMap);
+			MaterialParamMap& operator=(MaterialParamMap&& matParamMap);
 			/*
 			merge another MaterialParamMap
 			*/
@@ -132,42 +134,7 @@ namespace water
 			static StructParam getStructParam(const SpotLight& light, const std::string& baseName);
 		};
 
-
-
-		template<class T>
-		inline void MaterialParam::setValue(UniformType type, T& value)
-		{
-			if (type == UniformType::TypeCubeMap || type == UniformType::TypeSampler2D)
-			{
-				m_tex = value;
-				return;
-			}
-			if (type == UniformType::TypeStruct)
-			{
-				if (m_struct)
-				{
-					delete m_struct;
-				}
-				m_struct = new StructParam(value);
-				return;
-			}
-			// same type of data, than just replace value
-			if (type == m_type && m_data)
-			{
-				*(T*)m_data = value;
-				return;
-			}
-			// type is different, than reinit data
-			m_type = type;
-			if (m_data)
-			{
-				// first release old data
-				_releaseData();
-			}
-			m_data = new T(value);
-		}
-
-}
+	}
 }
 
 

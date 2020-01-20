@@ -3,6 +3,7 @@
 #include "common/log.h"
 #include <sstream>
 
+
 namespace water
 {
 	namespace render
@@ -13,45 +14,68 @@ namespace water
 		void loadFromString(const std::string& str, math3d::Vector2* value);
 		void loadFromString(const std::string& str, math3d::Vector3* value);
 		void loadFromString(const std::string& str, math3d::Matrix* value);
-		void loadFromString(const std::string& str, TexturePtr& value)
-		{
-			std::vector<std::string> sub_values;
-			boost::split(sub_values, str, boost::is_space());
-			auto texPtr = std::make_shared<TextureData>();
-			unsigned int requireSize = 0;
-			switch (sub_values.size())
-			{
-			case 2:
-				texPtr->tex_type = TEXTURE_2D;
-				requireSize = 2;
-				break;
-			case 6:
-				texPtr->tex_type = TEXTURE_CUBE;
-				requireSize = 6;
-				break;
-			default:
-				log_error("[TEXTURE INIT]Ellegal images count(%d)", sub_values.size());
-				return;
-				break;
-			}
-			for(int i = 0; i < requireSize; ++i)
-			{
-				auto img_ptr = std::make_shared<filesystem::Image>();
-				img_ptr->load(sub_values[i]);
-				texPtr->images.push_back(img_ptr);
-			}
-			value = TextureManager::get_instance()->get_texture(texPtr);
-		}
+		void loadFromString(const std::string& str, TexturePtr& value);
 
 		MaterialParam::MaterialParam(UniformType type):
 			m_type(type), m_data(nullptr)
 		{
 		}
 
+		MaterialParam::MaterialParam(int value):
+			m_type(UniformType::TypeInt)
+		{
+			m_int = new int(value);
+		}
+
+		MaterialParam::MaterialParam(float value):
+			m_type(UniformType::TypeFloat)
+		{
+			m_float = new float(value);
+		}
+
+		MaterialParam::MaterialParam(const math3d::Vector2& vec2): m_type(UniformType::TypeVector2)
+		{
+			m_vec2 = new math3d::Vector2(vec2);
+		}
+
+		MaterialParam::MaterialParam(const math3d::Vector3& vec3): m_type(UniformType::TypeVector3)
+		{
+			m_vec3 = new math3d::Vector3(vec3);
+		}
+
+		MaterialParam::MaterialParam(const math3d::Matrix& mtx): m_type(UniformType::TypeMatrix)
+		{
+			m_mtx = new math3d::Matrix(mtx);
+		}
+
+		MaterialParam::MaterialParam(const MatrixArray& mtxArray): m_type(UniformType::TypeMatrixArray)
+		{
+			m_mtxArray = new MatrixArray();
+		}
+
+		MaterialParam::MaterialParam(const StructParam& param): m_type(UniformType::TypeStruct)
+		{
+			m_struct = new StructParam(param);
+		}
+
+		MaterialParam::MaterialParam(TexturePtr texPtr): m_tex(texPtr)
+		{
+			switch (texPtr->m_type)
+			{
+			case TEXTURE_2D:
+				m_type = UniformType::TypeSampler2D;
+				break;
+			case TEXTURE_CUBE:
+				m_type = UniformType::TypeCubeMap;
+				break;
+			}
+		}
+
 		MaterialParam::MaterialParam(UniformType pType, const std::string& str):
 			m_type(pType), m_data(nullptr)
 		{
 			assert(pType != UniformType::TypeStruct);
+			assert(pType != UniformType::TypeNone);
 			switch (m_type)
 			{
 				case UniformType::TypeFloat:
@@ -199,6 +223,20 @@ namespace water
 		MaterialParamMap::MaterialParamMap(MaterialParamMap&& matParamMap):
 			m_paramMap(std::move(matParamMap.m_paramMap)), m_semanticMap(std::move(matParamMap.m_semanticMap))
 		{
+		}
+		MaterialParamMap& MaterialParamMap::operator=(const MaterialParamMap& matParamMap)
+		{
+			if (this == &matParamMap) return *this;
+			m_paramMap = matParamMap.m_paramMap;
+			m_semanticMap = matParamMap.m_semanticMap;
+			return *this;
+		}
+		MaterialParamMap& MaterialParamMap::operator=(MaterialParamMap&& matParamMap)
+		{
+			if (this == &matParamMap) return *this;
+			m_paramMap = std::move(matParamMap.m_paramMap);
+			m_semanticMap = std::move(matParamMap.m_semanticMap);
+			return *this;
 		}
 		void MaterialParamMap::unionMap(const MaterialParamMap& paramMap)
 		{
@@ -378,5 +416,86 @@ namespace water
 			param.setParam(baseName + ".cutoff", light.cutoff);
 			return param;
 		}
-	}
+
+#define SAFE_ASSIGN(var, type, value) if(!var){var = new type(value);} else {*var = value;}
+#define TO_FLOAT(idx) atof(subValues[idx].c_str())
+#define TO_INT(idx) atoi(subValues[idx].c_str())
+		void loadFromString(const std::string& str, int* value)
+		{
+			std::vector<std::string> subValues;
+			boost::split(subValues, str, boost::is_space());
+			assert(subValues.size() == 1);
+			int v = TO_INT(0);
+			SAFE_ASSIGN(value, int, v);
+		}
+		void loadFromString(const std::string& str, float* value)
+		{
+			std::vector<std::string> subValues;
+			boost::split(subValues, str, boost::is_space());
+			assert(subValues.size() == 1);
+			float v = TO_FLOAT(0);
+			SAFE_ASSIGN(value, float, v);
+		}
+		void loadFromString(const std::string& str, math3d::Vector2* value)
+		{
+			std::vector<std::string> subValues;
+			boost::split(subValues, str, boost::is_space());
+			assert(subValues.size() == 2);
+			math3d::Vector2 v(TO_FLOAT(0), TO_FLOAT(1));
+			SAFE_ASSIGN(value, math3d::Vector2, v);
+		}
+		void loadFromString(const std::string& str, math3d::Vector3* value)
+		{
+			std::vector<std::string> subValues;
+			boost::split(subValues, str, boost::is_space());
+			assert(subValues.size() == 3);
+			math3d::Vector3 v(TO_FLOAT(0), TO_FLOAT(1), TO_FLOAT(2));
+			SAFE_ASSIGN(value, math3d::Vector3, v);
+		}
+		void loadFromString(const std::string& str, math3d::Matrix* value)
+		{
+			std::vector<std::string> subValues;
+			boost::split(subValues, str, boost::is_space());
+			assert(subValues.size() == 16);
+			math3d::Matrix v(
+				TO_FLOAT(0), TO_FLOAT(1), TO_FLOAT(2), TO_FLOAT(3), 
+				TO_FLOAT(4), TO_FLOAT(5), TO_FLOAT(6), TO_FLOAT(7), 
+				TO_FLOAT(8), TO_FLOAT(9), TO_FLOAT(10), TO_FLOAT(11), 
+				TO_FLOAT(12), TO_FLOAT(13), TO_FLOAT(14), TO_FLOAT(15) 
+			);
+			SAFE_ASSIGN(value, math3d::Matrix, v);
+		}
+		void loadFromString(const std::string& str, TexturePtr& value)
+		{
+			std::vector<std::string> sub_values;
+			boost::split(sub_values, str, boost::is_space());
+			auto texPtr = std::make_shared<TextureData>();
+			unsigned int requireSize = 0;
+			switch (sub_values.size())
+			{
+			case 2:
+				texPtr->tex_type = TEXTURE_2D;
+				requireSize = 2;
+				break;
+			case 6:
+				texPtr->tex_type = TEXTURE_CUBE;
+				requireSize = 6;
+				break;
+			default:
+				log_error("[TEXTURE INIT]Ellegal images count(%d)", sub_values.size());
+				return;
+				break;
+			}
+			for(int i = 0; i < requireSize; ++i)
+			{
+				auto img_ptr = std::make_shared<filesystem::Image>();
+				img_ptr->load(sub_values[i]);
+				texPtr->images.push_back(img_ptr);
+			}
+			value = TextureManager::get_instance()->get_texture(texPtr);
+		}
+#undef SAFE_ASSIGN(var, type, value)
+#undef TO_FLOAT(idx)
+#define to_int(idx)
+}
 }
