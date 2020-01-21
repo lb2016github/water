@@ -71,6 +71,7 @@ namespace water
 			// do combine mesh
 			unsigned int baseIndex = 0;
 			render::MeshDataPtr dataPtr = std::make_shared<render::MeshData>(meshMode);
+			dataPtr->skeID = skId;
 			for each (auto meshPtr in meshList)
 			{
 				if ((format & render::MeshData::BIT_POSITION) > 0)

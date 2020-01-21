@@ -130,17 +130,17 @@ namespace water
 			{
 				Joint& joint = m_skeleton->m_joints[i];
 				math3d::Matrix& invMatrix = joint.m_invBindPose;
-				unsigned int parentIndex = joint.m_parentIndex;
+				int parentIndex = joint.m_parentIndex;
 				JointPose& jointPose = m_jointPoses[i];
 				math3d::Matrix local = math3d::Matrix::makeMatrix(jointPose.m_scale, jointPose.m_rot, jointPose.m_trans);
 				if (parentIndex > 0)
 				{
 					math3d::Matrix& parentPose = gJointPose[parentIndex];
-					gJointPose[i] = parentPose * local;
+					gJointPose.emplace_back(parentPose * local);
 				}
 				else
 				{
-					gJointPose[i] = local;
+					gJointPose.emplace_back(local);
 				}
 				m_skinMatrices.push_back(gJointPose[i] * invMatrix);
 			}

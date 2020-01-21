@@ -6,6 +6,7 @@
 #include "world/components/transform_component.h"
 #include "world/components/scene_object_component.h"
 #include <memory>
+#include "itickable.h"
 
 namespace water
 {
@@ -18,7 +19,8 @@ namespace water
 
 		class SpaceObject: 
 			public ComponentObject<TransformComponent>, 
-			public std::enable_shared_from_this<SpaceObject>
+			public std::enable_shared_from_this<SpaceObject>,
+			public ITickable
 		{
 		public:
 			virtual ~SpaceObject();
@@ -31,6 +33,10 @@ namespace water
 			// get children
 			std::set<SpaceObjectPtr>& get_children();
 			void add_child(SpaceObjectPtr space_object);
+
+			// tick function
+			void tick(float deltaTimeMic);
+
 
 		//====================== Start attributes =============================//
 		public:

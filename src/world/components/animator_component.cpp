@@ -2,6 +2,7 @@
 #include "component_const.h"
 #include "world/gameobjects/component_object.hpp"
 #include "filesystem/filesystem.h"
+#include "common/log.h"
 
 namespace water
 {
@@ -11,23 +12,50 @@ namespace water
 
 		void AnimatorComponent::initAnimationClipData(AnimationClipDataPtr animClipDataPtr)
 		{
-			SAFE_DELETE(m_animator);
-			m_animator = new Animator(animClipDataPtr);
-			if (!animClipDataPtr->isEmpty())
+			m_animClipData = animClipDataPtr;
+			m_tickEnable = true;
+			if (!m_animClipData->isEmpty())
 			{
-				m_animator->playAnim(animClipDataPtr->m_defaultClipName, true);
+				playAnim(m_animClipData->m_defaultClipName, false);
 			}
 		}
 
-		Animator* AnimatorComponent::getAnimator()
+		void AnimatorComponent::playAnim(std::string animName, bool loop)
 		{
-			return m_animator;
+			log_info("[Anim]Play anim %s", animName.c_str());
+			if (m_curAnimName == animName && m_curAnimTimeline != nullptr)
+			{
+				m_curAnimTimeline->setLoop(loop);
+				m_curAnimTimeline->replay();
+				return;
+			}
+			AnimationClipPtr animClip = m_animClipData->getAnimClip(animName);
+			if (animClip == nullptr)
+			{
+				log_error("[Anim]Anim name %s is not found", animName.c_str());
+				return;
+			}
+			SAFE_DELETE(m_curAnimTimeline);
+			m_curAnimName = animName;
+			m_curAnimTimeline = new AnimationTimeline(animClip, loop);
 		}
 
 		SkeletonPosePtr AnimatorComponent::getCurPose()
 		{
-			if (!m_animator) return nullptr;
-			return m_animator->getAnimTimeline()->getCurPose();
+			if (m_curAnimTimeline)
+			{
+				return m_curAnimTimeline->getCurPose();
+			}
+			return nullptr;
+		}
+
+		void AnimatorComponent::tick(float timeMic)
+		{
+			if (m_curAnimTimeline)
+			{
+				m_curAnimTimeline->tick(timeMic);
+			}
+
 		}
 
 	}

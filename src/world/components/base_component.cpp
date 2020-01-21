@@ -16,10 +16,11 @@ namespace water
 			if (&comp == this) {
 				return *this;
 			}
+			m_tickEnable = comp.m_tickEnable;
 			return *this;
 		}
 
-		BaseComponent::BaseComponent(GameObject* game_object): m_game_object(game_object)
+		BaseComponent::BaseComponent(GameObject* game_object): m_game_object(game_object), ITickable(false)
 		{
 			assert(game_object != nullptr);
 		}

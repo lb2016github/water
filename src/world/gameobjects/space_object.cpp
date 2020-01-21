@@ -26,5 +26,24 @@ namespace water
 			space_object->set_parent(shared_from_this());
 			m_children.insert(space_object);
 		}
+		void SpaceObject::tick(float deltaTimeMic)
+		{
+			// call tick of components
+			for(auto iter = m_components.begin(); iter != m_components.end(); ++iter)
+			{
+				if (iter->second->isTickEnable())
+				{
+					iter->second->tick(deltaTimeMic);
+				}
+			}
+
+			for each (auto child in m_children)
+			{
+				if (child->m_tickEnable)
+				{
+					child->tick(deltaTimeMic);
+				}
+			}
+		}
 	}
 }

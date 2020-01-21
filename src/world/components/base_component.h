@@ -6,6 +6,7 @@
 #include <map>
 #include "component_const.h"
 #include <functional>
+#include "world/gameobjects/itickable.h"
 
 #define REGISTER_COMPONENT(cls, obj_type)\
 water::world::BaseComponent* create_##cls(GameObject* obj)\
@@ -23,13 +24,15 @@ namespace water {
 
 		typedef ComponentObject<> GameObject;
 
-		class BaseComponent {
+		class BaseComponent: public ITickable {
 		public:
 			BaseComponent() = delete;
 			BaseComponent(GameObject* game_object);
 			BaseComponent(const BaseComponent& comp) = delete;	// copy contructor is not allowed in void of to game object has two same component
 			virtual BaseComponent& operator = (const BaseComponent& comp);
 			virtual ~BaseComponent();
+
+			virtual void tick(float deltaTimeMic) {};
 
 			static const ComponentTag tag;
 

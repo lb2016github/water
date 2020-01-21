@@ -137,7 +137,7 @@ namespace water
 					m_rot[i] = animFrameData.m_rot[i];
 				}
 			}
-			if (m_scale > 0)
+			if (m_numScale > 0)
 			{
 				m_scale = new Vector3KeyFrame[m_numScale];
 				for (int i = 0; i < m_numScale; ++i)

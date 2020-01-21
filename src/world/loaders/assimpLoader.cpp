@@ -158,6 +158,7 @@ namespace water
 				if (rst != m_skinData.end())
 				{
 					skinDataPtr = &(rst->second);
+					data_ptr->skeID = m_skPtr->m_id;
 				}
 				// load vertex data
 				unsigned int num_vertices = mesh->mNumVertices;
@@ -358,7 +359,7 @@ namespace water
 				auto parent = node->mParent;
 				if (parent)
 				{
-					auto parentName = node->mName.C_Str();
+					auto parentName = parent->mName.C_Str();
 					for (int i = 0; i < joints.size(); ++i)
 					{
 						if (strcmp(parentName, joints[i].m_name.c_str()) == 0)
@@ -399,7 +400,12 @@ namespace water
 				}
 			}
 			SkeletonPtr skPtr = std::make_shared<Skeleton>(joints.size());
-			memcpy(skPtr->m_joints, joints.data(), sizeof(Joint) * skPtr->m_jointCount);
+			//memcpy(skPtr->m_joints, joints.data(), sizeof(Joint) * skPtr->m_jointCount);
+			unsigned int idx = 0;
+			for (auto iter = joints.begin(); iter != joints.end(); ++iter)
+			{
+				skPtr->m_joints[idx++] = *iter;
+			}
 			return skPtr;
 		}
 

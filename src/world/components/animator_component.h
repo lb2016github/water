@@ -16,12 +16,29 @@ namespace water
 			using BaseComponent::BaseComponent;
 			static const ComponentTag tag = COMP_ANIMATOR;
 		public:
+			/*
+			init animation clip data
+			*/
 			void initAnimationClipData(AnimationClipDataPtr animClipDataPtr);
-			Animator* getAnimator();
+
+			/*
+			play animation
+			@param animName: name of animation
+			@param loop: whether current animation is loop
+			*/
+			void playAnim(std::string animName, bool loop = false);
+
 			SkeletonPosePtr getCurPose();
 
+			virtual void tick(float timeMic);
+
 		public:
-			Animator* m_animator{ nullptr };
+			// animation data
+			AnimationClipDataPtr m_animClipData;
+			// cur anim name
+			std::string m_curAnimName{ "" };
+			// timeline of animation
+			AnimationTimeline* m_curAnimTimeline{ nullptr };
 
 		};
 	}

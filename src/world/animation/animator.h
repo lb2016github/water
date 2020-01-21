@@ -18,7 +18,7 @@ namespace water
 		class Animator
 		{
 		public:
-			Animator(AnimationClipDataPtr clipData);
+			Animator(AnimationClipDataPtr clipData = nullptr);
 			~Animator();
 			/*
 			play animation
