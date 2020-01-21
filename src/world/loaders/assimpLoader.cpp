@@ -85,9 +85,10 @@ namespace water
 				animSubRootNodes.emplace(rst->second);
 			}
 			// load skeletons
-			auto filterNode = [&animSubRootNodes](aiNode* node)->bool
+			auto filterNode = [&animSubRootNodes, &subRootNodeMap](aiNode* node)->bool
 			{
-				return animSubRootNodes.find(node) != animSubRootNodes.end();
+				auto rst = subRootNodeMap.find(node->mName.C_Str());
+				return animSubRootNodes.find(rst->second) != animSubRootNodes.end();
 			};
 			m_skPtr = createSkeletonByRootBone(m_scene, filterNode);
 			m_skPtr = SkeletonManager::instance()->addSkeleton(m_skPtr);

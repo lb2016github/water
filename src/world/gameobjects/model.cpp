@@ -49,6 +49,15 @@ namespace water
 						auto idxList = stringToInList(meshIndexList);
 						auto mesh_comp = (MeshComponent*)model->get_component(COMP_MESH);
 						mesh_comp->initMesh(filepath, idxList);
+
+						// init animation 
+						auto meshPtr = mesh_comp->get_mesh_ptr();
+						auto animComp = (AnimatorComponent*)model->get_component(COMP_ANIMATOR);
+						if (meshPtr && animComp)
+						{
+							auto animClipDataPtr = AnimationClipManager::instance()->getAnimClipDataPtr(meshPtr->skeID);
+							animComp->initAnimationClipData(animClipDataPtr);
+						}
 					}
 					// load material
 					else if (strcmp(child.name(), "Material") == 0)

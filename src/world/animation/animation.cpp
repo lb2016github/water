@@ -56,6 +56,11 @@ namespace water
 			return animList;
 		}
 
+		bool AnimationClipData::isEmpty()
+		{
+			return m_animClipData.size() == 0;
+		}
+
 		// ============================ AnimationFrameData START ========================== //
 		JointFrameData::JointFrameData(unsigned int numTrans, unsigned int numRot, unsigned int numScale):
 			m_numTrans(numTrans), m_numRot(numRot), m_numScale(numScale)

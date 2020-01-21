@@ -13,7 +13,10 @@ namespace water
 		{
 			SAFE_DELETE(m_animator);
 			m_animator = new Animator(animClipDataPtr);
-			m_animator->playAnim(animClipDataPtr->m_defaultClipName, true);
+			if (!animClipDataPtr->isEmpty())
+			{
+				m_animator->playAnim(animClipDataPtr->m_defaultClipName, true);
+			}
 		}
 
 		Animator* AnimatorComponent::getAnimator()

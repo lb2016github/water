@@ -104,6 +104,7 @@ namespace water
 			AnimationClipPtr getAnimClip(const std::string& animName);
 			void addAnimClip(const std::string& animName, AnimationClipPtr animClip);
 			std::set<std::string> getAnimList();
+			bool isEmpty();
 
 			std::map<std::string, AnimationClipPtr> m_animClipData;
 			std::string m_defaultClipName{ "" };
