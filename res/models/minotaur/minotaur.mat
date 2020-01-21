@@ -7,6 +7,7 @@
             <Parameter name="world" type="Matrix" semantic="WORLD"/>
             <Parameter name="eye_pos" type="Vector3" semantic="CAMERA_POSITION"/>
             <Parameter name="light_cfg" type="Struct" semantic="LIGHT"/>
+            <Parameter name="skinMatrices" type="MatrixArray" semantic="SKIN_MATRIX"/>
         </ParameterMap>
     </Material>
 </MaterialGroup>

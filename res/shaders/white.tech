@@ -31,6 +31,7 @@
             <Uniform name="diffuse" type="Sampler2D"/>
             <Uniform name="eye_pos" type="Vector3"/>
             <Uniform name="light_cfg" type="Struct"/>
+            <Uniform name="skinMatrices" type="MatrixArray"/>
         </Program>
     </RenderPass>
 </Technique>

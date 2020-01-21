@@ -55,6 +55,7 @@ targetNamespace="/water" xmlns:water="/water">
             <xs:enumeration value="Vector2"/>
             <xs:enumeration value="Vector3"/>
             <xs:enumeration value="Matrix"/>
+            <xs:enumeration value="MatrixArray"/>
             <xs:enumeration value="Sampler2D"/>
             <xs:enumeration value="Struct"/>
             <xs:enumeration value="CubeMap"/>
@@ -73,6 +74,7 @@ targetNamespace="/water" xmlns:water="/water">
             <xs:enumeration value="SHADOW_MAP_TEXTURE"/>
             <xs:enumeration value="ENV_MAP_TEXTURE"/>
             <xs:enumeration value="VP"/>
+            <xs:enumeration value="SKIN_MATRIX"/>
         </xs:restriction>
     </xs:simpleType>
     <!-- ========================= End Define Param Types ===================== -->
