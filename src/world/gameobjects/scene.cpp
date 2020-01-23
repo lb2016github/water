@@ -166,12 +166,9 @@ namespace water
 
 		}
 
-		void Scene::on_frame()
+		void Scene::tick(float timeMic)
 		{
-			if (m_cur_camera)
-			{
-				m_cur_camera->update();
-			}
+			SpaceObject::tick(timeMic);
 			render();
 		}
 	}

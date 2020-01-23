@@ -31,17 +31,10 @@ namespace water
 			// call tick of components
 			for(auto iter = m_components.begin(); iter != m_components.end(); ++iter)
 			{
-				if (iter->second->isTickEnable())
+				ITickable* comp = get_component(iter->first);
+				if (comp->isTickEnable())
 				{
-					iter->second->tick(deltaTimeMic);
-				}
-			}
-
-			for each (auto child in m_children)
-			{
-				if (child->m_tickEnable)
-				{
-					child->tick(deltaTimeMic);
+					comp->tick(deltaTimeMic);
 				}
 			}
 		}

@@ -12,7 +12,8 @@ namespace water
 {
 	namespace world
 	{
-		class World: public IWindowCallback		{
+		class World: public IWindowCallback
+		{
 		public:
 			// inherited methods
 			void on_key_callback(int key, int action);

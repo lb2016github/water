@@ -31,7 +31,7 @@ namespace water
 			void load_from_file(std::string filepath);
 
 			// tick
-			void on_frame();
+			virtual void tick(float timeMic);
 
 		protected:
 			// light

@@ -13,9 +13,9 @@ namespace water
 		void AnimatorComponent::initAnimationClipData(AnimationClipDataPtr animClipDataPtr)
 		{
 			m_animClipData = animClipDataPtr;
-			m_tickEnable = true;
 			if (!m_animClipData->isEmpty())
 			{
+				m_tickEnable = true;
 				playAnim(m_animClipData->m_defaultClipName, false);
 			}
 		}

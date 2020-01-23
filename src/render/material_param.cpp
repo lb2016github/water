@@ -50,7 +50,7 @@ namespace water
 
 		MaterialParam::MaterialParam(const MatrixArray& mtxArray): m_type(UniformType::TypeMatrixArray)
 		{
-			m_mtxArray = new MatrixArray();
+			m_mtxArray = new MatrixArray(mtxArray);
 		}
 
 		MaterialParam::MaterialParam(const StructParam& param): m_type(UniformType::TypeStruct)
