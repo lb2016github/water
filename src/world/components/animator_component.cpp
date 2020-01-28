@@ -16,7 +16,7 @@ namespace water
 			if (!m_animClipData->isEmpty())
 			{
 				m_tickEnable = true;
-				playAnim(m_animClipData->m_defaultClipName, false);
+				playAnim(m_animClipData->m_defaultClipName, true);
 			}
 		}
 

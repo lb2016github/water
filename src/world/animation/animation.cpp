@@ -207,6 +207,12 @@ namespace water
 				before = curData;
 				index = preIndex;
 			}
+			else
+			{
+				curData = &(dataArray[0]);
+				before = curData;
+				index = 0;
+			}
 
 			for (++index; index < dataLen; ++index)
 			{
