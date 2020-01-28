@@ -30,10 +30,10 @@ out struct
 }vs_out;
 
 void main(){
-    mat4 skinMatrix = skinMatrices[jointIndices.x] * jointWeights[jointIndices.x];
-	skinMatrix += skinMatrices[jointIndices.y] * jointWeights[jointIndices.y];
-	skinMatrix += skinMatrices[jointIndices.z] * jointWeights[jointIndices.z];
-	skinMatrix += skinMatrices[jointIndices.w] * jointWeights[jointIndices.w];
+    mat4 skinMatrix = skinMatrices[jointIndices.x] * jointWeights.x;
+	skinMatrix += skinMatrices[jointIndices.y] * jointWeights.y;
+	skinMatrix += skinMatrices[jointIndices.z] * jointWeights.z;
+	skinMatrix += skinMatrices[jointIndices.w] * jointWeights.w;
 
 	vec4 skinedPos = skinMatrix * vec4(position, 1);
 	vec4 skinedNormal = skinMatrix * vec4(normal, 0);
