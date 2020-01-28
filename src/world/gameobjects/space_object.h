@@ -35,7 +35,7 @@ namespace water
 			void add_child(SpaceObjectPtr space_object);
 
 			// tick function
-			void tick(float deltaTimeMic);
+			virtual void tick(float deltaTimeMic);
 
 
 		//====================== Start attributes =============================//

@@ -37,6 +37,11 @@ namespace water
 					comp->tick(deltaTimeMic);
 				}
 			}
+			// call ticks of children
+			for (auto iter = m_children.begin(); iter != m_children.end(); ++iter)
+			{
+				(*iter)->tick(deltaTimeMic);
+			}
 		}
 	}
 }

@@ -150,6 +150,13 @@ namespace render {
 		QUADS,
 	};
 
+	// mesh usage
+	enum class MeshUsage
+	{
+		STATIC_DRAW,
+		DYNAMIC_DRAW
+	};
+
 	// texture types
 	enum TextureType {
 		TEXTURE_2D,

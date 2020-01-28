@@ -102,7 +102,7 @@ namespace water
 				auto anim = m_scene->mAnimations[i];
 				assert(anim->mNumChannels > 0);
 
-				world::AnimationClipPtr anim_clip_ptr = std::make_shared<world::AnimationClip>(m_skPtr, anim->mDuration);
+				world::AnimationClipPtr anim_clip_ptr = std::make_shared<world::AnimationClip>(m_skPtr, anim->mDuration * 1000);
 				// for every bone
 				for (int j = 0; j < anim->mNumChannels; ++j)
 				{
@@ -134,7 +134,7 @@ namespace water
 					anim_clip_ptr->setJointFrameData(idx, std::move(data));
 				}
 				// save animation
-				world::AnimationClipManager::instance()->getAnimClipDataPtr(m_skPtr->m_id)->addAnimClip(anim->mName.C_Str(), anim_clip_ptr);
+				world::AnimationClipManager::instance()->getAnimClipDataPtr(m_skPtr->m_id, true)->addAnimClip(anim->mName.C_Str(), anim_clip_ptr);
 			printf("============================= Anim bones %sStart\n", anim->mName.C_Str());
 			for each (auto name in bones)
 			{

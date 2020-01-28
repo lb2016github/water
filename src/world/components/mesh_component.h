@@ -27,7 +27,7 @@ namespace water
 
 		protected:
 			// pointer to mesh data
-			render::MeshDataPtr m_mesh_ptr;
+			render::MeshDataPtr m_mesh_ptr{ nullptr };
 		};
 	}
 }

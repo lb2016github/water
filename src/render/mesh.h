@@ -20,6 +20,10 @@ namespace water
 		class MeshData;
 		typedef std::shared_ptr<MeshData> MeshDataPtr;
 
+		/*
+		@brief class of mesh data
+		note: check whether mutex is needed for dynamic mesh
+		*/
 		class MeshData: std::enable_shared_from_this<MeshData>
 		{
 		public:
@@ -58,8 +62,11 @@ namespace water
 			std::vector<math3d::Vector4> joint_weights;
 			/* element data of vertices */
 			std::vector<unsigned int> index_data;
+
 			/* mode of primitive */
 			MeshMode mode;
+			/* usage */
+			MeshUsage usage{ MeshUsage::STATIC_DRAW };
 			/* skeleton id */
 			world::SkeletonID skeID;
 

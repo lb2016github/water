@@ -125,7 +125,6 @@ namespace water
 		}
 		void SkeletonPose::initSkinMatrix()
 		{
-			std::vector<math3d::Matrix> gJointPose;
 			for (int i = 0; i < m_skeleton->m_jointCount; ++i)
 			{
 				Joint& joint = m_skeleton->m_joints[i];
@@ -135,14 +134,14 @@ namespace water
 				math3d::Matrix local = math3d::Matrix::makeMatrix(jointPose.m_scale, jointPose.m_rot, jointPose.m_trans);
 				if (parentIndex > 0)
 				{
-					math3d::Matrix& parentPose = gJointPose[parentIndex];
-					gJointPose.emplace_back(parentPose * local);
+					math3d::Matrix& parentPose = m_gJointPose[parentIndex];
+					m_gJointPose.emplace_back(parentPose * local);
 				}
 				else
 				{
-					gJointPose.emplace_back(local);
+					m_gJointPose.emplace_back(local);
 				}
-				m_skinMatrices.push_back(gJointPose[i] * invMatrix);
+				m_skinMatrices.push_back(m_gJointPose[i] * invMatrix);
 			}
 		}
 	}

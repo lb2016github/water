@@ -7,6 +7,7 @@
 #include "common/log.h"
 #include "render/material.h"
 #include "common/util.h"
+#include "skeleton_object.h"
 
 namespace water
 {
@@ -56,7 +57,14 @@ namespace water
 						if (meshPtr && animComp)
 						{
 							auto animClipDataPtr = AnimationClipManager::instance()->getAnimClipDataPtr(meshPtr->skeID);
-							animComp->initAnimationClipData(animClipDataPtr);
+							if (animClipDataPtr)
+							{
+								animComp->initAnimationClipData(animClipDataPtr);
+								// add child to show skeleton
+								auto skeObjPtr = std::make_shared<SkeletonObject>();
+								add_child(skeObjPtr);
+								skeObjPtr->init();
+							}
 						}
 					}
 					// load material

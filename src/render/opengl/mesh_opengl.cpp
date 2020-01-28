@@ -5,6 +5,12 @@ namespace water
 {
 	namespace render
 	{
+		std::map<MeshUsage, GLuint> usageMap
+		{
+			{MeshUsage::DYNAMIC_DRAW, GL_DYNAMIC_DRAW},
+			{MeshUsage::STATIC_DRAW, GL_STATIC_DRAW},
+		};
+
 		MeshProxyManager* instance = nullptr;
 
 		MeshProxyOpenGL::MeshProxyOpenGL(MeshDataPtr mesh_ptr): m_mesh_ptr(mesh_ptr)
@@ -49,50 +55,60 @@ namespace water
 			glGenVertexArrays(1, &m_vao);
 			glBindVertexArray(m_vao);
 			unsigned int num_vertex = m_mesh_ptr->position.size();
+			auto rst = usageMap.find(m_mesh_ptr->usage);
+			GLuint usage = GL_STATIC_DRAW;
+			if (rst == usageMap.end())
+			{
+				log_error("Unkown usage %d", m_mesh_ptr->usage);
+			}
+			else
+			{
+				usage = rst->second;
+			}
 			if (m_mesh_ptr->position.size() > 0)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffers[LOCATION_POSITION]);
-				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector3), m_mesh_ptr->position.data(), GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector3), m_mesh_ptr->position.data(), usage);
 				glVertexAttribPointer(LOCATION_POSITION, 3, GL_FLOAT, GL_FALSE, 0, 0);
 				glEnableVertexAttribArray(LOCATION_POSITION);
 			}
 			if (m_mesh_ptr->normal.size() > 0)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffers[LOCATION_NORMAL]);
-				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector3), m_mesh_ptr->normal.data(), GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector3), m_mesh_ptr->normal.data(), usage);
 				glVertexAttribPointer(LOCATION_NORMAL, 3, GL_FLOAT, GL_FALSE, 0, 0);
 				glEnableVertexAttribArray(LOCATION_NORMAL);
 			}
 			if (m_mesh_ptr->color.size() > 0)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffers[LOCATION_COLOR]);
-				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector4), m_mesh_ptr->color.data(), GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector4), m_mesh_ptr->color.data(), usage);
 				glVertexAttribPointer(LOCATION_COLOR, 4, GL_FLOAT, GL_FALSE, 0, 0);
 				glEnableVertexAttribArray(LOCATION_COLOR);
 			}
 			if (m_mesh_ptr->coordinate.size() > 0)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffers[LOCATION_COORDINATE]);
-				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector2), m_mesh_ptr->coordinate.data(), GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector2), m_mesh_ptr->coordinate.data(), usage);
 				glVertexAttribPointer(LOCATION_COORDINATE, 2, GL_FLOAT, GL_FALSE, 0, 0);
 				glEnableVertexAttribArray(LOCATION_COORDINATE);
 			}
 			if (m_mesh_ptr->tangent.size() > 0)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffers[LOCATION_TANGENT]);
-				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector3), m_mesh_ptr->tangent.data(), GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector3), m_mesh_ptr->tangent.data(), usage);
 				glVertexAttribPointer(LOCATION_TANGENT, 3, GL_FLOAT, GL_FALSE, 0, 0);
 				glEnableVertexAttribArray(LOCATION_TANGENT);
 			}
 			if (m_mesh_ptr->joint_indices.size() > 0 && m_mesh_ptr->joint_weights.size() > 0)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffers[LOCATION_JOINT_INDICES]);
-				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector4I), m_mesh_ptr->joint_indices.data(), GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector4I), m_mesh_ptr->joint_indices.data(), usage);
 				glVertexAttribPointer(LOCATION_JOINT_INDICES, 4, GL_INT, GL_FALSE, 0, 0);
 				glEnableVertexAttribArray(LOCATION_JOINT_INDICES);
 
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffers[LOCATION_JOINT_WEIGHTS]);
-				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector4), m_mesh_ptr->joint_weights.data(), GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector4), m_mesh_ptr->joint_weights.data(), usage);
 				glVertexAttribPointer(LOCATION_COLOR, 4, GL_FLOAT, GL_FALSE, 0, 0);
 				glEnableVertexAttribArray(LOCATION_JOINT_WEIGHTS);
 			}

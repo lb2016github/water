@@ -12,16 +12,23 @@ namespace water
 		{
 			m_skeletonAnimClipData[skeId] = animClipData;
 		}
-		AnimationClipDataPtr AnimationClipManager::getAnimClipDataPtr(SkeletonID skeId)
+		AnimationClipDataPtr AnimationClipManager::getAnimClipDataPtr(SkeletonID skeId, bool force)
 		{
 			auto rst = m_skeletonAnimClipData.find(skeId);
-			if (rst == m_skeletonAnimClipData.end())
+			if (rst != m_skeletonAnimClipData.end())
+			{
+				return rst->second;
+			}
+			if (force)
 			{
 				auto ptr = std::make_shared<AnimationClipData>();
 				m_skeletonAnimClipData[skeId] = ptr;
 				return ptr;
 			}
-			return rst->second;
+			else
+			{
+				return nullptr;
+			}
 		}
 		AnimationClipManager* AnimationClipManager::instance()
 		{
@@ -203,6 +210,7 @@ namespace water
 
 			for (++index; index < dataLen; ++index)
 			{
+				curData = &(dataArray[index]);
 				if (curData->m_timeMic < timeMic)
 				{
 					before = curData;

@@ -120,7 +120,7 @@ namespace water
 			std::map<SkeletonID, AnimationClipDataPtr> m_skeletonAnimClipData;
 		public:
 			void addAnimClipData(SkeletonID skeId, AnimationClipDataPtr animClipData);
-			AnimationClipDataPtr getAnimClipDataPtr(SkeletonID skeId);
+			AnimationClipDataPtr getAnimClipDataPtr(SkeletonID skeId, bool force = false);
 		public:
 			static AnimationClipManager* instance();
 		};
