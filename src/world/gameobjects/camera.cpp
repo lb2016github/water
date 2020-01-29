@@ -17,11 +17,10 @@ namespace water
 		{
 			return math3d::Matrix::makePerspectiveProjectionMatrix(math3d::radian(fovy), aspect, z_near, z_far);
 		}
-		void Camera::update()
+		void Camera::tick(float timeDeltaMic)
 		{
 			update_fovy();
-			auto cam_trl_comp = GET_COMPONENT(this, CameraControlComponent);
-			cam_trl_comp->update_camera();
+			SpaceObject::tick(timeDeltaMic);
 		}
 		void Camera::update_fovy()
 		{

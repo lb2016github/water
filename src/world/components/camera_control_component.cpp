@@ -19,6 +19,10 @@ namespace water
 		{
 			camera = nullptr;
 		}
+		void CameraControlComponent::tick(float deltaTimeMic)
+		{
+			update_camera();
+		}
 		void CameraControlComponent::update_camera()
 		{
 			update_move_dir();

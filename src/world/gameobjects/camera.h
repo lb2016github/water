@@ -22,7 +22,7 @@ namespace water
 			math3d::Matrix get_view_matrix();
 			// get projection matrix
 			math3d::Matrix get_projection_matrix();
-			void update();
+			virtual void tick(float timeDeltaMic);
 			// update fovy
 			void update_fovy();
 

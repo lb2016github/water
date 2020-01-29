@@ -36,8 +36,6 @@ namespace water
 			auto mat_group = render::Material::loadFromFile("materials/skeleton.mat");
 			assert(mat_group.size() > 0);
 			matComp->set_material(mat_group[0]);
-			// start tick
-			setTickEnable(true);
 		}
 		void SkeletonObject::tick(float deltaTimeMic)
 		{

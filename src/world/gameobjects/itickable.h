@@ -8,7 +8,7 @@ namespace water
 		class ITickable
 		{
 		public:
-			ITickable() : m_tickEnable(false) {}
+			ITickable() : m_tickEnable(true) {}
 			ITickable(bool tickEnable) : m_tickEnable(tickEnable) {}
 		public:
 			/*

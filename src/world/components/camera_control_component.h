@@ -16,6 +16,7 @@ namespace water
 			virtual ~CameraControlComponent();
 			static const ComponentTag tag = COMP_CAMERA_CONTROLLER;
 		public:
+			virtual void tick(float deltaTimeMic);
 			void update_camera();
 			// update move of camera
 			void update_move_dir();

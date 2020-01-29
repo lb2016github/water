@@ -20,7 +20,7 @@ namespace water
 			return *this;
 		}
 
-		BaseComponent::BaseComponent(GameObject* game_object): m_game_object(game_object), ITickable(false)
+		BaseComponent::BaseComponent(GameObject* game_object): m_game_object(game_object), ITickable(true)
 		{
 			assert(game_object != nullptr);
 		}
