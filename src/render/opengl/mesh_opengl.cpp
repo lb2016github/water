@@ -104,12 +104,12 @@ namespace water
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffers[LOCATION_JOINT_INDICES]);
 				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector4I), m_mesh_ptr->joint_indices.data(), usage);
-				glVertexAttribPointer(LOCATION_JOINT_INDICES, 4, GL_INT, GL_FALSE, 0, 0);
+				glVertexAttribIPointer(LOCATION_JOINT_INDICES, 4, GL_INT, 0, 0);
 				glEnableVertexAttribArray(LOCATION_JOINT_INDICES);
 
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffers[LOCATION_JOINT_WEIGHTS]);
 				glBufferData(GL_ARRAY_BUFFER, num_vertex * sizeof(math3d::Vector4), m_mesh_ptr->joint_weights.data(), usage);
-				glVertexAttribPointer(LOCATION_COLOR, 4, GL_FLOAT, GL_FALSE, 0, 0);
+				glVertexAttribPointer(LOCATION_JOINT_WEIGHTS, 4, GL_FLOAT, GL_FALSE, 0, 0);
 				glEnableVertexAttribArray(LOCATION_JOINT_WEIGHTS);
 			}
 			glBindBuffer(GL_ARRAY_BUFFER, 0);

@@ -141,6 +141,17 @@ namespace water
 		{
 			return m_data != nullptr;
 		}
+		std::vector<std::string> MaterialParam::getArrayNames(std::string baseName, unsigned int length)
+		{
+			std::vector<std::string> rst;
+			for (int i = 0; i < length; ++i)
+			{
+				std::stringstream ss;
+				ss << baseName << "[" << i << "]";
+				rst.push_back(ss.str());
+			}
+			return rst;
+		}
 		void MaterialParam::_releaseData()
 		{
 			if (m_data)

@@ -19,6 +19,7 @@ namespace water
 		*/
 		struct MaterialParam
 		{
+		public:
 			typedef std::vector<math3d::Matrix> MatrixArray;
 
 			MaterialParam(UniformType type = UniformType::TypeNone);
@@ -43,6 +44,7 @@ namespace water
 			MaterialParam& operator=(MaterialParam&& param);
 
 			bool isInited();
+			static std::vector<std::string> getArrayNames(std::string baseName, unsigned int length);
 
 			UniformType m_type;
 			union
